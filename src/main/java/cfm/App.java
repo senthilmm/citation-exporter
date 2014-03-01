@@ -9,7 +9,7 @@ import java.util.List;
  * Hello world!
  *
  */
-public class App 
+public class App
 {
     public static void main( String[] args )
     {
@@ -18,7 +18,7 @@ public class App
         try {
             CSL citeproc = new CSL(new DummyProvider(), "ieee");
             citeproc.setOutputFormat("html");
-            
+
             citeproc.registerCitationItems("ID-1", "ID-2", "ID-3");
 
             List<Citation> s1 = citeproc.makeCitation("ID-1");
