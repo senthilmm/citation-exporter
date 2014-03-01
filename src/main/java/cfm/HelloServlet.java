@@ -55,6 +55,19 @@ public class HelloServlet extends HttpServlet
         response.setStatus(HttpServletResponse.SC_OK);
         PrintWriter rw = response.getWriter();
         rw.println("<html><head></head><body>\n");
+        rw.println("<p>dingle response</p>");
+        rw.println("</body></html>\n");
+    }
+
+
+    public void test1(HttpServletRequest request, HttpServletResponse response)
+        throws IOException
+    {
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
+        PrintWriter rw = response.getWriter();
+        rw.println("<html><head></head><body>\n");
 
         List<Citation> s1 = null;
         Bibliography bibl = null;
@@ -78,7 +91,7 @@ public class HelloServlet extends HttpServlet
         rw.println("</body></html>\n");
     }
 
-    public void test1(HttpServletRequest request, HttpServletResponse response)
+    public void test2(HttpServletRequest request, HttpServletResponse response)
         throws IOException
     {
         response.setContentType("text/html;charset=UTF-8");

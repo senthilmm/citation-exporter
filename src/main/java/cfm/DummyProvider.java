@@ -6,7 +6,6 @@ import de.undercouch.citeproc.csl.CSLItemDataBuilder;
 import de.undercouch.citeproc.csl.CSLType;
 
 public class DummyProvider implements ItemDataProvider {
-    @Override
     public CSLItemData retrieveItem(String id) {
         return new CSLItemDataBuilder()
             .id(id)
