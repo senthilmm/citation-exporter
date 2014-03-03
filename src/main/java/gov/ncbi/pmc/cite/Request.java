@@ -1,9 +1,10 @@
-package cfm;
+package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,72 +12,85 @@ import de.undercouch.citeproc.CSL;
 import de.undercouch.citeproc.csl.CSLItemData;
 import de.undercouch.citeproc.csl.CSLItemDataBuilder;
 import de.undercouch.citeproc.csl.CSLType;
-import de.undercouch.citeproc.output.Citation;
 import de.undercouch.citeproc.output.Bibliography;
-import java.util.List;
+import de.undercouch.citeproc.output.Citation;
 
+/**
+ * Stores information about, and handles, a single request.
+ */
+public class Request {
+	public MainServlet servlet;
+	public HttpServletRequest req;
+	public HttpServletResponse resp;
+    public CSL citeproc;
 
-public class HelloServlet extends HttpServlet
-{
-    private CSL _citeproc = null;
+	// query string params
+	public String test;
+	public String ids;
+	public String outputformat;
+	public String responseformat;
 
-    public void init() throws ServletException {
-        try {
-            _citeproc = new CSL(new DummyProvider(), "ieee");
-        }
-        catch (Exception e) {
-            System.out.println("error: " + e);
-        }
+    public Request(MainServlet _servlet, HttpServletRequest _req, HttpServletResponse _resp) {
+    	servlet = _servlet;
+    	req = _req;
+    	resp = _resp;
+    	citeproc = servlet.citeproc;
     }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    
+    public void doRequest()
         throws ServletException, IOException
     {
-        String test = request.getParameter("test");
+        test = req.getParameter("test");
+    	ids = req.getParameter("ids");
+    	outputformat = req.getParameter("outputformat");
+    	responseformat = req.getParameter("responseformat");
+    	
         int test_num = test == null ? 0 : Integer.parseInt(test);
         switch (test_num) {
             case 0:
-                test0(request, response);
+                test0();
                 break;
             case 1:
-                test1(request, response);
+                test1();
+                break;
+            case 2:
+                test2();
                 break;
             default:
-                errorResponse(request, response, "Bad value for test");
+                errorResponse("Bad value for test");
         }
-        return;
     }
-
-    public void test0(HttpServletRequest request, HttpServletResponse response)
-        throws IOException
+    
+    public void test0()
+            throws IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-        PrintWriter rw = response.getWriter();
+        resp.setContentType("text/html;charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setStatus(HttpServletResponse.SC_OK);
+        PrintWriter rw = resp.getWriter();
         rw.println("<html><head></head><body>\n");
-        rw.println("<p>dingle response</p>");
+        rw.println("<p>dummy response</p>");
         rw.println("</body></html>\n");
     }
 
 
-    public void test1(HttpServletRequest request, HttpServletResponse response)
+    public void test1()
         throws IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-        PrintWriter rw = response.getWriter();
+        resp.setContentType("text/html;charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setStatus(HttpServletResponse.SC_OK);
+        PrintWriter rw = resp.getWriter();
         rw.println("<html><head></head><body>\n");
 
         List<Citation> s1 = null;
         Bibliography bibl = null;
         try {
-            _citeproc.setOutputFormat("html");
-            _citeproc.registerCitationItems("ID-1", "ID-2", "ID-3");
+            citeproc.setOutputFormat("html");
+            citeproc.registerCitationItems("ID-1", "ID-2", "ID-3");
 
-            s1 = _citeproc.makeCitation("ID-1");
-            bibl = _citeproc.makeBibliography();
+            s1 = citeproc.makeCitation("ID-1");
+            bibl = citeproc.makeBibliography();
         }
         catch(Exception e) {
             System.err.println("Caught exception: " + e);
@@ -91,13 +105,13 @@ public class HelloServlet extends HttpServlet
         rw.println("</body></html>\n");
     }
 
-    public void test2(HttpServletRequest request, HttpServletResponse response)
+    public void test2()
         throws IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-        PrintWriter rw = response.getWriter();
+        resp.setContentType("text/html;charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setStatus(HttpServletResponse.SC_OK);
+        PrintWriter rw = resp.getWriter();
         rw.println("<html><head></head><body>\n");
 
         CSLItemData item = new CSLItemDataBuilder()
@@ -132,20 +146,19 @@ public class HelloServlet extends HttpServlet
         rw.println("</body></html>");
     }
 
-    public void errorResponse(HttpServletRequest request, HttpServletResponse response,
-                              String msg)
+    public void errorResponse(String msg)
         throws IOException
     {
-        errorResponse(request, response, msg, 400);
+        errorResponse(msg, 400);
     }
-    public void errorResponse(HttpServletRequest request, HttpServletResponse response,
-                              String msg, int status)
+    
+    public void errorResponse(String msg, int status)
         throws IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setStatus(status);
-        PrintWriter rw = response.getWriter();
+        resp.setContentType("text/html;charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setStatus(status);
+        PrintWriter rw = resp.getWriter();
         rw.println("<html><head></head><body>\n");
         rw.println("<h1>" + msg + "</h1>");
         rw.println("</body></html>");

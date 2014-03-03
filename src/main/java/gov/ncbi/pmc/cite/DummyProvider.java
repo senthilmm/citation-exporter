@@ -1,4 +1,4 @@
-package cfm;
+package gov.ncbi.pmc.cite;
 
 import de.undercouch.citeproc.ItemDataProvider;
 import de.undercouch.citeproc.csl.CSLItemData;

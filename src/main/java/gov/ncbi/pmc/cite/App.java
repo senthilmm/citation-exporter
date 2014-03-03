@@ -1,8 +1,9 @@
-package cfm;
+package gov.ncbi.pmc.cite;
 
 import de.undercouch.citeproc.CSL;
 import de.undercouch.citeproc.output.Citation;
 import de.undercouch.citeproc.output.Bibliography;
+
 import java.util.List;
 
 /**
