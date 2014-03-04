@@ -21,7 +21,7 @@ public class MainServlet extends HttpServlet
 
 
     public void init() throws ServletException {
-        itemDataProvider = new DummyProvider();
+        itemDataProvider = new TestItemProvider();
         try {
             citeprocs = new HashMap<String, CSL>();
             citeprocs.put("ieee", new CSL(itemDataProvider, "ieee"));

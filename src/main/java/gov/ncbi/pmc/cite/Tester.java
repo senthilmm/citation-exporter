@@ -70,7 +70,7 @@ public class Tester {
     public void test1() throws IOException
     {
            startPage("test1: citation and bibliography, using hard-coded JSON");
-        ((DummyProvider) r.servlet.itemDataProvider).fromMethod = 1;
+        ((TestItemProvider) r.servlet.itemDataProvider).fromMethod = 1;
         _test01();
     }
 

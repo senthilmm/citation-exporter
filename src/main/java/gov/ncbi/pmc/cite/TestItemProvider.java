@@ -20,7 +20,7 @@ import de.undercouch.citeproc.helper.json.MapJsonBuilderFactory;
  * a different method:
  * 1. From a hard-coded JSON string.
  */
-public class DummyProvider implements ItemDataProvider {
+public class TestItemProvider implements ItemDataProvider {
     /// Method to use to get the dummy data.
     public int fromMethod = 0;
 
