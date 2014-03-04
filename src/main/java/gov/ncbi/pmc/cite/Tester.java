@@ -50,7 +50,7 @@ public class Tester {
                 r.errorResponse("Bad value for test");
         }
     }
-    
+
     public void startPage(String title) throws IOException {
         r.resp.setContentType("text/html;charset=UTF-8");
         r.resp.setCharacterEncoding("UTF-8");
@@ -68,7 +68,6 @@ public class Tester {
     	startPage("test0: dummy response");
     	endPage();
     }
-
 
     public void test1() throws IOException
     {

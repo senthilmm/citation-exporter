@@ -14,11 +14,33 @@ import de.undercouch.citeproc.helper.json.JsonParser;
 import de.undercouch.citeproc.helper.json.MapJsonBuilderFactory;
 
 /**
- * This class is used to provide dummy / test data in a variety of ways.
+ * This class is used to provide dummy / test data in a variety of ways, to test out
+ * the various features of the library.  By default, it creates an item using the
+ * CSLItemDataBuilder.  If you set fromMethod to some non-zero value, it will use
+ * a different method:
+ * 1. From a hard-coded JSON string.
  */
 public class DummyProvider implements ItemDataProvider {
 	/// Method to use to get the dummy data.
 	public int fromMethod = 0;
+
+	public CSLItemData retrieveItem(String id) {
+	    switch (fromMethod) {
+	    case 0:
+	    	return _fromItemDataBuilder(id);
+	    case 1:
+	        return _fromJson(id);
+	    default:
+	    	// this should never happen
+	        System.err.println("Undefined method");
+	    }
+	    return null;
+	}
+
+    public String[] getIds() {
+        String ids[] = {"ID-0", "ID-1", "ID-2"};
+        return ids;
+    }
 
 	/// Use this when fromMethod == 0
     private CSLItemData _fromItemDataBuilder(String id) {
@@ -70,24 +92,7 @@ public class DummyProvider implements ItemDataProvider {
     	return item;
     }
 
-	public CSLItemData retrieveItem(String id) {
-	    switch (fromMethod) {
-	    case 0:
-	    	return _fromItemDataBuilder(id);
-	    case 1:
-	        return _fromJson(id);
-	    default:
-	    	// this should never happen
-	        System.err.println("Undefined method");
-	    }
-	    return null;
-	}
 
-
-    public String[] getIds() {
-        String ids[] = {"ID-0", "ID-1", "ID-2"};
-        return ids;
-    }
 }
 
 

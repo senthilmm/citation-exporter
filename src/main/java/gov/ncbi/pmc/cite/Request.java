@@ -3,6 +3,7 @@ package gov.ncbi.pmc.cite;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,11 +25,13 @@ public class Request {
 	public String responseformat;
 	public String style;
 
-    public Request(MainServlet _servlet, HttpServletRequest _req, HttpServletResponse _resp) {
+    public Request(MainServlet _servlet, HttpServletRequest _req, HttpServletResponse _resp,
+    		       CSL _citeproc) 
+    {
     	servlet = _servlet;
     	req = _req;
     	resp = _resp;
-    	citeproc = servlet.citeproc;
+    	citeproc = _citeproc;
     }
     
     public void doRequest()
@@ -44,7 +47,9 @@ public class Request {
     		return;
     	}
     	
-        errorResponse("No non-test methods defined yet!");
+    	ServletContext context = servlet.getServletContext();
+    	String split = context.getInitParameter("split");
+        errorResponse("No non-test methods defined yet; split is " + split + "!");
     }
             
     public void errorResponse(String msg)

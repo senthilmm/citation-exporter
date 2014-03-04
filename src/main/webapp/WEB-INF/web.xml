@@ -8,4 +8,9 @@
     <servlet-name>Main</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  <context-param>
+    <description>Which banana split we like best.</description>
+    <param-name>split</param-name>
+    <param-value>Bingo</param-value>
+  </context-param>
 </web-app>
