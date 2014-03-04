@@ -19,16 +19,16 @@ import de.undercouch.citeproc.output.Citation;
  * Stores information about, and handles, a single request.
  */
 public class Tester {
-	public Request r;
-	PrintWriter page;
+    public Request r;
+    PrintWriter page;
 
-	// query string params
-	public String test;
+    // query string params
+    public String test;
 
     public Tester(Request _r) {
-    	r = _r;
+        r = _r;
     }
-    
+
     public void doRequest()
         throws ServletException, IOException
     {
@@ -42,9 +42,6 @@ public class Tester {
                 break;
             case 2:
                 test2();
-                break;
-            case 3:
-                test3();
                 break;
             default:
                 r.errorResponse("Bad value for test");
@@ -60,35 +57,29 @@ public class Tester {
         page.println("<h1>" + title + "</h1>");
     }
     public void endPage() {
-    	page.println("</body></html>\n");
+        page.println("</body></html>\n");
     }
-    
+
     public void test0() throws IOException
     {
-    	startPage("test0: dummy response");
-    	endPage();
+        startPage("test0: citation and bibliography, using CSLItemDataBuilder");
+        _test01();
     }
 
+    /// Same as test0, but we'll get item data from hard-coded JSON
     public void test1() throws IOException
     {
-    	startPage("test1: citation and bibliography, using CSLItemDataBuilder");
-    	_test12();
+           startPage("test1: citation and bibliography, using hard-coded JSON");
+        ((DummyProvider) r.servlet.itemDataProvider).fromMethod = 1;
+        _test01();
     }
 
-    /// Same as test1, but we'll get item data from hard-coded JSON
-    public void test2() throws IOException
-    {
-       	startPage("test2: citation and bibliography, using hard-coded JSON");
-    	((DummyProvider) r.servlet.itemDataProvider).fromMethod = 1;
-    	_test12();
-    }
-
-    private void _test12() throws IOException {
+    private void _test01() throws IOException {
         List<Citation> s1 = null;
         Bibliography bibl = null;
         try {
-        	r.citeproc.setOutputFormat("html");
-        	r.citeproc.registerCitationItems("ID-1", "ID-2", "ID-3");
+            r.citeproc.setOutputFormat("html");
+            r.citeproc.registerCitationItems("ID-1", "ID-2", "ID-3");
 
             s1 = r.citeproc.makeCitation("ID-1");
             bibl = r.citeproc.makeBibliography();
@@ -105,10 +96,11 @@ public class Tester {
         endPage();
     }
 
-    public void test3()
+
+    public void test2()
         throws IOException
     {
-    	startPage("test3: makeAdhocBibliography");
+        startPage("test2: makeAdhocBibliography");
 
         CSLItemData item = new CSLItemDataBuilder()
             .id("citeproc-java")
@@ -142,5 +134,5 @@ public class Tester {
         endPage();
     }
 
-            
+
 }

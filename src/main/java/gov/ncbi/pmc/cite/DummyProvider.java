@@ -21,28 +21,28 @@ import de.undercouch.citeproc.helper.json.MapJsonBuilderFactory;
  * 1. From a hard-coded JSON string.
  */
 public class DummyProvider implements ItemDataProvider {
-	/// Method to use to get the dummy data.
-	public int fromMethod = 0;
+    /// Method to use to get the dummy data.
+    public int fromMethod = 0;
 
-	public CSLItemData retrieveItem(String id) {
-	    switch (fromMethod) {
-	    case 0:
-	    	return _fromItemDataBuilder(id);
-	    case 1:
-	        return _fromJson(id);
-	    default:
-	    	// this should never happen
-	        System.err.println("Undefined method");
-	    }
-	    return null;
-	}
+    public CSLItemData retrieveItem(String id) {
+        switch (fromMethod) {
+        case 0:
+            return _fromItemDataBuilder(id);
+        case 1:
+            return _fromJson(id);
+        default:
+            // this should never happen
+            System.err.println("Undefined method");
+        }
+        return null;
+    }
 
     public String[] getIds() {
         String ids[] = {"ID-0", "ID-1", "ID-2"};
         return ids;
     }
 
-	/// Use this when fromMethod == 0
+    /// Use this when fromMethod == 0
     private CSLItemData _fromItemDataBuilder(String id) {
         return new CSLItemDataBuilder()
             .id(id)
@@ -54,10 +54,10 @@ public class DummyProvider implements ItemDataProvider {
             .build();
     }
 
-	/// Use this when fromMethod == 1
+    /// Use this when fromMethod == 1
     private CSLItemData _fromJson(String id) {
-    	CSLItemData item = null;
-    	String item_json = 
+        CSLItemData item = null;
+        String item_json =
             "{" +
             "  \"id\": \"" + id + "\"," +
             "  \"title\": \"Boundaries of Dissent: Protest and State Power in the Media Age\"," +
@@ -80,16 +80,16 @@ public class DummyProvider implements ItemDataProvider {
             "  }," +
             "  \"type\": \"book\"" +
             "}";
-    	try {
-			Map<String, Object> m = new JsonParser(
-					new JsonLexer(new StringReader(item_json))).parseObject();
-	    	item = CSLItemData.fromJson(m);
-    	}
-    	catch(IOException e) {
-    	    // FIXME
-    		System.err.println("Caught IOException: " + e);
-    	}
-    	return item;
+        try {
+            Map<String, Object> m = new JsonParser(
+                    new JsonLexer(new StringReader(item_json))).parseObject();
+            item = CSLItemData.fromJson(m);
+        }
+        catch(IOException e) {
+            // FIXME
+            System.err.println("Caught IOException: " + e);
+        }
+        return item;
     }
 
 
