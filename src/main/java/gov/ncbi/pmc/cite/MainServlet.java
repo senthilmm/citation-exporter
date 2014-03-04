@@ -1,7 +1,6 @@
 package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,23 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.undercouch.citeproc.CSL;
-import de.undercouch.citeproc.csl.CSLItemData;
-import de.undercouch.citeproc.csl.CSLItemDataBuilder;
-import de.undercouch.citeproc.csl.CSLType;
-import de.undercouch.citeproc.output.Citation;
-import de.undercouch.citeproc.output.Bibliography;
-
-import java.util.List;
+import de.undercouch.citeproc.ItemDataProvider;
 
 
 public class MainServlet extends HttpServlet
 {
     public CSL citeproc = null;
+    public ItemDataProvider itemDataProvider;
     
 
     public void init() throws ServletException {
+    	itemDataProvider = new DummyProvider();
         try {
-            citeproc = new CSL(new DummyProvider(), "ieee");
+            citeproc = new CSL(itemDataProvider, "ieee");
         }
         catch (Exception e) {
             System.out.println("error: " + e);
