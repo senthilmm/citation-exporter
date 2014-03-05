@@ -9,8 +9,8 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
   <context-param>
-    <description>Which banana split we like best.</description>
-    <param-name>split</param-name>
-    <param-value>Bingo</param-value>
+    <description>URL of the backend service that provides item data</description>
+    <param-name>backend_url</param-name>
+    <param-value>test</param-value>
   </context-param>
 </web-app>

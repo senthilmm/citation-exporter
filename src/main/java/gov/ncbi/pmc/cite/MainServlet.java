@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,15 +16,18 @@ import de.undercouch.citeproc.ItemDataProvider;
 
 public class MainServlet extends HttpServlet
 {
-    public ItemDataProvider itemDataProvider;
+    public ItemProvider itemDataProvider;
     public Map<String, CSL> citeprocs;
-    public String style;
 
 
     public void init() throws ServletException {
-        itemDataProvider = new TestItemProvider();
+        //itemDataProvider = new TestItemProvider();
+        ServletContext context = getServletContext();
+        String backend_url = context.getInitParameter("backend_url");
+        itemDataProvider = new ItemProvider(backend_url);
         try {
             citeprocs = new HashMap<String, CSL>();
+            // FIXME:  create processors for each of the most commonly used styles here.
             citeprocs.put("ieee", new CSL(itemDataProvider, "ieee"));
         }
         catch (Exception e) {
@@ -34,11 +38,7 @@ public class MainServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-        style = request.getParameter("style");
-        if (style == null) { style = "modern-language-association"; }
-
-        CSL citeproc = getCiteproc(style);
-        Request r = new Request(this, request, response, citeproc);
+        Request r = new Request(this, request, response);
         r.doRequest();
         return;
     }
