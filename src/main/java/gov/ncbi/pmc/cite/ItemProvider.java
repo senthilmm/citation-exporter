@@ -41,7 +41,7 @@ public class ItemProvider implements ItemDataProvider {
         if (item_cache.get(id) != null) return null;
 
         String item_json;
-        System.err.println("backend_url == " + backend_url);
+        // FIXME:  can I move this to a data file?
         if (backend_url.equals("test")) {
             item_json =
                 "{" +

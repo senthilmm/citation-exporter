@@ -25,6 +25,7 @@ public class MainServlet extends HttpServlet
         ServletContext context = getServletContext();
         String backend_url = context.getInitParameter("backend_url");
         itemDataProvider = new ItemProvider(backend_url);
+        PmfuFetcher.setBackend_url(backend_url);
         try {
             citeprocs = new HashMap<String, CSL>();
             // FIXME:  create processors for each of the most commonly used styles here.
