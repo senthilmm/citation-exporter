@@ -74,6 +74,21 @@
       <artifactId>rhino</artifactId>
       <version>1.7R4</version>
     </dependency>
+
+  <!--
+    Question:  why can't we use the latest version of Saxon?
+    <dependency>
+      <groupId>net.sf.saxon</groupId>
+      <artifactId>Saxon-HE</artifactId>
+      <version>9.5.1-4</version>
+    </dependency>
+ -->
+    <dependency>
+      <groupId>net.sourceforge.saxon</groupId>
+      <artifactId>saxon</artifactId>
+      <version>9.1.0.8</version>
+    </dependency>
+
   </dependencies>
 
   <build>
