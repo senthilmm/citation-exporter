@@ -44,7 +44,7 @@ public class Request {
             errorResponse("Need to specify at least one ID");
             return;
         }
-        ItemProvider itemDataProvider = servlet.itemDataProvider;
+        CiteprocItemProvider itemDataProvider = servlet.itemDataProvider;
         String item_msg = itemDataProvider.prefetchItem(ids);
         if (item_msg != null) {
             errorResponse("Problem retrieving item data", item_msg);
@@ -140,7 +140,6 @@ public class Request {
     {
         errorResponse(title, body, 400);
     }
-
 
     public void errorResponse(String title, String body, int status)
         throws IOException

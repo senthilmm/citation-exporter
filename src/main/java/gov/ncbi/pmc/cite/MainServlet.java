@@ -17,7 +17,7 @@ import de.undercouch.citeproc.ItemDataProvider;
 
 public class MainServlet extends HttpServlet
 {
-    public ItemProvider itemDataProvider;
+    public CiteprocItemProvider itemDataProvider;
     public Map<String, CSL> citeprocs;
 
 
@@ -25,7 +25,12 @@ public class MainServlet extends HttpServlet
         //itemDataProvider = new TestItemProvider();
         ServletContext context = getServletContext();
         String backend_url = context.getInitParameter("backend_url");
-        itemDataProvider = new ItemProvider(backend_url);
+        if (backend_url.equals("test")) {
+            itemDataProvider = new TestCiteprocItemProvider();
+        }
+        else {
+            itemDataProvider = new BackendCiteprocItemProvider(backend_url);
+        }
         PmfuFetcher.setBackend_url(backend_url);
         try {
             citeprocs = new HashMap<String, CSL>();
@@ -40,6 +45,17 @@ public class MainServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
+      /* For testing:  compare performance when our app just does an echo and nothing else.
+        if (true) {
+            response.setContentType("text/plain;charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setStatus(200);
+            PrintWriter rw = response.getWriter();
+            rw.println("Okay\n");
+            return;
+        }
+      */
+
         Request r = new Request(this, request, response);
         r.doRequest();
         return;

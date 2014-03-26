@@ -17,7 +17,7 @@ public class App
         System.out.println( "Hello World!" );
 
         try {
-            CSL citeproc = new CSL(new ItemProvider("test"), "ieee");
+            CSL citeproc = new CSL(new TestCiteprocItemProvider(), "ieee");
             citeproc.setOutputFormat("html");
 
             citeproc.registerCitationItems("ID-1", "ID-2", "ID-3");
