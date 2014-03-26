@@ -1,0 +1,23 @@
+{
+  "id": "{$id}",
+  "author": [
+    {
+      "family": "Razlogova",
+      "given": "Elena"
+    }
+  ],
+  "title": "Radio and Astonishment: The Emergence of Radio Sound, 1920-1926",
+  "type": "speech",
+  "event": "Society for Cinema Studies Annual Meeting",
+  "event-place": "Denver, CO",
+  "note": "All styles in the CSL repository are supported by the new processor, including the popular Chicago styles by Elena.",
+  "issued": {
+    "date-parts": [
+      [
+        2002,
+        5
+      ]
+    ]
+  }
+}
+

@@ -1,0 +1,20 @@
+{
+  "id": "{$id}",
+  "title": "Chapters on Chaucer",
+  "author": [
+    {
+      "family": "Malone",
+      "given": "Kemp"
+    }
+  ],
+  "publisher": "Johns Hopkins Press",
+  "publisher-place": "Baltimore",
+  "issued": {
+    "date-parts": [
+      [
+        1951
+      ]
+    ]
+  },
+  "type": "book"
+}

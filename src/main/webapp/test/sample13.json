@@ -1,0 +1,14 @@
+{
+  "id": "{$id}",
+  "title": "\\u6c11\\u6cd5",
+  "multi": {
+    "_keys": {
+      "title": {
+        "ja-alalc97": "Minp\\u014d",
+        "en": "Japanese Civil Code"
+      }
+    }
+  },
+  "type": "legislation"
+}
+

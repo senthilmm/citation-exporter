@@ -92,17 +92,4 @@ public class BackendCiteprocItemProvider extends CiteprocItemProvider {
         cacheItem(id, item_json);
     }
 
-    /**
-     * Retrieve a CSLItemData object, given an id.
-     * @return the CSLItemData object corresponding to this id, or null if not found.
-     */
-    public CSLItemData retrieveItem(String id)
-    {
-        return item_cache.get(id);
-    }
-
-    public String[] getIds() {
-        String ids[] = { "PMC3362639" };
-        return ids;
-    }
 }

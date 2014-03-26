@@ -4,6 +4,7 @@ import de.undercouch.citeproc.CSL;
 import de.undercouch.citeproc.output.Citation;
 import de.undercouch.citeproc.output.Bibliography;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class App
         System.out.println( "Hello World!" );
 
         try {
-            CSL citeproc = new CSL(new TestCiteprocItemProvider(), "ieee");
+            CSL citeproc = new CSL(new TestCiteprocItemProvider(new URL("./")), "ieee");
             citeproc.setOutputFormat("html");
 
             citeproc.registerCitationItems("ID-1", "ID-2", "ID-3");

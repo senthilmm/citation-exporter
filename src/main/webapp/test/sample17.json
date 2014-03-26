@@ -1,0 +1,15 @@
+{
+  "id": "{$id}",
+  "title": "Beck v. Beck",
+  "volume": 1999,
+  "container-title": "ME",
+  "page": 110,
+  "issued": {
+    "date-parts": [
+      [
+        1999
+      ]
+    ]
+  },
+  "type": "legal_case"
+}

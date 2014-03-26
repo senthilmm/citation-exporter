@@ -1,0 +1,105 @@
+{
+  "id": "{$id}",
+  "author": [
+    {
+      "family": "\\u68b6\\u7530",
+      "given": "\\u5c06\\u53f8",
+      "multi": {
+        "_key": {
+          "ja-alalc97": {
+            "family": "Kajita",
+            "given": "Shoji"
+          }
+        }
+      }
+    },
+    {
+      "family": "\\u89d2\\u6240",
+      "given": "\\u8003",
+      "multi": {
+        "_key": {
+          "ja-alalc97": {
+            "family": "Kakusho",
+            "given": "Takashi"
+          }
+        }
+      }
+    },
+    {
+      "family": "\\u4e2d\\u6fa4",
+      "given": "\\u7be4\\u5fd7",
+      "multi": {
+        "_key": {
+          "ja-alalc97": {
+            "family": "Nakazawa",
+            "given": "Atsushi"
+          }
+        }
+      }
+    },
+    {
+      "family": "\\u7af9\\u6751",
+      "given": "\\u6cbb\\u96c4",
+      "multi": {
+        "_key": {
+          "ja-alalc97": {
+            "family": "Takemura",
+            "given": "Haruo"
+          }
+        }
+      }
+    },
+    {
+      "family": "\\u7f8e\\u6fc3",
+      "given": "\\u5c0e\\u5f66",
+      "multi": {
+        "_key": {
+          "ja-alalc97": {
+            "family": "Mino",
+            "given": "Michihiko"
+          }
+        }
+      }
+    },
+    {
+      "family": "\\u9593\\u702c",
+      "given": "\\u5065\\u4e8c",
+      "multi": {
+        "_key": {
+          "ja-alalc97": {
+            "family": "Mase",
+            "given": "Kenji"
+          }
+        }
+      }
+    }
+  ],
+  "title": "\\u9ad8\\u7b49\\u6559\\u80b2\\u6a5f\\u95a2\\u306b\\u304a\\u3051\\u308b\\u6b21\\u4e16\\u4ee3\\u6559\\u80b2\\u5b66\\u7fd2\\u652f\\u63f4\\u30d7\\u30e9\\u30c3\\u30c8\\u30d5\\u30a9\\u30fc\\u30e0\\u306e\\u69cb\\u7bc9\\u306b\\u5411\\u3051\\u3066",
+  "multi": {
+    "_keys": {
+      "title": {
+        "ja-alalc97": "K\\u014dt\\u014d ky\\u014diku ni okeru jisedai ky\\u014diku gakush\\u016b shien puratto f\\u014dmu no k\\u014dchiku ni mukete",
+        "en": "Toward the Development of Next-Generation Platforms for Teaching and Learning in Higher Education"
+      },
+      "container-title": {
+        "ja-alalc97": "Nihon ky\\u014diku k\\u014dgaku ronbunshi",
+        "en": "Journal of the Japan Educational Engineering Society"
+      }
+    }
+  },
+  "container-title": "\\u65e5\\u672c\\u6559\\u80b2\\u5de5\\u5b66\\u4f1a\\u8ad6\\u6587\\u8a8c",
+  "volume": "31",
+  "issue": "3",
+  "page": "297-305",
+  "issued": {
+    "date-parts": [
+      [
+        2007,
+        12
+      ]
+    ]
+  },
+  "note": "Note the transformations to which this cite is subjected in the samples above, and the fact that it appears in the correct sort position in all rendered forms.  Selection of multi-lingual content can be configured in the style, permitting one database to serve a multi-lingual author in all languages in which she might publish.",
+  "type": "article-journal"
+}
+

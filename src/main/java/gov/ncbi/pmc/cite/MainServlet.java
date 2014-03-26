@@ -1,7 +1,11 @@
 package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +14,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 
 import de.undercouch.citeproc.CSL;
 import de.undercouch.citeproc.ItemDataProvider;
@@ -22,15 +28,21 @@ public class MainServlet extends HttpServlet
 
 
     public void init() throws ServletException {
-        System.out.println("Hello!");
-        //itemDataProvider = new TestItemProvider();
+        System.out.println("MainServlet started.");
         ServletContext context = getServletContext();
-        System.out.println("context path: " + context.getContextPath());
 
         String backend_url = context.getInitParameter("backend_url");
         System.out.println("backend_url: '" + backend_url + "'");
-        if (backend_url.equals("test") || backend_url.equals("test2")) {
-            itemDataProvider = new TestCiteprocItemProvider();
+        if (backend_url.equals("test")) {
+            // Create a new mock item provider.  It will use sample files that are in the
+            // directory webapp/test/.
+            try {
+                itemDataProvider = new TestCiteprocItemProvider(context.getResource("/test/"));
+            }
+            catch (MalformedURLException e) {
+                System.out.println("Sorry!");  // Not much we can do.
+                System.exit(1);
+            }
         }
         else {
             itemDataProvider = new BackendCiteprocItemProvider(backend_url);

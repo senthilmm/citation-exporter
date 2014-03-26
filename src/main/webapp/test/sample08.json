@@ -1,0 +1,26 @@
+{
+  "id": "{$id}",
+  "title": "The Guantanamobile Project",
+  "container-title": "Vectors",
+  "volume": "1",
+  "author": [
+    {
+      "family": "Razlogova",
+      "given": "Elena"
+    },
+    {
+      "family": "Lynch",
+      "given": "Lisa"
+    }
+  ],
+  "issued": {
+    "season": 3,
+    "date-parts": [
+      [
+        2005
+      ]
+    ]
+  },
+  "type": "article-journal"
+}
+
