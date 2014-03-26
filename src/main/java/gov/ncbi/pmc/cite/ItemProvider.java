@@ -29,8 +29,9 @@ public class ItemProvider implements ItemDataProvider {
     }
 
     /**
-     * Pre-fetch an item that we're interested in.  This allows us to respond with an
-     * informative error message, if there's a problem.
+     * Pre-fetch an item that we're interested in (per request).  This allows us to respond with an
+     * informative error message, if there's a problem.  Otherwise, retrieveItem is called from within
+     * citeproc-js, and there's no way to pass the error message back out.
      * @param id
      * @return null if there's no problem.  Otherwise, an error message.
      * FIXME:  Should distinguish between bad requests (like, bad id value) and internal
