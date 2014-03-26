@@ -22,10 +22,14 @@ public class MainServlet extends HttpServlet
 
 
     public void init() throws ServletException {
+        System.out.println("Hello!");
         //itemDataProvider = new TestItemProvider();
         ServletContext context = getServletContext();
+        System.out.println("context path: " + context.getContextPath());
+
         String backend_url = context.getInitParameter("backend_url");
-        if (backend_url.equals("test")) {
+        System.out.println("backend_url: '" + backend_url + "'");
+        if (backend_url.equals("test") || backend_url.equals("test2")) {
             itemDataProvider = new TestCiteprocItemProvider();
         }
         else {

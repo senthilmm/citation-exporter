@@ -22,17 +22,16 @@ import de.undercouch.citeproc.helper.json.JsonParser;
 /**
  * This implementation of the CiteprocItemProvider produces fake item data for testing.
  */
-public class TestCiteprocItemProvider implements CiteprocItemProvider {
-    public Map<String, CSLItemData> item_cache;
+public class TestCiteprocItemProvider extends CiteprocItemProvider {
 
     public TestCiteprocItemProvider() {
-        item_cache = new HashMap<String, CSLItemData>();
+        super();
     }
 
     // Implement interface method
-    public String prefetchItem(String id)
+    public void prefetchItem(String id) throws IOException
     {
-        if (item_cache.get(id) != null) return null;
+        if (item_cache.get(id) != null) return;
 
         String item_json;
         // FIXME:  can I move this to a data file?
@@ -60,22 +59,7 @@ public class TestCiteprocItemProvider implements CiteprocItemProvider {
             "  \"type\": \"book\"" +
             "}";
 
-
-        // Parse the JSON
-        Map<String, Object> m = null;
-        try {
-            m = new JsonParser(new JsonLexer(new StringReader(item_json))).parseObject();
-        }
-        catch(Exception e) {
-            return "Problem parsing JSON: " + e;
-        }
-        CSLItemData item = CSLItemData.fromJson(m);
-        if (item == null) {
-            return "Problem creating a CSLItemData object from backend JSON";
-        }
-        item_cache.put(id, item);
-
-        return null;
+        cacheItem(id, item_json);
     }
 
     /**

@@ -21,6 +21,7 @@
       <jettyVersion>9.1.2.v20140210</jettyVersion>
     -->
     <jettyVersion>8.1.14.v20131031</jettyVersion>
+    <jettyOverrideXml>src/main/webapp/META-INF/jetty-override-web.xml</jettyOverrideXml>
   </properties>
 
   <repositories>
@@ -117,6 +118,11 @@
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jettyVersion}</version>
+        <configuration>
+          <webApp>
+            <overrideDescriptor>${jettyOverrideXml}</overrideDescriptor>
+          </webApp>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>

@@ -45,9 +45,11 @@ public class Request {
             return;
         }
         CiteprocItemProvider itemDataProvider = servlet.itemDataProvider;
-        String item_msg = itemDataProvider.prefetchItem(ids);
-        if (item_msg != null) {
-            errorResponse("Problem retrieving item data", item_msg);
+        try {
+            itemDataProvider.prefetchItem(ids);
+        }
+        catch (IOException e) {
+            errorResponse("Problem prefetching item data: ", e.getMessage());
             return;
         }
 
