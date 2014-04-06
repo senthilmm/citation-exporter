@@ -5,6 +5,8 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.w3c.dom.Document;
+
 import de.undercouch.citeproc.ItemDataProvider;
 import de.undercouch.citeproc.csl.CSLItemData;
 import de.undercouch.citeproc.helper.json.JsonBuilder;
@@ -76,7 +78,7 @@ public abstract class ItemProvider implements ItemDataProvider {
     /**
      * Get the PMFU XML, given an ID
      */
-    public abstract String retrieveItemPmfu(String id) throws IOException;
+    public abstract Document retrieveItemPmfu(String id) throws IOException;
 
 
     // FIXME:  What is this used for?

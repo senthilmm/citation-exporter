@@ -5,6 +5,10 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -12,6 +16,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import de.undercouch.citeproc.csl.CSLItemData;
 import de.undercouch.citeproc.helper.json.JsonLexer;
@@ -66,7 +73,7 @@ public class BackendItemProvider extends ItemProvider {
         cacheItem(id, item_json);
     }
 
-    public String retrieveItemPmfu(String id)
+    public Document retrieveItemPmfu(String id)
         throws IOException
     {
 
@@ -81,33 +88,40 @@ public class BackendItemProvider extends ItemProvider {
         }
         catch(ClientProtocolException e) {
             // internal server error
-            return "HTTP GET to backend failed with ClientProtocolException: " + e;
+            throw new IOException("HTTP GET to backend failed with ClientProtocolException: " + e);
         }
         catch(IOException e) {
             // internal server error
-            return "HTTP GET to backend failed with IOException: " + e;
+            throw new IOException("HTTP GET to backend failed with IOException: " + e);
         }
         catch(IllegalStateException e) {
             // internal server error
-            return "Problem executing HTTP GET request to backend: " + e;
+            throw new IOException("Problem executing HTTP GET request to backend: " + e);
         }
 
         if (response.getStatusLine().getStatusCode() != 200) {
             // bad request, probably
-            return "Problem reading item data from the backend";
+            throw new IOException("Problem reading item data from the backend");
         }
         HttpEntity entity = response.getEntity();
         if (entity == null) {
             // internal server error
-            return "Problem reading item data from the backend";
+            throw new IOException("Problem reading item data from the backend");
         }
 
+        Document d;
         try {
-            return EntityUtils.toString(entity);
+            String xml_str = EntityUtils.toString(entity);
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            d = db.parse(new InputSource(new StringReader(xml_str)));
         }
-        catch(IOException e) {
-            // internal server error
-            return "Problem getting results from backend: " + e;
+        catch (ParserConfigurationException e) {
+            throw new IOException(e);
         }
+        catch (SAXException e) {
+            throw new IOException(e);
+        }
+        return d;
     }
 }

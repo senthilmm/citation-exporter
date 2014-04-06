@@ -3,12 +3,23 @@ package gov.ncbi.pmc.cite;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.StringUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import de.undercouch.citeproc.CSL;
 import de.undercouch.citeproc.output.Bibliography;
@@ -84,24 +95,73 @@ public class Request {
         }
 
         if (outputformat.equals("pmfu") && responseformat.equals("xml")) {
-            resp.setContentType("application/xml;charset=UTF-8");
-            resp.setCharacterEncoding("UTF-8");
-            resp.setStatus(HttpServletResponse.SC_OK);
-            page = resp.getWriter();
-          /*
-            String r = null;
-            for (String id: ids) {
-                r += PmfuFetcher.fetchItem(id);
-            }
-            page.print(r);
-          */
-            page.print(itemDataProvider.retrieveItemPmfu(ids[0]));
+            pmfuXml();
             return;
         }
 
         errorResponse("Not sure what I'm supposed to do");
         return;
     }
+
+    // FIXME:  I'm trying to do this the "right" way, using Java's JAXP stuff, but right now
+    // there's way to much converting to strings, etc.  This needs to be streamlined.
+    public void pmfuXml()
+        throws IOException
+    {
+        resp.setContentType("application/xml;charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setStatus(HttpServletResponse.SC_OK);
+        page = resp.getWriter();
+
+        if (ids.length == 1) {
+            System.out.println("pmfuXml: retrieving item pmfu");
+            Document d = itemDataProvider.retrieveItemPmfu(ids[0]);
+            System.out.println("pmfuXml: got item pmfu");
+            page.print(serializeXml(d));
+        }
+        else {
+
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            try {
+                DocumentBuilder db = dbf.newDocumentBuilder();
+                Document d = db.newDocument();
+                Element root = d.createElement("pm-records");
+
+                page.print("<pm-records>\n");
+                for (int i = 0; i < ids.length; ++i) {
+                    Document record = itemDataProvider.retrieveItemPmfu(ids[i]);
+                    root.appendChild(record.getDocumentElement());
+                }
+                page.print(serializeXml(d));
+            }
+            catch (ParserConfigurationException e) {
+                throw new IOException(e);
+            }
+        }
+    }
+
+    // FIXME:  There must be a better way of doing this.
+    public String serializeXml(org.w3c.dom.Document doc)
+    {
+        try
+        {
+           DOMSource domSource = new DOMSource(doc);
+           StringWriter writer = new StringWriter();
+           StreamResult result = new StreamResult(writer);
+           TransformerFactory tf = TransformerFactory.newInstance();
+           Transformer transformer = tf.newTransformer();
+           transformer.transform(domSource, result);
+           writer.flush();
+           return writer.toString();
+        }
+        catch(TransformerException ex)
+        {
+           ex.printStackTrace();
+           return null;
+        }
+    }
+
+
 
     public void prefetchJson()
         throws IOException

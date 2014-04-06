@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -19,6 +22,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import de.undercouch.citeproc.CSL;
 import de.undercouch.citeproc.ItemDataProvider;
@@ -57,7 +63,6 @@ public class TestItemProvider extends ItemProvider {
         String sample_filename = "PMC" + Integer.toString(sample_num) + ".json";
         //System.out.println("sample_file = " + sample_filename);
 
-
         // Read the JSON from a sample file in webapp/test
         String item_json = readTestFile(sample_filename);
 
@@ -69,11 +74,25 @@ public class TestItemProvider extends ItemProvider {
         cacheItem(id, item_json);
     }
 
-    public String retrieveItemPmfu(String id)
+    public Document retrieveItemPmfu(String id)
         throws IOException
     {
         String pmfu_filename = id + ".pmfu";
-        return readTestFile(pmfu_filename);
+        String pmfu_file = readTestFile(pmfu_filename);
+        System.out.println("pmfu_file = " + pmfu_file);
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        Document d = null;
+        try {
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            d = db.parse(new InputSource(new StringReader(pmfu_file)));
+        }
+        catch (ParserConfigurationException e) {
+            throw new IOException(e);
+        }
+        catch (SAXException e) {
+            throw new IOException(e);
+        }
+        return d;
     }
 
     private String readTestFile(String filename)
