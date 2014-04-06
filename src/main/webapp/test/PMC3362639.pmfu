@@ -1,0 +1,82 @@
+
+<!DOCTYPE pm-record
+  SYSTEM "http://mwebdev2/staff/beck/pmfu/pmfu-record/pmfudtd/pmfu.dtd">
+<pm-record xmlns:xlink="http://www.w3.org/1999/xlink"
+           xmlns:mml="http://www.w3.org/1998/Math/MathML"
+           record-type="article"
+           xml:lang="en">
+   <source-meta>
+      <object-id pub-id-type="nlm-ta">PLoS Med</object-id>
+      <object-id pub-id-type="iso-abbrev">PLoS Med</object-id>
+      <object-id pub-id-type="publisher-id">PLoS</object-id>
+      <object-id pub-id-type="pmc">plosmed</object-id>
+      <title-group>
+         <title>PLoS Medicine</title>
+      </title-group>
+      <issn publication-format="print">1549-1277</issn>
+      <issn publication-format="electronic">1549-1676</issn>
+      <publisher>
+         <publisher-name>Public Library of Science</publisher-name>
+         <publisher-loc>San Francisco, USA</publisher-loc>
+      </publisher>
+   </source-meta>
+   <document-meta>
+      <object-id pub-id-type="publisher-id">PMEDICINE-D-12-01099</object-id>
+      <object-id pub-id-type="doi">10.1371/journal.pmed.1001226</object-id>
+      <object-id pub-id-type="pmcid">PMC3362639</object-id>
+      <title-group>
+         <title>Putting Evidence into Practice: The <italic>PLoS Medicine</italic> Series on Global Mental Health Practice</title>
+      </title-group>
+      <contrib-group>
+         <contrib contrib-type="author" xlink:type="simple">
+            <name name-style="western">
+               <surname>Patel</surname>
+               <given-names initials="V">Vikram</given-names>
+            </name>
+         </contrib>
+         <contrib contrib-type="author" xlink:type="simple">
+            <name name-style="western">
+               <surname>Jenkins</surname>
+               <given-names initials="R">Rachel</given-names>
+            </name>
+         </contrib>
+         <contrib contrib-type="author" xlink:type="simple">
+            <name name-style="western">
+               <surname>Lund</surname>
+               <given-names initials="C">Crick</given-names>
+            </name>
+         </contrib>
+         <contrib contrib-type="author" xlink:type="simple">
+            <collab xlink:type="simple">the <italic>PLoS Medicine</italic> Editors</collab>
+         </contrib>
+      </contrib-group>
+      <pub-date date-type="collection" iso-8601-date="201205">
+         <month>5</month>
+         <year>2012</year>
+      </pub-date>
+      <pub-date date-type="ppub" iso-8601-date="201205">
+         <month>5</month>
+         <year>2012</year>
+      </pub-date>
+      <pub-date date-type="epub" iso-8601-date="20120529">
+         <day>29</day>
+         <month>5</month>
+         <year>2012</year>
+      </pub-date>
+      <volume>9</volume>
+      <issue>5</issue>
+      <elocation-id>e1001226</elocation-id>
+      <permissions>
+         <copyright-statement>
+            <italic>PLoS Medicine</italic> Editors. This is an open-access article distributed under
+          the terms of the Creative Commons Attribution License, which permits unrestricted use,
+          distribution, and reproduction in any medium, provided the original author and source are
+          credited. </copyright-statement>
+         <copyright-year>2012</copyright-year>
+      </permissions>
+      <abstract abstract-type="toc">
+         <p>The <italic>PLoS Medicine</italic> editors announce the launch of a new series on Global
+          Mental Health Practice, and issue a call for papers.</p>
+      </abstract>
+   </document-meta>
+</pm-record>

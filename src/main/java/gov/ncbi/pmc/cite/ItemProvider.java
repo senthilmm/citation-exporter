@@ -16,10 +16,10 @@ import de.undercouch.citeproc.helper.json.StringJsonBuilderFactory;
 /**
  * This is a superclass for all of the implementations of ItemDataProvider.
  */
-public abstract class CiteprocItemProvider implements ItemDataProvider {
+public abstract class ItemProvider implements ItemDataProvider {
     protected Map<String, CSLItemData> item_cache;
 
-    CiteprocItemProvider() {
+    ItemProvider() {
         item_cache = new HashMap<String, CSLItemData>();
     }
 
@@ -72,6 +72,12 @@ public abstract class CiteprocItemProvider implements ItemDataProvider {
         JsonBuilder jb = new StringJsonBuilderFactory().createJsonBuilder();
         return (String) item_cache.get(id).toJson(jb);
     }
+
+    /**
+     * Get the PMFU XML, given an ID
+     */
+    public abstract String retrieveItemPmfu(String id) throws IOException;
+
 
     // FIXME:  What is this used for?
     public String[] getIds() {

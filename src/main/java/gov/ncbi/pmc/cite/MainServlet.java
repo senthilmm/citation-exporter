@@ -23,7 +23,7 @@ import de.undercouch.citeproc.ItemDataProvider;
 
 public class MainServlet extends HttpServlet
 {
-    public CiteprocItemProvider itemDataProvider;
+    public ItemProvider itemDataProvider;
     public Map<String, CSL> citeprocs;
     private boolean engaged = false;   // dead simple thread locking switch
 
@@ -38,7 +38,7 @@ public class MainServlet extends HttpServlet
             // Create a new mock item provider.  It will use sample files that are in the
             // directory webapp/test/.
             try {
-                itemDataProvider = new TestCiteprocItemProvider(context.getResource("/test/"));
+                itemDataProvider = new TestItemProvider(context.getResource("/test/"));
             }
             catch (MalformedURLException e) {
                 System.out.println("Sorry!");  // Not much we can do.
@@ -46,7 +46,7 @@ public class MainServlet extends HttpServlet
             }
         }
         else {
-            itemDataProvider = new BackendCiteprocItemProvider(backend_url);
+            itemDataProvider = new BackendItemProvider(backend_url);
         }
         PmfuFetcher.setBackend_url(backend_url);
         try {

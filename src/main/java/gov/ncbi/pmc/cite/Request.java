@@ -22,7 +22,7 @@ public class Request {
     public HttpServletResponse resp;
     public CSL citeproc;
     public PrintWriter page;
-    public CiteprocItemProvider itemDataProvider;
+    public ItemProvider itemDataProvider;
 
     // query string params
     public String[] ids;
@@ -88,11 +88,14 @@ public class Request {
             resp.setCharacterEncoding("UTF-8");
             resp.setStatus(HttpServletResponse.SC_OK);
             page = resp.getWriter();
+          /*
             String r = null;
             for (String id: ids) {
                 r += PmfuFetcher.fetchItem(id);
             }
             page.print(r);
+          */
+            page.print(itemDataProvider.retrieveItemPmfu(ids[0]));
             return;
         }
 

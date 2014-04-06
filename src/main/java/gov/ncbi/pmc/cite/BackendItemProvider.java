@@ -18,12 +18,12 @@ import de.undercouch.citeproc.helper.json.JsonLexer;
 import de.undercouch.citeproc.helper.json.JsonParser;
 
 /**
- * This produces citeproc-json items by calling a backend.
+ * This produces citeproc-json items by calling an HTTP backend.
  */
-public class BackendCiteprocItemProvider extends CiteprocItemProvider {
+public class BackendItemProvider extends ItemProvider {
     public String backend_url;
 
-    public BackendCiteprocItemProvider(String _backend_url) {
+    public BackendItemProvider(String _backend_url) {
         super();
         backend_url = _backend_url;
     }
@@ -40,21 +40,7 @@ public class BackendCiteprocItemProvider extends CiteprocItemProvider {
 
         // Execute the GET request
         CloseableHttpResponse response = null;
-        //try {
-            response = httpclient.execute(httpget);
-        //}
-        //catch(ClientProtocolException e) {
-        //    // internal server error
-        //    return "HTTP GET to backend failed with ClientProtocolException: " + e;
-        //}
-        //catch(IOException e) {
-        //   // internal server error
-        //    return "HTTP GET to backend failed with IOException: " + e;
-        //}
-        //catch(IllegalStateException e) {
-        //    // internal server error
-        //    return "Problem executing HTTP GET request to backend: " + e;
-        //}
+        response = httpclient.execute(httpget);
 
         if (response.getStatusLine().getStatusCode() != 200) {
             // bad request, probably
@@ -67,23 +53,11 @@ public class BackendCiteprocItemProvider extends CiteprocItemProvider {
         }
 
         String item_json;
-        //try {
-            item_json = EntityUtils.toString(entity);
-        //}
-        //catch(IOException e) {
-        //    // internal server error
-        //    return "Problem getting results from backend: " + e;
-        //}
-        //System.err.println(item_json);
+        item_json = EntityUtils.toString(entity);
 
         // Parse the JSON
         Map<String, Object> m = null;
-        //try {
-            m = new JsonParser(new JsonLexer(new StringReader(item_json))).parseObject();
-        //}
-        //catch(Exception e) {
-        //    return "Problem parsing JSON: " + e;
-        //}
+        m = new JsonParser(new JsonLexer(new StringReader(item_json))).parseObject();
         CSLItemData item = CSLItemData.fromJson(m);
         if (item == null) {
             throw new IOException("Problem creating a CSLItemData object from backend JSON");
@@ -92,4 +66,48 @@ public class BackendCiteprocItemProvider extends CiteprocItemProvider {
         cacheItem(id, item_json);
     }
 
+    public String retrieveItemPmfu(String id)
+        throws IOException
+    {
+
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        String item_url = backend_url + "?ids=" + id + "&outputformat=pmfu";
+        HttpGet httpget = new HttpGet(item_url);
+
+        // Execute the GET request
+        CloseableHttpResponse response = null;
+        try {
+            response = httpclient.execute(httpget);
+        }
+        catch(ClientProtocolException e) {
+            // internal server error
+            return "HTTP GET to backend failed with ClientProtocolException: " + e;
+        }
+        catch(IOException e) {
+            // internal server error
+            return "HTTP GET to backend failed with IOException: " + e;
+        }
+        catch(IllegalStateException e) {
+            // internal server error
+            return "Problem executing HTTP GET request to backend: " + e;
+        }
+
+        if (response.getStatusLine().getStatusCode() != 200) {
+            // bad request, probably
+            return "Problem reading item data from the backend";
+        }
+        HttpEntity entity = response.getEntity();
+        if (entity == null) {
+            // internal server error
+            return "Problem reading item data from the backend";
+        }
+
+        try {
+            return EntityUtils.toString(entity);
+        }
+        catch(IOException e) {
+            // internal server error
+            return "Problem getting results from backend: " + e;
+        }
+    }
 }
