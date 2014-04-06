@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.undercouch.citeproc.CSL;
 import de.undercouch.citeproc.output.Bibliography;
 
@@ -20,9 +22,10 @@ public class Request {
     public HttpServletResponse resp;
     public CSL citeproc;
     public PrintWriter page;
+    public CiteprocItemProvider itemDataProvider;
 
     // query string params
-    public String ids;
+    public String[] ids;
     public String outputformat;
     public String responseformat;
     public String style;
@@ -32,6 +35,8 @@ public class Request {
         servlet = _servlet;
         req = _req;
         resp = _resp;
+        itemDataProvider = servlet.itemDataProvider;
+        ids = null;
     }
 
     public void doRequest()
@@ -39,19 +44,13 @@ public class Request {
     {
         // Tell the item data provider to pre-retrieve the IDs that we're interested in.
         // This allows us to respond with an informative error message if there's a problem.
-        ids = req.getParameter("ids");
-        if (ids == null) {
+        String ids_param = req.getParameter("ids");
+        if (ids_param == null) {
             errorResponse("Need to specify at least one ID");
             return;
         }
-        CiteprocItemProvider itemDataProvider = servlet.itemDataProvider;
-        try {
-            itemDataProvider.prefetchItem(ids);
-        }
-        catch (IOException e) {
-            errorResponse("Problem prefetching item data: ", e.getMessage());
-            return;
-        }
+        ids = ids_param.split(",");
+
 
         outputformat = req.getParameter("outputformat");
         if (outputformat == null) { outputformat = "html"; }
@@ -73,7 +72,14 @@ public class Request {
         }
 
         if (outputformat.equals("html") || outputformat.equals("rtf")) {
+            prefetchJson();
             styledCitation();
+            return;
+        }
+
+        if (outputformat.equals("citeproc") && responseformat.equals("json")) {
+            prefetchJson();
+            citeprocJson();
             return;
         }
 
@@ -82,13 +88,51 @@ public class Request {
             resp.setCharacterEncoding("UTF-8");
             resp.setStatus(HttpServletResponse.SC_OK);
             page = resp.getWriter();
-            String pmfu = PmfuFetcher.fetchItem(ids);
-            page.print(pmfu);
+            String r = null;
+            for (String id: ids) {
+                r += PmfuFetcher.fetchItem(id);
+            }
+            page.print(r);
             return;
         }
 
         errorResponse("Not sure what I'm supposed to do");
         return;
+    }
+
+    public void prefetchJson()
+        throws IOException
+    {
+        try {
+            for (String id: ids) {
+                itemDataProvider.prefetchItem(id);
+            }
+        }
+        catch (IOException e) {
+            errorResponse("Problem prefetching item data: ", e.getMessage());
+            return;
+        }
+    }
+
+    public void citeprocJson()
+        throws IOException
+    {
+        resp.setContentType("application/json;charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setStatus(HttpServletResponse.SC_OK);
+        page = resp.getWriter();
+
+        if (ids.length == 1) {
+            page.print(itemDataProvider.retrieveItemJson(ids[0]));
+        }
+        else {
+            page.print("[");
+            for (int i = 0; i < ids.length; ++i) {
+                if (i != 0) { page.print(","); }
+                page.print(itemDataProvider.retrieveItemJson(ids[i]));
+            }
+            page.print("]");
+        }
     }
 
     public void styledCitation()
@@ -105,7 +149,6 @@ public class Request {
             errorResponse("Style not found");
             return;
         }
-
 
         resp.setContentType("text/html;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");

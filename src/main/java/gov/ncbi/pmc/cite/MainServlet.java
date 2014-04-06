@@ -25,6 +25,7 @@ public class MainServlet extends HttpServlet
 {
     public CiteprocItemProvider itemDataProvider;
     public Map<String, CSL> citeprocs;
+    private boolean engaged = false;   // dead simple thread locking switch
 
 
     public void init() throws ServletException {
@@ -72,8 +73,16 @@ public class MainServlet extends HttpServlet
         }
       */
 
+        while (engaged) {
+            try {
+                Thread.sleep(50);
+            }
+            catch(Exception e) {}
+        }
+        engaged = true;
         Request r = new Request(this, request, response);
         r.doRequest();
+        engaged = false;
         return;
     }
 

@@ -40,12 +40,14 @@ public class TestCiteprocItemProvider extends CiteprocItemProvider {
     public TestCiteprocItemProvider(URL _base_url) {
         super();
         base_url = _base_url;
+        System.out.println("TestCiteprocItemProvider: setting base_url to " + base_url);
     }
 
     // Implement interface method
     public void prefetchItem(String id) throws IOException
     {
         if (item_cache.get(id) != null) return;
+        System.out.println("prefetchItem: id = " + id);
 
         // Pick the json sample
         int sample_num = consecutive ? next_sample : 1 + (int)(Math.random() * 21);

@@ -7,8 +7,11 @@ import java.util.Map;
 
 import de.undercouch.citeproc.ItemDataProvider;
 import de.undercouch.citeproc.csl.CSLItemData;
+import de.undercouch.citeproc.helper.json.JsonBuilder;
+import de.undercouch.citeproc.helper.json.JsonBuilderFactory;
 import de.undercouch.citeproc.helper.json.JsonLexer;
 import de.undercouch.citeproc.helper.json.JsonParser;
+import de.undercouch.citeproc.helper.json.StringJsonBuilderFactory;
 
 /**
  * This is a superclass for all of the implementations of ItemDataProvider.
@@ -55,11 +58,25 @@ public abstract class CiteprocItemProvider implements ItemDataProvider {
      */
     public CSLItemData retrieveItem(String id)
     {
+        System.out.println("retrieveItem, id = " + id);
         return item_cache.get(id);
     }
 
+    /**
+     * Get the item as json.  Note this converts the (cached) CSLItemData back into JSON.
+     * It would be interesting to see if the results ever are different from the original
+     * json used to create the object.
+     */
+    public String retrieveItemJson(String id)
+    {
+        JsonBuilder jb = new StringJsonBuilderFactory().createJsonBuilder();
+        return (String) item_cache.get(id).toJson(jb);
+    }
+
+    // FIXME:  What is this used for?
     public String[] getIds() {
         String ids[] = { "PMC3362639" };
         return ids;
     }
+
 }
