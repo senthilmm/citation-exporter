@@ -112,7 +112,6 @@ public class BackendItemProvider extends ItemProvider {
         Document d;
         try {
             String xml_str = EntityUtils.toString(entity);
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             d = db.parse(new InputSource(new StringReader(xml_str)));
         }

@@ -5,6 +5,8 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.w3c.dom.Document;
 
 import de.undercouch.citeproc.ItemDataProvider;
@@ -20,9 +22,11 @@ import de.undercouch.citeproc.helper.json.StringJsonBuilderFactory;
  */
 public abstract class ItemProvider implements ItemDataProvider {
     protected Map<String, CSLItemData> item_cache;
+    DocumentBuilderFactory dbf;
 
     ItemProvider() {
         item_cache = new HashMap<String, CSLItemData>();
+        dbf = DocumentBuilderFactory.newInstance();
     }
 
     /**

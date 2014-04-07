@@ -77,14 +77,9 @@ public class TestItemProvider extends ItemProvider {
     public Document retrieveItemPmfu(String id)
         throws IOException
     {
-        String pmfu_filename = id + ".pmfu";
-        String pmfu_file = readTestFile(pmfu_filename);
-        System.out.println("pmfu_file = " + pmfu_file);
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        Document d = null;
+        URL pmfu_url = new URL(base_url, id + ".pmfu");
         try {
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            d = db.parse(new InputSource(new StringReader(pmfu_file)));
+            return dbf.newDocumentBuilder().parse(pmfu_url.toString());
         }
         catch (ParserConfigurationException e) {
             throw new IOException(e);
@@ -92,7 +87,6 @@ public class TestItemProvider extends ItemProvider {
         catch (SAXException e) {
             throw new IOException(e);
         }
-        return d;
     }
 
     private String readTestFile(String filename)

@@ -114,23 +114,22 @@ public class Request {
         page = resp.getWriter();
 
         if (ids.length == 1) {
-            System.out.println("pmfuXml: retrieving item pmfu");
             Document d = itemDataProvider.retrieveItemPmfu(ids[0]);
-            System.out.println("pmfuXml: got item pmfu");
             page.print(serializeXml(d));
         }
         else {
-
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             try {
-                DocumentBuilder db = dbf.newDocumentBuilder();
-                Document d = db.newDocument();
+                // Create a new XML document which will wrap (aggregate) all the individual
+                // record's XML documents.
+                Document d = servlet.dbf.newDocumentBuilder().newDocument();
                 Element root = d.createElement("pm-records");
+                d.appendChild(root);
 
-                page.print("<pm-records>\n");
                 for (int i = 0; i < ids.length; ++i) {
                     Document record = itemDataProvider.retrieveItemPmfu(ids[i]);
-                    root.appendChild(record.getDocumentElement());
+                    // Append the root element of this record's XML document as the last child of
+                    // the root element of our aggregate document.
+                    root.appendChild(d.importNode(record.getDocumentElement(), true));
                 }
                 page.print(serializeXml(d));
             }

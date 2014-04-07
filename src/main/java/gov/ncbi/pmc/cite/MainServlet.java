@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.io.IOUtils;
 
@@ -26,6 +27,8 @@ public class MainServlet extends HttpServlet
     public ItemProvider itemDataProvider;
     public Map<String, CSL> citeprocs;
     private boolean engaged = false;   // dead simple thread locking switch
+    public DocumentBuilderFactory dbf;
+
 
 
     public void init() throws ServletException {
@@ -48,6 +51,8 @@ public class MainServlet extends HttpServlet
         else {
             itemDataProvider = new BackendItemProvider(backend_url);
         }
+
+        // FIXME: PmfuFetcher is out.
         PmfuFetcher.setBackend_url(backend_url);
         try {
             citeprocs = new HashMap<String, CSL>();
@@ -57,6 +62,8 @@ public class MainServlet extends HttpServlet
         catch (Exception e) {
             System.out.println("error: " + e);
         }
+
+        dbf = DocumentBuilderFactory.newInstance();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
