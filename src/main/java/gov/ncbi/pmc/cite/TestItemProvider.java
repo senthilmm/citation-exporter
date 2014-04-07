@@ -25,6 +25,8 @@ import org.apache.http.util.EntityUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 import de.undercouch.citeproc.CSL;
 import de.undercouch.citeproc.ItemDataProvider;
@@ -61,15 +63,12 @@ public class TestItemProvider extends ItemProvider {
         if (consecutive) next_sample = (next_sample % num_samples) + 1;
 
         String sample_filename = "PMC" + Integer.toString(sample_num) + ".json";
-        //System.out.println("sample_file = " + sample_filename);
 
         // Read the JSON from a sample file in webapp/test
         String item_json = readTestFile(sample_filename);
 
-
         // Replace the id
         item_json = item_json.replace("{$id}", id);
-        //System.out.println("JSON: \n" + item_json);
 
         cacheItem(id, item_json);
     }
@@ -77,9 +76,14 @@ public class TestItemProvider extends ItemProvider {
     public Document retrieveItemPmfu(String id)
         throws IOException
     {
+
         URL pmfu_url = new URL(base_url, id + ".pmfu");
+        System.out.println("TestItemProvider: base_url = '" + base_url +
+            "', pmfu_url: '" + pmfu_url + "'");
+
         try {
-            return dbf.newDocumentBuilder().parse(pmfu_url.toString());
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            return db.parse(pmfu_url.openStream());
         }
         catch (ParserConfigurationException e) {
             throw new IOException(e);

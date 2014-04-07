@@ -28,42 +28,46 @@ public class MainServlet extends HttpServlet
     public Map<String, CSL> citeprocs;
     private boolean engaged = false;   // dead simple thread locking switch
     public DocumentBuilderFactory dbf;
+    public TransformEngine transformEngine;
 
 
 
-    public void init() throws ServletException {
-        System.out.println("MainServlet started.");
-        ServletContext context = getServletContext();
+    public void init() throws ServletException
+    {
+        try {
+            System.out.println("MainServlet started.");
+            ServletContext context = getServletContext();
 
-        String backend_url = context.getInitParameter("backend_url");
-        System.out.println("backend_url: '" + backend_url + "'");
-        if (backend_url.equals("test")) {
-            // Create a new mock item provider.  It will use sample files that are in the
-            // directory webapp/test/.
-            try {
+            String backend_url = context.getInitParameter("backend_url");
+            System.out.println("backend_url: '" + backend_url + "'");
+            if (backend_url.equals("test")) {
+                // Create a new mock item provider.  It will use sample files that are in the
+                // directory webapp/test/.
                 itemDataProvider = new TestItemProvider(context.getResource("/test/"));
             }
-            catch (MalformedURLException e) {
-                System.out.println("Sorry!");  // Not much we can do.
-                System.exit(1);
+            else {
+                itemDataProvider = new BackendItemProvider(backend_url);
             }
-        }
-        else {
-            itemDataProvider = new BackendItemProvider(backend_url);
+
+            // FIXME: PmfuFetcher is out.
+            //PmfuFetcher.setBackend_url(backend_url);
+            try {
+                citeprocs = new HashMap<String, CSL>();
+                // FIXME:  create processors for each of the most commonly used styles here.
+                citeprocs.put("ieee", new CSL(itemDataProvider, "ieee"));
+            }
+            catch (Exception e) {
+                System.out.println("error: " + e);
+            }
+
+            dbf = DocumentBuilderFactory.newInstance();
+            transformEngine = new TransformEngine(context.getResource("/xslt/"));
         }
 
-        // FIXME: PmfuFetcher is out.
-        PmfuFetcher.setBackend_url(backend_url);
-        try {
-            citeprocs = new HashMap<String, CSL>();
-            // FIXME:  create processors for each of the most commonly used styles here.
-            citeprocs.put("ieee", new CSL(itemDataProvider, "ieee"));
+        catch (MalformedURLException e) {
+            System.out.println("Sorry!");  // Not much we can do.
+            System.exit(1);
         }
-        catch (Exception e) {
-            System.out.println("error: " + e);
-        }
-
-        dbf = DocumentBuilderFactory.newInstance();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

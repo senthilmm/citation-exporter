@@ -85,21 +85,27 @@ public class Request {
         if (outputformat.equals("html") || outputformat.equals("rtf")) {
             prefetchJson();
             styledCitation();
-            return;
         }
 
-        if (outputformat.equals("citeproc") && responseformat.equals("json")) {
+        else if (outputformat.equals("citeproc") && responseformat.equals("json")) {
             prefetchJson();
             citeprocJson();
-            return;
         }
 
-        if (outputformat.equals("pmfu") && responseformat.equals("xml")) {
+        else if (outputformat.equals("pmfu") && responseformat.equals("xml")) {
             pmfuXml();
-            return;
         }
 
-        errorResponse("Not sure what I'm supposed to do");
+        else if (outputformat.equals("nbib") && responseformat.equals("nbib") ||
+                 outputformat.equals("ris") && responseformat.equals("ris"))
+        {
+            transformXml(outputformat);
+        }
+
+        else {
+            errorResponse("Not sure what I'm supposed to do");
+        }
+
         return;
     }
 
@@ -139,7 +145,7 @@ public class Request {
         }
     }
 
-    // FIXME:  There must be a better way of doing this.
+    // FIXME:  There must be a better way of doing this!
     public String serializeXml(org.w3c.dom.Document doc)
     {
         try
@@ -153,12 +159,29 @@ public class Request {
            writer.flush();
            return writer.toString();
         }
-        catch(TransformerException ex)
+        catch (TransformerException ex)
         {
            ex.printStackTrace();
            return null;
         }
     }
+
+    public void transformXml(String outputformat)
+        throws IOException
+    {
+        resp.setContentType("application/xml;charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setStatus(HttpServletResponse.SC_OK);
+        page = resp.getWriter();
+
+        Document d = itemDataProvider.retrieveItemPmfu(ids[0]);
+
+        page.print(servlet.transformEngine.transform(d, outputformat));
+        //page.print(serializeXml(d));
+    }
+
+
+
 
 
 

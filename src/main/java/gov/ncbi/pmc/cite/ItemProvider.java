@@ -47,12 +47,7 @@ public abstract class ItemProvider implements ItemDataProvider {
     {
         // Parse the JSON
         Map<String, Object> m = null;
-        //try {
-            m = new JsonParser(new JsonLexer(new StringReader(item_json))).parseObject();
-        //}
-        //catch(Exception e) {
-        //    return "Problem parsing JSON: " + e;
-        //}
+        m = new JsonParser(new JsonLexer(new StringReader(item_json))).parseObject();
         CSLItemData item = CSLItemData.fromJson(m);
         if (item == null) throw new IOException("Problem creating a CSLItemData object from backend JSON");
         item_cache.put(id, item);
