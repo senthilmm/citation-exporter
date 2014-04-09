@@ -3,10 +3,12 @@ package gov.ncbi.pmc.cite;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,15 +66,24 @@ public class TransformEngine {
         if (ps == null) {
             // Read and prepare an XSLT stylesheet
             //URL xslt_url = new URL("file:///home/maloneyc/git/Klortho/citeproc-java-demo/src/test/identity.xsl");
-            URL xslt_url = new URL(xsltBaseUrl, "identity.xsl");
-            System.out.println("xslt_url = " + xslt_url);
+            URL xsltUrl = new URL(xsltBaseUrl, dest_format + ".xsl");
+            System.out.println("xslt_url = " + xsltUrl);
 
-            Source xsltSource = new StreamSource(xslt_url.openStream());
+            Source xsltSource = null;
+            try {
+                URLConnection xsltUrlConn = xsltUrl.openConnection();
+                InputStream xsltInputStream = xsltUrlConn.getInputStream();
+                // This throws FileNotFoundException if the file (at a 'file:' URL) doesn't exist
+                xsltSource = new StreamSource(xsltInputStream);
+            }
+            catch (Exception e) {
+                throw new IOException("Exception opening xslt StreamSource: " + e);
+            }
             try {
                 ps = (PreparedStylesheet) tf.newTemplates(xsltSource);
             }
             catch (TransformerConfigurationException e) {
-                throw new IOException(e);
+                throw new IOException("Unable to compile xslt: " + e);
             }
         }
         return ps;

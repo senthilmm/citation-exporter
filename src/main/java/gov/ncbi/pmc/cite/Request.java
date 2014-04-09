@@ -3,7 +3,10 @@ package gov.ncbi.pmc.cite;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Enumeration;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +23,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
 
 import de.undercouch.citeproc.CSL;
 import de.undercouch.citeproc.output.Bibliography;
@@ -36,10 +40,11 @@ public class Request {
     public ItemProvider itemDataProvider;
 
     // query string params
-    public String[] ids;
+    public String[] ids = null;
     public String outputformat;
     public String responseformat;
-    public String style;
+    public String[] styles = {"modern-language-association"};  // default style
+    public DocumentBuilder documentBuilder; // one document builder shared within this request thread
 
     public Request(MainServlet _servlet, HttpServletRequest _req, HttpServletResponse _resp)
     {
@@ -47,7 +52,6 @@ public class Request {
         req = _req;
         resp = _resp;
         itemDataProvider = servlet.itemDataProvider;
-        ids = null;
     }
 
     public void doRequest()
@@ -124,29 +128,24 @@ public class Request {
             page.print(serializeXml(d));
         }
         else {
-            try {
-                // Create a new XML document which will wrap (aggregate) all the individual
-                // record's XML documents.
-                Document d = servlet.dbf.newDocumentBuilder().newDocument();
-                Element root = d.createElement("pm-records");
-                d.appendChild(root);
+            // Create a new XML document which will wrap (aggregate) all the individual
+            // record's XML documents.
+            Document d = getDocumentBuilder().newDocument();
+            Element root = d.createElement("pm-records");
+            d.appendChild(root);
 
-                for (int i = 0; i < ids.length; ++i) {
-                    Document record = itemDataProvider.retrieveItemPmfu(ids[i]);
-                    // Append the root element of this record's XML document as the last child of
-                    // the root element of our aggregate document.
-                    root.appendChild(d.importNode(record.getDocumentElement(), true));
-                }
-                page.print(serializeXml(d));
+            for (int i = 0; i < ids.length; ++i) {
+                Document record = itemDataProvider.retrieveItemPmfu(ids[i]);
+                // Append the root element of this record's XML document as the last child of
+                // the root element of our aggregate document.
+                root.appendChild(d.importNode(record.getDocumentElement(), true));
             }
-            catch (ParserConfigurationException e) {
-                throw new IOException(e);
-            }
+            page.print(serializeXml(d));
         }
     }
 
     // FIXME:  There must be a better way of doing this!
-    public String serializeXml(org.w3c.dom.Document doc)
+    public String serializeXml(Document doc, boolean omitXmlDecl)
     {
         try
         {
@@ -155,6 +154,10 @@ public class Request {
            StreamResult result = new StreamResult(writer);
            TransformerFactory tf = TransformerFactory.newInstance();
            Transformer transformer = tf.newTransformer();
+           if (omitXmlDecl) {
+               transformer.setOutputProperty("omit-xml-declaration", "yes");
+           }
+
            transformer.transform(domSource, result);
            writer.flush();
            return writer.toString();
@@ -166,18 +169,39 @@ public class Request {
         }
     }
 
+    /**
+     * Same as above, but omitXmlDecl defaults to false
+     */
+    public String serializeXml(Document doc) {
+        return serializeXml(doc, false);
+    }
+
     public void transformXml(String outputformat)
         throws IOException
     {
-        resp.setContentType("application/xml;charset=UTF-8");
+        // FIXME:  this all has to be data-driven.
+        // That means:  the content-type of the output, the XSLT to use, and, a function to use
+        // to handle concatenation of multiple records.
+        String contentType = outputformat.equals("nbib") ? "application/nbib" :
+                             outputformat.equals("ris") ? "text/plain" :
+                                 "application/xml";
+        resp.setContentType(contentType + ";charset=UTF-8");
+        // FIXME:  need to add content-disposition, with a filename
         resp.setCharacterEncoding("UTF-8");
         resp.setStatus(HttpServletResponse.SC_OK);
         page = resp.getWriter();
 
-        Document d = itemDataProvider.retrieveItemPmfu(ids[0]);
-
-        page.print(servlet.transformEngine.transform(d, outputformat));
-        //page.print(serializeXml(d));
+        if (ids.length == 1) {
+            Document d = itemDataProvider.retrieveItemPmfu(ids[0]);
+            page.print(servlet.transformEngine.transform(d, outputformat));
+        }
+        else {
+            for (int i = 0; i < ids.length; ++i) {
+                if (i != 0) { page.print("\n"); }
+                Document d = itemDataProvider.retrieveItemPmfu(ids[i]);
+                page.print(servlet.transformEngine.transform(d, outputformat));
+            }
+        }
     }
 
 
@@ -223,40 +247,69 @@ public class Request {
     public void styledCitation()
         throws ServletException, IOException
     {
-        style = req.getParameter("style");
-        if (style == null) { style = "modern-language-association"; }
-
-        CSL citeproc = null;
-        try {
-            citeproc = servlet.getCiteproc(style);
+        String styles_param = req.getParameter("styles");
+        if (styles != null) {
+            styles = styles_param.split(",");
         }
-        catch(FileNotFoundException e) {
-            errorResponse("Style not found");
+        if (ids.length > 1 && styles.length > 1) {
+            errorResponse("Sorry, I can do multiple records (ids) or multiple styles, but not both.");
             return;
         }
 
+        System.out.println("styles = " + styles);
+
+        // Create a new XML document which will wrap the individual bibliographies.
+        Document entriesDoc = getDocumentBuilder().newDocument();
+        Element entriesDiv = entriesDoc.createElement("div");
+        entriesDoc.appendChild(entriesDiv);
+
+        for (int i = 0; i < styles.length; ++i) {
+            String style = styles[i];
+            CSL citeproc = null;
+            try {
+                citeproc = servlet.getCiteproc(style);
+            }
+            catch(FileNotFoundException e) {
+                errorResponse("Style not found: " + e);
+                return;
+            }
+
+            Bibliography bibl = null;
+            try {
+                citeproc.setOutputFormat("html");
+                citeproc.registerCitationItems(ids);
+                bibl = citeproc.makeBibliography();
+            }
+            catch(Exception e) {
+                System.err.println("Citation processor exception: " + e);
+            }
+            if (bibl == null) {
+                errorResponse("Bad request, problem with citation processor");
+                return;
+            }
+            try {
+                String entries[] = bibl.getEntries();
+                for (int j = 0; j < entries.length; ++j) {
+                    String entry = entries[j];
+                    Document entryDoc = getDocumentBuilder().parse(new InputSource(new StringReader(entry)));
+
+                    Element entryDiv = entryDoc.getDocumentElement();
+                    entryDiv.setAttribute("data-style", style);
+                    entryDiv.setAttribute("data-id", ids[j]);
+                    // Add this entry to the wrapper
+                    entriesDiv.appendChild(entriesDoc.importNode(entryDiv, true));
+                }
+            }
+            catch (Exception e) {
+                errorResponse("Problem interpreting citeproc-generated bibliography entry: " + e);
+                return;
+            }
+        }
         resp.setContentType("text/html;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setStatus(HttpServletResponse.SC_OK);
         page = resp.getWriter();
-
-        Bibliography bibl = null;
-        try {
-            citeproc.setOutputFormat("html");
-            citeproc.registerCitationItems(ids);
-            bibl = citeproc.makeBibliography();
-        }
-        catch(Exception e) {
-            System.err.println("Caught exception: " + e);
-        }
-
-        if (bibl == null) {
-            errorResponse("Bad request, no cookie!");
-            return;
-        }
-        for (String entry : bibl.getEntries()) {
-            page.print(entry);
-        }
+        page.print(serializeXml(entriesDoc, true));
     }
 
     public void errorResponse(String msg)
@@ -282,5 +335,19 @@ public class Request {
         rw.println("<h1>" + title + "</h1>");
         rw.println(body);
         rw.println("</body></html>");
+    }
+
+    private DocumentBuilder getDocumentBuilder()
+        throws IOException
+    {
+        if (documentBuilder == null) {
+            try {
+                documentBuilder = servlet.dbf.newDocumentBuilder();
+            }
+            catch (ParserConfigurationException e) {
+                throw new IOException("Problem creating a Saxon DocumentBuilder: " + e);
+            }
+        }
+        return documentBuilder;
     }
 }
