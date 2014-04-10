@@ -66,6 +66,17 @@ public class Request {
         }
         ids = ids_param.split(",");
 
+        try {
+            IdSet idSet = servlet.idResolver.resolveIds(ids_param, req.getParameter("idtype"));
+            errorResponse("Debug: id type found to be: " + idSet.idType);
+            if (true) { return; }
+        }
+        catch (Exception e) {
+            errorResponse("Unable to resolve ids: " + e);
+            return;
+        }
+
+
 
         outputformat = req.getParameter("outputformat");
         if (outputformat == null) { outputformat = "html"; }

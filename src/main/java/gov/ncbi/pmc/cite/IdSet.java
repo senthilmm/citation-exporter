@@ -11,10 +11,12 @@ public class IdSet {
         idType = _idType;
         ids = new ArrayList<String>();
     }
-  /*
+
+
     public IdSet(String _idType, String[] _ids) {
         idType = _idType;
-        ids = _ids;
+        for (String id: _ids) {
+            ids.add(id);
+        }
     }
-  */
 }

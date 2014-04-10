@@ -29,6 +29,7 @@ public class MainServlet extends HttpServlet
     private boolean engaged = false;   // dead simple thread locking switch
     public DocumentBuilderFactory dbf;
     public TransformEngine transformEngine;
+    public IdResolver idResolver;
 
 
 
@@ -68,6 +69,8 @@ public class MainServlet extends HttpServlet
             System.out.println("Sorry!");  // Not much we can do.
             System.exit(1);
         }
+
+        idResolver = new IdResolver();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
