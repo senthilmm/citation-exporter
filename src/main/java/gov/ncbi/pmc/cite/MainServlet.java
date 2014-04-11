@@ -24,12 +24,14 @@ import de.undercouch.citeproc.ItemDataProvider;
 
 public class MainServlet extends HttpServlet
 {
-    public ItemProvider itemDataProvider;
+    public ItemProvider itemProvider;
     public Map<String, CSL> citeprocs;
     private boolean engaged = false;   // dead simple thread locking switch
     public DocumentBuilderFactory dbf;
     public TransformEngine transformEngine;
     public IdResolver idResolver;
+    public ServletContext context;
+    public String backend_url;
 
 
 
@@ -37,25 +39,25 @@ public class MainServlet extends HttpServlet
     {
         try {
             System.out.println("MainServlet started.");
-            ServletContext context = getServletContext();
+            context = getServletContext();
 
-            String backend_url = context.getInitParameter("backend_url");
+            backend_url = context.getInitParameter("backend_url");
             System.out.println("backend_url: '" + backend_url + "'");
+
             if (backend_url.equals("test")) {
                 // Create a new mock item provider.  It will use sample files that are in the
                 // directory webapp/test/.
-                itemDataProvider = new TestItemProvider(context.getResource("/test/"));
+                itemProvider = new TestItemProvider(context.getResource("/test/"));
             }
             else {
-                itemDataProvider = new BackendItemProvider(backend_url);
+                itemProvider = new BackendItemProvider(backend_url);
             }
 
             // FIXME: PmfuFetcher is out.
-            //PmfuFetcher.setBackend_url(backend_url);
             try {
                 citeprocs = new HashMap<String, CSL>();
                 // FIXME:  create processors for each of the most commonly used styles here.
-                citeprocs.put("ieee", new CSL(itemDataProvider, "ieee"));
+                citeprocs.put("ieee", new CSL(itemProvider, "ieee"));
             }
             catch (Exception e) {
                 System.out.println("error: " + e);
@@ -105,7 +107,7 @@ public class MainServlet extends HttpServlet
     {
         CSL citeproc = citeprocs.get(style);
         if (citeproc == null) {
-            citeproc = new CSL(itemDataProvider, style);
+            citeproc = new CSL(itemProvider, style);
             citeprocs.put(style, citeproc);
         }
         return citeproc;

@@ -40,10 +40,6 @@ import de.undercouch.citeproc.helper.json.JsonParser;
  */
 public class TestItemProvider extends ItemProvider {
     private URL base_url;
-    private int num_samples = 21;
-    private int next_sample = 1;
-    // The following, if true, cycles through the samples; if false, random
-    private boolean consecutive = true;
 
     public TestItemProvider(URL _base_url) {
         super();
@@ -52,31 +48,28 @@ public class TestItemProvider extends ItemProvider {
     }
 
     // Implement interface method
-    public void prefetchItem(String id)
+    public void prefetchCslItem(String idType, String id)
         throws IOException
     {
-        if (item_cache.get(id) != null) return;
-        System.out.println("prefetchItem: id = " + id);
+        String typeAndId = typeAndId(idType, id);
+
+        if (cslItemCache.get(typeAndId) != null) return;
+        System.out.println("prefetchCslItem: typeAndId = " + typeAndId);
 
         // Pick the json sample
-        int sample_num = consecutive ? next_sample : 1 + (int)(Math.random() * 21);
-        if (consecutive) next_sample = (next_sample % num_samples) + 1;
+        String sample_filename = idType + "/" + id + ".json";
+        String itemJson = readTestFile(sample_filename);
 
-        String sample_filename = "PMC" + Integer.toString(sample_num) + ".json";
-
-        // Read the JSON from a sample file in webapp/test
-        String item_json = readTestFile(sample_filename);
-
+        // FIXME:  this shouldn't be necessary.
         // Replace the id
-        item_json = item_json.replace("{$id}", id);
+        itemJson = itemJson.replace("{$id}", id);
 
-        cacheItem(id, item_json);
+        cacheCslItem(idType, id, itemJson);
     }
 
-    public Document retrieveItemPmfu(String id)
+    public Document retrieveItemPmfu(String idType, String id)
         throws IOException
     {
-
         URL pmfu_url = new URL(base_url, id + ".pmfu");
         System.out.println("TestItemProvider: base_url = '" + base_url +
             "', pmfu_url: '" + pmfu_url + "'");
@@ -96,7 +89,9 @@ public class TestItemProvider extends ItemProvider {
     private String readTestFile(String filename)
         throws IOException
     {
+        System.out.println("base_url = '" + base_url + "'");
         URL test_url = new URL(base_url, filename);
+
         InputStream test_is = test_url.openStream();
         if (test_is == null) throw new IOException("Problem reading test data!");
         StringWriter test_writer = new StringWriter();

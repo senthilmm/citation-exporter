@@ -7,6 +7,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,10 +38,11 @@ public class Request {
     public HttpServletResponse resp;
     public CSL citeproc;
     public PrintWriter page;
-    public ItemProvider itemDataProvider;
+    public ItemProvider itemProvider;
 
-    // query string params
-    public String[] ids = null;
+    // Data from query string params
+    //public String[] ids;
+    public IdSet idSet;
     public String outputformat;
     public String responseformat;
     public String[] styles = {"modern-language-association"};  // default style
@@ -51,37 +53,32 @@ public class Request {
         servlet = _servlet;
         req = _req;
         resp = _resp;
-        itemDataProvider = servlet.itemDataProvider;
+        itemProvider = servlet.itemProvider;
     }
 
     public void doRequest()
         throws ServletException, IOException
     {
-        // Tell the item data provider to pre-retrieve the IDs that we're interested in.
-        // This allows us to respond with an informative error message if there's a problem.
+        // First attempt to resolve the IDs into an IdSet, which contains the id type and
+        // each of the IDs in a canonicalized form.
         String ids_param = req.getParameter("ids");
         if (ids_param == null) {
             errorResponse("Need to specify at least one ID");
             return;
         }
-        ids = ids_param.split(",");
-
         try {
-            IdSet idSet = servlet.idResolver.resolveIds(ids_param, req.getParameter("idtype"));
-            errorResponse("Debug: id type found to be: " + idSet.idType);
-            if (true) { return; }
+            idSet = servlet.idResolver.resolveIds(ids_param, req.getParameter("idtype"));
         }
         catch (Exception e) {
             errorResponse("Unable to resolve ids: " + e);
             return;
         }
 
-
-
+        // FIXME:  this should be data-driven
+        // Get outputformat and responseformat, validating and implementing defaults.
         outputformat = req.getParameter("outputformat");
         if (outputformat == null) { outputformat = "html"; }
         responseformat = req.getParameter("responseformat");
-        // Implement defaults for responseformat.  FIXME:  this should be data-driven
         if (responseformat == null) {
             if (outputformat.equals("html"))
                 responseformat = "html";
@@ -97,35 +94,42 @@ public class Request {
                 responseformat = "xml";
         }
 
-        if (outputformat.equals("html") || outputformat.equals("rtf")) {
-            prefetchJson();
-            styledCitation();
-        }
+        try {
+            if (outputformat.equals("html") || outputformat.equals("rtf")) {
+                // Pre-fetch the JSON objects from the IDs that we're interested in.
+                // This allows us to respond with an informative error message if there's a problem.
+                prefetchCsl();
+                styledCitation();
+            }
 
-        else if (outputformat.equals("citeproc") && responseformat.equals("json")) {
-            prefetchJson();
-            citeprocJson();
-        }
+            else if (outputformat.equals("citeproc") && responseformat.equals("json")) {
+                prefetchCsl();
+                citeprocJson();
+            }
 
-        else if (outputformat.equals("pmfu") && responseformat.equals("xml")) {
-            pmfuXml();
-        }
+            else if (outputformat.equals("pmfu") && responseformat.equals("xml")) {
+                pmfuXml();
+            }
 
-        else if (outputformat.equals("nbib") && responseformat.equals("nbib") ||
-                 outputformat.equals("ris") && responseformat.equals("ris"))
-        {
-            transformXml(outputformat);
-        }
+            else if (outputformat.equals("nbib") && responseformat.equals("nbib") ||
+                     outputformat.equals("ris") && responseformat.equals("ris"))
+            {
+                transformXml(outputformat);
+            }
 
-        else {
-            errorResponse("Not sure what I'm supposed to do");
+            else {
+                errorResponse("Not sure what I'm supposed to do");
+                return;
+            }
         }
-
-        return;
+        catch (Exception e) {
+            errorResponse(e.getMessage());
+            return;
+        }
     }
 
     // FIXME:  I'm trying to do this the "right" way, using Java's JAXP stuff, but right now
-    // there's way to much converting to strings, etc.  This needs to be streamlined.
+    // there's way too much converting to strings, etc.  This needs to be streamlined.
     public void pmfuXml()
         throws IOException
     {
@@ -134,8 +138,11 @@ public class Request {
         resp.setStatus(HttpServletResponse.SC_OK);
         page = resp.getWriter();
 
-        if (ids.length == 1) {
-            Document d = itemDataProvider.retrieveItemPmfu(ids[0]);
+        String idType = idSet.idType;
+        List<String> ids = idSet.ids;
+
+        if (idSet.ids.size() == 1) {
+            Document d = itemProvider.retrieveItemPmfu(idType, ids.get(0));
             page.print(serializeXml(d));
         }
         else {
@@ -145,8 +152,8 @@ public class Request {
             Element root = d.createElement("pm-records");
             d.appendChild(root);
 
-            for (int i = 0; i < ids.length; ++i) {
-                Document record = itemDataProvider.retrieveItemPmfu(ids[i]);
+            for (int i = 0; i < ids.size(); ++i) {
+                Document record = itemProvider.retrieveItemPmfu(idType, ids.get(i));
                 // Append the root element of this record's XML document as the last child of
                 // the root element of our aggregate document.
                 root.appendChild(d.importNode(record.getDocumentElement(), true));
@@ -155,7 +162,9 @@ public class Request {
         }
     }
 
-    // FIXME:  There must be a better way of doing this!
+    /**
+     * Utility function to serialize an XML object for output back to the client.
+     */
     public String serializeXml(Document doc, boolean omitXmlDecl)
     {
         try
@@ -202,17 +211,19 @@ public class Request {
         resp.setStatus(HttpServletResponse.SC_OK);
         page = resp.getWriter();
 
+      /*
         if (ids.length == 1) {
-            Document d = itemDataProvider.retrieveItemPmfu(ids[0]);
+            Document d = itemDataProvider.retrieveItemPmfu("aiid", ids[0]);
             page.print(servlet.transformEngine.transform(d, outputformat));
         }
         else {
             for (int i = 0; i < ids.length; ++i) {
                 if (i != 0) { page.print("\n"); }
-                Document d = itemDataProvider.retrieveItemPmfu(ids[i]);
+                Document d = itemDataProvider.retrieveItemPmfu("aiid", ids[i]);
                 page.print(servlet.transformEngine.transform(d, outputformat));
             }
         }
+      */
     }
 
 
@@ -220,17 +231,16 @@ public class Request {
 
 
 
-    public void prefetchJson()
+    public void prefetchCsl()
         throws IOException
     {
         try {
-            for (String id: ids) {
-                itemDataProvider.prefetchItem(id);
+            for (String id: idSet.ids) {
+                itemProvider.prefetchCslItem(idSet.idType, id);
             }
         }
         catch (IOException e) {
-            errorResponse("Problem prefetching item data: ", e.getMessage());
-            return;
+            throw new IOException("Problem prefetching item data: " + e.getMessage());
         }
     }
 
@@ -242,14 +252,16 @@ public class Request {
         resp.setStatus(HttpServletResponse.SC_OK);
         page = resp.getWriter();
 
-        if (ids.length == 1) {
-            page.print(itemDataProvider.retrieveItemJson(ids[0]));
+        String idType = idSet.idType;
+        int numIds = idSet.size();
+        if (numIds == 1) {
+            page.print(itemProvider.retrieveItemJson(idType, idSet.get(0)));
         }
         else {
             page.print("[");
-            for (int i = 0; i < ids.length; ++i) {
+            for (int i = 0; i < numIds; ++i) {
                 if (i != 0) { page.print(","); }
-                page.print(itemDataProvider.retrieveItemJson(ids[i]));
+                page.print(itemProvider.retrieveItemJson(idType, idSet.get(i)));
             }
             page.print("]");
         }
@@ -259,10 +271,12 @@ public class Request {
         throws ServletException, IOException
     {
         String styles_param = req.getParameter("styles");
-        if (styles != null) {
+        if (styles_param != null) {
+            System.out.println("styles = " + styles);
             styles = styles_param.split(",");
         }
-        if (ids.length > 1 && styles.length > 1) {
+        int numIds = idSet.size();
+        if (numIds > 1 && styles.length > 1) {
             errorResponse("Sorry, I can do multiple records (ids) or multiple styles, but not both.");
             return;
         }
@@ -288,7 +302,7 @@ public class Request {
             Bibliography bibl = null;
             try {
                 citeproc.setOutputFormat("html");
-                citeproc.registerCitationItems(ids);
+                citeproc.registerCitationItems(idSet.getGids());
                 bibl = citeproc.makeBibliography();
             }
             catch(Exception e) {
@@ -306,7 +320,7 @@ public class Request {
 
                     Element entryDiv = entryDoc.getDocumentElement();
                     entryDiv.setAttribute("data-style", style);
-                    entryDiv.setAttribute("data-id", ids[j]);
+                    entryDiv.setAttribute("data-id", idSet.get(j));
                     // Add this entry to the wrapper
                     entriesDiv.appendChild(entriesDoc.importNode(entryDiv, true));
                 }

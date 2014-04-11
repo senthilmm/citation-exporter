@@ -36,9 +36,10 @@ public class BackendItemProvider extends ItemProvider {
     }
 
     // Implement interface method
-    public void prefetchItem(String id) throws IOException
+    public void prefetchCslItem(String idType, String id) throws IOException
     {
-        if (item_cache.get(id) != null) return;
+        String typeAndId = typeAndId(idType, id);
+        if (cslItemCache.get(typeAndId) != null) return;
 
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String item_url = backend_url + "?ids=" + id + "&outputformat=citeproc";
@@ -59,21 +60,21 @@ public class BackendItemProvider extends ItemProvider {
             throw new IOException("Problem reading item data from the backend");
         }
 
-        String item_json;
-        item_json = EntityUtils.toString(entity);
+        String itemJson;
+        itemJson = EntityUtils.toString(entity);
 
         // Parse the JSON
         Map<String, Object> m = null;
-        m = new JsonParser(new JsonLexer(new StringReader(item_json))).parseObject();
+        m = new JsonParser(new JsonLexer(new StringReader(itemJson))).parseObject();
         CSLItemData item = CSLItemData.fromJson(m);
         if (item == null) {
             throw new IOException("Problem creating a CSLItemData object from backend JSON");
         }
 
-        cacheItem(id, item_json);
+        cacheCslItem(idType, id, itemJson);
     }
 
-    public Document retrieveItemPmfu(String id)
+    public Document retrieveItemPmfu(String idType, String id)
         throws IOException
     {
 

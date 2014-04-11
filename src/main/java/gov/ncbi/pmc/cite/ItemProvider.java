@@ -18,66 +18,76 @@ import de.undercouch.citeproc.helper.json.JsonParser;
 import de.undercouch.citeproc.helper.json.StringJsonBuilderFactory;
 
 /**
- * This is a superclass for all of the implementations of ItemDataProvider.
+ * This is a superclass for all of the implementations of the (citeproc-java) ItemDataProvider.
+ * One of these is instantiated per servlet.
  */
 public abstract class ItemProvider implements ItemDataProvider {
-    protected Map<String, CSLItemData> item_cache;
+    // Stores CSLItemData objects between the time that they are prefetched and the time that they
+    // are used by the citeproc-js code.
+    protected Map<String, CSLItemData> cslItemCache;
     DocumentBuilderFactory dbf;
 
     ItemProvider() {
-        item_cache = new HashMap<String, CSLItemData>();
+        cslItemCache = new HashMap<String, CSLItemData>();
         dbf = DocumentBuilderFactory.newInstance();
     }
 
+    public static String typeAndId(String idType, String id) {
+        return idType + "-" + id;
+    }
+
     /**
-     * Pre-fetch an item that we're interested in (per request).  This allows us to respond with an
-     * informative error message, if there's a problem.  Otherwise, retrieveItem is called from within
-     * citeproc-js, and there's no way to pass the error message back out.
-     * @param id
+     * Pre-fetch the JSON, and construct a CSLItemData object for a set of IDs that we're interested in
+     * (per request).  This allows us to respond with an
+     * informative error message, if there's a problem.  Otherwise, the retrieveItem() method (below)
+     * is called from within citeproc-js, and there's no way to pass the error message back out.
+     *
      * FIXME:  Should distinguish between bad requests (like, bad id value) and internal
      * server errors.
      */
-    public abstract void prefetchItem(String id) throws IOException;
-
-    /**
-     * Parse a JSON item, and put it into the cache
-     */
-    protected void cacheItem(String id, String item_json)
-        throws IOException
-    {
-        // Parse the JSON
-        Map<String, Object> m = null;
-        m = new JsonParser(new JsonLexer(new StringReader(item_json))).parseObject();
-        CSLItemData item = CSLItemData.fromJson(m);
-        if (item == null) throw new IOException("Problem creating a CSLItemData object from backend JSON");
-        item_cache.put(id, item);
-    }
-
-    /**
-     * Retrieve a CSLItemData object, given an id.
-     * @return the CSLItemData object corresponding to this id, or null if not found.
-     */
-    public CSLItemData retrieveItem(String id)
-    {
-        System.out.println("retrieveItem, id = " + id);
-        return item_cache.get(id);
-    }
-
-    /**
-     * Get the item as json.  Note this converts the (cached) CSLItemData back into JSON.
-     * It would be interesting to see if the results ever are different from the original
-     * json used to create the object.
-     */
-    public String retrieveItemJson(String id)
-    {
-        JsonBuilder jb = new StringJsonBuilderFactory().createJsonBuilder();
-        return (String) item_cache.get(id).toJson(jb);
-    }
+    public abstract void prefetchCslItem(String idType, String id) throws IOException;
 
     /**
      * Get the PMFU XML, given an ID
      */
-    public abstract Document retrieveItemPmfu(String id) throws IOException;
+    public abstract Document retrieveItemPmfu(String idType, String id) throws IOException;
+
+
+    /**
+     * Parse the citeproc-json format for an item, and put it into the cache
+     */
+    protected void cacheCslItem(String idType, String id, String itemJson)
+        throws IOException
+    {
+        // Parse the JSON
+        Map<String, Object> m = null;
+        m = new JsonParser(new JsonLexer(new StringReader(itemJson))).parseObject();
+        CSLItemData item = CSLItemData.fromJson(m);
+        if (item == null) throw new IOException("Problem creating a CSLItemData object from backend JSON");
+        cslItemCache.put(typeAndId(idType, id), item);
+    }
+
+    /**
+     * Retrieve a CSLItemData object, given an id.  This is invoked by the citeproc-js code
+     * running inside Rhino.
+     * @return the CSLItemData object corresponding to this id, or null if not found.
+     */
+    public CSLItemData retrieveItem(String typeAndId)
+    {
+        CSLItemData result = cslItemCache.get(typeAndId);
+        System.out.println("retrieveItem, typeAndId = " + typeAndId + ", found '" + result + "'");
+        return result;
+    }
+
+    /**
+     * Get the item as json.  Note this converts the (cached) CSLItemData back into JSON.
+     * It would be interesting to see if the results are ever different from the original.
+     */
+    public String retrieveItemJson(String idType, String id)
+    {
+        JsonBuilder jb = new StringJsonBuilderFactory().createJsonBuilder();
+        return (String) cslItemCache.get(typeAndId(idType, id)).toJson(jb);
+    }
 
 
     // FIXME:  What is this used for?

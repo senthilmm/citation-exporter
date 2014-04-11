@@ -1,5 +1,5 @@
 {
-  "id": "{$id}",
+  "id": "aiid-3",
   "title": "Key Process Conditions for Production of C<sub>4</sub> Dicarboxylic Acids in Bioreactor Batch Cultures of an Engineered <i>Saccharomyces cerevisiae</i> Strain",
   "note": "This cite illustrates the rich text formatting capabilities in the new processor, as well as page range collapsing (in this case, applying the collapsing method required by the Chicago Manual of Style).  Also, as the IEEE example above partially illustrates, we also offer robust handling of particles such as \"van\" and \"de\" in author names.",
   "author": [
@@ -41,5 +41,3 @@
   "DOI": "10.1128/AEM.02396-09",
   "type": "article-journal"
 }
-
-

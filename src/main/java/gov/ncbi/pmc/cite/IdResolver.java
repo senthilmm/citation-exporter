@@ -19,8 +19,9 @@ public class IdResolver {
     // The keys here are the ID strings.  The sets of IDs for each type are assumed to
     // be disjoint.
     protected Map<String, String> idCache;
+    ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
-    public String idConverterUrl = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?showaiid=yes&format=json&";
+    public String idConverterUrl = "http://web.pubmedcentral.nih.gov/utils/idconv/v1.1/?showaiid=yes&format=json&";
 
     // Here we specify the regexp patterns that will be used to match IDs to their type
     // The order is important:  if determining the type of an unknown id (getIdType()), then these
@@ -77,21 +78,21 @@ public class IdResolver {
     public IdSet resolveIds(String idStr, String idType)
         throws Exception
     {
-        System.out.println("IdResolver.resolveIds");
         String[] ids_array = idStr.split(",");
-        System.out.println("  first id = '" + ids_array[0] + "', idType = " + idType);
+        System.out.println("IdResolver.resolveIds: first id = '" + ids_array[0] + "', idType = " + idType);
 
         // If idType wasn't specified, then we infer it from the form of the first id in the list
         if (idType == null) {
             idType = getIdType(ids_array[0]);
-            System.out.println("  idType of first id = '" + idType + "'");
         }
+        System.out.println("  idType determined to be '" + idType + "'");
 
         // Check every ID in the list.  If it doesn't match the expected pattern, try to canonicalize
         // it
         for (int i = 0; i < ids_array.length; ++i) {
             String id = ids_array[i];
             if (!idTypeMatches(id, idType)) {
+                System.out.println("  id doesn't match the pattern for its type");
                 if (idType.equals("pmcid") && id.matches("\\d+")) {
                     ids_array[i] = "PMC" + id;
                 }
@@ -99,12 +100,16 @@ public class IdResolver {
                     throw new Exception("Unrecognizable id: '" + id + "'");
                 }
             }
-            //System.out.println("idType = " + idType + ", id = " + id);
+            else {
+                System.out.println("  id matches the pattern for its type");
+            }
         }
 
         // If the id type is pmid or aiid, then no resolving necessary
         if (idType.equals("pmid") || idType.equals("aiid")) {
-            return new IdSet(idType, ids_array);
+            IdSet idSet = new IdSet(idType, ids_array);
+            System.out.println("  no need to resolve anything.  Returning idSet");
+            return idSet;
         }
 
         // Resolve IDs to pmids or aiids, if necessary
@@ -114,15 +119,13 @@ public class IdResolver {
                 idsToResolve.add(id);
             }
         }
-        // For now, since the "showaiids" parameter is not implemented yet (see PMC-20071)
-        // I'll just strip of the "PMC" from the pmcid, and use that number.
+
         if (idsToResolve.size() > 0) {
             // Need to call the id resolver
             String idsParam = StringUtils.join(idsToResolve, ",");
             URL url = new URL(idConverterUrl + "idtype=" + idType + "&ids=" + idsParam);
             System.out.println("About to invoke '" + url + "'");
-            ObjectMapper mapper = new ObjectMapper(); // create once, reuse
-            JsonNode idconvResponse = mapper.readTree(url);
+            ObjectNode idconvResponse = (ObjectNode) mapper.readTree(url);
             String status = idconvResponse.get("status").asText();
             System.out.println(idconvResponse);
             if (!status.equals("ok"))
@@ -131,10 +134,9 @@ public class IdResolver {
             System.out.println(records);
             for (int rn = 0; rn < records.size(); ++rn) {
                 ObjectNode record = (ObjectNode) records.get(rn);
-
-                // FIXME:  for now, mocking up aiid as pmcid - "PMC"
+                // FIXME:  not all types implemented here yet.
                 String pmcid = record.get("pmcid").asText();
-                String aiid = pmcid.substring(3);
+                String aiid = record.get("aiid").asText();
                 idCache.put(record.get(idType).asText(), aiid);
             }
         }

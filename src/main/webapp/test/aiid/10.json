@@ -1,6 +1,6 @@
 {
+  "id": "aiid-10",
   "container-title": "N.Y.2d",
-  "id": "{$id}",
   "issued": {
     "date-parts": [
       [
@@ -13,5 +13,3 @@
   "type": "legal_case",
   "volume": 73
 }
-
-
