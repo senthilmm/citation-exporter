@@ -64,14 +64,14 @@ public class BackendItemProvider extends ItemProvider {
         itemJson = EntityUtils.toString(entity);
 
         // Parse the JSON
-        Map<String, Object> m = null;
-        m = new JsonParser(new JsonLexer(new StringReader(itemJson))).parseObject();
-        CSLItemData item = CSLItemData.fromJson(m);
-        if (item == null) {
-            throw new IOException("Problem creating a CSLItemData object from backend JSON");
-        }
+        Map<String, Object> itemJsonMap = null;
+        itemJsonMap = new JsonParser(new JsonLexer(new StringReader(itemJson))).parseObject();
 
-        cacheCslItem(idType, id, itemJson);
+        // FIXME:  do I need to add the id?  I think so.
+        // Add the id key-value pair
+        itemJsonMap.put("id", typeAndId);
+
+        cacheCslItem(idType, id, itemJsonMap);
     }
 
     public Document retrieveItemPmfu(String idType, String id)

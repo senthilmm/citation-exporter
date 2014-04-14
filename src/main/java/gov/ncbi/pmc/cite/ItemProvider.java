@@ -56,16 +56,16 @@ public abstract class ItemProvider implements ItemDataProvider {
     /**
      * Parse the citeproc-json format for an item, and put it into the cache
      */
-    protected void cacheCslItem(String idType, String id, String itemJson)
+    protected void cacheCslItem(String idType, String id, Map<String, Object> itemJsonMap)
         throws IOException
     {
-        // Parse the JSON
-        Map<String, Object> m = null;
-        m = new JsonParser(new JsonLexer(new StringReader(itemJson))).parseObject();
-        CSLItemData item = CSLItemData.fromJson(m);
+        CSLItemData item = CSLItemData.fromJson(itemJsonMap);
         if (item == null) throw new IOException("Problem creating a CSLItemData object from backend JSON");
         cslItemCache.put(typeAndId(idType, id), item);
     }
+
+
+
 
     /**
      * Retrieve a CSLItemData object, given an id.  This is invoked by the citeproc-js code

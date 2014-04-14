@@ -21,6 +21,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -144,7 +145,7 @@ public class Request {
         String idType = idSet.idType;
         List<String> ids = idSet.ids;
 
-        if (idSet.ids.size() == 1) {
+        if (ids.size() == 1) {
             Document d = itemProvider.retrieveItemPmfu(idType, ids.get(0));
             page.print(serializeXml(d));
         }
@@ -214,21 +215,21 @@ public class Request {
         resp.setStatus(HttpServletResponse.SC_OK);
         page = resp.getWriter();
 
-      /*
-        if (ids.length == 1) {
-            Document d = itemDataProvider.retrieveItemPmfu("aiid", ids[0]);
+        String idType = idSet.idType;
+        List<String> ids = idSet.ids;
+
+        if (ids.size() == 1) {
+            Document d = itemProvider.retrieveItemPmfu("aiid", ids.get(0));
             page.print(servlet.transformEngine.transform(d, outputformat));
         }
         else {
-            for (int i = 0; i < ids.length; ++i) {
+            for (int i = 0; i < ids.size(); ++i) {
                 if (i != 0) { page.print("\n"); }
-                Document d = itemDataProvider.retrieveItemPmfu("aiid", ids[i]);
+                Document d = itemProvider.retrieveItemPmfu("aiid", ids.get(i));
                 page.print(servlet.transformEngine.transform(d, outputformat));
             }
         }
-      */
     }
-
 
 
 
@@ -291,8 +292,13 @@ public class Request {
         Element entriesDiv = entriesDoc.createElement("div");
         entriesDoc.appendChild(entriesDiv);
 
-        for (int i = 0; i < styles.length; ++i) {
-            String style = styles[i];
+        // The array of gids (global ids) that we will be outputting
+        String[] gids = idSet.getGids();
+        System.out.print("Order of entries going in: " + StringUtils.join(gids, ", "));
+
+        // For each style
+        for (int styleNum = 0; styleNum < styles.length; ++styleNum) {
+            String style = styles[styleNum];
             CSL citeproc = null;
             try {
                 citeproc = servlet.getCiteproc(style);
@@ -302,6 +308,9 @@ public class Request {
                 return;
             }
 
+            // Generate the bibliography (array of styled citations).  Note that the order that
+            // comes out might not be the same as the order that goes in, so we'll put them back
+            // in the right order.
             Bibliography bibl = null;
             try {
                 citeproc.setOutputFormat("html");
@@ -315,15 +324,23 @@ public class Request {
                 errorResponse("Bad request, problem with citation processor");
                 return;
             }
-            try {
-                String entries[] = bibl.getEntries();
-                for (int j = 0; j < entries.length; ++j) {
-                    String entry = entries[j];
-                    Document entryDoc = getDocumentBuilder().parse(new InputSource(new StringReader(entry)));
 
-                    Element entryDiv = entryDoc.getDocumentElement();
+            // Parse the output entries, and stick them into the output document
+            try {
+                String entryIds[] = bibl.getEntryIds();
+                System.out.println("Order of entries coming out: " + StringUtils.join(entryIds, ", "));
+                String entries[] = bibl.getEntries();
+
+                for (int gidNum = 0; gidNum < gids.length; ++gidNum) {
+                    String gid = gids[gidNum];
+                    int entryNum = ArrayUtils.indexOf(entryIds, gid);
+                    String entry = entries[entryNum];
+
+                    Element entryDiv = getDocumentBuilder().parse(
+                        new InputSource(new StringReader(entry))
+                    ).getDocumentElement();
                     entryDiv.setAttribute("data-style", style);
-                    entryDiv.setAttribute("data-id", idSet.get(j));
+                    entryDiv.setAttribute("data-id", idSet.get(gidNum)); // use the id, not the gid, here
                     // Add this entry to the wrapper
                     entriesDiv.appendChild(entriesDoc.importNode(entryDiv, true));
                 }

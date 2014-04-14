@@ -56,23 +56,27 @@ public class TestItemProvider extends ItemProvider {
         if (cslItemCache.get(typeAndId) != null) return;
         System.out.println("prefetchCslItem: typeAndId = " + typeAndId);
 
-        // Pick the json sample
-        String sample_filename = idType + "/" + id + ".json";
-        String itemJson = readTestFile(sample_filename);
+        // Read the JSON resource
+        Map<String, Object> itemJsonMap = new JsonParser(
+            new JsonLexer(
+                new InputStreamReader(
+                    new URL(
+                        base_url, idType + "/" + id + ".json"
+                    ).openStream()
+                )
+            )
+        ).parseObject();
 
-        // FIXME:  this shouldn't be necessary.
-        // Replace the id
-        itemJson = itemJson.replace("{$id}", id);
+        // Add the id key-value pair
+        itemJsonMap.put("id", typeAndId);
 
-        cacheCslItem(idType, id, itemJson);
+        cacheCslItem(idType, id, itemJsonMap);
     }
 
     public Document retrieveItemPmfu(String idType, String id)
         throws IOException
     {
-        URL pmfu_url = new URL(base_url, id + ".pmfu");
-        System.out.println("TestItemProvider: base_url = '" + base_url +
-            "', pmfu_url: '" + pmfu_url + "'");
+        URL pmfu_url = new URL(base_url, idType + "/" + id + ".pmfu");
 
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -86,6 +90,10 @@ public class TestItemProvider extends ItemProvider {
         }
     }
 
+    /**
+     * Reads a file from the test directory as a String.  Not used now, but keeping this
+     * around in case we need it.
+     */
     private String readTestFile(String filename)
         throws IOException
     {
