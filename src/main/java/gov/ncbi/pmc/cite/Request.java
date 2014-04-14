@@ -52,6 +52,9 @@ public class Request {
         req = _req;
         resp = _resp;
         itemDataProvider = servlet.itemDataProvider;
+        
+        // Set CORS header right away.
+        resp.setHeader("Access-Control-Allow-Origin", "*");
     }
 
     public void doRequest()
