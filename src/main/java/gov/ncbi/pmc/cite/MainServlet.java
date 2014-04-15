@@ -31,8 +31,6 @@ public class MainServlet extends HttpServlet
     public TransformEngine transformEngine;
     public IdResolver idResolver;
     public ServletContext context;
-    public String backend_url;
-
 
 
     public void init() throws ServletException
@@ -41,16 +39,17 @@ public class MainServlet extends HttpServlet
             System.out.println("MainServlet started.");
             context = getServletContext();
 
-            backend_url = context.getInitParameter("backend_url");
-            System.out.println("backend_url: '" + backend_url + "'");
+            // Controlled by system property item_provider (default is "test")
+            String itemProviderProp = System.getProperty("item_provider");
+            String itemProviderStr = itemProviderProp != null ? itemProviderProp : "test";
 
-            if (backend_url.equals("test")) {
+            if (itemProviderStr.equals("test")) {
                 // Create a new mock item provider.  It will use sample files that are in the
                 // directory webapp/test/.
                 itemProvider = new TestItemProvider(context.getResource("/test/"));
             }
             else {
-                itemProvider = new BackendItemProvider(backend_url);
+                itemProvider = new BackendItemProvider(itemProviderStr);
             }
 
             // FIXME: PmfuFetcher is out.
