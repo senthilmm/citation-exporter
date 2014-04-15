@@ -33,9 +33,9 @@ public class IdResolver {
 
     ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
-    // Set this with system property cache-aiids ("true" or "false")
+    // Set this with system property cache_aiids ("true" or "false")
     public boolean cacheAiids;
-    // Set this with system property aiid-cache-ttl (integer in seconds)
+    // Set this with system property aiid_cache_ttl (integer in seconds)
     public int aiidCacheTtl;
 
 
@@ -54,9 +54,9 @@ public class IdResolver {
     };
 
     public IdResolver() {
-        String cacheAiidProp = System.getProperty("cache-aiids");
+        String cacheAiidProp = System.getProperty("cache_aiids");
         cacheAiids = cacheAiidProp != null ? Boolean.parseBoolean(cacheAiidProp) : false;
-        String aiidCacheTtlProp = System.getProperty("aiid-cache-ttl");
+        String aiidCacheTtlProp = System.getProperty("aiid_cache_ttl");
         aiidCacheTtl = aiidCacheTtlProp != null ? Integer.parseInt(aiidCacheTtlProp): 86400;
 
         if (cacheAiids) {
@@ -159,7 +159,7 @@ public class IdResolver {
         if (idsToResolve.size() > 0) {
             // Call the id resolver
             URL url = new URL(idConverterUrl + "idtype=" + idType + "&ids=" + StringUtils.join(idsToResolve, ","));
-            //System.out.println("About to invoke '" + url + "'");
+            System.out.println("About to invoke '" + url + "'");
 
             // FIXME:  we should use citeproc-java's json library, instead of Jackson,
             // since we already link to it.
