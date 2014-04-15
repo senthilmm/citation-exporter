@@ -33,14 +33,17 @@ public class IdResolver {
 
     ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
-    // Set this with system property cache_aiids ("true" or "false")
+    // Controlled by system property cache_aiids ("true" or "false")
     public boolean cacheAiids;
-    // Set this with system property aiid_cache_ttl (integer in seconds)
+    // Controlled by system property aiid_cache_ttl (integer in seconds)
     public int aiidCacheTtl;
+    // Controlled by system property id_converter_url
+    public String idConverterUrl;
+    // Controlled by system property id_converter_params
+    public String idConverterParams;
 
-
-    // FIXME:  this should be in a system property
-    public String idConverterUrl = "http://web.pubmedcentral.nih.gov/utils/idconv/v1.1/?showaiid=yes&format=json&";
+    // Base URL to use for the ID converter.  Combination of idConverterUrl and idConverterParams
+    public String idConverterBase;
 
     // Here we specify the regexp patterns that will be used to match IDs to their type
     // The order is important:  if determining the type of an unknown id (getIdType()), then these
@@ -54,10 +57,21 @@ public class IdResolver {
     };
 
     public IdResolver() {
+        // Resolve system properties
         String cacheAiidProp = System.getProperty("cache_aiids");
         cacheAiids = cacheAiidProp != null ? Boolean.parseBoolean(cacheAiidProp) : false;
         String aiidCacheTtlProp = System.getProperty("aiid_cache_ttl");
         aiidCacheTtl = aiidCacheTtlProp != null ? Integer.parseInt(aiidCacheTtlProp): 86400;
+
+        // FIXME:  ID converter URL should use "www", when the needed change is deployed (see PMC-20071).
+        String idConverterUrlProp = System.getProperty("id_converter_url");
+        idConverterUrl = idConverterUrlProp != null ? idConverterUrlProp :
+            "http://web.pubmedcentral.nih.gov/utils/idconv/v1.1/";
+        String idConverterParamsProp = System.getProperty("id_converter_params");
+        idConverterParams = idConverterParamsProp != null ? idConverterParamsProp :
+            "showaiid=yes&format=json";
+
+        idConverterBase = idConverterUrl + "?" + idConverterParams + "&";
 
         if (cacheAiids) {
             // Create a new cache; 50000 is max number of objects
@@ -158,7 +172,7 @@ public class IdResolver {
         //System.out.println("Need to resolve " + idsToResolve.size() + " ids");
         if (idsToResolve.size() > 0) {
             // Call the id resolver
-            URL url = new URL(idConverterUrl + "idtype=" + idType + "&ids=" + StringUtils.join(idsToResolve, ","));
+            URL url = new URL(idConverterBase + "idtype=" + idType + "&ids=" + StringUtils.join(idsToResolve, ","));
             System.out.println("About to invoke '" + url + "'");
 
             // FIXME:  we should use citeproc-java's json library, instead of Jackson,
