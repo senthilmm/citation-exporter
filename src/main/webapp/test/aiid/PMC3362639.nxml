@@ -1,0 +1,515 @@
+<!DOCTYPE article PUBLIC "-//NLM//DTD Journal Archiving and Interchange DTD v3.0 20080202//EN" "archivearticle3.dtd">
+<article xmlns:xlink="http://www.w3.org/1999/xlink" 
+         xmlns:mml="http://www.w3.org/1998/Math/MathML"
+         article-type="research-article">
+  <front>
+    <journal-meta>
+      <journal-id journal-id-type="nlm-ta">PLoS Med</journal-id>
+      <journal-id journal-id-type="iso-abbrev">PLoS Med</journal-id>
+      <journal-id journal-id-type="publisher-id">PLoS</journal-id>
+      <journal-id journal-id-type="pmc">plosmed</journal-id>
+      <journal-title-group>
+        <journal-title>PLoS Medicine</journal-title>
+      </journal-title-group>
+      <issn pub-type="ppub">1549-1277</issn>
+      <issn pub-type="epub">1549-1676</issn>
+      <publisher>
+        <publisher-name>Public Library of Science</publisher-name>
+        <publisher-loc>San Francisco, USA</publisher-loc>
+      </publisher>
+    </journal-meta>
+    <article-meta>
+      <article-id pub-id-type="publisher-id">PMEDICINE-D-12-01099</article-id>
+      <article-id pub-id-type="doi">10.1371/journal.pmed.1001226</article-id>
+      <article-categories>
+        <subj-group subj-group-type="heading">
+          <subject>Editorial</subject>
+        </subj-group>
+        <subj-group subj-group-type="Discipline-v2">
+          <subject>Medicine</subject>
+          <subj-group>
+            <subject>Mental Health</subject>
+          </subj-group>
+        </subj-group>
+      </article-categories>
+      <title-group>
+        <article-title>Putting Evidence into Practice: The <italic>PLoS Medicine</italic> Series on Global Mental Health Practice</article-title>
+      </title-group>
+      <contrib-group>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Patel</surname>
+            <given-names>Vikram</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff1">
+            <sup>1</sup>
+          </xref>
+          <xref ref-type="aff" rid="aff2">
+            <sup>2</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Jenkins</surname>
+            <given-names>Rachel</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff3">
+            <sup>3</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Lund</surname>
+            <given-names>Crick</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff4">
+            <sup>4</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <collab>the <italic>PLoS Medicine</italic> Editors</collab>
+          <xref ref-type="corresp" rid="cor1">
+            <sup>&#x0002a;</sup>
+          </xref>
+        </contrib>
+      </contrib-group>
+      <aff id="aff1">
+        <label>1</label>
+        <addr-line>Faculty of Epidemiology and Population Health, London School of Hygiene &#x00026;
+          Tropical Medicine, London, United Kingdom</addr-line>
+      </aff>
+      <aff id="aff2">
+        <label>2</label>
+        <addr-line>Sangath, Goa, India</addr-line>
+      </aff>
+      <aff id="aff3">
+        <label>3</label>
+        <addr-line>Departments of Epidemiology and International Mental Health Policy, WHO
+          Collaborating Centre, Kings College London, Institute of Psychiatry, London, United
+          Kingdom</addr-line>
+      </aff>
+      <aff id="aff4">
+        <label>4</label>
+        <addr-line>Centre for Public Mental Health, Department of Psychiatry and Mental Health,
+          University of Cape Town, Cape Town, South Africa</addr-line>
+      </aff>
+      <aff id="edit1">PLoS Medicine, Canada</aff>
+      <author-notes>
+        <corresp id="cor1">&#x0002a; E-mail: <email>medicine_editors@plos.org</email></corresp>
+        <fn fn-type="con">
+          <p>Wrote the first draft of the manuscript: JC VP. Contributed to the writing of the
+            manuscript: VB RJ CL PS EV. <ext-link ext-link-type="uri"
+              xlink:href="http://www.icmje.org/">ICMJE</ext-link> criteria for authorship read and
+            met: VB JC RJ CL VP PS EV.</p>
+        </fn>
+      </author-notes>
+      <pub-date pub-type="collection">
+        <month>5</month>
+        <year>2012</year>
+      </pub-date>
+      <!-- Fake ppub added to accomodate plos workflow change from 03/2008 and 03/2009 -->
+      <pub-date pub-type="ppub">
+        <month>5</month>
+        <year>2012</year>
+      </pub-date>
+      <pub-date pub-type="epub">
+        <day>29</day>
+        <month>5</month>
+        <year>2012</year>
+      </pub-date>
+      <volume>9</volume>
+      <issue>5</issue>
+      <elocation-id>e1001226</elocation-id>
+      <permissions>
+        <copyright-statement>
+          <italic>PLoS Medicine</italic> Editors. This is an open-access article distributed under
+          the terms of the Creative Commons Attribution License, which permits unrestricted use,
+          distribution, and reproduction in any medium, provided the original author and source are
+          credited. </copyright-statement>
+        <copyright-year>2012</copyright-year>
+      </permissions>
+      <abstract abstract-type="toc">
+        <p>The <italic>PLoS Medicine</italic> editors announce the launch of a new series on Global
+          Mental Health Practice, and issue a call for papers.</p>
+      </abstract>
+      <counts>
+        <page-count count="2"/>
+      </counts>
+    </article-meta>
+  </front>
+  <body>
+    <p>Today we are delighted to announce the launch of the <italic>PLoS Medicine</italic> series on
+      Global Mental Health Practice, and to issue a call for case studies that can help broaden our
+      understanding of global mental health in &#x0201c;real-life&#x0201d; contexts.</p>
+    <p>The series was initiated by the lead author (VP), who is joined by two other leaders in
+      global mental health (RP and CL) to serve as guest editors. Together, they bring an
+      international, broad, and multidisciplinary perspective that will assist the <italic>PLoS
+        Medicine</italic> senior Magazine editor (JC) in developing this vital series.</p>
+    <p>We aim to address the gap between public health approaches to mental health, exemplified by
+      two series in <italic>The Lancet</italic>
+      <xref ref-type="bibr" rid="pmed.1001226-Horton1">[1]</xref>,<xref ref-type="bibr"
+        rid="pmed.1001226-Patel1">[2]</xref>, and clinical approaches to addressing mental disorders
+      (such as the packages of care published in this journal <xref ref-type="bibr"
+        rid="pmed.1001226-Patel2">[3]</xref> and efficacy studies often published in specialist
+      psychiatric journals). Lying between these two realms is a niche for demonstrating how the
+      principles of global mental health are put into practice in real-world contexts. These
+      principles, reflected in the goals of international efforts such as the Movement for Global
+      Mental Health (<ext-link ext-link-type="uri" xlink:href="http://www.globalmentalhealth.org"
+        >http://www.globalmentalhealth.org</ext-link>), explicitly aim to (1) improve access to
+      evidence-based care for people with mental, neurological, or substance use disorders and (2)
+      promote the human rights of people affected by these disorders. Articles in the <italic>PLoS
+        Medicine</italic> series will report a diverse range of health interventions from around the
+      world where action has demonstrated tangible improvements in one or both of these goals. </p>
+    <p>A key motivation for this series is to emphasize the importance of &#x0201c;practice-based
+      evidence,&#x0201d; by placing value on the experiences and impact of interventions in
+      real-world settings as evidence for implementation. This area is especially rich for global
+      mental health interventions in low- and middle-income countries, which may be difficult to
+      subject to a definitive evaluation of effectiveness such as a controlled trial. We believe
+      that such case studies provide useful evidence, which should be disseminated widely so they
+      can influence practice development. In particular, we are interested in interventions that are
+      innovative and delivered in low-resource settings where the treatment gap is often largest.
+      The series addresses the need for greater awareness of global mental health in practice, and
+      builds on <italic>PLoS Medicine</italic>'s interest and leadership in global mental health
+        <xref ref-type="bibr" rid="pmed.1001226-Patel2">[3]</xref>&#x02013;<xref ref-type="bibr"
+        rid="pmed.1001226-Tomlinson1">[6]</xref>.</p>
+    <sec id="s2">
+      <title>New Cases from South Africa and Afghanistan</title>
+      <p>To seed the series we have commissioned a number of case studies from around the world. Two
+        of these are published this week in <italic>PLoS Medicine</italic>.</p>
+      <p>First, Simone Honikman and colleagues discuss their Perinatal Mental Health Project in Cape
+        Town, South Africa, which developed an intervention to deliver mental health care to
+        pregnant women in a collaborative, stepwise manner, making use of existing resources in
+        primary care <xref ref-type="bibr" rid="pmed.1001226-Honikman1">[7]</xref>. Their
+        intervention includes training for health care workers, implementing routine antenatal
+        screening for maternal mental distress, and establishing referral networks to on-site
+        counselors and mental health professionals. Over three years the project achieved high
+        levels of uptake and acceptability. Second, Peter Ventevogel and colleagues report on their
+        efforts to integrate mental health into the health care system in Afghanistan while the
+        system was being rebuilt from scratch <xref ref-type="bibr" rid="pmed.1001226-Ventevogel1"
+          >[8]</xref>. Brief, practice-oriented mental health training for basic health care workers
+        provided the opportunity to substantially increase demand for and access to mental health
+        care services, but the authors report this opportunity also demonstrated the need for
+        concurrent community-based approaches, capacity building, and policy development in the
+        health care system.</p>
+    </sec>
+    <sec id="s3">
+      <title>Call for Case Studies</title>
+      <p>We call for additional case studies that report global health interventions where action
+        has demonstrated tangible improvements in one or both of the established global mental
+        health goals: (1) to improve access to evidence-based care for people with mental,
+        neurological, or substance use disorders and (2) to promote the human rights of people
+        affected by these disorders. Case studies can describe interventions from any country, and
+        should focus on (1) mental health care interventions in practice or (2) mental health policy
+        reform or legislative change that has led to improvements in access to care and in the human
+        rights of people with mental health conditions. Studies that describe innovative
+        interventions delivered in low-resource settings are of particular interest. Articles that
+        provide only descriptions of processes will not be eligible for the series, nor will case
+        reports or case series.</p>
+      <p>The articles appear in the journal's Health in Action section (part of the <italic>PLoS
+          Medicine</italic> Magazine), and authors should use our standard guidance (<ext-link
+          ext-link-type="uri"
+          xlink:href="http://www.plosmedicine.org/static/guidelines.action#other"
+          >http://www.plosmedicine.org/static/guidelines.action#other</ext-link>). Articles can be
+        up to 2,500 words long and include up to three graphics (figure, table, and/or box); these
+        graphics do not count toward the word limits. References are limited to 30. All articles
+        will be peer-reviewed and subject to standard <italic>PLoS Medicine</italic> editorial
+        policies. Articles should follow this general format: first set the scene and provide the
+        evidence for the intervention/project (why was it needed?); next, describe the
+        intervention/project itself; then discuss any results of the intervention/project and the
+        barriers and difficulties faced; finally, end by looking to the future (where is the
+        intervention/project heading next?).</p>
+      <p>We welcome contributions from a wide variety of authors and institutions, including health
+        activists, people affected by mental disorders, nongovernmental organizations, and
+        researchers. We are particularly interested in featuring case studies by groups or
+        individuals who rarely have a voice in medical journals.</p>
+    </sec>
+  </body>
+  <back>
+    <fn-group>
+      <fn fn-type="conflict">
+        <p>RJ, CL, and VP are guest editors of the <italic>PLoS Medicine</italic> series on global
+          mental health practice. RJ and VP are members of the <italic>PLoS Medicine</italic>
+          editorial board. The <italic>PLoS Medicine</italic> Editors' individual competing
+          interests are at <ext-link ext-link-type="uri"
+            xlink:href="http://www.plosmedicine.org/static/editorsInterests.action"
+            >http://www.plosmedicine.org/static/editorsInterests.action</ext-link>. PLoS is funded
+          partly through manuscript publication charges, but the <italic>PLoS Medicine</italic>
+          Editors are paid a fixed salary (their salary is not linked to the number of papers
+          published in the journal).</p>
+      </fn>
+      <fn fn-type="financial-disclosure">
+        <p>The <italic>PLoS Medicine</italic> Editors are each paid a salary by the Public Library
+          of Science, and they wrote this editorial during their salaried time. No other authors
+          received any funding for this work.</p>
+      </fn>
+      <fn fn-type="other">
+        <p>
+          <bold>Provenance:</bold> Not commissioned; not externally peer reviewed. </p>
+      </fn>
+    </fn-group>
+    <ref-list>
+      <title>References</title>
+      <ref id="pmed.1001226-Horton1">
+        <label>1</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Horton</surname>
+              <given-names>R</given-names>
+            </name>
+          </person-group>
+          <year>2007</year>
+          <article-title>Launching a new movement for mental health.</article-title>
+          <source>Lancet</source>
+          <volume>370</volume>
+          <fpage>806</fpage>
+          <comment>doi:<ext-link ext-link-type="uri"
+              xlink:href="http://dx.doi.org/10.1016/S0140-6736(07)61243-4"
+              >10.1016/S0140-6736(07)61243-4</ext-link></comment>
+          <pub-id pub-id-type="pmid">17804065</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="pmed.1001226-Patel1">
+        <label>2</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Patel</surname>
+              <given-names>V</given-names>
+            </name>
+            <name>
+              <surname>Boyce</surname>
+              <given-names>N</given-names>
+            </name>
+            <name>
+              <surname>Collins</surname>
+              <given-names>PY</given-names>
+            </name>
+            <name>
+              <surname>Saxena</surname>
+              <given-names>S</given-names>
+            </name>
+            <name>
+              <surname>Horton</surname>
+              <given-names>R</given-names>
+            </name>
+          </person-group>
+          <year>2011</year>
+          <article-title>A renewed agenda for global mental health.</article-title>
+          <source>Lancet</source>
+          <fpage>1441</fpage>
+          <lpage>1442</lpage>
+          <comment>doi:<ext-link ext-link-type="uri"
+              xlink:href="http://dx.doi.org/10.1016/S0140-6736(11)61385-8"
+              >10.1016/S0140-6736(11)61385-8</ext-link></comment>
+          <pub-id pub-id-type="pmid">22008422</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="pmed.1001226-Patel2">
+        <label>3</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Patel</surname>
+              <given-names>V</given-names>
+            </name>
+            <name>
+              <surname>Thornicroft</surname>
+              <given-names>G</given-names>
+            </name>
+          </person-group>
+          <year>2009</year>
+          <article-title>Packages of Care for Mental, Neurological, and Substance Use Disorders in
+            Low- and Middle-Income Countries: <italic>PLoS Medicine</italic> Series.</article-title>
+          <source>PLoS Med</source>
+          <volume>6</volume>
+          <issue>10</issue>
+          <fpage>e1000160</fpage>
+          <comment>doi:<ext-link ext-link-type="uri"
+              xlink:href="http://dx.doi.org/10.1371/journal.pmed.1000160"
+              >10.1371/journal.pmed.1000160</ext-link></comment>
+          <pub-id pub-id-type="pmid">19806180</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="pmed.1001226-Yasamy1">
+        <label>4</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Yasamy</surname>
+              <given-names>MT</given-names>
+            </name>
+            <name>
+              <surname>Maulik</surname>
+              <given-names>PK</given-names>
+            </name>
+            <name>
+              <surname>Tomlinson</surname>
+              <given-names>M</given-names>
+            </name>
+            <name>
+              <surname>Lund</surname>
+              <given-names>C</given-names>
+            </name>
+            <name>
+              <surname>Van Ommeren</surname>
+              <given-names>M</given-names>
+            </name>
+            <etal/>
+          </person-group>
+          <year>2011</year>
+          <article-title>Responsible Governance for Mental Health Research in Low Resource
+            Countries.</article-title>
+          <source>PLoS Med</source>
+          <volume>8</volume>
+          <issue>11</issue>
+          <fpage>e1001126</fpage>
+          <comment>doi:<ext-link ext-link-type="uri"
+              xlink:href="http://dx.doi.org/10.1371/journal.pmed.1001126"
+              >10.1371/journal.pmed.1001126</ext-link></comment>
+          <pub-id pub-id-type="pmid">22131909</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="pmed.1001226-Bass1">
+        <label>5</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Bass</surname>
+              <given-names>JK</given-names>
+            </name>
+            <name>
+              <surname>Bornemann</surname>
+              <given-names>TH</given-names>
+            </name>
+            <name>
+              <surname>Burkey</surname>
+              <given-names>M</given-names>
+            </name>
+            <name>
+              <surname>Chehil</surname>
+              <given-names>S</given-names>
+            </name>
+            <name>
+              <surname>Chen</surname>
+              <given-names>L</given-names>
+            </name>
+            <etal/>
+          </person-group>
+          <year>2012</year>
+          <article-title>A United Nations General Assembly Special Session for Mental, Neurological,
+            and Substance Use Disorders: <italic>The Time Has Come</italic>.</article-title>
+          <source>PLoS Med</source>
+          <volume>9</volume>
+          <issue>1</issue>
+          <fpage>e1001159</fpage>
+          <comment>doi:<ext-link ext-link-type="uri"
+              xlink:href="http://dx.doi.org/10.1371/journal.pmed.1001159"
+              >10.1371/journal.pmed.1001159</ext-link></comment>
+          <pub-id pub-id-type="pmid">22272191</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="pmed.1001226-Tomlinson1">
+        <label>6</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Tomlinson</surname>
+              <given-names>M</given-names>
+            </name>
+            <name>
+              <surname>Lund</surname>
+              <given-names>C</given-names>
+            </name>
+          </person-group>
+          <year>2012</year>
+          <article-title>Why Does Mental Health Not Get the Attention It Deserves? An Application of
+            the Shiffman and Smith Framework.</article-title>
+          <source>PLoS Med</source>
+          <volume>9</volume>
+          <issue>2</issue>
+          <fpage>e1001178</fpage>
+          <comment>doi:<ext-link ext-link-type="uri"
+              xlink:href="http://dx.doi.org/10.1371/journal.pmed.1001178"
+              >10.1371/journal.pmed.1001178</ext-link></comment>
+          <pub-id pub-id-type="pmid">22389632</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="pmed.1001226-Honikman1">
+        <label>7</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Honikman</surname>
+              <given-names>S</given-names>
+            </name>
+            <name>
+              <surname>van Heyningen</surname>
+              <given-names>T</given-names>
+            </name>
+            <name>
+              <surname>Field</surname>
+              <given-names>S</given-names>
+            </name>
+            <name>
+              <surname>Baron</surname>
+              <given-names>E</given-names>
+            </name>
+            <name>
+              <surname>Tomlinson</surname>
+              <given-names>M</given-names>
+            </name>
+          </person-group>
+          <year>2012</year>
+          <article-title>Stepped Care for Maternal Mental Health: A Case Study of the Perinatal
+            Mental Health Project in South Africa.</article-title>
+          <source>PLoS Med</source>
+          <volume>9</volume>
+          <issue>5</issue>
+          <fpage>e1001222</fpage>
+          <comment>doi:<ext-link ext-link-type="uri"
+              xlink:href="http://dx.doi.org/10.1371/journal.pmed.1001222"
+              >10.1371/journal.pmed.1001222</ext-link></comment>
+        </element-citation>
+      </ref>
+      <ref id="pmed.1001226-Ventevogel1">
+        <label>8</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Ventevogel</surname>
+              <given-names>P</given-names>
+            </name>
+            <name>
+              <surname>van de Put</surname>
+              <given-names>W</given-names>
+            </name>
+            <name>
+              <surname>Faiz</surname>
+              <given-names>H</given-names>
+            </name>
+            <name>
+              <surname>van Mierlo</surname>
+              <given-names>B</given-names>
+            </name>
+            <name>
+              <surname>Siddiqi</surname>
+              <given-names>M</given-names>
+            </name>
+            <etal/>
+          </person-group>
+          <year>2012</year>
+          <article-title>Improving Access to Mental Health Care and Psychosocial Support within a
+            Fragile Context: A Case Study from Afghanistan.</article-title>
+          <source>PLoS Med</source>
+          <volume>9</volume>
+          <issue>5</issue>
+          <fpage>e1001225</fpage>
+          <comment>doi:<ext-link ext-link-type="uri"
+              xlink:href="http://dx.doi.org/10.1371/journal.pmed.1001225"
+              >10.1371/journal.pmed.1001225</ext-link></comment>
+        </element-citation>
+      </ref>
+    </ref-list>
+  </back>
+</article>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="14.2">
+    <meta>
+        <filters directoryPatterns="" filePatterns="" positiveFilePatterns="" showHiddenFiles="false"/>
+        <options>
+            <serialized version="14.2" xml:space="preserve">
+                <map>
+                    <entry>
+                        <String>validation.scenarios</String>
+                        <validationScenario-array/>
+                    </entry>
+                </map>
+            </serialized>
+        </options>
+    </meta>
+    <projectTree name="OxygenProject.xpr">
+        <folder path="."/>
+        <folder path="../nxml-converter-webapp/"/>
+        <folder path="../pmc-lib-java/"/>
+        <folder path="../stcache/"/>
+        <folder path="../../../svn/toolkit/trunk/internal/pubmed/components/idxdbs/gws/1.0/scripts/"/>
+    </projectTree>
+</project>
