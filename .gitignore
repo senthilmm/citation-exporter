@@ -1,2 +1,4 @@
 /target
 dependency-reduced-pom.xml
+kitty-cache-read-only
+src/main/webapp/xslt/xml2json-2.0.xsl
