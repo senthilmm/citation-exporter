@@ -294,7 +294,7 @@ public class Request {
 
         // The array of gids (global ids) that we will be outputting
         String[] gids = idSet.getGids();
-        System.out.print("Order of entries going in: " + StringUtils.join(gids, ", "));
+        System.out.println("Order of entries going in: " + StringUtils.join(gids, ", "));
 
         // For each style
         for (int styleNum = 0; styleNum < styles.length; ++styleNum) {

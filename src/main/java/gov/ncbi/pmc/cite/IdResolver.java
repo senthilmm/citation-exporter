@@ -15,19 +15,29 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.spaceprogram.kittycache.KittyCache;
 
+/**
+ * This class resolves IDs entered by the user into canonical numeric PMC article instance
+ * IDs (aiid) or PubMed IDs (pmid).
+ *
+ * The central method here is resolveIds(), which returns an IdSet object.
+ *
+ * It calls the PMC ID converter backend if it gets any type of ID other than
+ * aiid or pmid.  It can be configured to cache those results.
+ */
 
 public class IdResolver {
-    // The keys here are the ID strings.  The sets of IDs for each type are assumed to
-    // be disjoint.
-    protected Map<String, String> idCache;
-    // FIXME: move to KittyCache:
-    KittyCache<String, String> kCache;
+    // The keys of the cache are just the ID strings, without the type. This means we're assuming
+    // that the sets of IDs for each type are disjoint.
+    // The values are numeric aiids.
+    KittyCache<String, Integer> aiidCache;
 
     ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
-    // FIXME:  these config variables should be in system properties
-    public boolean cacheIds = false;
-    public int cacheTimeToLive = 0;
+    // Set this with system property cache-aiids ("true" or "false")
+    public boolean cacheAiids;
+    // Set this with system property aiid-cache-ttl (integer in seconds)
+    public int aiidCacheTtl;
+
 
     // FIXME:  this should be in a system property
     public String idConverterUrl = "http://web.pubmedcentral.nih.gov/utils/idconv/v1.1/?showaiid=yes&format=json&";
@@ -44,16 +54,15 @@ public class IdResolver {
     };
 
     public IdResolver() {
-        if (cacheIds) {
-            idCache = new HashMap<String, String>();
-        }
-        // Create a new cache; 5000 is max number of objects
-        kCache = new KittyCache<String, String>(5000);
+        String cacheAiidProp = System.getProperty("cache-aiids");
+        cacheAiids = cacheAiidProp != null ? Boolean.parseBoolean(cacheAiidProp) : false;
+        String aiidCacheTtlProp = System.getProperty("aiid-cache-ttl");
+        aiidCacheTtl = aiidCacheTtlProp != null ? Integer.parseInt(aiidCacheTtlProp): 86400;
 
-        // Put an object into the cache
-        kCache.put("mykey", "Blah", 500); // 500 is time to live in seconds
-        // Get an object from the cache
-        System.out.println("kitty-cache result: " + kCache.get("mykey"));
+        if (cacheAiids) {
+            // Create a new cache; 50000 is max number of objects
+            aiidCache = new KittyCache<String, Integer>(50000);
+        }
     }
 
     /**
@@ -86,96 +95,98 @@ public class IdResolver {
     }
 
     /**
-     * Resolves a comma-delimited list of IDs into (for now) a list of PMC article instance IDs
-     * or PubMed IDs.
-     * @param _idType - this should come from the query-string parameter, and be one of the
-     *   canonical id types "pmcid", "pmid", "mid", "doi" or "aiid", or null if the parameter
-     *   was not given.
-     * @return and IdSet, whose idtype value is either "pmid" or "aiid".
+     * Resolves a comma-delimited list of IDs into a list of aiids or pmids.
+     *
+     * @param idStr - comma-delimited list of IDs, from the `ids` query string param.
+     * @param idType - optional ID type, from the `idtype` query-string parameter.  If given, it
+     *   must be "pmcid", "pmid", "mid", "doi" or "aiid".
+     * @return an IdSet object, whose idType value is either "pmid" or "aiid".
      */
     public IdSet resolveIds(String idStr, String idType)
         throws Exception
     {
-        String[] ids_array = idStr.split(",");
-        System.out.println("IdResolver.resolveIds: first id = '" + ids_array[0] + "', idType = " + idType);
+        String[] idsArray = idStr.split(",");
+        //System.out.println("IdResolver.resolveIds: first id = '" + idsArray[0] + "', idType = " + idType);
 
         // If idType wasn't specified, then we infer it from the form of the first id in the list
         if (idType == null) {
-            idType = getIdType(ids_array[0]);
+            idType = getIdType(idsArray[0]);
         }
-        System.out.println("  idType determined to be '" + idType + "'");
+        //System.out.println("  idType determined to be '" + idType + "'");
 
         // Check every ID in the list.  If it doesn't match the expected pattern, try to canonicalize
         // it
-        for (int i = 0; i < ids_array.length; ++i) {
-            String id = ids_array[i];
+        for (int i = 0; i < idsArray.length; ++i) {
+            String id = idsArray[i];
             if (!idTypeMatches(id, idType)) {
-                System.out.println("  id doesn't match the pattern for its type");
+                //System.out.println("  id doesn't match the pattern for its type");
                 if (idType.equals("pmcid") && id.matches("\\d+")) {
-                    ids_array[i] = "PMC" + id;
+                    idsArray[i] = "PMC" + id;
                 }
                 else {
                     throw new Exception("Unrecognizable id: '" + id + "'");
                 }
             }
             else {
-                System.out.println("  id matches the pattern for its type");
+                //System.out.println("  id matches the pattern for its type");
             }
         }
 
         // If the id type is pmid or aiid, then no resolving necessary
         if (idType.equals("pmid") || idType.equals("aiid")) {
-            IdSet idSet = new IdSet(idType, ids_array);
-            System.out.println("  no need to resolve anything.  Returning idSet");
+            IdSet idSet = new IdSet(idType, idsArray);
+            //System.out.println("  no need to resolve anything.  Returning idSet");
             return idSet;
         }
 
-        // Resolve IDs to pmids or aiids, if necessary.  We'll first aggregate the list of
+        // Resolve IDs to aiids.  We'll first aggregate the list of
         // IDs that need to be resolved, so we only have to make one backend call.  Go through
         // the list and, for each ID, if it is not in the cache, add it to the list.
-        Map<String, String> resolvedIds = new HashMap<String, String>();
+        Map<String, Integer> resolvedIds = new HashMap<String, Integer>();
         List<String> idsToResolve = new ArrayList<String>();
 
-        System.out.println("Going through the list of IDs");
-        for (String id: ids_array) {
-            if (cacheIds && idCache.containsKey(id)) {
-                resolvedIds.put(id, idCache.get(id));
+        for (String id: idsArray) {
+            Integer aiid = cacheAiids ? aiidCache.get(id) : null;
+            if (aiid != null) {
+                resolvedIds.put(id, aiid);
             }
             else {
                 idsToResolve.add(id);
             }
         }
 
-        System.out.println("Need to resolve " + idsToResolve.size() + " ids");
+        //System.out.println("Need to resolve " + idsToResolve.size() + " ids");
         if (idsToResolve.size() > 0) {
-            // Need to call the id resolver
-            String idsParam = StringUtils.join(idsToResolve, ",");
-            URL url = new URL(idConverterUrl + "idtype=" + idType + "&ids=" + idsParam);
-            System.out.println("About to invoke '" + url + "'");
+            // Call the id resolver
+            URL url = new URL(idConverterUrl + "idtype=" + idType + "&ids=" + StringUtils.join(idsToResolve, ","));
+            //System.out.println("About to invoke '" + url + "'");
+
             // FIXME:  we should use citeproc-java's json library, instead of Jackson,
             // since we already link to it.
             ObjectNode idconvResponse = (ObjectNode) mapper.readTree(url);
+            //System.out.println(idconvResponse);
+
             String status = idconvResponse.get("status").asText();
-            System.out.println(idconvResponse);
             if (!status.equals("ok"))
                 throw new IOException("Problem attempting to resolve ids from " + url);
+
             ArrayNode records = (ArrayNode) idconvResponse.get("records");
-            System.out.println(records);
             for (int rn = 0; rn < records.size(); ++rn) {
                 ObjectNode record = (ObjectNode) records.get(rn);
                 // FIXME:  Need some error handling
                 String origId = record.get(idType).asText();
-                String aiid = record.get("aiid").asText();
+                Integer aiid = record.get("aiid").asInt();
                 resolvedIds.put(origId, aiid);
-                if (cacheIds) {
-                    idCache.put(origId, aiid);
+                if (cacheAiids) {
+                    //System.out.println(">>> caching '" + origId + "': " + aiid);
+                    aiidCache.put(origId, aiid, aiidCacheTtl);
                 }
             }
         }
 
         IdSet idSet = new IdSet("aiid");
-        for (String id: ids_array) {
-            idSet.ids.add(resolvedIds.get(id));
+        for (String id: idsArray) {
+            idSet.ids.add(resolvedIds.get(id).toString());
         }
         return idSet;
     }
