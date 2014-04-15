@@ -6,6 +6,18 @@
             <serialized version="14.2" xml:space="preserve">
                 <map>
                     <entry>
+                        <String>editor.detect.indent.on.open</String>
+                        <Boolean>false</Boolean>
+                    </entry>
+                    <entry>
+                        <String>editor.hard.line.wrap</String>
+                        <Boolean>true</Boolean>
+                    </entry>
+                    <entry>
+                        <String>key.editor.format.option.pane.group</String>
+                        <Boolean>true</Boolean>
+                    </entry>
+                    <entry>
                         <String>validation.scenarios</String>
                         <validationScenario-array/>
                     </entry>

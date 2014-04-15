@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    version="2.0"
-    xmlns:xlink="http://www.w3.org/1999/xlink" 
-    xmlns:mml="http://www.w3.org/1998/Math/MathML" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    exclude-result-prefixes="xsl xlink mml xsi xs">
+                version="2.0"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlns:mml="http://www.w3.org/1998/Math/MathML"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                exclude-result-prefixes="xsl xlink mml xsi xs">
     
-    <xsl:import href="../lib/xml2json-2.0.xsl"/>
+    <xsl:import href="xml2json-2.0.xsl"/>
     <xsl:output method="text" encoding="UTF-8"/>
     
     <xsl:variable name='dtd-annotation'><foo/></xsl:variable>  <!-- needed by xml2json -->

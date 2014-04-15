@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    version="2.0"
-    xmlns:xlink="http://www.w3.org/1999/xlink" 
-    xmlns:mml="http://www.w3.org/1998/Math/MathML" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    exclude-result-prefixes="xsl xlink mml xsi xs">
-    
-    <xsl:import href="../lib/xml2json-2.0.xsl"/>
+                version="2.0"
+                xmlns:xlink="http://www.w3.org/1999/xlink" 
+                xmlns:mml="http://www.w3.org/1998/Math/MathML"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+                exclude-result-prefixes="xsl xlink mml xsi xs">
+
+    <xsl:import href="xml2json-2.0.xsl"/>
     <xsl:output method="text" encoding="UTF-8"/>
-    
-    <xsl:variable name='dtd-annotation'><foo/></xsl:variable>  <!-- needed by xml2json -->
-    <xsl:param name='pmcid'/>
-    <xsl:param name='nbkid'/>
-    <xsl:param name='pmid'/>
-    <xsl:param name='doi'/>
-    
-    <xsl:variable name='article-id'>
+
+    <xsl:variable name="dtd-annotation">
+        <foo/>
+    </xsl:variable>
+    <!-- needed by xml2json -->
+    <xsl:param name="pmcid"/>
+    <xsl:param name="nbkid"/>
+    <xsl:param name="pmid"/>
+    <xsl:param name="doi"/>
+
+    <xsl:variable name="article-id">
         <xsl:choose>
-            <xsl:when test='$pmcid'>
-                <xsl:value-of select='$pmcid'/>
+            <xsl:when test="$pmcid">
+                <xsl:value-of select="$pmcid"/>
             </xsl:when>
-            <xsl:when test='$nbkid'>
-                <xsl:value-of select='$nbkid'/>
+            <xsl:when test="$nbkid">
+                <xsl:value-of select="$nbkid"/>
             </xsl:when>
-            <xsl:when test='$pmid'>
-                <xsl:value-of select='$pmid'/>
+            <xsl:when test="$pmid">
+                <xsl:value-of select="$pmid"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="generate-id(/pm-record)"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
-    
+
     <!-- 
       Overrides the named template in xml2json.xsl.  This is the top-level template that will
       generate the intermediate XML format, before conversion into JSON.
@@ -40,7 +43,7 @@
     <xsl:template name="root">
         <xsl:apply-templates/>
     </xsl:template>
-    
+
 
     <xsl:template match="pm-record">
         <o>
@@ -69,7 +72,7 @@
             </s>
         </o>
     </xsl:template>
-    
+
     <xsl:template match="document-meta|source-meta" mode="title">
         <s k="title">
             <xsl:apply-templates select="title-group/title"/>
@@ -79,37 +82,42 @@
             </xsl:if>
         </s>
     </xsl:template>
-    
+
     <xsl:template match="title|subtitle">
         <xsl:apply-templates/>
     </xsl:template>
-    
+
     <xsl:template match="italic">
         <xsl:text>&lt;i></xsl:text>
-            <xsl:apply-templates/>
+        <xsl:apply-templates/>
         <xsl:text>&lt;/i></xsl:text>
     </xsl:template>
-    
+
     <xsl:template match="bold">
         <xsl:text>&lt;b></xsl:text>
-            <xsl:apply-templates/>
+        <xsl:apply-templates/>
         <xsl:text>&lt;/b></xsl:text>
     </xsl:template>
-    
+
     <xsl:template match="sub|sup">
-        <xsl:text>&lt;</xsl:text><xsl:value-of select="local-name(.)"/><xsl:text>></xsl:text>
-            <xsl:apply-templates/>
-        <xsl:text>&lt;/</xsl:text><xsl:value-of select="local-name(.)"/><xsl:text>></xsl:text>
+        <xsl:text>&lt;</xsl:text>
+        <xsl:value-of select="local-name(.)"/>
+        <xsl:text>></xsl:text>
+        <xsl:apply-templates/>
+        <xsl:text>&lt;/</xsl:text>
+        <xsl:value-of select="local-name(.)"/>
+        <xsl:text>></xsl:text>
     </xsl:template>
-    
-    <xsl:template match="*[ancestor::title or ancestor::subtitle][not(self::italic or self::bold or self::sub or self::sup)]">
+
+    <xsl:template
+        match="*[ancestor::title or ancestor::subtitle][not(self::italic or self::bold or self::sub or self::sup)]">
         <xsl:apply-templates/>
     </xsl:template>
-    
+
     <xsl:template match="text()[ancestor::title or ancestor::subtitle]">
         <xsl:value-of select="."/>
     </xsl:template>
-    
+
     <xsl:template match="contrib-group">
         <xsl:if test="contrib[@contrib-type='author']">
             <a k="author">
@@ -130,13 +138,13 @@
             </a>
         </xsl:if>
     </xsl:template>
-    
+
     <xsl:template match="string-name|collab|on-behalf-of">
         <s k="literal">
             <xsl:value-of select="."/>
         </s>
     </xsl:template>
-    
+
     <xsl:template match="name/*">
         <s>
             <xsl:attribute name="k">
@@ -148,8 +156,8 @@
             <xsl:value-of select="."/>
         </s>
     </xsl:template>
-    
-    <xsl:template match="source-meta" mode="container">   
+
+    <xsl:template match="source-meta" mode="container">
         <xsl:choose>
             <xsl:when test="object-id[@object-id-type='nlm-ta']">
                 <s k="container-title">
@@ -180,7 +188,7 @@
             </s>
         </xsl:if>
     </xsl:template>
-    
+
     <xsl:template match="document-meta|source-meta">
         <xsl:choose>
             <xsl:when test="pub-date[@pub-type='ppub' or @pub-type='epub-ppub']">
@@ -198,7 +206,7 @@
         <xsl:apply-templates select="issue"/>
         <xsl:call-template name="object-ids"/>
     </xsl:template>
-    
+
     <xsl:template match="pub-date">
         <o k="issued">
             <a k="date-parts">
@@ -210,13 +218,13 @@
             </a>
         </o>
     </xsl:template>
-    
+
     <xsl:template match="year|month|day">
         <n>
             <xsl:value-of select="."/>
         </n>
     </xsl:template>
-    
+
     <xsl:template match="fpage">
         <s k="page">
             <xsl:value-of select="."/>
@@ -226,7 +234,7 @@
             </xsl:if>
         </s>
     </xsl:template>
-    
+
     <xsl:template match="volume|issue">
         <s>
             <xsl:attribute name="k">
@@ -235,7 +243,7 @@
             <xsl:value-of select="."/>
         </s>
     </xsl:template>
-    
+
     <xsl:template name="object-ids">
         <xsl:choose>
             <xsl:when test="$pmid">
@@ -253,7 +261,7 @@
                     <xsl:value-of select="$pmcid"/>
                 </s>
             </xsl:when>
-            <xsl:otherwise>                
+            <xsl:otherwise>
                 <xsl:apply-templates select="object-id[@pub-id-type='pmcid']"/>
             </xsl:otherwise>
         </xsl:choose>
@@ -275,14 +283,14 @@
     </xsl:template>
 
     <xsl:template match="object-id">
-        <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'" />
-        <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
+        <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'"/>
+        <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
         <s>
             <xsl:attribute name="k">
-               <xsl:value-of select="translate(@pub-id-type, $lowercase, $uppercase)"/>
+                <xsl:value-of select="translate(@pub-id-type, $lowercase, $uppercase)"/>
             </xsl:attribute>
             <xsl:value-of select="."/>
         </s>
     </xsl:template>
-    
+
 </xsl:stylesheet>
