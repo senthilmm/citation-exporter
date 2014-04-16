@@ -26,8 +26,8 @@ public class MainServlet extends HttpServlet
 {
     public ServletContext context;
     public IdResolver idResolver;
-    public ItemSource itemSource;
     public TransformEngine transformEngine;
+    public ItemSource itemSource;
 
     // FIXME: If we want to do concurrent requests, then we'll need to make
     // caching these a little more sophisticated, with a pool of more than one for any given style.
@@ -43,24 +43,30 @@ public class MainServlet extends HttpServlet
             System.out.println("MainServlet started.");
             context = getServletContext();
             idResolver = new IdResolver();
+            transformEngine = new TransformEngine(context.getResource("/xslt/"));
 
             // Controlled by system property item_provider (default is "test")
             String itemSourceProp = System.getProperty("item_source");
             String itemSourceStr = itemSourceProp != null ? itemSourceProp : "test";
             itemSource = itemSourceStr.equals("test") ?
-                new TestItemSource(context.getResource("/test/")) :
-                new BackendItemSource(itemSourceStr);
+                new TestItemSource(context.getResource("/test/"), transformEngine) :
+                new BackendItemSource(itemSourceStr, transformEngine);
 
-            transformEngine = new TransformEngine(context.getResource("/xslt/"));
             citationProcessors = new HashMap<String, CitationProcessor>();
             dbf = DocumentBuilderFactory.newInstance();
         }
-
-        catch (MalformedURLException e) {
+        catch (IOException e) {
+            e.printStackTrace();
             System.out.println("Sorry!");  // Not much we can do.
             System.exit(1);
         }
-
+      /*
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+            System.out.println("Sorry!");  // Not much we can do.
+            System.exit(1);
+        }
+      */
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

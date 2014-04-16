@@ -1,15 +1,13 @@
 package gov.ncbi.pmc.cite;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Source;
@@ -20,30 +18,76 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.w3c.dom.Document;
-
 import net.sf.saxon.Configuration;
 import net.sf.saxon.Controller;
 import net.sf.saxon.PreparedStylesheet;
 import net.sf.saxon.TransformerFactoryImpl;
-import de.undercouch.citeproc.csl.CSLItemData;
 
+import org.w3c.dom.Document;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+/**
+ * An object of this class handles XSLT transformations.  There is one of
+ * these for the servlet, shared among all the Requests.
+ */
 public class TransformEngine {
     public TransformerFactory tf;
     protected Map<String, PreparedStylesheet> stylesheets;
     URL xsltBaseUrl;
+    Map<String, TransformDescriptor> transforms;
 
-    public TransformEngine(URL _xsltBaseUrl) {
+    public TransformEngine(URL _xsltBaseUrl)
+        throws IOException
+    {
         Configuration config = new Configuration();
         tf = new TransformerFactoryImpl(config);
         stylesheets = new HashMap<String, PreparedStylesheet>();
         xsltBaseUrl = _xsltBaseUrl;
+
+        loadTransforms();
+        System.out.println("transforms.size() = " + transforms.size());
     }
 
-    public String transform(Document src, String dest_format)
+    /**
+     * Load the conversions.json file, which tells us what conversions are possible,
+     * and the output formats of each.
+     */
+    private void loadTransforms()
         throws IOException
     {
-        PreparedStylesheet xslt = getStylesheet(dest_format);
+        URL transformsUrl = new URL(xsltBaseUrl, "transforms.json");
+        ObjectMapper m = new ObjectMapper();
+
+        List<TransformDescriptor> transformsList;
+        try {
+            transformsList =
+                m.readValue(transformsUrl.openStream(), new TypeReference<List<TransformDescriptor>>() {});
+        }
+        catch (JsonProcessingException e) {
+            throw new IOException("Problem reading transforms.json: " + e);
+        }
+        // Convert the List to a HashMap
+        transforms = new HashMap<String, TransformDescriptor>();
+        for (TransformDescriptor td: transformsList) {
+            transforms.put(td.name, td);
+        }
+
+    }
+
+    /**
+     * Transform an XML document according to the indicated transformation.
+     */
+    public String doTransform(Document src, String transform)
+        throws IOException
+    {
+        TransformDescriptor td = transforms.get(transform);
+
+        PreparedStylesheet xslt = getStylesheet(td);
         //Source sourceInput = new StreamSource(new ByteArrayInputStream(xml));
         Writer resultWriter = new StringWriter();
         StreamResult result = new StreamResult(resultWriter);
@@ -59,14 +103,14 @@ public class TransformEngine {
         return resultWriter.toString();
     }
 
-    private PreparedStylesheet getStylesheet(String dest_format)
+    private PreparedStylesheet getStylesheet(TransformDescriptor td)
         throws IOException
     {
-        PreparedStylesheet ps = stylesheets.get(dest_format);
+        String tname = td.name;
+        PreparedStylesheet ps = stylesheets.get(tname);
         if (ps == null) {
             // Read and prepare an XSLT stylesheet
-            //URL xslt_url = new URL("file:///home/maloneyc/git/Klortho/citeproc-java-demo/src/test/identity.xsl");
-            URL xsltUrl = new URL(xsltBaseUrl, dest_format + ".xsl");
+            URL xsltUrl = new URL(xsltBaseUrl, tname + ".xsl");
             System.out.println("xslt_url = " + xsltUrl);
 
             Source xsltSource = null;

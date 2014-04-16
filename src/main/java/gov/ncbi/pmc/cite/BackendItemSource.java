@@ -32,8 +32,8 @@ import de.undercouch.citeproc.helper.json.JsonParser;
 public class BackendItemSource extends ItemSource {
     public String backend_url;
 
-    public BackendItemSource(String _backend_url) {
-        super();
+    public BackendItemSource(String _backend_url, TransformEngine transformEngine) {
+        super(transformEngine);
         backend_url = _backend_url;
     }
 
@@ -88,7 +88,7 @@ public class BackendItemSource extends ItemSource {
     }
 
     // FIXME:  this is a stub
-    public Map<String, Object> retrieveItemJson(String idType, String id)
+    public Map<String, Object> fetchItemJson(String idType, String id)
         throws IOException
     {
         return new JsonParser(

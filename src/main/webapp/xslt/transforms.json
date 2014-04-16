@@ -1,0 +1,22 @@
+[
+  {
+    "name": "identity",
+    "outputformat": "application/xml"
+  },
+  {
+    "name": "nxml2json",
+    "outputformat": "application/json"
+  },
+  {
+    "name": "pmfu2json",
+    "outputformat": "application/json"
+  },
+  {
+    "name": "pmfu2nbib",
+    "outputformat": "application/nbib"
+  },
+  {
+    "name": "pmfu2ris",
+    "outputformat": "application/x-research-info-systems"
+  }
+]

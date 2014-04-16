@@ -23,8 +23,8 @@ import de.undercouch.citeproc.helper.json.JsonParser;
 public class TestItemSource extends ItemSource {
     private URL base_url;
 
-    public TestItemSource(URL _base_url) {
-        super();
+    public TestItemSource(URL _base_url, TransformEngine transformEngine) {
+        super(transformEngine);
         base_url = _base_url;
         System.out.println("TestCiteprocItemProvider: setting base_url to " + base_url);
     }
@@ -46,7 +46,7 @@ public class TestItemSource extends ItemSource {
         }
     }
 
-    public Map<String, Object> retrieveItemJson(String idType, String id)
+    public Map<String, Object> fetchItemJson(String idType, String id)
         throws IOException
     {
         return new JsonParser(

@@ -1,20 +1,15 @@
 package gov.ncbi.pmc.cite;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -23,17 +18,10 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
-import de.undercouch.citeproc.CSL;
-import de.undercouch.citeproc.helper.json.JsonBuilder;
-import de.undercouch.citeproc.helper.json.JsonObject;
-import de.undercouch.citeproc.helper.json.MapJsonBuilder;
-import de.undercouch.citeproc.helper.json.MapJsonBuilderFactory;
-import de.undercouch.citeproc.helper.json.StringJsonBuilderFactory;
 import de.undercouch.citeproc.output.Bibliography;
 
 /**
@@ -237,13 +225,13 @@ public class Request {
 
         if (numIds == 1) {
             Document d = itemSource.retrieveItemPmfu(idType, idSet.getId(0));
-            page.print(transformEngine.transform(d, outputformat));
+            page.print(transformEngine.doTransform(d, outputformat));
         }
         else {
             for (int i = 0; i < numIds; ++i) {
                 if (i != 0) { page.print("\n"); }
                 Document d = itemSource.retrieveItemPmfu(idType, idSet.getId(i));
-                page.print(transformEngine.transform(d, outputformat));
+                page.print(transformEngine.doTransform(d, outputformat));
             }
         }
     }
