@@ -204,7 +204,9 @@
         <xsl:apply-templates select="fpage"/>
         <xsl:apply-templates select="volume"/>
         <xsl:apply-templates select="issue"/>
-        <xsl:call-template name="object-ids"/>
+        <xsl:if test="not(following-sibling::document-meta)">
+            <xsl:call-template name="object-ids"/>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template match="pub-date">
