@@ -22,6 +22,8 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import de.undercouch.citeproc.csl.CSLItemData;
 import de.undercouch.citeproc.helper.json.JsonLexer;
 import de.undercouch.citeproc.helper.json.JsonParser;
@@ -32,8 +34,8 @@ import de.undercouch.citeproc.helper.json.JsonParser;
 public class BackendItemSource extends ItemSource {
     public String backend_url;
 
-    public BackendItemSource(String _backend_url, TransformEngine transformEngine) {
-        super(transformEngine);
+    public BackendItemSource(String _backend_url, MainServlet servlet) {
+        super(servlet);
         backend_url = _backend_url;
     }
 
@@ -88,16 +90,10 @@ public class BackendItemSource extends ItemSource {
     }
 
     // FIXME:  this is a stub
-    public Map<String, Object> fetchItemJson(String idType, String id)
+    protected JsonNode fetchItemJson(String idType, String id)
         throws IOException
     {
-        return new JsonParser(
-            new JsonLexer(
-                new InputStreamReader(
-                    new URL(backend_url + idType + "/" + id + ".json").openStream()
-                )
-            )
-        ).parseObject();
+        return null;
     }
 
 }

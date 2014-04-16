@@ -8,10 +8,13 @@ import java.net.URL;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import de.undercouch.citeproc.helper.json.JsonLexer;
 import de.undercouch.citeproc.helper.json.JsonParser;
@@ -23,8 +26,8 @@ import de.undercouch.citeproc.helper.json.JsonParser;
 public class TestItemSource extends ItemSource {
     private URL base_url;
 
-    public TestItemSource(URL _base_url, TransformEngine transformEngine) {
-        super(transformEngine);
+    public TestItemSource(URL _base_url, MainServlet servlet) {
+        super(servlet);
         base_url = _base_url;
         System.out.println("TestCiteprocItemProvider: setting base_url to " + base_url);
     }
@@ -46,17 +49,15 @@ public class TestItemSource extends ItemSource {
         }
     }
 
-    public Map<String, Object> fetchItemJson(String idType, String id)
-        throws IOException
+    protected JsonNode fetchItemJson(String idType, String id)
+            throws IOException
     {
-        return new JsonParser(
-            new JsonLexer(
-                new InputStreamReader(
-                    new URL(base_url, idType + "/" + id + ".json").openStream()
-                )
-            )
-        ).parseObject();
+        return servlet.mapper.readTree(new URL(base_url, idType + "/" + id + ".json"));
     }
+
+
+
+
 
     /**
      * Reads a file from the test directory as a String.  Not used now, but keeping this

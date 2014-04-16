@@ -36,18 +36,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * these for the servlet, shared among all the Requests.
  */
 public class TransformEngine {
-    public TransformerFactory tf;
-    protected Map<String, PreparedStylesheet> stylesheets;
     URL xsltBaseUrl;
+    ObjectMapper mapper;
+    public TransformerFactory transformerFactory;
+    protected Map<String, PreparedStylesheet> stylesheets;
     Map<String, TransformDescriptor> transforms;
 
-    public TransformEngine(URL _xsltBaseUrl)
+    public TransformEngine(URL xsltBaseUrl, ObjectMapper mapper)
         throws IOException
     {
+        this.xsltBaseUrl = xsltBaseUrl;
+        this.mapper = mapper;
         Configuration config = new Configuration();
-        tf = new TransformerFactoryImpl(config);
+        transformerFactory = new TransformerFactoryImpl(config);
+
+        // We need our own URI resolver to find imported stylesheets
+        transformerFactory.setURIResolver(new CiteUriResolver(xsltBaseUrl));
+
+
         stylesheets = new HashMap<String, PreparedStylesheet>();
-        xsltBaseUrl = _xsltBaseUrl;
 
         loadTransforms();
         System.out.println("transforms.size() = " + transforms.size());
@@ -111,6 +118,7 @@ public class TransformEngine {
         if (ps == null) {
             // Read and prepare an XSLT stylesheet
             URL xsltUrl = new URL(xsltBaseUrl, tname + ".xsl");
+            //URL xsltUrl = new URL(xsltBaseUrl, "identity.xsl");
             System.out.println("xslt_url = " + xsltUrl);
 
             Source xsltSource = null;
@@ -124,7 +132,7 @@ public class TransformEngine {
                 throw new IOException("Exception opening xslt StreamSource: " + e);
             }
             try {
-                ps = (PreparedStylesheet) tf.newTemplates(xsltSource);
+                ps = (PreparedStylesheet) transformerFactory.newTemplates(xsltSource);
             }
             catch (TransformerConfigurationException e) {
                 throw new IOException("Unable to compile xslt: " + e);

@@ -19,6 +19,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.io.IOUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import de.undercouch.citeproc.CSL;
 import de.undercouch.citeproc.ItemDataProvider;
 
@@ -27,6 +29,7 @@ public class MainServlet extends HttpServlet
 {
     public ServletContext context;
     public IdResolver idResolver;
+    public ObjectMapper mapper;
     public TransformEngine transformEngine;
     public ItemSource itemSource;
 
@@ -44,14 +47,15 @@ public class MainServlet extends HttpServlet
             System.out.println("MainServlet started.");
             context = getServletContext();
             idResolver = new IdResolver();
-            transformEngine = new TransformEngine(context.getResource("/xslt/"));
+            mapper = new ObjectMapper();
+            transformEngine = new TransformEngine(context.getResource("/xslt/"), mapper);
 
             // Controlled by system property item_provider (default is "test")
             String itemSourceProp = System.getProperty("item_source");
             String itemSourceStr = itemSourceProp != null ? itemSourceProp : "test";
             itemSource = itemSourceStr.equals("test") ?
-                new TestItemSource(context.getResource("/test/"), transformEngine) :
-                new BackendItemSource(itemSourceStr, transformEngine);
+                new TestItemSource(context.getResource("/test/"), this) :
+                new BackendItemSource(itemSourceStr, this);
 
             citationProcessors = new HashMap<String, CitationProcessor>();
             dbf = DocumentBuilderFactory.newInstance();
@@ -95,7 +99,7 @@ public class MainServlet extends HttpServlet
         r.doGet();
         engaged = false;
     }
-    
+
     /**
      * Respond to HTTP OPTIONS requests, with CORS headers.  See
      * https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS#Preflighted_requests

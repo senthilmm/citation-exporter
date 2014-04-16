@@ -2,13 +2,18 @@ package gov.ncbi.pmc.cite;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import de.undercouch.citeproc.CSL;
 import de.undercouch.citeproc.ItemDataProvider;
 import de.undercouch.citeproc.csl.CSLItemData;
+import de.undercouch.citeproc.helper.json.JsonLexer;
+import de.undercouch.citeproc.helper.json.JsonParser;
 import de.undercouch.citeproc.output.Bibliography;
 
 /**
@@ -74,7 +79,17 @@ public class CitationProcessor {
                 String id = idSet.getId(i);
                 String tid = idSet.getTid(i);
 
-                Map<String, Object> itemJsonMap = itemSource.retrieveItemJson(idType, id);
+                // FIXME:  Unfortunately, we have to get the JSON as a Jackson object, then serialize
+                // it and parse it back in as a citeproc-java object.  See this question:
+                // https://github.com/michel-kraemer/citeproc-java/issues/9
+                Map<String, Object> itemJsonMap =  new JsonParser(
+                    new JsonLexer(new StringReader(
+                        itemSource.getMapper().writeValueAsString(
+                            itemSource.retrieveItemJson(idType, id)
+                        )
+                    ))
+                ).parseObject();
+
                 // Add the id key-value pair
                 itemJsonMap.put("id", idSet.getTid(i));
                 CSLItemData item = CSLItemData.fromJson(itemJsonMap);

@@ -22,6 +22,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import de.undercouch.citeproc.output.Bibliography;
 
 /**
@@ -251,8 +254,10 @@ public class Request {
         if (numIds == 1) {
             // FIXME:  need to figure out how to serialize the JSON properly.  Opened this
             // GitHub issue: https://github.com/michel-kraemer/citeproc-java/issues/9
-            Map<String, Object> jsonObjectMap = itemSource.retrieveItemJson(idType, idSet.getId(0));
-            page.print(jsonObjectMap);
+            //Map<String, Object> jsonObjectMap = itemSource.retrieveItemJson(idType, idSet.getId(0));
+            //page.print(jsonObjectMap);
+            JsonNode jn = itemSource.retrieveItemJson(idType, idSet.getId(0));
+            page.print(servlet.mapper.writeValueAsString(jn));
         }
         else {
             page.print("[");
