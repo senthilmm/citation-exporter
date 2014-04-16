@@ -9,8 +9,8 @@ import java.util.ArrayList;
  * be the same type.
  */
 public class IdSet {
-    public String idType;
-    public List<String> ids;
+    private String idType;
+    private List<String> ids;
 
     public IdSet(String _idType) {
         idType = _idType;
@@ -29,21 +29,38 @@ public class IdSet {
         return ids.size();
     }
 
-    public String get(int n) {
+    public String getType() {
+        return idType;
+    }
+
+    public String getId(int n) {
         return ids.get(n);
     }
 
-    public String getGid(int n) {
-        return idType + "-" + ids.get(n);
+    public void addId(String id) {
+        ids.add(id);
     }
 
-    public String[] getGids() {
-        String[] gids = new String[size()];
+    public String getTid(int n) {
+        return tid(idType, ids.get(n));
+    }
+
+    public String[] getTids() {
+        String[] tids = new String[size()];
         int numIds = size();
         for (int i = 0; i < numIds; ++i) {
-            gids[i] = getGid(i);
+            tids[i] = getTid(i);
         }
-        return gids;
+        return tids;
     }
+
+    /**
+     * Utility function to convert an idType-id combination into a canonical, globally unique
+     * form.
+     */
+    public static String tid(String idType, String id) {
+        return idType + "-" + id;
+    }
+
 
 }

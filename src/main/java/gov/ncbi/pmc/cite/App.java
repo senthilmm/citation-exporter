@@ -17,8 +17,9 @@ public class App
     {
         System.out.println( "Hello World!" );
 
+      /*
         try {
-            CSL citeproc = new CSL(new TestItemProvider(new URL("./")), "ieee");
+            CSL citeproc = new CSL(new TestItemSource(new URL("./")), "ieee");
             citeproc.setOutputFormat("html");
 
             citeproc.registerCitationItems("ID-1", "ID-2", "ID-3");
@@ -37,6 +38,6 @@ public class App
         catch(Exception e) {
             System.err.println("Caught exception: " + e);
         }
-
+      */
     }
 }

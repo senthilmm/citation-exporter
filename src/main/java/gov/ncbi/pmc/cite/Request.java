@@ -8,6 +8,7 @@ import java.io.StringWriter;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,11 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 import de.undercouch.citeproc.CSL;
+import de.undercouch.citeproc.helper.json.JsonBuilder;
+import de.undercouch.citeproc.helper.json.JsonObject;
+import de.undercouch.citeproc.helper.json.MapJsonBuilder;
+import de.undercouch.citeproc.helper.json.MapJsonBuilderFactory;
+import de.undercouch.citeproc.helper.json.StringJsonBuilderFactory;
 import de.undercouch.citeproc.output.Bibliography;
 
 /**
@@ -37,41 +43,46 @@ public class Request {
     public MainServlet servlet;
     public HttpServletRequest req;
     public HttpServletResponse resp;
-    public CSL citeproc;
     public PrintWriter page;
-    public ItemProvider itemProvider;
 
     // Data from query string params
-    //public String[] ids;
     public IdSet idSet;
     public String outputformat;
     public String responseformat;
     public String[] styles = {"modern-language-association"};  // default style
-    public DocumentBuilder documentBuilder; // one document builder shared within this request thread
 
+    // One document builder shared within this request thread.  This is created on-demand by
+    // getDocumentBuilder().
+    public DocumentBuilder documentBuilder;
+
+    /**
+     * Constructor.
+     */
     public Request(MainServlet _servlet, HttpServletRequest _req, HttpServletResponse _resp)
     {
         servlet = _servlet;
         req = _req;
         resp = _resp;
-        itemProvider = servlet.itemProvider;
 
         // Set CORS header right away.
         resp.setHeader("Access-Control-Allow-Origin", "*");
     }
 
-    public void doRequest()
+    /**
+     * Process a GET request.
+     */
+    public void doGet()
         throws ServletException, IOException
     {
         // First attempt to resolve the IDs into an IdSet, which contains the id type and
         // each of the IDs in a canonicalized form.
-        String ids_param = req.getParameter("ids");
-        if (ids_param == null) {
+        String idsParam = req.getParameter("ids");
+        if (idsParam == null) {
             errorResponse("Need to specify at least one ID");
             return;
         }
         try {
-            idSet = servlet.idResolver.resolveIds(ids_param, req.getParameter("idtype"));
+            idSet = servlet.idResolver.resolveIds(idsParam, req.getParameter("idtype"));
         }
         catch (Exception e) {
             errorResponse("Unable to resolve ids: " + e);
@@ -100,14 +111,10 @@ public class Request {
 
         try {
             if (outputformat.equals("html") || outputformat.equals("rtf")) {
-                // Pre-fetch the JSON objects from the IDs that we're interested in.
-                // This allows us to respond with an informative error message if there's a problem.
-                prefetchCsl();
                 styledCitation();
             }
 
             else if (outputformat.equals("citeproc") && responseformat.equals("json")) {
-                prefetchCsl();
                 citeprocJson();
             }
 
@@ -132,6 +139,9 @@ public class Request {
         }
     }
 
+    /**
+     * Respond to the client with a PMFU document.
+     */
     // FIXME:  I'm trying to do this the "right" way, using Java's JAXP stuff, but right now
     // there's way too much converting to strings, etc.  This needs to be streamlined.
     public void pmfuXml()
@@ -142,11 +152,12 @@ public class Request {
         resp.setStatus(HttpServletResponse.SC_OK);
         page = resp.getWriter();
 
-        String idType = idSet.idType;
-        List<String> ids = idSet.ids;
+        ItemSource itemSource = servlet.itemSource;
+        String idType = idSet.getType();
+        int numIds = idSet.size();
 
-        if (ids.size() == 1) {
-            Document d = itemProvider.retrieveItemPmfu(idType, ids.get(0));
+        if (numIds == 1) {
+            Document d = itemSource.retrieveItemPmfu(idType, idSet.getId(0));
             page.print(serializeXml(d));
         }
         else {
@@ -156,8 +167,8 @@ public class Request {
             Element root = d.createElement("pm-records");
             d.appendChild(root);
 
-            for (int i = 0; i < ids.size(); ++i) {
-                Document record = itemProvider.retrieveItemPmfu(idType, ids.get(i));
+            for (int i = 0; i < numIds; ++i) {
+                Document record = itemSource.retrieveItemPmfu(idType, idSet.getId(i));
                 // Append the root element of this record's XML document as the last child of
                 // the root element of our aggregate document.
                 root.appendChild(d.importNode(record.getDocumentElement(), true));
@@ -169,7 +180,7 @@ public class Request {
     /**
      * Utility function to serialize an XML object for output back to the client.
      */
-    public String serializeXml(Document doc, boolean omitXmlDecl)
+    public static String serializeXml(Document doc, boolean omitXmlDecl)
     {
         try
         {
@@ -196,10 +207,14 @@ public class Request {
     /**
      * Same as above, but omitXmlDecl defaults to false
      */
-    public String serializeXml(Document doc) {
+    public static String serializeXml(Document doc) {
         return serializeXml(doc, false);
     }
 
+    /**
+     * Respond to the client with a document that is the result of running the PMFU
+     * through an XSLT transformation.
+     */
     public void transformXml(String outputformat)
         throws IOException
     {
@@ -215,36 +230,21 @@ public class Request {
         resp.setStatus(HttpServletResponse.SC_OK);
         page = resp.getWriter();
 
-        String idType = idSet.idType;
-        List<String> ids = idSet.ids;
+        String idType = idSet.getType();
+        int numIds = idSet.size();
+        ItemSource itemSource = servlet.itemSource;
+        TransformEngine transformEngine = servlet.transformEngine;
 
-        if (ids.size() == 1) {
-            Document d = itemProvider.retrieveItemPmfu("aiid", ids.get(0));
-            page.print(servlet.transformEngine.transform(d, outputformat));
+        if (numIds == 1) {
+            Document d = itemSource.retrieveItemPmfu(idType, idSet.getId(0));
+            page.print(transformEngine.transform(d, outputformat));
         }
         else {
-            for (int i = 0; i < ids.size(); ++i) {
+            for (int i = 0; i < numIds; ++i) {
                 if (i != 0) { page.print("\n"); }
-                Document d = itemProvider.retrieveItemPmfu("aiid", ids.get(i));
-                page.print(servlet.transformEngine.transform(d, outputformat));
+                Document d = itemSource.retrieveItemPmfu(idType, idSet.getId(i));
+                page.print(transformEngine.transform(d, outputformat));
             }
-        }
-    }
-
-
-
-
-
-    public void prefetchCsl()
-        throws IOException
-    {
-        try {
-            for (String id: idSet.ids) {
-                itemProvider.prefetchCslItem(idSet.idType, id);
-            }
-        }
-        catch (IOException e) {
-            throw new IOException("Problem prefetching item data: " + e.getMessage());
         }
     }
 
@@ -256,21 +256,29 @@ public class Request {
         resp.setStatus(HttpServletResponse.SC_OK);
         page = resp.getWriter();
 
-        String idType = idSet.idType;
+        String idType = idSet.getType();
         int numIds = idSet.size();
+        ItemSource itemSource = servlet.itemSource;
+
         if (numIds == 1) {
-            page.print(itemProvider.retrieveItemJson(idType, idSet.get(0)));
+            // FIXME:  need to figure out how to serialize the JSON properly.  Opened this
+            // GitHub issue: https://github.com/michel-kraemer/citeproc-java/issues/9
+            Map<String, Object> jsonObjectMap = itemSource.retrieveItemJson(idType, idSet.getId(0));
+            page.print(jsonObjectMap);
         }
         else {
             page.print("[");
             for (int i = 0; i < numIds; ++i) {
                 if (i != 0) { page.print(","); }
-                page.print(itemProvider.retrieveItemJson(idType, idSet.get(i)));
+                page.print(itemSource.retrieveItemJson(idType, idSet.getId(i)));
             }
             page.print("]");
         }
     }
 
+    /**
+     * Respond to the client with a styled citation.
+     */
     public void styledCitation()
         throws ServletException, IOException
     {
@@ -279,68 +287,56 @@ public class Request {
             System.out.println("styles = " + styles);
             styles = styles_param.split(",");
         }
+
+        String idType = idSet.getType();
         int numIds = idSet.size();
         if (numIds > 1 && styles.length > 1) {
             errorResponse("Sorry, I can do multiple records (ids) or multiple styles, but not both.");
             return;
         }
 
-        System.out.println("styles = " + styles);
-
         // Create a new XML document which will wrap the individual bibliographies.
         Document entriesDoc = getDocumentBuilder().newDocument();
         Element entriesDiv = entriesDoc.createElement("div");
         entriesDoc.appendChild(entriesDiv);
 
-        // The array of gids (global ids) that we will be outputting
-        String[] gids = idSet.getGids();
-        System.out.println("Order of entries going in: " + StringUtils.join(gids, ", "));
+        // The array of tids (type-and-ids) that we will be outputting
+        String[] tids = idSet.getTids();
+        //System.out.println("Order of entries going in: " + StringUtils.join(tids, ", "));
 
         // For each style
         for (int styleNum = 0; styleNum < styles.length; ++styleNum) {
             String style = styles[styleNum];
-            CSL citeproc = null;
-            try {
-                citeproc = servlet.getCiteproc(style);
-            }
-            catch(FileNotFoundException e) {
-                errorResponse("Style not found: " + e);
-                return;
-            }
 
             // Generate the bibliography (array of styled citations).  Note that the order that
             // comes out might not be the same as the order that goes in, so we'll put them back
             // in the right order.
             Bibliography bibl = null;
             try {
-                citeproc.setOutputFormat("html");
-                citeproc.registerCitationItems(idSet.getGids());
-                bibl = citeproc.makeBibliography();
+                bibl = servlet.getCitationProcessor(style).makeBibliography(idSet, "html");
             }
             catch(Exception e) {
-                System.err.println("Citation processor exception: " + e);
-            }
-            if (bibl == null) {
-                errorResponse("Bad request, problem with citation processor");
+                errorResponse("Citation processor exception: " + e);
                 return;
             }
 
             // Parse the output entries, and stick them into the output document
             try {
                 String entryIds[] = bibl.getEntryIds();
-                System.out.println("Order of entries coming out: " + StringUtils.join(entryIds, ", "));
+                //System.out.println("Order of entries coming out: " + StringUtils.join(entryIds, ", "));
                 String entries[] = bibl.getEntries();
 
-                for (int gidNum = 0; gidNum < gids.length; ++gidNum) {
-                    String gid = gids[gidNum];
-                    int entryNum = ArrayUtils.indexOf(entryIds, gid);
+                for (int tidNum = 0; tidNum < tids.length; ++tidNum) {
+                    String tid = tids[tidNum];
+                    int entryNum = ArrayUtils.indexOf(entryIds, tid);
                     String entry = entries[entryNum];
 
                     Element entryDiv = getDocumentBuilder().parse(
                         new InputSource(new StringReader(entry))
                     ).getDocumentElement();
                     entryDiv.setAttribute("data-style", style);
-                    entryDiv.setAttribute("data-id", idSet.get(gidNum)); // use the id, not the gid, here
+                    // use the id, not the tid, here
+                    entryDiv.setAttribute("data-id", idSet.getId(tidNum));
                     // Add this entry to the wrapper
                     entriesDiv.appendChild(entriesDoc.importNode(entryDiv, true));
                 }
@@ -382,6 +378,10 @@ public class Request {
         rw.println("</body></html>");
     }
 
+    /**
+     * At most one DocumentBuilder will be created per request.  Use this function to
+     * create/access it.
+     */
     private DocumentBuilder getDocumentBuilder()
         throws IOException
     {

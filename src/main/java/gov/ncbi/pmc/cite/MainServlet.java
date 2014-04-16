@@ -24,13 +24,17 @@ import de.undercouch.citeproc.ItemDataProvider;
 
 public class MainServlet extends HttpServlet
 {
-    public ItemProvider itemProvider;
-    public Map<String, CSL> citeprocs;
-    private boolean engaged = false;   // dead simple thread locking switch
-    public DocumentBuilderFactory dbf;
-    public TransformEngine transformEngine;
-    public IdResolver idResolver;
     public ServletContext context;
+    public IdResolver idResolver;
+    public ItemSource itemSource;
+    public TransformEngine transformEngine;
+
+    // FIXME: If we want to do concurrent requests, then we'll need to make
+    // caching these a little more sophisticated, with a pool of more than one for any given style.
+    public Map<String, CitationProcessor> citationProcessors;
+
+    public DocumentBuilderFactory dbf;
+    private boolean engaged = false;   // dead simple thread locking switch
 
 
     public void init() throws ServletException
@@ -38,32 +42,18 @@ public class MainServlet extends HttpServlet
         try {
             System.out.println("MainServlet started.");
             context = getServletContext();
+            idResolver = new IdResolver();
 
             // Controlled by system property item_provider (default is "test")
-            String itemProviderProp = System.getProperty("item_provider");
-            String itemProviderStr = itemProviderProp != null ? itemProviderProp : "test";
+            String itemSourceProp = System.getProperty("item_source");
+            String itemSourceStr = itemSourceProp != null ? itemSourceProp : "test";
+            itemSource = itemSourceStr.equals("test") ?
+                new TestItemSource(context.getResource("/test/")) :
+                new BackendItemSource(itemSourceStr);
 
-            if (itemProviderStr.equals("test")) {
-                // Create a new mock item provider.  It will use sample files that are in the
-                // directory webapp/test/.
-                itemProvider = new TestItemProvider(context.getResource("/test/"));
-            }
-            else {
-                itemProvider = new BackendItemProvider(itemProviderStr);
-            }
-
-            // FIXME: PmfuFetcher is out.
-            try {
-                citeprocs = new HashMap<String, CSL>();
-                // FIXME:  create processors for each of the most commonly used styles here.
-                citeprocs.put("ieee", new CSL(itemProvider, "ieee"));
-            }
-            catch (Exception e) {
-                System.out.println("error: " + e);
-            }
-
-            dbf = DocumentBuilderFactory.newInstance();
             transformEngine = new TransformEngine(context.getResource("/xslt/"));
+            citationProcessors = new HashMap<String, CitationProcessor>();
+            dbf = DocumentBuilderFactory.newInstance();
         }
 
         catch (MalformedURLException e) {
@@ -71,7 +61,6 @@ public class MainServlet extends HttpServlet
             System.exit(1);
         }
 
-        idResolver = new IdResolver();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -90,25 +79,29 @@ public class MainServlet extends HttpServlet
 
         while (engaged) {
             try {
-                Thread.sleep(50);
+                Thread.sleep(10);
             }
             catch(Exception e) {}
         }
         engaged = true;
         Request r = new Request(this, request, response);
-        r.doRequest();
+        r.doGet();
         engaged = false;
         return;
     }
 
-    public CSL getCiteproc(String style)
+    /**
+     * This is called from a Request object in order to lock a CitationProcessor
+     * from the pool, to style the citations from a single request.
+     */
+    public CitationProcessor getCitationProcessor(String style)
         throws IOException
     {
-        CSL citeproc = citeprocs.get(style);
-        if (citeproc == null) {
-            citeproc = new CSL(itemProvider, style);
-            citeprocs.put(style, citeproc);
+        CitationProcessor cp = citationProcessors.get(style);
+        if (cp == null) {
+            cp = new CitationProcessor(style, itemSource);
+            citationProcessors.put(style, cp);
         }
-        return citeproc;
+        return cp;
     }
 }

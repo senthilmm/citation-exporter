@@ -1,7 +1,9 @@
 package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,57 +29,17 @@ import de.undercouch.citeproc.helper.json.JsonParser;
 /**
  * This produces citeproc-json items by calling an HTTP backend.
  */
-public class BackendItemProvider extends ItemProvider {
+public class BackendItemSource extends ItemSource {
     public String backend_url;
 
-    public BackendItemProvider(String _backend_url) {
+    public BackendItemSource(String _backend_url) {
         super();
         backend_url = _backend_url;
-    }
-
-    // Implement interface method
-    public void prefetchCslItem(String idType, String id) throws IOException
-    {
-        String typeAndId = typeAndId(idType, id);
-        if (cslItemCache.get(typeAndId) != null) return;
-
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        String item_url = backend_url + "?ids=" + id + "&outputformat=citeproc";
-        System.err.println("item_url = " + item_url);
-        HttpGet httpget = new HttpGet(item_url);
-
-        // Execute the GET request
-        CloseableHttpResponse response = null;
-        response = httpclient.execute(httpget);
-
-        if (response.getStatusLine().getStatusCode() != 200) {
-            // bad request, probably
-            throw new IOException("Problem reading item data from the backend");
-        }
-        HttpEntity entity = response.getEntity();
-        if (entity == null) {
-            // internal server error
-            throw new IOException("Problem reading item data from the backend");
-        }
-
-        String itemJson;
-        itemJson = EntityUtils.toString(entity);
-
-        // Parse the JSON
-        Map<String, Object> itemJsonMap = null;
-        itemJsonMap = new JsonParser(new JsonLexer(new StringReader(itemJson))).parseObject();
-
-        // FIXME:  do I need to add the id?  I think so.
-        // Add the id key-value pair
-        itemJsonMap.put("id", typeAndId);
-
-        cacheCslItem(idType, id, itemJsonMap);
     }
 
     public Document retrieveItemPmfu(String idType, String id)
         throws IOException
     {
-
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String item_url = backend_url + "?ids=" + id + "&outputformat=pmfu";
         HttpGet httpget = new HttpGet(item_url);
@@ -124,4 +86,18 @@ public class BackendItemProvider extends ItemProvider {
         }
         return d;
     }
+
+    // FIXME:  this is a stub
+    public Map<String, Object> retrieveItemJson(String idType, String id)
+        throws IOException
+    {
+        return new JsonParser(
+            new JsonLexer(
+                new InputStreamReader(
+                    new URL(backend_url + idType + "/" + id + ".json").openStream()
+                )
+            )
+        ).parseObject();
+    }
+
 }

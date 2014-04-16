@@ -200,7 +200,7 @@ public class IdResolver {
 
         IdSet idSet = new IdSet("aiid");
         for (String id: idsArray) {
-            idSet.ids.add(resolvedIds.get(id).toString());
+            idSet.addId(resolvedIds.get(id).toString());
         }
         return idSet;
     }
