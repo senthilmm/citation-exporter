@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,7 +88,22 @@ public class MainServlet extends HttpServlet
         Request r = new Request(this, request, response);
         r.doGet();
         engaged = false;
-        return;
+    }
+    
+    /**
+     * Respond to HTTP OPTIONS requests, with CORS headers.  See
+     * https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS#Preflighted_requests
+     */
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(200);
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+        String acrh = request.getHeader("Access-Control-Request-Headers");
+        if (acrh != null) response.setHeader("Access-Control-Allow-Headers", acrh);
     }
 
     /**
