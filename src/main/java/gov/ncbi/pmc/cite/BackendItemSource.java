@@ -1,14 +1,9 @@
 package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.http.HttpEntity;
@@ -24,17 +19,14 @@ import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import de.undercouch.citeproc.csl.CSLItemData;
-import de.undercouch.citeproc.helper.json.JsonLexer;
-import de.undercouch.citeproc.helper.json.JsonParser;
-
 /**
  * This produces citeproc-json items by calling an HTTP backend.
  */
 public class BackendItemSource extends ItemSource {
     public String backend_url;
 
-    public BackendItemSource(String _backend_url, MainServlet servlet) {
+    public BackendItemSource(String _backend_url, MainServlet servlet) throws Exception
+    {
         super(servlet);
         backend_url = _backend_url;
     }
@@ -77,8 +69,7 @@ public class BackendItemSource extends ItemSource {
         Document d;
         try {
             String xml_str = EntityUtils.toString(entity);
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            d = db.parse(new InputSource(new StringReader(xml_str)));
+            d = servlet.newDocumentBuilder().parse(new InputSource(new StringReader(xml_str)));
         }
         catch (ParserConfigurationException e) {
             throw new IOException(e);

@@ -1,36 +1,34 @@
 package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.URL;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.undercouch.citeproc.helper.json.JsonLexer;
-import de.undercouch.citeproc.helper.json.JsonParser;
-
 /**
  * This fetches item data in either PMFU or citeproc-json format, given an IdSet.
  * One of these is instantiated per servlet.
  */
 public abstract class ItemSource {
-    DocumentBuilderFactory dbf;
     MainServlet servlet;
 
     // Controlled by system property json_from_pmfu ("true" or "false")
     public boolean jsonFromPmfu;
 
+    // Controlled by system property pmfu_from_nxml ("true" or "false")
+    public boolean pmfuFromNxml;
 
-    public ItemSource(MainServlet servlet) {
-        dbf = DocumentBuilderFactory.newInstance();
+
+    public ItemSource(MainServlet servlet) throws Exception
+    {
         this.servlet = servlet;
+
+        // Controlled by system property pmfu_from_nxml (default is "true")
+        String pmfuFromNxmlProp = System.getProperty("pmfu_from_nxml");
+        pmfuFromNxml = pmfuFromNxmlProp != null ? Boolean.parseBoolean(pmfuFromNxmlProp) : true;
+        System.out.println("pmfuFromNxml is " + pmfuFromNxml);
 
         // Controlled by system property json_from_pmfu (default is "true")
         String jsonFromPmfuProp = System.getProperty("json_from_pmfu");

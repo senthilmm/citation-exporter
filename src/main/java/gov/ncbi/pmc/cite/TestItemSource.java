@@ -20,13 +20,13 @@ import de.undercouch.citeproc.helper.json.JsonLexer;
 import de.undercouch.citeproc.helper.json.JsonParser;
 
 /**
- * This implementation of the ItemProvider produces fake item data for testing.
+ * This implementation of the ItemSource produces fake item data for testing.
  * This class uses test files that should be stored in webapp/test.
  */
 public class TestItemSource extends ItemSource {
     private URL base_url;
 
-    public TestItemSource(URL _base_url, MainServlet servlet) {
+    public TestItemSource(URL _base_url, MainServlet servlet) throws Exception {
         super(servlet);
         base_url = _base_url;
         System.out.println("TestCiteprocItemProvider: setting base_url to " + base_url);
@@ -37,7 +37,7 @@ public class TestItemSource extends ItemSource {
         throws IOException
     {
         try {
-            return dbf.newDocumentBuilder().parse(
+            return servlet.newDocumentBuilder().parse(
                 new URL(base_url, idType + "/" + id + ".pmfu").openStream()
             );
         }

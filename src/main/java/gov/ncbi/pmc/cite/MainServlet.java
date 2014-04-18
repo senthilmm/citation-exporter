@@ -1,12 +1,6 @@
 package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,14 +9,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.xml.resolver.tools.CatalogResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import de.undercouch.citeproc.CSL;
-import de.undercouch.citeproc.ItemDataProvider;
 
 
 public class MainServlet extends HttpServlet
@@ -41,6 +34,7 @@ public class MainServlet extends HttpServlet
     private boolean engaged = false;   // dead simple thread locking switch
 
 
+    @Override
     public void init() throws ServletException
     {
         try {
@@ -54,26 +48,21 @@ public class MainServlet extends HttpServlet
             String itemSourceProp = System.getProperty("item_source");
             String itemSourceStr = itemSourceProp != null ? itemSourceProp : "test";
             itemSource = itemSourceStr.equals("test") ?
-                new TestItemSource(context.getResource("/test/"), this) :
+                new TestItemSource(context.getResource("/test/"), this) : itemSourceStr.equals("stcache") ?
+                new StcacheItemSource(this) :
                 new BackendItemSource(itemSourceStr, this);
 
             citationProcessors = new HashMap<String, CitationProcessor>();
             dbf = DocumentBuilderFactory.newInstance();
         }
-        catch (IOException e) {
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println("Sorry!");  // Not much we can do.
             System.exit(1);
         }
-      /*
-        catch (MalformedURLException e) {
-            e.printStackTrace();
-            System.out.println("Sorry!");  // Not much we can do.
-            System.exit(1);
-        }
-      */
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
@@ -104,6 +93,7 @@ public class MainServlet extends HttpServlet
      * Respond to HTTP OPTIONS requests, with CORS headers.  See
      * https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS#Preflighted_requests
      */
+    @Override
     protected void doOptions(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
@@ -129,5 +119,14 @@ public class MainServlet extends HttpServlet
             citationProcessors.put(style, cp);
         }
         return cp;
+    }
+
+    /**
+     * Utility function for getting an XML DocumentBuilder that uses catalogs
+     */
+    public DocumentBuilder newDocumentBuilder() throws ParserConfigurationException {
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        db.setEntityResolver(new CatalogResolver());
+        return db;
     }
 }

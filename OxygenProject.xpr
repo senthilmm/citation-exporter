@@ -27,9 +27,9 @@
     </meta>
     <projectTree name="OxygenProject.xpr">
         <folder path="."/>
-        <folder path="../nxml-converter-webapp/"/>
-        <folder path="../pmc-lib-java/"/>
-        <folder path="../stcache/"/>
+        <folder path="../../../stash/pmc/nxml-converter-webapp/"/>
+        <folder path="../../../stash/pmc/pmc-lib-java/"/>
+        <folder path="../../../stash/pmc/stcache/"/>
         <folder path="../../../svn/toolkit/trunk/internal/pubmed/components/idxdbs/gws/1.0/scripts/"/>
     </projectTree>
 </project>
