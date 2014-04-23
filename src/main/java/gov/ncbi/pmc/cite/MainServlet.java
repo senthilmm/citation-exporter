@@ -14,6 +14,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.xml.resolver.tools.CatalogResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,6 +23,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class MainServlet extends HttpServlet
 {
     public ServletContext context;
+    private Logger logger = LoggerFactory.getLogger(MainServlet.class);
+
     public IdResolver idResolver;
     public ObjectMapper mapper;
     public TransformEngine transformEngine;
@@ -37,8 +41,8 @@ public class MainServlet extends HttpServlet
     @Override
     public void init() throws ServletException
     {
+        logger.info("MainServlet started");
         try {
-            System.out.println("MainServlet started.");
             context = getServletContext();
             idResolver = new IdResolver();
             mapper = new ObjectMapper();
