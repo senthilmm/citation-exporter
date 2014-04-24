@@ -1,4 +1,6 @@
 /target
 dependency-reduced-pom.xml
+jetty-temp-dir
 kitty-cache-read-only
+log
 src/main/webapp/xslt/xml2json-2.0.xsl

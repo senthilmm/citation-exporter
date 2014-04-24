@@ -7,7 +7,6 @@
 
   <groupId>gov.ncbi.pmc.cite</groupId>
   <artifactId>pmc-citation-exporter</artifactId>
-<!-- <packaging>war</packaging> -->
   <version>0.1-SNAPSHOT</version>
   <name>PMC Citation Service</name>
   <!-- <url>http://chrismaloney.org/citeproc-java-demo</url>  -->
@@ -80,8 +79,6 @@
       <artifactId>jetty-webapp</artifactId>
       <version>${jetty.version}</version>
     </dependency>
-
-
 
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>

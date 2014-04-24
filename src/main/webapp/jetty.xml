@@ -17,7 +17,7 @@
 
   <Call class="java.lang.System" name="setProperty">
     <Arg>log</Arg>
-    <Arg>.</Arg>
+    <Arg>log</Arg>
   </Call>
 </Configure>
 
