@@ -2,6 +2,8 @@ package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * One of these is instantiated per servlet.
  */
 public abstract class ItemSource {
-    MainServlet servlet;
+    protected MainServlet servlet;
 
     // Controlled by system property json_from_pmfu ("true" or "false")
     public boolean jsonFromPmfu;
@@ -28,12 +30,10 @@ public abstract class ItemSource {
         // Controlled by system property pmfu_from_nxml (default is "true")
         String pmfuFromNxmlProp = System.getProperty("pmfu_from_nxml");
         pmfuFromNxml = pmfuFromNxmlProp != null ? Boolean.parseBoolean(pmfuFromNxmlProp) : true;
-        System.out.println("pmfuFromNxml is " + pmfuFromNxml);
 
         // Controlled by system property json_from_pmfu (default is "true")
         String jsonFromPmfuProp = System.getProperty("json_from_pmfu");
         jsonFromPmfu = jsonFromPmfuProp != null ? Boolean.parseBoolean(jsonFromPmfuProp) : true;
-        System.out.println("jsonFromPmfu is " + jsonFromPmfu);
     }
 
     /**

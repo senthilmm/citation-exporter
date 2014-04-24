@@ -1,23 +1,20 @@
 <?xml version="1.0"?>
 <!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
 
+<!--
+  This configuration file is used to instantiate an embedded Jetty server with the Apache Maven Shade
+  plugin.  It is not used when, for example, running the app with the `mvn jetty:run` command.
+-->
 <Configure id="Server" class="org.eclipse.jetty.server.Server">
   <Call class="org.eclipse.jetty.util.log.Log" name="info">
     <Arg>Processing jetty.xml</Arg>
   </Call>
-
-  <!-- This is for the Jetty server embedded with Apache shade -->
   <Call name="addConnector">
     <Arg>
       <New class="org.eclipse.jetty.server.nio.SelectChannelConnector">
-        <Set name="port"><SystemProperty name="jetty.port" default="9997"/></Set>
+        <Set name="port"><SystemProperty name="jetty.port" default="11999"/></Set>
       </New>
     </Arg>
-  </Call>
-
-  <Call class="java.lang.System" name="setProperty">
-    <Arg>log</Arg>
-    <Arg>log</Arg>
   </Call>
 </Configure>
 

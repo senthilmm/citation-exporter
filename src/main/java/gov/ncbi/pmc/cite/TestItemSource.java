@@ -11,6 +11,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -25,11 +27,12 @@ import de.undercouch.citeproc.helper.json.JsonParser;
  */
 public class TestItemSource extends ItemSource {
     private URL base_url;
+    private Logger log = LoggerFactory.getLogger(ItemSource.class);
 
     public TestItemSource(URL _base_url, MainServlet servlet) throws Exception {
         super(servlet);
         base_url = _base_url;
-        System.out.println("TestCiteprocItemProvider: setting base_url to " + base_url);
+        log.debug("Setting base_url to " + base_url);
     }
 
 
@@ -66,7 +69,6 @@ public class TestItemSource extends ItemSource {
     private String readTestFile(String filename)
         throws IOException
     {
-        System.out.println("base_url = '" + base_url + "'");
         URL test_url = new URL(base_url, filename);
 
         InputStream test_is = test_url.openStream();

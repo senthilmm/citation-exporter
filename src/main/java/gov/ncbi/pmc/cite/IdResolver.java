@@ -120,20 +120,17 @@ public class IdResolver {
         throws Exception
     {
         String[] idsArray = idStr.split(",");
-        //System.out.println("IdResolver.resolveIds: first id = '" + idsArray[0] + "', idType = " + idType);
 
         // If idType wasn't specified, then we infer it from the form of the first id in the list
         if (idType == null) {
             idType = getIdType(idsArray[0]);
         }
-        //System.out.println("  idType determined to be '" + idType + "'");
 
         // Check every ID in the list.  If it doesn't match the expected pattern, try to canonicalize
         // it
         for (int i = 0; i < idsArray.length; ++i) {
             String id = idsArray[i];
             if (!idTypeMatches(id, idType)) {
-                //System.out.println("  id doesn't match the pattern for its type");
                 if (idType.equals("pmcid") && id.matches("\\d+")) {
                     idsArray[i] = "PMC" + id;
                 }
@@ -141,15 +138,11 @@ public class IdResolver {
                     throw new Exception("Unrecognizable id: '" + id + "'");
                 }
             }
-            else {
-                //System.out.println("  id matches the pattern for its type");
-            }
         }
 
         // If the id type is pmid or aiid, then no resolving necessary
         if (idType.equals("pmid") || idType.equals("aiid")) {
             IdSet idSet = new IdSet(idType, idsArray);
-            //System.out.println("  no need to resolve anything.  Returning idSet");
             return idSet;
         }
 
@@ -169,16 +162,13 @@ public class IdResolver {
             }
         }
 
-        //System.out.println("Need to resolve " + idsToResolve.size() + " ids");
         if (idsToResolve.size() > 0) {
             // Call the id resolver
             URL url = new URL(idConverterBase + "idtype=" + idType + "&ids=" + StringUtils.join(idsToResolve, ","));
-            System.out.println("About to invoke '" + url + "'");
 
             // FIXME:  we should use citeproc-java's json library, instead of Jackson,
             // since we already link to it.
             ObjectNode idconvResponse = (ObjectNode) mapper.readTree(url);
-            //System.out.println(idconvResponse);
 
             String status = idconvResponse.get("status").asText();
             if (!status.equals("ok"))
@@ -192,7 +182,6 @@ public class IdResolver {
                 Integer aiid = record.get("aiid").asInt();
                 resolvedIds.put(origId, aiid);
                 if (cacheAiids) {
-                    //System.out.println(">>> caching '" + origId + "': " + aiid);
                     aiidCache.put(origId, aiid, aiidCacheTtl);
                 }
             }

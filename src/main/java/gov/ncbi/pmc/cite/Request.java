@@ -18,6 +18,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -45,6 +47,8 @@ public class Request {
     // One document builder shared within this request thread.  This is created on-demand by
     // getDocumentBuilder().
     public DocumentBuilder documentBuilder;
+
+    private Logger log = LoggerFactory.getLogger(Request.class);
 
     /**
      * Constructor.
@@ -277,7 +281,7 @@ public class Request {
     {
         String styles_param = req.getParameter("styles");
         if (styles_param != null) {
-            System.out.println("styles = " + styles);
+            log.debug("styles = " + styles);
             styles = styles_param.split(",");
         }
 
@@ -295,7 +299,6 @@ public class Request {
 
         // The array of tids (type-and-ids) that we will be outputting
         String[] tids = idSet.getTids();
-        //System.out.println("Order of entries going in: " + StringUtils.join(tids, ", "));
 
         // For each style
         for (int styleNum = 0; styleNum < styles.length; ++styleNum) {
@@ -316,7 +319,6 @@ public class Request {
             // Parse the output entries, and stick them into the output document
             try {
                 String entryIds[] = bibl.getEntryIds();
-                //System.out.println("Order of entries coming out: " + StringUtils.join(entryIds, ", "));
                 String entries[] = bibl.getEntries();
 
                 for (int tidNum = 0; tidNum < tids.length; ++tidNum) {

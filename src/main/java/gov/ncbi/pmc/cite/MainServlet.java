@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class MainServlet extends HttpServlet
 {
     public ServletContext context;
-    private Logger logger = LoggerFactory.getLogger(MainServlet.class);
+    private Logger log = LoggerFactory.getLogger(MainServlet.class);
 
     public IdResolver idResolver;
     public ObjectMapper mapper;
@@ -41,7 +41,7 @@ public class MainServlet extends HttpServlet
     @Override
     public void init() throws ServletException
     {
-        logger.info("MainServlet started");
+        log.info("MainServlet started");
         try {
             context = getServletContext();
             idResolver = new IdResolver();

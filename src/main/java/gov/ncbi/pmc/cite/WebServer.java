@@ -25,21 +25,38 @@ import org.eclipse.jetty.xml.XmlConfiguration;
 public class WebServer
 {
     private static final String JETTY_XML = "jetty.xml";
-    // FIXME:  this should use the system parameter
-    private static final String LOG_PATH = "./log/access/yyyy_mm_dd.request.log";
-    private static final Logger log = Log.getLogger(WebServer.class);
+    private static File requestLogPath;
+    private static Logger log;
     private Server server;
 
-
+    /**
+     * Main entry point.
+     */
     public static void main( String[] args )
         throws Exception
     {
-        System.out.println( "Hello World!" );
+        initLogs();
         new WebServer().start();
     }
 
     public WebServer() {
         server = new Server();
+    }
+
+    /**
+     * Initialize the `log` system property, the main log file, and the path for the
+     * request log.
+     */
+    public static void initLogs() {
+        String logDir = System.getProperty("log");
+        if (logDir == null) {
+            logDir = "log";
+            System.setProperty("log", logDir);
+        }
+        log = Log.getLogger(WebServer.class);
+
+        // Also set the path request log
+        requestLogPath = new File(logDir, "access/yyyy_mm_dd.request.log");
     }
 
     private void start() throws Exception
@@ -53,6 +70,7 @@ public class WebServer
          */
         XmlConfiguration configuration = new XmlConfiguration(server_xml.getInputStream());
         server = (Server) configuration.configure();
+
         Enumeration<String> attrNames = server.getAttributeNames();
 
         // Set up the Handler that will deal with http requests.  The org.eclipse.jetty.webapp.WebAppContext
@@ -81,19 +99,31 @@ public class WebServer
         // if one of the contained Handlers throws an exception or returns a bad status.
         HandlerCollection handlerCollection = new HandlerCollection();
         handlerCollection.setHandlers(new Handler[] { contexts, requestLogHandler });
-
         server.setHandler(handlerCollection);
-        /*
-          System.out.println("server attributes:");
-          while (attrNames.hasMoreElements()) {
-              String an = attrNames.nextElement();
-              Object v = server.getAttribute(an);
-              System.out.println("  " + attrNames.nextElement() + ": '" + v + "'");
-          }
-        */
+
+        // Create the temp directory if it doesn't exist yet
+        File tempDir = new File(System.getProperty("java.io.tmpdir"));
+        if (!tempDir.exists()) {
+            log.debug("Creating java.io.tmpdir directory: " + tempDir);
+            if (!tempDir.mkdir()) {
+                log.info("Unable to create jetty temp directory; aborting");
+                System.exit(1);
+            }
+        }
 
         server.start();
-        server.join();
+
+        // Check for a healthy startup
+        File webAppTempDir = webAppContext.getTempDirectory();
+        log.debug("webAppContext temp dir: " + webAppTempDir);
+        if (webAppTempDir == null) {
+            log.info("Problem with jetty temp directory; aborting");
+            System.exit(1);
+        }
+        else {
+            log.info("Server started");
+            server.join();
+        }
     }
 
     private String getShadedWarUrl() {
@@ -103,17 +133,16 @@ public class WebServer
 
 
     private RequestLog createRequestLog() {
-        NCSARequestLog req_log = new NCSARequestLog();
-        File logPath = new File(LOG_PATH);
-        logPath.getParentFile().mkdirs();
-        req_log.setFilename(logPath.getPath());
-        req_log.setRetainDays(90);
-        req_log.setExtended(true);
-        req_log.setAppend(true);
-        req_log.setLogTimeZone("America/New_York");
+        NCSARequestLog requestLog = new NCSARequestLog();
+        requestLogPath.getParentFile().mkdirs();
+        requestLog.setFilename(requestLogPath.getPath());
+        requestLog.setRetainDays(90);
+        requestLog.setExtended(true);
+        requestLog.setAppend(true);
+        requestLog.setLogTimeZone("America/New_York");
         // req_log.setLogDispatch(true);
-        req_log.setLogLatency(true);
-        return req_log;
+        requestLog.setLogLatency(true);
+        return requestLog;
     }
 
 }

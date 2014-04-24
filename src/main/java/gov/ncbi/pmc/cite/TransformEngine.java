@@ -57,7 +57,6 @@ public class TransformEngine {
         stylesheets = new HashMap<String, PreparedStylesheet>();
 
         loadTransforms();
-        System.out.println("transforms.size() = " + transforms.size());
     }
 
     /**
