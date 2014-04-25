@@ -35,8 +35,44 @@ public class TestItemSource extends ItemSource {
         log.debug("Setting base_url to " + base_url);
     }
 
+    public Document fetchItemNxml(String idType, String id)
+        throws IOException
+    {
+        try {
+            return servlet.newDocumentBuilder().parse(
+                new URL(base_url, idType + "/" + id + ".nxml").openStream()
+            );
+        }
+        catch (ParserConfigurationException e) {
+            throw new IOException(e);
+        }
+        catch (SAXException e) {
+            throw new IOException(e);
+        }
+    }
 
+    /**
+     * Get the PMFU representation. If the .pmfu file exists in the
+     * test directory, return that.  Otherwise, fetch it the normal way, by converting from
+     * NXML.
+     */
+    @Override
     public Document retrieveItemPmfu(String idType, String id)
+        throws IOException
+    {
+        try {
+            return fetchItemPmfu(idType, id);
+        }
+        catch (Exception e) {
+            return super.retrieveItemPmfu(idType, id);
+        }
+    }
+
+    /**
+     * Get the PMFU representation of an item. This assumes that it exists as a .pmfu file in the
+     * test directory.
+     */
+    public Document fetchItemPmfu(String idType, String id)
         throws IOException
     {
         try {
@@ -52,6 +88,29 @@ public class TestItemSource extends ItemSource {
         }
     }
 
+
+
+    /**
+     * Get the citeproc-json representation of an item.  If the .json file exists in the
+     * test directory, return that.  Otherwise, fetch it the normal way, by converting from
+     * PMFU.
+     */
+    @Override
+    public JsonNode retrieveItemJson(String idType, String id)
+        throws IOException
+    {
+        try {
+            return fetchItemJson(idType, id);
+        }
+        catch (Exception e) {
+            return super.retrieveItemJson(idType, id);
+        }
+    }
+
+    /**
+     * Get the citeproc-json representation.  This assumes that it exists as a .json file in the
+     * test directory.
+     */
     protected JsonNode fetchItemJson(String idType, String id)
             throws IOException
     {

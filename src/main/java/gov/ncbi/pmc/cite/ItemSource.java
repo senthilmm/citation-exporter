@@ -37,19 +37,49 @@ public abstract class ItemSource {
     }
 
     /**
+     * Get the NXML for a given ID.
+     */
+    public Document retrieveItemNxml(String idType, String id)
+        throws IOException
+    {
+        return fetchItemNxml(idType, id);
+    }
+
+    /**
+     * Fetch the NXML from the backend directly.
+     */
+    public abstract Document fetchItemNxml(String idType, String id)
+        throws IOException;
+
+    /**
      * Get the PMFU XML, given an ID
      */
-    public abstract Document retrieveItemPmfu(String idType, String id)
+    public Document retrieveItemPmfu(String idType, String id)
+        throws IOException
+    {
+        if (pmfuFromNxml) {
+            Document nxml = retrieveItemNxml(idType, id);
+            return nxml;
+        }
+        else {
+            return fetchItemPmfu(idType, id);
+        }
+    }
+
+    /**
+     * This is used when pmfuFromNxml is false, and fetches the PMFU format
+     * from the backend directly.
+     */
+    protected abstract Document fetchItemPmfu(String idType, String id)
         throws IOException;
+
+
 
     /**
      * Get the item as a json object, as defined by citeproc-json
      */
-    //public Map<String, Object> retrieveItemJson(String idType, String id)
-    //    throws IOException
     public JsonNode retrieveItemJson(String idType, String id)
         throws IOException
-
     {
         if (jsonFromPmfu) {
             Document pmfu = retrieveItemPmfu(idType, id);
