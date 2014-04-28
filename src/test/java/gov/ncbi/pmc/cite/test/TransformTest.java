@@ -1,23 +1,20 @@
-package cfm;
+package gov.ncbi.pmc.cite.test;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Unit test for simple App.
+ * Class for testing our transformations
  */
-public class AppTest 
+public class TransformTest
     extends TestCase
 {
     /**
      * Create the test case
-     *
      * @param testName name of the test case
      */
-    public AppTest( String testName )
-    {
-        super( testName );
+    public TransformTest(String testName) {
+        super(testName);
     }
 
     /**
@@ -29,10 +26,10 @@ public class AppTest
     }
 
     /**
-     * Rigourous Test :-)
+     * Test the transformations
      */
-    public void testApp()
-    {
-        assertTrue( true );
+    public void testTransforms() {
+        assertTrue(false);
     }
+
 }

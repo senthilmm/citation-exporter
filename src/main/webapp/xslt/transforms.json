@@ -8,6 +8,10 @@
     "outputformat": "application/json"
   },
   {
+    "name": "pmfu",
+    "outputformat": "application/xml"
+  },
+  {
     "name": "pmfu2json",
     "outputformat": "application/json"
   },

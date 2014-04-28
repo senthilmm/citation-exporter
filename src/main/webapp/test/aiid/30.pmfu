@@ -1,0 +1,89 @@
+<!DOCTYPE pm-record SYSTEM "http://mwebdev2/staff/beck/pmfu/pmfu-record/pmfudtd/pmfu.dtd">
+<!--
+  This test record uses aiid=30.
+-->
+
+<pm-record xmlns:xlink="http://www.w3.org/1999/xlink"
+           xmlns:mml="http://www.w3.org/1998/Math/MathML"
+           record-type="article"
+           xml:lang="en">
+  <source-meta>
+    <object-id pub-id-type="nlm-ta">PLoS Med</object-id>
+    <object-id pub-id-type="iso-abbrev">PLoS Med</object-id>
+    <object-id pub-id-type="publisher-id">PLoS</object-id>
+    <object-id pub-id-type="pmc">plosmed</object-id>
+    <title-group>
+      <title>PLoS Medicine</title>
+    </title-group>
+    <issn publication-format="print">1549-1277</issn>
+    <issn publication-format="electronic">1549-1676</issn>
+    <publisher>
+      <publisher-name>Public Library of Science</publisher-name>
+      <publisher-loc>San Francisco, USA</publisher-loc>
+    </publisher>
+  </source-meta>
+  <document-meta>
+    <object-id pub-id-type="doi">10.1371/fake.fake.fake</object-id>
+    <object-id pub-id-type="pmcid">PMC30</object-id>
+    <object-id pub-id-type="pmid">30</object-id>
+    <title-group>
+      <title>Innovation and Access to Medicines for Neglected Populations: Could a Treaty Address a
+        Broken Pharmaceutical R&amp;D System?</title>
+    </title-group>
+    <contrib-group>
+      <contrib contrib-type="author" xlink:type="simple">
+        <name name-style="western">
+          <surname>Moon</surname>
+          <given-names initials="S">Suerie</given-names>
+        </name>
+      </contrib>
+      <contrib contrib-type="author" xlink:type="simple">
+        <name name-style="western">
+          <surname>Bermudez</surname>
+          <given-names initials="J">Jorge</given-names>
+        </name>
+      </contrib>
+      <contrib contrib-type="author" xlink:type="simple">
+        <name name-style="western">
+          <surname>'t Hoen</surname>
+          <given-names initials="E">Ellen</given-names>
+        </name>
+      </contrib>
+    </contrib-group>
+    <pub-date date-type="collection" iso-8601-date="201205">
+      <month>5</month>
+      <year>2012</year>
+    </pub-date>
+    <pub-date date-type="ppub" iso-8601-date="201205">
+      <month>5</month>
+      <year>2012</year>
+    </pub-date>
+    <pub-date date-type="epub" iso-8601-date="20120515">
+      <day>15</day>
+      <month>5</month>
+      <year>2012</year>
+    </pub-date>
+    <volume>9</volume>
+    <issue>5</issue>
+    <elocation-id>e1001218</elocation-id>
+    <permissions>
+      <copyright-statement>Moon et al. This is an open-access article distributed under the terms of
+        the Creative Commons Attribution License, which permits unrestricted use, distribution, and
+        reproduction in any medium, provided the original author and source are
+        credited.</copyright-statement>
+      <copyright-year>2012</copyright-year>
+    </permissions>
+    <related-article xlink:href="info:doi/10.1371/journal.pmed.1001219"
+      related-article-type="companion" ext-link-type="uri" id="d34e155" xlink:type="simple">
+      <article-title>Scientific Standards and the Regulation of Genetically Modified
+        Insects</article-title>
+    </related-article>
+    <abstract abstract-type="toc">
+      <p>As part of a cluster of articles leading up to the 2012 World Health Report and critically
+        reflecting on the theme of “no health without research,” Suerie Moon and colleagues argue
+        for a global health R&amp;D treaty to improve innovation in new medicines and strengthening
+        affordability, sustainable financing, efficiency in innovation, and equitable
+        health-centered governance.</p>
+    </abstract>
+  </document-meta>
+</pm-record>

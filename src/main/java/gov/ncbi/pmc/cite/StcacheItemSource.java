@@ -25,6 +25,25 @@ public class StcacheItemSource extends ItemSource {
         nxmlStcache = new Nxml(pmfuImage);
     }
 
+    public Document retrieveItemNxml(String idType, String id)
+        throws IOException
+    {
+        try {
+            byte[] nxmlBytes = null;
+            if (idType.equals("aiid")) {
+                nxmlBytes = nxmlStcache.getByAiid(Integer.parseInt(id));
+            }
+            else {
+                throw new IOException("I only know how to get PMC article instances right now");
+            }
+            //System.out.println("nxml is " + nxmlBytes);
+            return servlet.newDocumentBuilder().parse(new ByteArrayInputStream(nxmlBytes));
+        }
+        catch (Exception e) {
+            throw new IOException(e);
+        }
+    }
+
     public Document retrieveItemPmfu(String idType, String id)
         throws IOException
     {

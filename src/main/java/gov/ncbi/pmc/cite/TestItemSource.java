@@ -14,9 +14,11 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import de.undercouch.citeproc.helper.json.JsonLexer;
 import de.undercouch.citeproc.helper.json.JsonParser;
@@ -35,13 +37,37 @@ public class TestItemSource extends ItemSource {
         log.debug("Setting base_url to " + base_url);
     }
 
-    public Document fetchItemNxml(String idType, String id)
+    /**
+     * Retrieves an item's NXML from the test directory.
+     */
+    @Override
+    public Document retrieveItemNxml(String idType, String id)
         throws IOException
     {
+        //System.out.println("retrieveItemNxml");
+        return fetchItemNxml(idType, id);
+    }
+
+    /**
+     * Get the NXML representation of an item. This assumes that it exists as an .nxml file in the
+     * test directory.
+     */
+    public Document fetchItemNxml(String idType, String id) throws IOException
+    {
+        //System.out.println("fetchItemNxml");
         try {
-            return servlet.newDocumentBuilder().parse(
-                new URL(base_url, idType + "/" + id + ".nxml").openStream()
+            URL nxmlUrl = new URL(base_url, idType + "/" + id + ".nxml");
+            log.debug("Reading NXML from " + nxmlUrl);
+            Document nxml = servlet.newDocumentBuilder().parse(
+                nxmlUrl.openStream()
             );
+            if (nxml == null) {
+                throw new IOException("Failed to read NXML from " + nxmlUrl);
+            }
+            Element docElem = nxml.getDocumentElement();
+            //System.out.println("document element is " + docElem.getTagName());
+
+            return nxml;
         }
         catch (ParserConfigurationException e) {
             throw new IOException(e);
@@ -60,10 +86,13 @@ public class TestItemSource extends ItemSource {
     public Document retrieveItemPmfu(String idType, String id)
         throws IOException
     {
+        //System.out.println("retrieveItemPmfu");
         try {
+            //System.out.println("  calling super.fetchItemPmfu");
             return fetchItemPmfu(idType, id);
         }
         catch (Exception e) {
+            //System.out.println("  calling super.retrieveItemPmfu");
             return super.retrieveItemPmfu(idType, id);
         }
     }
@@ -75,6 +104,7 @@ public class TestItemSource extends ItemSource {
     public Document fetchItemPmfu(String idType, String id)
         throws IOException
     {
+        //System.out.println("fetchItemPmfu");
         try {
             return servlet.newDocumentBuilder().parse(
                 new URL(base_url, idType + "/" + id + ".pmfu").openStream()
@@ -89,7 +119,6 @@ public class TestItemSource extends ItemSource {
     }
 
 
-
     /**
      * Get the citeproc-json representation of an item.  If the .json file exists in the
      * test directory, return that.  Otherwise, fetch it the normal way, by converting from
@@ -99,10 +128,13 @@ public class TestItemSource extends ItemSource {
     public JsonNode retrieveItemJson(String idType, String id)
         throws IOException
     {
+        //System.out.println("retrieveItemJson");
         try {
+            //System.out.println("  calling fetchItemJson");
             return fetchItemJson(idType, id);
         }
         catch (Exception e) {
+            //System.out.println("  calling super.retrieveItemJson");
             return super.retrieveItemJson(idType, id);
         }
     }
@@ -114,7 +146,9 @@ public class TestItemSource extends ItemSource {
     protected JsonNode fetchItemJson(String idType, String id)
             throws IOException
     {
-        return servlet.mapper.readTree(new URL(base_url, idType + "/" + id + ".json"));
+        ObjectNode json = (ObjectNode) servlet.mapper.readTree(new URL(base_url, idType + "/" + id + ".json"));
+        json.put("id", IdSet.tid(idType, id));
+        return json;
     }
 
 

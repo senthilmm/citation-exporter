@@ -256,10 +256,6 @@ public class Request {
         ItemSource itemSource = servlet.itemSource;
 
         if (numIds == 1) {
-            // FIXME:  need to figure out how to serialize the JSON properly.  Opened this
-            // GitHub issue: https://github.com/michel-kraemer/citeproc-java/issues/9
-            //Map<String, Object> jsonObjectMap = itemSource.retrieveItemJson(idType, idSet.getId(0));
-            //page.print(jsonObjectMap);
             JsonNode jn = itemSource.retrieveItemJson(idType, idSet.getId(0));
             page.print(servlet.mapper.writeValueAsString(jn));
         }

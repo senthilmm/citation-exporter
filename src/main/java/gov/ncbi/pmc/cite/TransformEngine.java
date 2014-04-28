@@ -14,6 +14,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -60,7 +61,7 @@ public class TransformEngine {
     }
 
     /**
-     * Load the conversions.json file, which tells us what conversions are possible,
+     * Load the transforms.json file, which tells us what conversions are possible,
      * and the output formats of each.
      */
     private void loadTransforms()
@@ -86,27 +87,40 @@ public class TransformEngine {
     }
 
     /**
-     * Transform an XML document according to the indicated transformation.
+     * Transform an XML document according to the indicated transformation.  The type of the
+     * return value will depend on the outputformat of the transformation, as specified in
+     * the transforms.json config file.
+     *   application/xml - org.w3c.dom.Document
+     *   anything else - String
      */
-    public String doTransform(Document src, String transform)
+    public Object doTransform(Document src, String transform)
         throws IOException
     {
-        TransformDescriptor td = transforms.get(transform);
-
-        PreparedStylesheet xslt = getStylesheet(td);
-        //Source sourceInput = new StreamSource(new ByteArrayInputStream(xml));
-        Writer resultWriter = new StringWriter();
-        StreamResult result = new StreamResult(resultWriter);
-
-        Controller controller = (Controller) xslt.newTransformer();
         try {
+            TransformDescriptor td = transforms.get(transform);
+            if (td == null) {
+                throw new IOException("No transform defined for '" + transform + "'");
+            }
+            PreparedStylesheet xslt = getStylesheet(td);
+            Controller controller = (Controller) xslt.newTransformer();
             Source s = new DOMSource(src);
-            controller.transform(s, result);
+
+            if (td.outputformat.equals("application/xml")) {
+                DOMResult result = new DOMResult();
+                controller.transform(s, result);
+                return result.getNode();
+            }
+
+            else {
+                Writer resultWriter = new StringWriter();
+                StreamResult result = new StreamResult(resultWriter);
+                controller.transform(s, result);
+                return resultWriter.toString();
+            }
         }
         catch (TransformerException e) {
             throw new IOException(e);
         }
-        return resultWriter.toString();
     }
 
     private PreparedStylesheet getStylesheet(TransformDescriptor td)
