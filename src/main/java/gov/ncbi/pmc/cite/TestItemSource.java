@@ -31,8 +31,8 @@ public class TestItemSource extends ItemSource {
     private URL base_url;
     private Logger log = LoggerFactory.getLogger(ItemSource.class);
 
-    public TestItemSource(URL _base_url, MainServlet servlet) throws Exception {
-        super(servlet);
+    public TestItemSource(URL _base_url, App app) throws Exception {
+        super(app);
         base_url = _base_url;
         log.debug("Setting base_url to " + base_url);
     }
@@ -58,14 +58,14 @@ public class TestItemSource extends ItemSource {
         try {
             URL nxmlUrl = new URL(base_url, idType + "/" + id + ".nxml");
             log.debug("Reading NXML from " + nxmlUrl);
-            Document nxml = servlet.newDocumentBuilder().parse(
+            Document nxml = app.newDocumentBuilder().parse(
                 nxmlUrl.openStream()
             );
             if (nxml == null) {
                 throw new IOException("Failed to read NXML from " + nxmlUrl);
             }
             Element docElem = nxml.getDocumentElement();
-            //System.out.println("document element is " + docElem.getTagName());
+            System.out.println("document element is " + docElem.getTagName());
 
             return nxml;
         }
@@ -106,7 +106,7 @@ public class TestItemSource extends ItemSource {
     {
         //System.out.println("fetchItemPmfu");
         try {
-            return servlet.newDocumentBuilder().parse(
+            return app.newDocumentBuilder().parse(
                 new URL(base_url, idType + "/" + id + ".pmfu").openStream()
             );
         }
@@ -146,7 +146,7 @@ public class TestItemSource extends ItemSource {
     protected JsonNode fetchItemJson(String idType, String id)
             throws IOException
     {
-        ObjectNode json = (ObjectNode) servlet.mapper.readTree(new URL(base_url, idType + "/" + id + ".json"));
+        ObjectNode json = (ObjectNode) app.getMapper().readTree(new URL(base_url, idType + "/" + id + ".json"));
         json.put("id", IdSet.tid(idType, id));
         return json;
     }

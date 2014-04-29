@@ -18,9 +18,9 @@ public class StcacheItemSource extends ItemSource {
     private String pmfuImage;
     private Nxml nxmlStcache;
 
-    public StcacheItemSource(MainServlet servlet) throws Exception
+    public StcacheItemSource(App app) throws Exception
     {
-        super(servlet);
+        super(app);
         pmfuImage = System.getProperty("stcache_pmfu_image");
         nxmlStcache = new Nxml(pmfuImage);
     }
@@ -37,7 +37,7 @@ public class StcacheItemSource extends ItemSource {
                 throw new IOException("I only know how to get PMC article instances right now");
             }
             //System.out.println("nxml is " + nxmlBytes);
-            return servlet.newDocumentBuilder().parse(new ByteArrayInputStream(nxmlBytes));
+            return app.newDocumentBuilder().parse(new ByteArrayInputStream(nxmlBytes));
         }
         catch (Exception e) {
             throw new IOException(e);
@@ -56,7 +56,7 @@ public class StcacheItemSource extends ItemSource {
                 throw new IOException("I only know how to get PMC article instances right now");
             }
             //System.out.println("nxml is " + nxmlBytes);
-            return servlet.newDocumentBuilder().parse(new ByteArrayInputStream(nxmlBytes));
+            return app.newDocumentBuilder().parse(new ByteArrayInputStream(nxmlBytes));
         }
         catch (Exception e) {
             throw new IOException(e);
@@ -67,7 +67,7 @@ public class StcacheItemSource extends ItemSource {
     protected JsonNode fetchItemJson(String idType, String id)
             throws IOException
     {
-        return servlet.mapper.readTree(new URL(pmfuImage + idType + "/" + id + ".json"));
+        return app.getMapper().readTree(new URL(pmfuImage + idType + "/" + id + ".json"));
     }
 
 }

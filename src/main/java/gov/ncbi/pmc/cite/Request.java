@@ -33,7 +33,7 @@ import de.undercouch.citeproc.output.Bibliography;
  * Stores information about, and handles, a single request.
  */
 public class Request {
-    public MainServlet servlet;
+    public App app;
     public HttpServletRequest req;
     public HttpServletResponse resp;
     public PrintWriter page;
@@ -53,9 +53,9 @@ public class Request {
     /**
      * Constructor.
      */
-    public Request(MainServlet _servlet, HttpServletRequest _req, HttpServletResponse _resp)
+    public Request(App app, HttpServletRequest _req, HttpServletResponse _resp)
     {
-        servlet = _servlet;
+        this.app = app;
         req = _req;
         resp = _resp;
 
@@ -77,7 +77,7 @@ public class Request {
             return;
         }
         try {
-            idSet = servlet.idResolver.resolveIds(idsParam, req.getParameter("idtype"));
+            idSet = app.getIdResolver().resolveIds(idsParam, req.getParameter("idtype"));
         }
         catch (Exception e) {
             errorResponse("Unable to resolve ids: " + e);
@@ -147,7 +147,7 @@ public class Request {
         resp.setStatus(HttpServletResponse.SC_OK);
         page = resp.getWriter();
 
-        ItemSource itemSource = servlet.itemSource;
+        ItemSource itemSource = app.getItemSource();
         String idType = idSet.getType();
         int numIds = idSet.size();
 
@@ -227,8 +227,8 @@ public class Request {
 
         String idType = idSet.getType();
         int numIds = idSet.size();
-        ItemSource itemSource = servlet.itemSource;
-        TransformEngine transformEngine = servlet.transformEngine;
+        ItemSource itemSource = app.getItemSource();
+        TransformEngine transformEngine = app.getTransformEngine();
 
         if (numIds == 1) {
             Document d = itemSource.retrieveItemPmfu(idType, idSet.getId(0));
@@ -253,11 +253,11 @@ public class Request {
 
         String idType = idSet.getType();
         int numIds = idSet.size();
-        ItemSource itemSource = servlet.itemSource;
+        ItemSource itemSource = app.getItemSource();
 
         if (numIds == 1) {
             JsonNode jn = itemSource.retrieveItemJson(idType, idSet.getId(0));
-            page.print(servlet.mapper.writeValueAsString(jn));
+            page.print(app.getMapper().writeValueAsString(jn));
         }
         else {
             page.print("[");
@@ -305,7 +305,7 @@ public class Request {
             // in the right order.
             Bibliography bibl = null;
             try {
-                bibl = servlet.getCitationProcessor(style).makeBibliography(idSet, "html");
+                bibl = app.getCitationProcessor(style).makeBibliography(idSet, "html");
             }
             catch(Exception e) {
                 errorResponse("Citation processor exception: " + e);
@@ -378,7 +378,7 @@ public class Request {
     {
         if (documentBuilder == null) {
             try {
-                documentBuilder = servlet.dbf.newDocumentBuilder();
+                documentBuilder = app.newDocumentBuilder();
             }
             catch (ParserConfigurationException e) {
                 throw new IOException("Problem creating a Saxon DocumentBuilder: " + e);

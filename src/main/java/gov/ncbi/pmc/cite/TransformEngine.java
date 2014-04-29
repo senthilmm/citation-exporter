@@ -47,6 +47,7 @@ public class TransformEngine {
         throws IOException
     {
         this.xsltBaseUrl = xsltBaseUrl;
+        System.out.println(">>>>>>>>> xsltBaseUrl = " + xsltBaseUrl);
         this.mapper = mapper;
         Configuration config = new Configuration();
         transformerFactory = new TransformerFactoryImpl(config);

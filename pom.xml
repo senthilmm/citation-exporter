@@ -30,7 +30,7 @@
       <url>https://oss.sonatype.org/content/groups/public</url>
       <snapshots>
         <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
+        <updatePolicy>daily</updatePolicy>
       </snapshots>
     </repository>
   </repositories>
@@ -135,13 +135,13 @@
   </dependencies>
 
   <build>
-  <!--
+    <!-- This allows us to open files from this directory from within unit tests
     <resources>
       <resource>
         <directory>src/main/webapp</directory>
       </resource>
-    </resources>
-  -->
+    </resources> -->
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

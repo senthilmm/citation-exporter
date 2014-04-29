@@ -15,12 +15,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * One of these is instantiated per servlet.
  */
 public abstract class ItemSource {
-    protected MainServlet servlet;
+    protected App app;
 
-
-    public ItemSource(MainServlet servlet) throws Exception
+    public ItemSource(App app) throws Exception
     {
-        this.servlet = servlet;
+        this.app = app;
     }
 
     /**
@@ -38,7 +37,7 @@ public abstract class ItemSource {
         Document nxml = retrieveItemNxml(idType, id);
         System.out.println("super.retrieveItemPmfu: nxml = " + nxml);
 
-        return (Document) servlet.transformEngine.doTransform(nxml, "pmfu");
+        return (Document) app.doTransform(nxml, "pmfu");
     }
 
     /**
@@ -48,14 +47,12 @@ public abstract class ItemSource {
         throws IOException
     {
         Document pmfu = retrieveItemPmfu(idType, id);
-        String jsonStr = (String) servlet.transformEngine.doTransform(pmfu, "pmfu2json");
-        ObjectNode json = (ObjectNode) servlet.mapper.readTree(jsonStr);
+        String jsonStr = (String) app.doTransform(pmfu, "pmfu2json");
+        ObjectNode json = (ObjectNode) app.getMapper().readTree(jsonStr);
         json.put("id", IdSet.tid(idType, id));
         return json;
     }
 
-
     public ObjectMapper getMapper() {
-        return servlet.mapper;
-    }
-}
+        return app.getMapper();
+    }}

@@ -24,40 +24,17 @@ public class MainServlet extends HttpServlet
 {
     public ServletContext context;
     private Logger log = LoggerFactory.getLogger(MainServlet.class);
-
-    public IdResolver idResolver;
-    public ObjectMapper mapper;
-    public TransformEngine transformEngine;
-    public ItemSource itemSource;
-
-    // FIXME: If we want to do concurrent requests, then we'll need to make
-    // caching these a little more sophisticated, with a pool of more than one for any given style.
-    public Map<String, CitationProcessor> citationProcessors;
-
-    public DocumentBuilderFactory dbf;
+    private App app;
     private boolean engaged = false;   // dead simple thread locking switch
-
 
     @Override
     public void init() throws ServletException
     {
         log.info("MainServlet started");
+
         try {
             context = getServletContext();
-            idResolver = new IdResolver();
-            mapper = new ObjectMapper();
-            transformEngine = new TransformEngine(context.getResource("/xslt/"), mapper);
-
-            // Controlled by system property item_provider (default is "test")
-            String itemSourceProp = System.getProperty("item_source");
-            String itemSourceStr = itemSourceProp != null ? itemSourceProp : "test";
-            itemSource = itemSourceStr.equals("test") ?
-                new TestItemSource(context.getResource("/test/"), this) : itemSourceStr.equals("stcache") ?
-                new StcacheItemSource(this) :
-                new BackendItemSource(itemSourceStr, this);
-
-            citationProcessors = new HashMap<String, CitationProcessor>();
-            dbf = DocumentBuilderFactory.newInstance();
+            app = new App();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -88,7 +65,7 @@ public class MainServlet extends HttpServlet
             catch(Exception e) {}
         }
         engaged = true;
-        Request r = new Request(this, request, response);
+        Request r = new Request(app, request, response);
         r.doGet();
         engaged = false;
     }
@@ -110,27 +87,4 @@ public class MainServlet extends HttpServlet
         if (acrh != null) response.setHeader("Access-Control-Allow-Headers", acrh);
     }
 
-    /**
-     * This is called from a Request object in order to lock a CitationProcessor
-     * from the pool, to style the citations from a single request.
-     */
-    public CitationProcessor getCitationProcessor(String style)
-        throws IOException
-    {
-        CitationProcessor cp = citationProcessors.get(style);
-        if (cp == null) {
-            cp = new CitationProcessor(style, itemSource);
-            citationProcessors.put(style, cp);
-        }
-        return cp;
-    }
-
-    /**
-     * Utility function for getting an XML DocumentBuilder that uses catalogs
-     */
-    public DocumentBuilder newDocumentBuilder() throws ParserConfigurationException {
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        db.setEntityResolver(new CatalogResolver());
-        return db;
-    }
 }

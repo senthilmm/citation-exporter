@@ -25,12 +25,20 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class BackendItemSource extends ItemSource {
     public String backend_url;
 
-    public BackendItemSource(String _backend_url, MainServlet servlet) throws Exception
+    public BackendItemSource(String _backend_url, App app) throws Exception
     {
-        super(servlet);
+        super(app);
         backend_url = _backend_url;
     }
 
+    @Override
+    public Document retrieveItemNxml(String idType, String id)
+        throws IOException
+    {
+        throw new IOException("Not implemented yet");
+    }
+
+    @Override
     public Document retrieveItemPmfu(String idType, String id)
         throws IOException
     {
@@ -69,7 +77,7 @@ public class BackendItemSource extends ItemSource {
         Document d;
         try {
             String xml_str = EntityUtils.toString(entity);
-            d = servlet.newDocumentBuilder().parse(new InputSource(new StringReader(xml_str)));
+            d = app.newDocumentBuilder().parse(new InputSource(new StringReader(xml_str)));
         }
         catch (ParserConfigurationException e) {
             throw new IOException(e);
@@ -79,12 +87,4 @@ public class BackendItemSource extends ItemSource {
         }
         return d;
     }
-
-    // FIXME:  this is a stub
-    protected JsonNode fetchItemJson(String idType, String id)
-        throws IOException
-    {
-        return null;
-    }
-
 }
