@@ -45,11 +45,21 @@ public class App {
         if (itemSourceStr.equals("test")) {
             itemSource = new TestItemSource(getClass().getClassLoader().getResource("samples/"), this);
         }
+
+        // PMFU from stcache:
         else if (itemSourceStr.equals("stcache")) {
             itemSource = new StcacheItemSource(this);
         }
+        else if (itemSourceStr.equals("stcache-nxml")) {
+            itemSource = new StcacheNxmlItemSource(this);
+        }
+      /* TBD:
+        else if (itemSourceStr.equals("eutils")){
+            itemSource = new EutilsItemSource(itemSourceStr, this);
+        }
+      */
         else {
-            itemSource = new BackendItemSource(itemSourceStr, this);
+            throw new Exception("Bad value for item_source; can't continue");
         }
 
 

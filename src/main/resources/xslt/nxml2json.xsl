@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="2.0"
-    xmlns:xlink="http://www.w3.org/1999/xlink" 
-    xmlns:mml="http://www.w3.org/1998/Math/MathML" 
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:mml="http://www.w3.org/1998/Math/MathML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     exclude-result-prefixes="xsl xlink mml xsi xs">
-    
-    <xsl:import href="../lib/xml2json-2.0.xsl"/>
+
+    <xsl:import href="xml2json-2.0.xsl"/>
     <xsl:output method="text" encoding="UTF-8"/>
-    
+
     <xsl:variable name='dtd-annotation'><foo/></xsl:variable>  <!-- needed by xml2json -->
     <xsl:param name='pmcid'/>
     <xsl:param name='nbkid'/>
     <xsl:param name='pmid'/>
     <xsl:param name='doi'/>
-    
+
     <xsl:variable name='article-id'>
         <xsl:choose>
             <xsl:when test='$pmcid'>
@@ -32,15 +32,15 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
-    
-    <!-- 
+
+    <!--
       Overrides the named template in xml2json.xsl.  This is the top-level template that will
       generate the intermediate XML format, before conversion into JSON.
     -->
     <xsl:template name="root">
         <xsl:apply-templates/>
     </xsl:template>
-    
+
 
     <xsl:template match="article">
         <o>
@@ -50,7 +50,7 @@
             <xsl:apply-templates select="front"/>
         </o>
     </xsl:template>
-    
+
     <xsl:template match="front">
         <xsl:apply-templates select="article-meta" mode="title"/>
         <xsl:apply-templates select="article-meta/contrib-group"/>
@@ -58,7 +58,7 @@
         <xsl:apply-templates select="article-meta"/>
         <s k="type">article-journal</s>
     </xsl:template>
-    
+
     <xsl:template match="article-meta" mode="title">
         <s k="title">
             <xsl:apply-templates select="title-group/article-title"/>
@@ -68,37 +68,37 @@
             </xsl:if>
         </s>
     </xsl:template>
-    
+
     <xsl:template match="article-title|subtitle">
         <xsl:apply-templates/>
     </xsl:template>
-    
+
     <xsl:template match="italic">
         <xsl:text>&lt;i></xsl:text>
             <xsl:apply-templates/>
         <xsl:text>&lt;/i></xsl:text>
     </xsl:template>
-    
+
     <xsl:template match="bold">
         <xsl:text>&lt;b></xsl:text>
             <xsl:apply-templates/>
         <xsl:text>&lt;/b></xsl:text>
     </xsl:template>
-    
+
     <xsl:template match="sub|sup">
         <xsl:text>&lt;</xsl:text><xsl:value-of select="local-name(.)"/><xsl:text>></xsl:text>
             <xsl:apply-templates/>
         <xsl:text>&lt;/</xsl:text><xsl:value-of select="local-name(.)"/><xsl:text>></xsl:text>
     </xsl:template>
-    
+
     <xsl:template match="*[ancestor::article-title or ancestor::subtitle][not(self::italic or self::bold or self::sub or self::sup)]">
         <xsl:apply-templates/>
     </xsl:template>
-    
+
     <xsl:template match="text()[ancestor::article-title or ancestor::subtitle]">
         <xsl:value-of select="."/>
     </xsl:template>
-    
+
     <xsl:template match="contrib-group">
         <a k="author">
             <xsl:for-each select="contrib[@contrib-type='author']">
@@ -108,13 +108,13 @@
             </xsl:for-each>
         </a>
     </xsl:template>
-    
+
     <xsl:template match="string-name|collab|on-behalf-of">
         <s k="literal">
             <xsl:value-of select="."/>
         </s>
     </xsl:template>
-    
+
     <xsl:template match="name/*">
         <s>
             <xsl:attribute name="k">
@@ -126,7 +126,7 @@
             <xsl:value-of select="."/>
         </s>
     </xsl:template>
-    
+
     <xsl:template match="journal-meta">
         <s k="container-title">
             <xsl:choose>
@@ -139,7 +139,7 @@
             </xsl:choose>
         </s>
     </xsl:template>
-    
+
     <xsl:template match="article-meta">
         <xsl:choose>
             <xsl:when test="pub-date[@pub-type='ppub' or @pub-type='epub-ppub']">
@@ -157,7 +157,7 @@
         <xsl:apply-templates select="issue"/>
         <xsl:call-template name="article-ids"/>
     </xsl:template>
-    
+
     <xsl:template match="pub-date">
         <o k="issued">
             <a k="date-parts">
@@ -169,13 +169,13 @@
             </a>
         </o>
     </xsl:template>
-    
+
     <xsl:template match="year|month|day">
         <n>
             <xsl:value-of select="."/>
         </n>
     </xsl:template>
-    
+
     <xsl:template match="fpage">
         <s k="page">
             <xsl:value-of select="."/>
@@ -185,14 +185,14 @@
             </xsl:if>
         </s>
     </xsl:template>
-    
+
     <xsl:template match="volume|issue">
         <s>
             <xsl:attribute name="k" select="local-name(.)"/>
             <xsl:value-of select="."/>
         </s>
     </xsl:template>
-    
+
     <xsl:template name="article-ids">
         <xsl:choose>
             <xsl:when test="$pmid">
@@ -210,7 +210,7 @@
                     <xsl:value-of select="$pmcid"/>
                 </s>
             </xsl:when>
-            <xsl:otherwise>                
+            <xsl:otherwise>
                 <xsl:apply-templates select="article-id[@pub-id-type='pmcid']"/>
             </xsl:otherwise>
         </xsl:choose>
@@ -232,5 +232,5 @@
             <xsl:value-of select="."/>
         </s>
     </xsl:template>
-    
+
 </xsl:stylesheet>

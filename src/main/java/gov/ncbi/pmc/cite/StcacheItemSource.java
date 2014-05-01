@@ -21,7 +21,7 @@ public class StcacheItemSource extends ItemSource {
     public StcacheItemSource(App app) throws Exception
     {
         super(app);
-        pmfuImage = System.getProperty("stcache_pmfu_image");
+        pmfuImage = System.getProperty("stcache_image");
         nxmlStcache = new Nxml(pmfuImage);
     }
 
@@ -36,7 +36,7 @@ public class StcacheItemSource extends ItemSource {
             else {
                 throw new IOException("I only know how to get PMC article instances right now");
             }
-            //System.out.println("nxml is " + nxmlBytes);
+            System.out.println(">>>>>>>>>>>>>>>>>> nxml is " + nxmlBytes);
             return app.newDocumentBuilder().parse(new ByteArrayInputStream(nxmlBytes));
         }
         catch (Exception e) {

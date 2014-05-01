@@ -1,4 +1,5 @@
 /target
+/testlog
 dependency-reduced-pom.xml
 jetty-temp-dir
 kitty-cache-read-only
