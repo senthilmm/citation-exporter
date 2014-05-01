@@ -1,7 +1,12 @@
 package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -13,11 +18,16 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.xml.resolver.tools.CatalogResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 
 
 public class MainServlet extends HttpServlet
@@ -65,10 +75,107 @@ public class MainServlet extends HttpServlet
             catch(Exception e) {}
         }
         engaged = true;
-        Request r = new Request(app, request, response);
-        r.doGet();
+
+        String pathInfo = request.getPathInfo();
+        if (pathInfo.equals("/samples")) {
+            doSamples(request, response);
+        }
+        else {
+            new Request(app, request, response).doGet();
+        }
         engaged = false;
     }
+
+    public void doSamples(HttpServletRequest request, HttpServletResponse response)
+        throws IOException
+    {
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(200);
+        PrintWriter rw = response.getWriter();
+        rw.println("<html><head></head><body>");
+        rw.println("<h1>Test cases</h1>");
+        rw.println("<table>");
+        rw.println(tr(
+            th("Description") +
+            th("ID") +
+            th("PMFU") +
+            th("JSON") +
+            th("Styled")
+        ));
+
+        // Read the samples json file
+        URL samplesUrl = getClass().getClassLoader().getResource("samples/test-cases.json");
+        ObjectNode samples = (ObjectNode) app.getMapper().readTree(samplesUrl);
+        System.out.println("samples: " + samples);
+        ArrayNode testCases = (ArrayNode) samples.get("test-cases");
+        Iterator<JsonNode> i = testCases.elements();
+        while (i.hasNext()) {
+            ObjectNode testCase = (ObjectNode) i.next();
+            String description = testCase.get("description").asText();
+
+            List<String> qsParams = new ArrayList<String>();
+            String id = testCase.get("id").asText();
+            qsParams.add("ids=" + id);
+            TextNode idtypeObj = (TextNode) testCase.get("idtype");
+            String idtype = idtypeObj == null ? "" : idtypeObj.asText();
+            if (idtypeObj != null) {
+                qsParams.add("idtype=" + idtype);
+            }
+            String idField;
+            if (idtype.equals("pmid")) {
+                idField = link("http://www.ncbi.nlm.nih.gov/pubmed/" + id, idtype + ":" + id);
+            }
+            else {
+                idField = link("http://www.ncbi.nlm.nih.gov/pmc/articles/" + id + "/", id);
+            }
+
+            rw.println(tr(
+                td(description) +
+                td(idField) +
+                //td(qs(qsParams)) +
+                td(link("/?" + qs(qsParams, "outputformat=pmfu"), "pmfu")) +
+                td(link("/?" + qs(qsParams, "outputformat=citeproc"), "json")) +
+                td(link("/?" + qs(qsParams), "styled"))
+            ));
+        }
+
+
+        rw.println("</table></body></html>");
+
+
+        return;
+
+    }
+    public String td(String v) {
+        return "<td>" + v + "</td>";
+    }
+    public String th(String v) {
+        return "<th>" + v + "</th>";
+    }
+    public String tr(String v) {
+        return "<tr>" + v + "</tr>";
+    }
+    public String qs(String... params) {
+        return StringUtils.join(params, "&amp;");
+    }
+    public String qs(List<String> params) {
+        return StringUtils.join(params.toArray(), "&amp;");
+    }
+    public String qs(List<String> initParams, String moreParams) {
+        List<String> params = new ArrayList<String>(initParams);
+        params.add(moreParams);
+        return StringUtils.join(params.toArray(), "&amp;");
+    }
+    public String link(String href, String content) {
+        return "<a href='" + href + "'>" + content + "</a>";
+    }
+
+
+
+
+
+
 
     /**
      * Respond to HTTP OPTIONS requests, with CORS headers.  See

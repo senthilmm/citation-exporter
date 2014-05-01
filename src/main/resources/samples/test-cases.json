@@ -1,0 +1,118 @@
+{
+  "test-cases": [
+    {
+      "description": "Correction",
+      "id": "PMC3155436"
+    },
+    {
+      "description": "Retracted article",
+      "id": "PMC3238325"
+    },
+    {
+      "description": "Retraction",
+      "id": "PMC3317627"
+    },
+    {
+      "description": "Corrected article",
+      "id": "PMC3038813"
+    },
+    {
+      "description": "HAL manuscript",
+      "id": "PMC3179987"
+    },
+    {
+      "description": "article with versions",
+      "id": "PMC2762331.2"
+    },
+    {
+      "description": "article with subtitle",
+      "id": "PMC2587024"
+    },
+    {
+      "description": "article with notes - also multiple author lines",
+      "id": "PMC3020069"
+    },
+    {
+      "description": "french version of article",
+      "id": "PMC3155427"
+    },
+    {
+      "description": "english version of article",
+      "id": "PMC3155426"
+    },
+    {
+      "description": "poem",
+      "id": "PMC3060217"
+    },
+    {
+      "description": "product information (book review)",
+      "id": "PMC2991755"
+    },
+    {
+      "description": "multiple xrefs for an author",
+      "id": "PMC3287014"
+    },
+    {
+      "description": "scanned article",
+      "id": "PMC2281396"
+    },
+    {
+      "description": "markup in the title",
+      "id": "PMC3876235"
+    },
+    {
+      "description": "MathML in the title",
+      "id": "PMC3097280"
+    },
+    {
+      "description": "non-ascii character in the title",
+      "id": "PMC26831"
+    },
+    {
+      "description": "image in the title",
+      "id": "PMC2268238"
+    },
+    {
+      "description": "no authors",
+      "id": "PMC1795550"
+    },
+    {
+      "description": "subarticle",
+      "id": "PMC2542894"
+    },
+    {
+      "description": "response",
+      "id": "PMC27276"
+    },
+    {
+      "description": "huge front matter",
+      "id": "PMC2714974"
+    },
+    {
+      "description": "French",
+      "id": "PMC2714974"
+    },
+    {
+      "description": "Huge author list",
+      "id": "22479202",
+      "idtype": "pmid"
+    },
+    {
+      "description": "Huge author list",
+      "id": "23563607",
+      "idtype": "pmid"
+    },
+    {
+      "description": "no authors",
+      "id": "24754045",
+      "idtype": "pmid"
+    },
+    {
+      "description": "no abstract",
+      "id": "24737276",
+      "idtype": "pmid"
+    }
+  ]
+}
+
+
