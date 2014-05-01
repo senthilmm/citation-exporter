@@ -159,14 +159,14 @@
 
     <xsl:template match="source-meta" mode="container">
         <xsl:choose>
-            <xsl:when test="object-id[@object-id-type='nlm-ta']">
+            <xsl:when test="object-id[@pub-id-type='nlm-ta']">
                 <s k="container-title">
-                    <xsl:value-of select="object-id[@object-id-type='nlm-ta']"/>
+                    <xsl:value-of select="object-id[@pub-id-type='nlm-ta']"/>
                 </s>
             </xsl:when>
-            <xsl:when test="object-id[@object-id-type='iso-abbrev']">
+            <xsl:when test="object-id[@pub-id-type='iso-abbrev']">
                 <s k="container-title">
-                    <xsl:value-of select="object-id[@object-id-type='iso-abbrev']"/>
+                    <xsl:value-of select="object-id[@pub-id-type='iso-abbrev']"/>
                 </s>
             </xsl:when>
             <xsl:when test="parent::pm-record/@record-type='section'">
@@ -191,14 +191,14 @@
 
     <xsl:template match="document-meta|source-meta">
         <xsl:choose>
-            <xsl:when test="pub-date[@pub-type='ppub' or @pub-type='epub-ppub']">
-                <xsl:apply-templates select="pub-date[@pub-type='ppub' or @pub-type='epub-ppub']"/>
+            <xsl:when test="pub-date[@date-type='ppub' or @date-type='epub-ppub']">
+                <xsl:apply-templates select="pub-date[@date-type='ppub' or @date-type='epub-ppub']"/>
             </xsl:when>
-            <xsl:when test="pub-date[@pub-type='collection']">
-                <xsl:apply-templates select="pub-date[@pub-type='collection']"/>
+            <xsl:when test="pub-date[@date-type='collection']">
+                <xsl:apply-templates select="pub-date[@date-type='collection']"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:apply-templates select="pub-date[@pub-type='epub' or @pub-type='epubr'][1]"/>
+                <xsl:apply-templates select="pub-date[@date-type='epub' or @date-type='epubr'][1]"/>
             </xsl:otherwise>
         </xsl:choose>
         <xsl:apply-templates select="fpage"/>
@@ -285,12 +285,8 @@
     </xsl:template>
 
     <xsl:template match="object-id">
-        <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'"/>
-        <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
         <s>
-            <xsl:attribute name="k">
-                <xsl:value-of select="translate(@pub-id-type, $lowercase, $uppercase)"/>
-            </xsl:attribute>
+            <xsl:attribute name="k" select="upper-case(@pub-id-type)"/>
             <xsl:value-of select="."/>
         </s>
     </xsl:template>
