@@ -133,7 +133,7 @@ public class MainServlet extends HttpServlet
             rw.println(tr(
                 td(description) +
                 td(idField) +
-                //td(qs(qsParams)) +
+                td(link("/?" + qs(qsParams, "outputformat=nxml"), "nxml")) +
                 td(link("/?" + qs(qsParams, "outputformat=pmfu"), "pmfu")) +
                 td(link("/?" + qs(qsParams, "outputformat=citeproc"), "json")) +
                 td(link("/?" + qs(qsParams), "styled"))

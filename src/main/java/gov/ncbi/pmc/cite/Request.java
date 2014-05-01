@@ -102,6 +102,8 @@ public class Request {
                 responseformat = "json";
             else if (outputformat.equals("pmfu"))
                 responseformat = "xml";
+            else if (outputformat.equals("nxml"))
+                responseformat = "xml";
         }
 
         try {
@@ -116,6 +118,11 @@ public class Request {
             else if (outputformat.equals("pmfu") && responseformat.equals("xml")) {
                 pmfuXml();
             }
+
+            else if (outputformat.equals("nxml") && responseformat.equals("xml")) {
+                nXml();
+            }
+
 
             else if (outputformat.equals("nbib") && responseformat.equals("nbib") ||
                      outputformat.equals("ris") && responseformat.equals("ris"))
@@ -137,8 +144,6 @@ public class Request {
     /**
      * Respond to the client with a PMFU document.
      */
-    // FIXME:  I'm trying to do this the "right" way, using Java's JAXP stuff, but right now
-    // there's way too much converting to strings, etc.  This needs to be streamlined.
     public void pmfuXml()
         throws IOException
     {
@@ -171,6 +176,44 @@ public class Request {
             page.print(serializeXml(d));
         }
     }
+
+
+    /**
+     * Respond to the client with an NXML document.  This is only available for some of the
+     * item sources, and is not an official part of the api/service.
+     */
+    public void nXml()
+        throws IOException
+    {
+        resp.setContentType("application/xml;charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setStatus(HttpServletResponse.SC_OK);
+        page = resp.getWriter();
+
+        ItemSource itemSource = app.getItemSource();
+        String idType = idSet.getType();
+        int numIds = idSet.size();
+
+        if (numIds == 1) {
+            Document d = itemSource.retrieveItemNxml(idType, idSet.getId(0));
+            page.print(serializeXml(d));
+        }
+        else {
+            Document d = getDocumentBuilder().newDocument();
+            Element root = d.createElement("records");
+            d.appendChild(root);
+
+            for (int i = 0; i < numIds; ++i) {
+                Document record = itemSource.retrieveItemNxml(idType, idSet.getId(i));
+                root.appendChild(d.importNode(record.getDocumentElement(), true));
+            }
+            page.print(serializeXml(d));
+        }
+    }
+
+
+
+
 
     /**
      * Utility function to serialize an XML object for output back to the client.
