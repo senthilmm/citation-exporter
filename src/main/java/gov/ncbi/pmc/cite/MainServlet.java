@@ -99,9 +99,7 @@ public class MainServlet extends HttpServlet
         rw.println(tr(
             th("Description") +
             th("ID") +
-            th("PMFU") +
-            th("JSON") +
-            th("Styled")
+            "<th colspan='7'>Formats</th>"
         ));
 
         // Read the samples json file
@@ -136,7 +134,10 @@ public class MainServlet extends HttpServlet
                 td(link("/?" + qs(qsParams, "outputformat=nxml"), "nxml")) +
                 td(link("/?" + qs(qsParams, "outputformat=pmfu"), "pmfu")) +
                 td(link("/?" + qs(qsParams, "outputformat=citeproc"), "json")) +
-                td(link("/?" + qs(qsParams), "styled"))
+                td(link("/?" + qs(qsParams, "style=modern-language-association"), "MLA")) +
+                td(link("/?" + qs(qsParams, "style=apa"), "APA")) +
+                td(link("/?" + qs(qsParams, "style=chicago-author-date"), "Chicago")) +
+                td(link("/?" + qs(qsParams, "styles=modern-language-association,apa,chicago-author-date"), "combined"))
             ));
         }
 

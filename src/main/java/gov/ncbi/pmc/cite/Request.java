@@ -72,12 +72,18 @@ public class Request {
         // First attempt to resolve the IDs into an IdSet, which contains the id type and
         // each of the IDs in a canonicalized form.
         String idsParam = req.getParameter("ids");
-        if (idsParam == null) {
+        String idParam = req.getParameter("id");
+        if (idsParam != null && idParam != null) {
+            errorResponse("Both `ids` and `id` parameter were set in the request");
+        }
+        if (idsParam == null && idParam == null) {
             errorResponse("Need to specify at least one ID");
             return;
         }
+
+        String idp = idsParam != null ? idsParam : idParam;
         try {
-            idSet = app.getIdResolver().resolveIds(idsParam, req.getParameter("idtype"));
+            idSet = app.getIdResolver().resolveIds(idp, req.getParameter("idtype"));
         }
         catch (Exception e) {
             errorResponse("Unable to resolve ids: " + e);
@@ -318,10 +324,15 @@ public class Request {
     public void styledCitation()
         throws ServletException, IOException
     {
-        String styles_param = req.getParameter("styles");
-        if (styles_param != null) {
+        String stylesParam = req.getParameter("styles");
+        String styleParam = req.getParameter("style");
+        if (stylesParam != null && styleParam != null) {
+            errorResponse("Both `styles` and `style` parameter were set in the request");
+        }
+        String sp = stylesParam != null ? stylesParam : styleParam;
+        if (sp != null) {
             log.debug("styles = " + styles);
-            styles = styles_param.split(",");
+            styles = sp.split(",");
         }
 
         String idType = idSet.getType();
