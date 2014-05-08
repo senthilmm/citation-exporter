@@ -12,7 +12,6 @@
 	
   <xsl:param name="pmid" as="xs:string" select="''"/>
   <xsl:param name="pmcid" as="xs:string" select="''"/>
-  <xsl:param name="book_id" as="xs:string?" select="tokenize(base-uri(), '\.')[last()-1]"/>
 
 
 
@@ -68,18 +67,8 @@
 							MedlineCitation/MedlineJournalInfo/NlmUniqueId |
 							MedlineCitation/MedlineJournalInfo/MedlineTA |
 							MedlineCitation/MedlineJournalInfo/NlmUniqueID |
-							front/journal-meta//journal-id "/>
-			<xsl:choose>
-				<xsl:when test="/book-part/@book-part-type='toc'">
-					<xsl:call-template name="write-oids-from-params"/>
-				</xsl:when>
-				<xsl:when test="/book-part and $book_id != '' ">
-					<object-id pub-id-type="pmcid">
-						<xsl:value-of select="$book_id"/>
-					</object-id>
-				</xsl:when>
-			</xsl:choose>
-		
+							front/journal-meta//journal-id | 
+							book-meta/book-id"/>
 			<!-- write source title -->
 			<xsl:apply-templates select="front/journal-meta/journal-title-group | 
 							front/journal-meta/journal-title | 
@@ -127,7 +116,7 @@
 							front/article-meta/article-id | 
 							book-part-meta/book-part-id"/>
 			<!-- write article-ids from parameters pmid and pmcid -->
-			<xsl:if test="self::article or self::book-part">
+			<xsl:if test="self::article or self::book-part-meta">
 				<xsl:call-template name="write-oids-from-params"/>
 			</xsl:if>
 
@@ -273,7 +262,7 @@
 		</subtitle>
 	</xsl:template>
 	
-	<xsl:template match="trans-title[parent::title-group | parent::book-title-group]">
+	<xsl:template match="trans-title[parent::title-group]">
 		<trans-title-group>
 			<trans-title>
 				<xsl:apply-templates select="@*"/>
@@ -323,7 +312,7 @@
 				<xsl:value-of select="$pmcid"/>
 			</object-id>
 		</xsl:if>
-		<xsl:if test="$pmid!='' and $pmid != '0'">
+		<xsl:if test="$pmid!=''">
 			<object-id pub-id-type="pmid">
 				<xsl:value-of select="$pmid"/>
 			</object-id>
@@ -400,7 +389,7 @@
 	<xsl:template match="xref[not(@ref-type) or (@ref-type!='aff' and @ref-type!='corresp')] | 
 				label"/>
 
-	<xsl:template match="aff/@id | aff/@rid | aff-alternatives/@id | contrib/@rid | author-notes/fn/@id | aff/fn/@id | p/@id | mml:math/@name"/>
+	<xsl:template match="aff/@id | aff/@rid | aff-alternatives/@id | contrib/@rid | author-notes/fn/@id | p/@id | mml:math/@name"/>
 	
 	<xsl:template match="collab/named-content">
 		<xsl:apply-templates/>
@@ -464,21 +453,6 @@
 		<xsl:apply-templates/>
 	</xsl:template>
 	
-	<xsl:template match="graphic">
-		<xsl:choose>
-			<xsl:when test="@alt-version='no' or not(@alt-version)">				
-				<xsl:copy copy-namespaces="no">
-					<xsl:apply-templates select="*|@*|text()|processing-instruction()"/>
-				</xsl:copy>
-			</xsl:when>
-			<xsl:otherwise>
-				<FAIL/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-	
-	<xsl:template match="@alt-version"/>
-	
 	<xsl:template match="inline-formula[inline-graphic[@alternate-form-of]]">
 		<xsl:variable name="alt-form-id" select="inline-graphic/@alternate-form-of"/>
 		<xsl:copy copy-namespaces="no">
@@ -488,7 +462,7 @@
 			</alternatives>
 		</xsl:copy>
 	</xsl:template>
-		
+	
 	<xsl:template match="on-behalf-of[xref[@ref-type='aff']]">
 		<xsl:copy copy-namespaces="no">
 			<xsl:apply-templates select="*[not(self::xref[@ref-type='aff'])]|@*|text()|processing-instruction()"/>
@@ -508,7 +482,7 @@
 	
 	
 	<xsl:template match="@indexed | @alternate-form-of"/>
-			
+	
 	<xsl:template match="book-title-group ">
 		<title-group>
 			<xsl:apply-templates/>
@@ -597,30 +571,12 @@
 	
 	<xsl:template match="named-content[@content-type='label']" mode="write-chapters">
 		<label><xsl:apply-templates/></label>
-		</xsl:template>
-		
-	<xsl:template match="ext-link[@qualifier]/@xlink:href">
-		<xsl:attribute name="xlink:href" select="concat(../@qualifier, ':', .)"/>
-	</xsl:template>
+		</xsl:template>	
 	
-	<xsl:template match="ext-link/@qualifier"/>
-	
-	<xsl:template match="isbn/@pub-type">
-		<xsl:attribute name="publication-format" select="."/>
-	</xsl:template>
-	
-	<xsl:template match="book-part-meta/elocation-id">
-		<!-- for some historic reason it's the book-part-id and that's really not helpful -->
-	</xsl:template>
-	
-	<xsl:template match="multi-link">
-		<xsl:apply-templates select="term/node()"/>		
-	</xsl:template>
-	
-	<xsl:template match="map-group">
-		<xsl:apply-templates select="graphic"/>		
-	</xsl:template>
-	
+
+
+
+
 
 
 
