@@ -102,6 +102,10 @@ public class MainServlet extends HttpServlet
             "<th colspan='7'>Formats</th>"
         ));
 
+        // Construct the base part of the URL that will be used in hyperlinks
+        String contextPath = request.getContextPath();
+        String hrefBase = (contextPath.equals("") ? "/" : contextPath) + "?";
+
         // Read the samples json file
         URL samplesUrl = getClass().getClassLoader().getResource("samples/test-cases.json");
         ObjectNode samples = (ObjectNode) app.getMapper().readTree(samplesUrl);
@@ -127,17 +131,16 @@ public class MainServlet extends HttpServlet
             else {
                 idField = link("http://www.ncbi.nlm.nih.gov/pmc/articles/" + id + "/", id);
             }
-
             rw.println(tr(
                 td(description) +
                 td(idField) +
-                td(link("/?" + qs(qsParams, "outputformat=nxml"), "nxml")) +
-                td(link("/?" + qs(qsParams, "outputformat=pmfu"), "pmfu")) +
-                td(link("/?" + qs(qsParams, "outputformat=citeproc"), "json")) +
-                td(link("/?" + qs(qsParams, "style=modern-language-association"), "MLA")) +
-                td(link("/?" + qs(qsParams, "style=apa"), "APA")) +
-                td(link("/?" + qs(qsParams, "style=chicago-author-date"), "Chicago")) +
-                td(link("/?" + qs(qsParams, "styles=modern-language-association,apa,chicago-author-date"), "combined"))
+                td(link(hrefBase + qs(qsParams, "outputformat=nxml"), "nxml")) +
+                td(link(hrefBase + qs(qsParams, "outputformat=pmfu"), "pmfu")) +
+                td(link(hrefBase + qs(qsParams, "outputformat=citeproc"), "json")) +
+                td(link(hrefBase + qs(qsParams, "style=modern-language-association"), "MLA")) +
+                td(link(hrefBase + qs(qsParams, "style=apa"), "APA")) +
+                td(link(hrefBase + qs(qsParams, "style=chicago-author-date"), "Chicago")) +
+                td(link(hrefBase + qs(qsParams, "styles=modern-language-association,apa,chicago-author-date"), "combined"))
             ));
         }
 

@@ -48,7 +48,7 @@ public class App {
 
         // PMFU from stcache:
         else if (itemSourceStr.equals("stcache")) {
-            itemSource = new StcacheItemSource(this);
+            itemSource = new StcachePmfuItemSource(this);
         }
         else if (itemSourceStr.equals("stcache-nxml")) {
             itemSource = new StcacheNxmlItemSource(this);
