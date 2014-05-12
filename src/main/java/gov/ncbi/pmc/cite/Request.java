@@ -84,6 +84,7 @@ public class Request {
         String idp = idsParam != null ? idsParam : idParam;
         try {
             idSet = app.getIdResolver().resolveIds(idp, req.getParameter("idtype"));
+            log.debug("Resolved ids " + idSet);
         }
         catch (Exception e) {
             errorResponse("Unable to resolve ids: " + e);
@@ -161,6 +162,7 @@ public class Request {
         ItemSource itemSource = app.getItemSource();
         String idType = idSet.getType();
         int numIds = idSet.size();
+        log.debug("Getting PMFU for ids " + idSet);
 
         if (numIds == 1) {
             Document d = itemSource.retrieveItemPmfu(idType, idSet.getId(0));

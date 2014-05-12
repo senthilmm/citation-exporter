@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.jetty.util.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,6 +58,8 @@ public class IdResolver {
         { "doi", "^10\\.\\d+\\/.*$" },
         { "aiid", "^\\d+$" },
     };
+
+    private Logger log = LoggerFactory.getLogger(IdResolver.class);
 
     public IdResolver() {
         // Resolve system properties
@@ -148,10 +153,10 @@ public class IdResolver {
 
         // Resolve IDs to aiids.  We'll first aggregate the list of
         // IDs that need to be resolved, so we only have to make one backend call.  Go through
-        // the list and, for each ID, if it is not in the cache, add it to the list.
+        // the list and, for each ID, either add it to resolvedIds (if it's already in the cache)
+        // or idsToResolve (if not).  No preservation of order here.
         Map<String, Integer> resolvedIds = new HashMap<String, Integer>();
         List<String> idsToResolve = new ArrayList<String>();
-
         for (String id: idsArray) {
             Integer aiid = cacheAiids ? aiidCache.get(id) : null;
             if (aiid != null) {
@@ -165,32 +170,51 @@ public class IdResolver {
         if (idsToResolve.size() > 0) {
             // Call the id resolver
             URL url = new URL(idConverterBase + "idtype=" + idType + "&ids=" + StringUtils.join(idsToResolve, ","));
-
-            // FIXME:  we should use citeproc-java's json library, instead of Jackson,
-            // since we already link to it.
+            log.debug("Invoking '" + url + "' to resolve ids");
             ObjectNode idconvResponse = (ObjectNode) mapper.readTree(url);
 
             String status = idconvResponse.get("status").asText();
             if (!status.equals("ok"))
                 throw new IOException("Problem attempting to resolve ids from " + url);
 
-            ArrayNode records = (ArrayNode) idconvResponse.get("records");
-            for (int rn = 0; rn < records.size(); ++rn) {
-                ObjectNode record = (ObjectNode) records.get(rn);
-                // FIXME:  Need some error handling
-                String origId = record.get(idType).asText();
-                Integer aiid = record.get("aiid").asInt();
-                resolvedIds.put(origId, aiid);
-                if (cacheAiids) {
-                    aiidCache.put(origId, aiid, aiidCacheTtl);
+            try {
+                // Cache everything from the response, on the theory that the service call was expensive
+                ArrayNode records = (ArrayNode) idconvResponse.get("records");
+                for (int rn = 0; rn < records.size(); ++rn) {
+                    ObjectNode record = (ObjectNode) records.get(rn);
+                    JsonNode aiid = record.get("aiid");
+                    _dispatchId(record.get("pmcid"), aiid, resolvedIds);
+                    _dispatchId(record.get("doi"), aiid, resolvedIds);
+
+                    ArrayNode versions = (ArrayNode) record.get("versions");
+                    for (int vn = 0; vn < versions.size(); ++vn) {
+                        ObjectNode version = (ObjectNode) versions.get(vn);
+                        _dispatchId(version.get("pmcid"), version.get("aiid"), resolvedIds);
+                    }
                 }
+            }
+            catch (Exception e) {
+                throw new IOException("Unable to parse JSON response from id converter: " + e);
             }
         }
 
         IdSet idSet = new IdSet("aiid");
         for (String id: idsArray) {
+            Integer aiid = resolvedIds.get(id);
+            if (aiid == null) throw new IOException("Wanted id " + id + " was not in idconverter response");
             idSet.addId(resolvedIds.get(id).toString());
         }
         return idSet;
+    }
+
+    // Helper function to handle one result pair from the idconverter
+    private void _dispatchId(JsonNode fromId, JsonNode aiid, Map<String, Integer> resolvedIds) {
+        if (fromId == null || aiid == null) return;
+        String fromIdStr = fromId.asText();
+        int aiidInt = aiid.asInt();
+        resolvedIds.put(fromIdStr, aiidInt);
+        if (cacheAiids) {
+            aiidCache.put(fromIdStr, aiidInt, aiidCacheTtl);
+        }
     }
 }

@@ -3,6 +3,8 @@ package gov.ncbi.pmc.cite;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Utility class for holding a list of IDs, all of which are the same type.
  * One of these is created per request, since, in a given request, all IDs have to
@@ -62,5 +64,8 @@ public class IdSet {
         return idType + "-" + id;
     }
 
+    public String toString() {
+        return StringUtils.join(getTids(), ", ");
+    }
 
 }

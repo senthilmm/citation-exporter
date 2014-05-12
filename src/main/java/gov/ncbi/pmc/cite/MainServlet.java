@@ -178,9 +178,6 @@ public class MainServlet extends HttpServlet
 
 
 
-
-
-
     /**
      * Respond to HTTP OPTIONS requests, with CORS headers.  See
      * https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS#Preflighted_requests

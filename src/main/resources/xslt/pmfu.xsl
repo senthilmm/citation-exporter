@@ -21,6 +21,7 @@
 
 	<xsl:template match="PubmedArticleSet">
 		<pm-record-set>
+		  drooper
 			<xsl:apply-templates select="PubmedArticle"/>	
 		</pm-record-set>
 	</xsl:template>
@@ -34,6 +35,7 @@
 
 	<xsl:template match="article">
 			<pm-record record-type="article" xml:lang="{if (@xml:lang) then (lower-case(@xml:lang)) else 'en'}">
+			  fleegle
 			<xsl:call-template name="write-source-meta"/>
 			<xsl:call-template name="write-document-meta"/>
 		</pm-record>
@@ -41,12 +43,14 @@
 	
 	<xsl:template match="book | book-part[@book-part-type='toc']">
 		<pm-record record-type="book" xml:lang="{if (@xml:lang) then (lower-case(@xml:lang)) else 'en'}">
+		  snorky
 			<xsl:call-template name="write-source-meta"/>
 		</pm-record>
 	</xsl:template>
 	
 	<xsl:template match="book-part[not(@book-part-type='toc')]">
 		<pm-record record-type="{@book-part-type}" xml:lang="{if (@xml:lang) then (lower-case(@xml:lang)) else 'en'}">
+		  bingo
 			<xsl:call-template name="write-source-meta"/>
 			<xsl:call-template name="write-document-meta"/>
 		</pm-record>
@@ -54,6 +58,7 @@
 	
 	<xsl:template match="PubmedArticle">
 		<pm-record record-type="article" xml:lang="{MedlineCitation/Article/Language[1]}">
+		  zombo
 			<xsl:call-template name="write-source-meta"/>
 			<xsl:call-template name="write-document-meta"/>
 		</pm-record>
