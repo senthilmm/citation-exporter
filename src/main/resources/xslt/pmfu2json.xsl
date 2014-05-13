@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version="2.0"
-                xmlns:xlink="http://www.w3.org/1999/xlink" 
+                xmlns:xlink="http://www.w3.org/1999/xlink"
                 xmlns:mml="http://www.w3.org/1998/Math/MathML"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 exclude-result-prefixes="xsl xlink mml xsi xs">
 
     <xsl:import href="xml2json-2.0.xsl"/>
@@ -36,7 +36,7 @@
         </xsl:choose>
     </xsl:variable>
 
-    <!-- 
+    <!--
       Overrides the named template in xml2json.xsl.  This is the top-level template that will
       generate the intermediate XML format, before conversion into JSON.
     -->
@@ -222,8 +222,9 @@
     </xsl:template>
 
     <xsl:template match="year|month|day">
+        <xsl:variable name='v' as='xs:integer' select='.'/>
         <n>
-            <xsl:value-of select="."/>
+            <xsl:value-of select="$v"/>
         </n>
     </xsl:template>
 
