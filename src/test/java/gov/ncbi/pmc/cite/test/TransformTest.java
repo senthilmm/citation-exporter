@@ -58,18 +58,6 @@ public class TransformTest
      * Test the transformations
      */
     public void testTransforms() {
-        //URL baseUrl = getClass().getClassLoader().getResource("samples");
-        //System.out.println("baseUrl is '" + baseUrl + "'");
-
-        /* This shows that you can read arbitrary resources in other JARs that are in
-         * the classpath.  This is the way we will package XSLTs from the PMCXMLConverter repo:
-        try {
-            InputStream csl = getClass().getClassLoader().getResourceAsStream("academy-of-management-review.csl");
-            IOUtils.copy(csl, System.out);
-        }
-        catch (Exception e) {}
-         */
-
         ItemSource itemSource = app.getItemSource();
 
         Document nxml_31 = null;

@@ -44,7 +44,6 @@ public class TestItemSource extends ItemSource {
     public Document retrieveItemNxml(String idType, String id)
         throws IOException
     {
-        //System.out.println("retrieveItemNxml");
         return fetchItemNxml(idType, id);
     }
 
@@ -54,7 +53,6 @@ public class TestItemSource extends ItemSource {
      */
     public Document fetchItemNxml(String idType, String id) throws IOException
     {
-        //System.out.println("fetchItemNxml");
         try {
             URL nxmlUrl = new URL(base_url, idType + "/" + id + ".nxml");
             log.debug("Reading NXML from " + nxmlUrl);
@@ -65,7 +63,6 @@ public class TestItemSource extends ItemSource {
                 throw new IOException("Failed to read NXML from " + nxmlUrl);
             }
             Element docElem = nxml.getDocumentElement();
-            System.out.println("document element is " + docElem.getTagName());
 
             return nxml;
         }
@@ -86,13 +83,10 @@ public class TestItemSource extends ItemSource {
     public Document retrieveItemPmfu(String idType, String id)
         throws IOException
     {
-        //System.out.println("retrieveItemPmfu");
         try {
-            //System.out.println("  calling super.fetchItemPmfu");
             return fetchItemPmfu(idType, id);
         }
         catch (Exception e) {
-            //System.out.println("  calling super.retrieveItemPmfu");
             return super.retrieveItemPmfu(idType, id);
         }
     }
@@ -104,7 +98,6 @@ public class TestItemSource extends ItemSource {
     public Document fetchItemPmfu(String idType, String id)
         throws IOException
     {
-        //System.out.println("fetchItemPmfu");
         try {
             return app.newDocumentBuilder().parse(
                 new URL(base_url, idType + "/" + id + ".pmfu").openStream()
@@ -128,13 +121,10 @@ public class TestItemSource extends ItemSource {
     public JsonNode retrieveItemJson(String idType, String id)
         throws IOException
     {
-        //System.out.println("retrieveItemJson");
         try {
-            //System.out.println("  calling fetchItemJson");
             return fetchItemJson(idType, id);
         }
         catch (Exception e) {
-            //System.out.println("  calling super.retrieveItemJson");
             return super.retrieveItemJson(idType, id);
         }
     }

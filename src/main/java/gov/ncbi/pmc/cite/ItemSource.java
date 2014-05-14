@@ -35,8 +35,6 @@ public abstract class ItemSource {
         throws IOException
     {
         Document nxml = retrieveItemNxml(idType, id);
-        System.out.println("super.retrieveItemPmfu: nxml = " + nxml);
-
         return (Document) app.doTransform(nxml, "pmfu");
     }
 

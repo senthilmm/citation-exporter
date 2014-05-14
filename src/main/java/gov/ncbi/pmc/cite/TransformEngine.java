@@ -47,7 +47,6 @@ public class TransformEngine {
         throws IOException
     {
         this.xsltBaseUrl = xsltBaseUrl;
-        System.out.println(">>>>>>>>> xsltBaseUrl = " + xsltBaseUrl);
         this.mapper = mapper;
         Configuration config = new Configuration();
         transformerFactory = new TransformerFactoryImpl(config);
@@ -132,8 +131,6 @@ public class TransformEngine {
         if (ps == null) {
             // Read and prepare an XSLT stylesheet
             URL xsltUrl = new URL(xsltBaseUrl, tname + ".xsl");
-            //URL xsltUrl = new URL(xsltBaseUrl, "identity.xsl");
-            System.out.println("xslt_url = " + xsltUrl);
 
             Source xsltSource = null;
             try {

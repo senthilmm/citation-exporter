@@ -49,6 +49,7 @@ public class MainServlet extends HttpServlet
         catch (Exception e) {
             e.printStackTrace();
             System.out.println("Sorry!");  // Not much we can do.
+            log.error("Unable to instantiate MainServlet; exiting");
             System.exit(1);
         }
     }
@@ -109,7 +110,6 @@ public class MainServlet extends HttpServlet
         // Read the samples json file
         URL samplesUrl = getClass().getClassLoader().getResource("samples/test-cases.json");
         ObjectNode samples = (ObjectNode) app.getMapper().readTree(samplesUrl);
-        System.out.println("samples: " + samples);
         ArrayNode testCases = (ArrayNode) samples.get("test-cases");
         Iterator<JsonNode> i = testCases.elements();
         while (i.hasNext()) {

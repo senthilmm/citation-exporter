@@ -37,7 +37,6 @@ public class StcacheNxmlItemSource extends ItemSource {
             else {
                 throw new IOException("I only know how to get PMC article instances right now");
             }
-            System.out.println(">>>>>>>>>>>>>>>>>> nxml is " + nxmlBytes);
             return app.newDocumentBuilder().parse(new ByteArrayInputStream(nxmlBytes));
         }
         catch (Exception e) {
