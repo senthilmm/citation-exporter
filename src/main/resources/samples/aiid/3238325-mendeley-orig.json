@@ -1,0 +1,30 @@
+{
+  "id": "ITEM-1",
+  "type": "article-journal",
+  "container-title": "The Yale journal of biology and medicine",
+  "title": "Reducing the harm of stress: medications to rescue the prefrontal cortex and overcome bad habits: the science of stress: focus on the brain, breaking bad habits, and chronic disease.",
+  "abstract": "Our brain is sensitive to stress. Both acute and chronic stress cause cognitive deficits and induce chronic disorders such as drug addiction. In a June 2011 conference at Yale entitled \"The Science of Stress: Focus on the Brain, Breaking Bad Habits, and Chronic Disease,\" Drs. Amy Arnsten and Sherry Mckee discussed the roles of prefrontal cortex in the treatment of stress impairments and addiction. Medications to strengthen the prefrontal function, such as prazosin and guanfacine, may reduce the harm of stress and help overcome smoking and alcohol abuse.",
+  "author": [
+    {
+      "dropping-particle": "",
+      "family": "Jin",
+      "given": "Lu E",
+      "non-dropping-particle": "",
+      "parse-names": false,
+      "suffix": ""
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        "2011",
+        "12"
+      ]
+    ]
+  },
+  "volume": "84",
+  "issue": "4",
+  "page": "479-82",
+  "ISSN": "1551-4056",
+  "PMID": "22180685"
+}

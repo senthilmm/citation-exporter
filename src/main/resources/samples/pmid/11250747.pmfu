@@ -1,0 +1,293 @@
+
+<!DOCTYPE pm-record-set
+  SYSTEM "http://mwebdev2/staff/beck/pmfu/pmfu-record/pmfudtd/pmfu.dtd">
+<pm-record-set xmlns:xlink="http://www.w3.org/1999/xlink"
+               xmlns:mml="http://www.w3.org/1998/Math/MathML">
+   <pm-record record-type="article" xml:lang="eng">
+      <source-meta>
+         <object-id pub-id-type="iso-abbrev">Breast Cancer Res.</object-id>
+         <object-id pub-id-type="nlm-ta">Breast Cancer Res</object-id>
+         <object-id pub-id-type="NLMUniqueID">100927353</object-id>
+         <title-group>
+            <title>Breast cancer research : BCR</title>
+         </title-group>
+         <issn publication-format="print">1465-5411</issn>
+         <issn-l>1465-5411</issn-l>
+      </source-meta>
+      <document-meta>
+         <object-id pub-id-type="NLM">PMC13901</object-id>
+         <object-id pub-id-type="pubmed">11250747</object-id>
+         <object-id pub-id-type="pmc">PMC13901</object-id>
+         <subj-group subj-group-type="publication-type">
+            <subject>Journal Article</subject>
+            <subject>Research Support, Non-U.S. Gov't</subject>
+         </subj-group>
+         <title-group>
+            <title>BRCA1 and BRCA2 protein expressions in an ovotestis of a 46, XX true hermaphrodite.</title>
+         </title-group>
+         <contrib-group>
+            <contrib contrib-type="author">
+               <name>
+                  <surname>Bernard-Gallon</surname>
+                  <given-names initials="DJ">D J</given-names>
+               </name>
+               <aff>Laboratoire d'Oncologie Moléculaire, Centre Jean Perrin, Clermont-Ferrand, France.</aff>
+            </contrib>
+            <contrib contrib-type="author">
+               <name>
+                  <surname>Déchelotte</surname>
+                  <given-names initials="P">P</given-names>
+               </name>
+            </contrib>
+            <contrib contrib-type="author">
+               <name>
+                  <surname>Vissac</surname>
+                  <given-names initials="C">C</given-names>
+               </name>
+            </contrib>
+            <contrib contrib-type="author">
+               <name>
+                  <surname>Aunoble</surname>
+                  <given-names initials="B">B</given-names>
+               </name>
+            </contrib>
+            <contrib contrib-type="author">
+               <name>
+                  <surname>Cravello</surname>
+                  <given-names initials="L">L</given-names>
+               </name>
+            </contrib>
+            <contrib contrib-type="author">
+               <name>
+                  <surname>Malpuech</surname>
+                  <given-names initials="G">G</given-names>
+               </name>
+            </contrib>
+            <contrib contrib-type="author">
+               <name>
+                  <surname>Bignon</surname>
+                  <given-names initials="YJ">Y J</given-names>
+               </name>
+            </contrib>
+         </contrib-group>
+         <pub-date date-type="ppub" iso-8601-date="2001">
+            <year>2001</year>
+         </pub-date>
+         <pub-date date-type="epub" iso-8601-date="20001109">
+            <day>09</day>
+            <month>11</month>
+            <year>2000</year>
+         </pub-date>
+         <volume>3</volume>
+         <issue>1</issue>
+         <fpage>61</fpage>
+         <lpage>65</lpage>
+         <pub-history>
+            <date date-type="pubmed" iso-8601-date="20010316T100000">
+               <day>16</day>
+               <month>3</month>
+               <year>2001</year>
+            </date>
+            <date date-type="medline" iso-8601-date="20010522T100100">
+               <day>22</day>
+               <month>5</month>
+               <year>2001</year>
+            </date>
+            <date date-type="received" iso-8601-date="20000502">
+               <day>2</day>
+               <month>05</month>
+               <year>2000</year>
+            </date>
+            <date date-type="revised" iso-8601-date="20000830">
+               <day>30</day>
+               <month>08</month>
+               <year>2000</year>
+            </date>
+            <date date-type="accepted" iso-8601-date="20000911">
+               <day>11</day>
+               <month>09</month>
+               <year>2000</year>
+            </date>
+            <date date-type="aheadofprint" iso-8601-date="20001109">
+               <day>9</day>
+               <month>11</month>
+               <year>2000</year>
+            </date>
+            <date date-type="entrez" iso-8601-date="20010316T100000">
+               <day>16</day>
+               <month>3</month>
+               <year>2001</year>
+            </date>
+         </pub-history>
+         <abstract>
+            <p>BRCA1 and BRCA2 breast cancer susceptibility genes encode proteins, the normal cellular functions of which are complex and multiple, and germ-line mutations in individuals predispose both to breast and to ovarian cancer. There is nevertheless substantial evidence linking BRCA1 and BRCA2 to homologous recombination and DNA repair, to transcriptional control and to tissue proliferation. There is controversy regarding the localization of BRCA1 and BRCA2 proteins to either nucleus or cytoplasm and whether the expression is present in premeiotic germ cells or can still be expressed in mitotic spermatogonia. We report herein an immunohistochemical study of BRCA1 and BRCA2 distribution in a rather unusual tissue (an ovotestis), which addresses this issue.</p>
+         </abstract>
+         <kwd-group kwd-group-type="ChemicalList">
+            <compound-kwd>
+               <compound-kwd-part content-type="RegistryNumber">0</compound-kwd-part>
+               <compound-kwd-part content-type="NameOfSubstance">BRCA1 Protein</compound-kwd-part>
+            </compound-kwd>
+            <compound-kwd>
+               <compound-kwd-part content-type="RegistryNumber">0</compound-kwd-part>
+               <compound-kwd-part content-type="NameOfSubstance">BRCA2 Protein</compound-kwd-part>
+            </compound-kwd>
+            <compound-kwd>
+               <compound-kwd-part content-type="RegistryNumber">0</compound-kwd-part>
+               <compound-kwd-part content-type="NameOfSubstance">Neoplasm Proteins</compound-kwd-part>
+            </compound-kwd>
+            <compound-kwd>
+               <compound-kwd-part content-type="RegistryNumber">0</compound-kwd-part>
+               <compound-kwd-part content-type="NameOfSubstance">Transcription Factors</compound-kwd-part>
+            </compound-kwd>
+         </kwd-group>
+         <kwd-group kwd-group-type="MeshHeadingList">
+            <nested-kwd>
+               <kwd content-type="not-major">BRCA1 Protein</kwd>
+               <nested-kwd>
+                  <kwd content-type="major">metabolism</kwd>
+               </nested-kwd>
+            </nested-kwd>
+            <kwd content-type="not-major">BRCA2 Protein</kwd>
+            <nested-kwd>
+               <kwd content-type="not-major">Disorders of Sex Development</kwd>
+               <nested-kwd>
+                  <kwd content-type="major">metabolism</kwd>
+                  <kwd content-type="not-major">pathology</kwd>
+               </nested-kwd>
+            </nested-kwd>
+            <kwd content-type="not-major">Female</kwd>
+            <kwd content-type="not-major">Humans</kwd>
+            <kwd content-type="not-major">Immunoenzyme Techniques</kwd>
+            <kwd content-type="not-major">Infant</kwd>
+            <kwd content-type="not-major">Male</kwd>
+            <nested-kwd>
+               <kwd content-type="not-major">Neoplasm Proteins</kwd>
+               <nested-kwd>
+                  <kwd content-type="major">metabolism</kwd>
+               </nested-kwd>
+            </nested-kwd>
+            <nested-kwd>
+               <kwd content-type="not-major">Ovary</kwd>
+               <nested-kwd>
+                  <kwd content-type="not-major">abnormalities</kwd>
+                  <kwd content-type="major">metabolism</kwd>
+               </nested-kwd>
+            </nested-kwd>
+            <nested-kwd>
+               <kwd content-type="not-major">Sex Chromosome Aberrations</kwd>
+               <nested-kwd>
+                  <kwd content-type="major">metabolism</kwd>
+               </nested-kwd>
+            </nested-kwd>
+            <nested-kwd>
+               <kwd content-type="not-major">Testis</kwd>
+               <nested-kwd>
+                  <kwd content-type="not-major">abnormalities</kwd>
+                  <kwd content-type="major">metabolism</kwd>
+               </nested-kwd>
+            </nested-kwd>
+            <nested-kwd>
+               <kwd content-type="not-major">Transcription Factors</kwd>
+               <nested-kwd>
+                  <kwd content-type="major">metabolism</kwd>
+               </nested-kwd>
+            </nested-kwd>
+            <kwd content-type="major">X Chromosome</kwd>
+         </kwd-group>
+         <custom-meta-group>
+            <custom-meta>
+               <meta-name>CitationSubset</meta-name>
+               <meta-value>IM</meta-value>
+            </custom-meta>
+         </custom-meta-group>
+         <notes notes-type="cited-articles">
+            <ref-list>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Science. 1994 Oct 7;266(5182):66-71</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">7545954</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Science. 1995 Nov 3;270(5237):789-91</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">7481765</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Nature. 1995 Dec 21-28;378(6559):789-92</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">8524414</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Oncogene. 1996 Aug 1;13(3):649-53</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">8760307</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Hum Mol Genet. 1996;5 Spec No:1515-9</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">8875258</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Mol Cell Biol. 1997 Jan;17(1):444-52</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">8972225</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Int J Cancer. 1999 Aug 27;82(5):771-3</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">10417779</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Oncogene. 1998 Jan 8;16(1):61-8</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">9467943</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Proc Natl Acad Sci U S A. 1998 Apr 28;95(9):5287-92</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">9560268</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Oncol Rep. 1998 Jul-Aug;5(4):995-7</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">9625861</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Int J Cancer. 1998 Aug 31;77(5):803-6</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">9688316</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Nat Genet. 1999 Feb;21(2):236-40</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">9988281</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Int J Cancer. 1999 May 31;81(5):839-43</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">10328242</pub-id>
+                  </mixed-citation>
+               </ref>
+               <ref>
+                  <mixed-citation>
+                     <named-content content-type="citation-string">Proc Natl Acad Sci U S A. 1997 Jul 8;94(14):7138-43</named-content>
+                     <pub-id pub-id-type="pmid" specific-use="v1">9207057</pub-id>
+                  </mixed-citation>
+               </ref>
+            </ref-list>
+         </notes>
+      </document-meta>
+   </pm-record>
+</pm-record-set>
