@@ -83,7 +83,6 @@ public class TransformEngine {
         for (TransformDescriptor td: transformsList) {
             transforms.put(td.name, td);
         }
-
     }
 
     /**

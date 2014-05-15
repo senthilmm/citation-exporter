@@ -281,15 +281,22 @@ public class Request {
         ItemSource itemSource = app.getItemSource();
         TransformEngine transformEngine = app.getTransformEngine();
 
+        String transformName =
+                outputformat.equals("ris") ? "pmfu2ris" :
+                outputformat.equals("nbib") ? "pmfu2medline" :
+                outputformat;
         if (numIds == 1) {
+            String outFilename = idSet.getTid(0) + "." + outputformat;
+            resp.setHeader("Content-disposition", "attachment; filename=" + outFilename);
             Document d = itemSource.retrieveItemPmfu(idType, idSet.getId(0));
-            page.print(transformEngine.doTransform(d, outputformat));
+            page.print(transformEngine.doTransform(d, transformName));
         }
         else {
+            resp.setHeader("Content-disposition", "attachment; filename=results." + outputformat);
             for (int i = 0; i < numIds; ++i) {
                 if (i != 0) { page.print("\n"); }
                 Document d = itemSource.retrieveItemPmfu(idType, idSet.getId(i));
-                page.print(transformEngine.doTransform(d, outputformat));
+                page.print(transformEngine.doTransform(d, transformName) + "\n");
             }
         }
     }

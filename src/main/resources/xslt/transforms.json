@@ -16,7 +16,7 @@
     "outputformat": "application/json"
   },
   {
-    "name": "pmfu2nbib",
+    "name": "pmfu2medline",
     "outputformat": "application/nbib"
   },
   {

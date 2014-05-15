@@ -87,6 +87,9 @@ public class MainServlet extends HttpServlet
         engaged = false;
     }
 
+    /*
+     * Display the samples page.
+     */
     public void doSamples(HttpServletRequest request, HttpServletResponse response)
         throws IOException
     {
@@ -134,9 +137,11 @@ public class MainServlet extends HttpServlet
             rw.println(tr(
                 td(description) +
                 td(idField) +
-                td(link(hrefBase + qs(qsParams, "outputformat=nxml"), "nxml")) +
-                td(link(hrefBase + qs(qsParams, "outputformat=pmfu"), "pmfu")) +
-                td(link(hrefBase + qs(qsParams, "outputformat=citeproc"), "json")) +
+                td(link(hrefBase + qs(qsParams, "outputformat=nxml"), "NXML")) +
+                td(link(hrefBase + qs(qsParams, "outputformat=pmfu"), "PMFU")) +
+                td(link(hrefBase + qs(qsParams, "outputformat=ris"), "RIS")) +
+                td(link(hrefBase + qs(qsParams, "outputformat=nbib"), "NBIB")) +
+                td(link(hrefBase + qs(qsParams, "outputformat=citeproc"), "JSON")) +
                 td(link(hrefBase + qs(qsParams, "style=modern-language-association"), "MLA")) +
                 td(link(hrefBase + qs(qsParams, "style=apa"), "APA")) +
                 td(link(hrefBase + qs(qsParams, "style=chicago-author-date"), "Chicago")) +

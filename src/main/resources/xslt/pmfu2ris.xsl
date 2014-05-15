@@ -42,6 +42,7 @@
     
     <xsl:template match="collab|on-behalf-of|string-name">
         <xsl:value-of select="upper-case(substring(ancestor::contrib/@contrib-type, 1, 2))"/>
+        <xsl:text>  - </xsl:text>
         <xsl:value-of select="."/>
         <xsl:text>&#x0A;</xsl:text>
     </xsl:template>
@@ -65,7 +66,7 @@
                 <xsl:text>JF  - </xsl:text>
             </xsl:when>
             <xsl:when test="self::source-meta and parent::pm-record[@record-type='section']">
-                <xsl:text>TI  - </xsl:text>
+                <xsl:text>T2  - </xsl:text>
             </xsl:when>
             <xsl:when test="self::source-meta">
                 <xsl:text>BT  - </xsl:text>
@@ -105,14 +106,12 @@
             then trans-abstract[starts-with(@xml:lang, 'en')] else abstract[1]"/>   
         <xsl:apply-templates select="fpage|elocation-id"/>
         <xsl:apply-templates select="lpage"/>
-        
-        
+        <xsl:apply-templates select="volume"/>
+        <xsl:apply-templates select="issue"/> 
+        <xsl:apply-templates select="issn|isbn"/>        
         <xsl:if test="not(following-sibling::document-meta)">
             <xsl:apply-templates select="object-id"/>
         </xsl:if>
-        <xsl:apply-templates select="issn|isbn"/>
-        <xsl:apply-templates select="volume"/>
-        <xsl:apply-templates select="issue"/>  
     </xsl:template>
     
     <xsl:template match="pub-date">
@@ -131,13 +130,13 @@
     </xsl:template>
     
     <xsl:template match="date">
-        <xsl:text>PY - </xsl:text>
+        <xsl:text>PY  - </xsl:text>
         <xsl:apply-templates select="year"/>
         <xsl:text>/</xsl:text>
         <xsl:apply-templates select="month"/>
         <xsl:text>/</xsl:text>
         <xsl:apply-templates select="day"/>
-        <xsl:value-of select="if(@date-type='rev-recd') then '/[revised]' else concat(' /[', @date-type, ']')"/>
+        <xsl:value-of select="if(@date-type='rev-recd') then '/revised' else concat('/', @date-type)"/>
         <xsl:text>&#x0A;</xsl:text>
     </xsl:template>
     
@@ -210,62 +209,52 @@
         <xsl:text>&#x0A;</xsl:text>
     </xsl:template>
     
-    <xsl:template match="object-id">
-        <xsl:choose>
-            <xsl:when test="@pub-id-type='pmcid'">
-                <xsl:text>PMC - </xsl:text>
-                <xsl:value-of select="."/>
-                <xsl:text>&#x0A;</xsl:text>
-            </xsl:when>
-            <xsl:when test="@pub-id-type='pmid'">
-                <xsl:text>PMID- </xsl:text>
-                <xsl:value-of select="."/>
-                <xsl:text>&#x0A;</xsl:text>
-            </xsl:when>
-            <xsl:when test="@pub-id-type='doi'">
-                <xsl:text>AID - </xsl:text>
-                <xsl:value-of select="."/>
-                <xsl:text> [doi]&#x0A;</xsl:text>
-            </xsl:when>
-            <xsl:when test="@pub-id-type='publisher-id'">
-                <xsl:text>AID - </xsl:text>
-                <xsl:value-of select="."/>
-                <xsl:text> [pii]&#x0A;</xsl:text>
-            </xsl:when>
-            <xsl:when test="@pub-id-type='nlm-ta'">
-                <xsl:text>TA  - </xsl:text>
-                <xsl:value-of select="."/>
-                <xsl:text>&#x0A;</xsl:text>
-            </xsl:when>
-        </xsl:choose>
-    </xsl:template>
-    
-    <xsl:template match="issn">
-        <xsl:text>IS  - </xsl:text>
-        <xsl:value-of select="."/>
-        <xsl:if test="@publication-format">
-            <xsl:value-of select="concat(' (', upper-case(substring(@publication-format, 1, 1)), 
-                substring(@publication-format, 2), ')')"/>
-        </xsl:if>
-        <xsl:text>&#x0A;</xsl:text>
-    </xsl:template>
-    
-    <xsl:template match="isbn">
-        <xsl:text>ISBN- </xsl:text>
-        <xsl:value-of select="."/>
-        <xsl:text>&#x0A;</xsl:text>
-    </xsl:template>
-    
     <xsl:template match="volume">
-        <xsl:text>VI  - </xsl:text>
+        <xsl:text>VL  - </xsl:text>
         <xsl:value-of select="."/>
         <xsl:text>&#x0A;</xsl:text>
     </xsl:template>
     
     <xsl:template match="issue">
-        <xsl:text>IP  - </xsl:text>
+        <xsl:text>IS  - </xsl:text>
         <xsl:value-of select="."/>
         <xsl:text>&#x0A;</xsl:text>
+    </xsl:template>
+    
+    <xsl:template match="issn|isbn">
+        <xsl:text>SN  - </xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>&#x0A;</xsl:text>
+    </xsl:template>
+    
+    <xsl:template match="object-id">
+        <xsl:choose>
+            <xsl:when test="@pub-id-type='pmcid'">
+                <xsl:text>U1  - </xsl:text>
+                <xsl:value-of select="."/>
+                <xsl:text> (PMC)&#x0A;</xsl:text>
+            </xsl:when>
+            <xsl:when test="@pub-id-type='pmid'">
+                <xsl:text>U2  - </xsl:text>
+                <xsl:value-of select="."/>
+                <xsl:text> (PMID)&#x0A;</xsl:text>
+            </xsl:when>
+            <xsl:when test="@pub-id-type='doi'">
+                <xsl:text>DO  - </xsl:text>
+                <xsl:value-of select="."/>
+                <xsl:text>&#x0A;</xsl:text>
+            </xsl:when>
+            <xsl:when test="@pub-id-type='publisher-id'">
+                <xsl:text>U3  - </xsl:text>
+                <xsl:value-of select="."/>
+                <xsl:text> (PII)&#x0A;</xsl:text>
+            </xsl:when>
+            <xsl:when test="@pub-id-type='nlm-ta'">
+                <xsl:text>J1  - </xsl:text>
+                <xsl:value-of select="."/>
+                <xsl:text>&#x0A;</xsl:text>
+            </xsl:when>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="source-meta" mode="container">
@@ -276,12 +265,21 @@
         </xsl:if>
         <xsl:if test="parent::pm-record[@record-type='section' or @record-type='article']">
             <xsl:apply-templates select="self::*" mode="title"/>
-        </xsl:if>        
-        <xsl:if test="publisher">
-            <xsl:text>PB  - </xsl:text>
-            <xsl:value-of select="concat(publisher/publisher-name, '; ', publisher/publisher-loc)"/>
-            <xsl:text>&#x0A;</xsl:text>
-        </xsl:if>
-    </xsl:template
+        </xsl:if>    
+        <xsl:apply-templates select="publisher/publisher-name"/>
+        <xsl:apply-templates select="publisher/publisher-loc"/>
+    </xsl:template>
+    
+    <xsl:template match="publisher-name">        
+        <xsl:text>PB  - </xsl:text>        
+        <xsl:value-of select="."/>
+        <xsl:text>&#x0A;</xsl:text>
+    </xsl:template>
+    
+    <xsl:template match="publisher-loc">        
+        <xsl:text>CY  - </xsl:text>        
+        <xsl:value-of select="."/>
+        <xsl:text>&#x0A;</xsl:text>
+    </xsl:template>
 
 </xsl:stylesheet>
