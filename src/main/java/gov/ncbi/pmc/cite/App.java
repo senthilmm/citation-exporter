@@ -24,6 +24,7 @@ public class App {
     private ItemSource itemSource;
     private TransformEngine transformEngine;
     private DocumentBuilderFactory dbf;
+    private CatalogResolver catalogResolver;
 
     // FIXME: If we want to do concurrent requests, then we'll need to make
     // caching these a little more sophisticated, with a pool of more than one for any given style.
@@ -65,6 +66,7 @@ public class App {
 
         transformEngine = new TransformEngine(getClass().getClassLoader().getResource("xslt/"), mapper);
         dbf = DocumentBuilderFactory.newInstance();
+        catalogResolver = new CatalogResolver();
         citationProcessors = new HashMap<String, CitationProcessor>();
     }
 
@@ -74,7 +76,7 @@ public class App {
      */
     public DocumentBuilder newDocumentBuilder() throws ParserConfigurationException {
         DocumentBuilder db = dbf.newDocumentBuilder();
-        db.setEntityResolver(new CatalogResolver());
+        db.setEntityResolver(catalogResolver);
         return db;
     }
 
