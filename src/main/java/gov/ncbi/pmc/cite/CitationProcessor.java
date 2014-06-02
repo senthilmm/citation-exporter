@@ -7,6 +7,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
 import de.undercouch.citeproc.CSL;
@@ -27,6 +30,7 @@ import de.undercouch.citeproc.output.Bibliography;
  * of these at a time.
  */
 public class CitationProcessor {
+    protected Logger log;
     private CSL csl;
     private ItemSource itemSource;
     private ItemProvider itemProvider;
@@ -34,6 +38,7 @@ public class CitationProcessor {
     CitationProcessor(String style, ItemSource itemSource)
         throws IOException
     {
+        log = LoggerFactory.getLogger(this.getClass());
         this.itemSource = itemSource;
         itemProvider = new ItemProvider();
         csl = new CSL(itemProvider, style);
@@ -46,7 +51,9 @@ public class CitationProcessor {
             prefetchItems(idSet);
             csl.setOutputFormat(format);
             csl.registerCitationItems(idSet.getTids());
+            long mb_start = System.currentTimeMillis();
             Bibliography bibl = csl.makeBibliography();
+            log.debug("makeBibliography took " + (System.currentTimeMillis() - mb_start) + " milliseconds");
             if (bibl == null) {
                 throw new IOException("Bad request, problem with citation processor");
             }
@@ -79,7 +86,7 @@ public class CitationProcessor {
                 String id = idSet.getId(i);
                 String tid = idSet.getTid(i);
 
-                // FIXME:  Unfortunately, we have to get the JSON as a Jackson object, then serialize
+                // Unfortunately, we have to get the JSON as a Jackson object, then serialize
                 // it and parse it back in as a citeproc-java object.  See this question:
                 // https://github.com/michel-kraemer/citeproc-java/issues/9
                 Map<String, Object> itemJsonMap =  new JsonParser(

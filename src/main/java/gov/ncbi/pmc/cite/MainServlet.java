@@ -58,17 +58,6 @@ public class MainServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-      /* For testing:  compare performance when our app just does an echo and nothing else.
-        if (true) {
-            response.setContentType("text/plain;charset=UTF-8");
-            response.setCharacterEncoding("UTF-8");
-            response.setStatus(200);
-            PrintWriter rw = response.getWriter();
-            rw.println("Okay\n");
-            return;
-        }
-      */
-
         while (engaged) {
             try {
                 Thread.sleep(10);
@@ -78,7 +67,10 @@ public class MainServlet extends HttpServlet
         engaged = true;
 
         String pathInfo = request.getPathInfo();
-        if (pathInfo.equals("/samples")) {
+        if (pathInfo.equals("/echotest")) {
+            doEchoTest(request, response);
+        }
+        else if (pathInfo.equals("/samples")) {
             doSamples(request, response);
         }
         else {
@@ -87,7 +79,25 @@ public class MainServlet extends HttpServlet
         engaged = false;
     }
 
-    /*
+    /**
+     * Echo test - for performance testing, this does nothing but echo back 1000 bytes.
+     */
+    public void doEchoTest(HttpServletRequest request, HttpServletResponse response)
+        throws IOException
+    {
+        response.setContentType("text/plain;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(200);
+        PrintWriter rw = response.getWriter();
+        String tenChars = "0123456789";
+        String out = "";
+        for (int i = 0; i < 100; ++i) out += tenChars;
+        rw.println(out);
+        return;
+    }
+
+
+    /**
      * Display the samples page.
      */
     public void doSamples(HttpServletRequest request, HttpServletResponse response)
