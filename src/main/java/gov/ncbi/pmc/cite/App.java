@@ -115,7 +115,7 @@ public class App {
      * from the pool, to style the citations from a single request.
      */
     public CitationProcessor getCitationProcessor(String style)
-        throws IOException
+        throws NotFoundException, IOException
     {
         CitationProcessor cp = citationProcessors.get(style);
         if (cp == null) {
