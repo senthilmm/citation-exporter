@@ -34,6 +34,7 @@ import de.undercouch.citeproc.output.Bibliography;
 public class CitationProcessor {
     protected Logger log;
     private CSL csl;
+    private final String style;
     private ItemSource itemSource;
     private ItemProvider itemProvider;
 
@@ -46,6 +47,7 @@ public class CitationProcessor {
         throws NotFoundException
     {
         log = LoggerFactory.getLogger(this.getClass());
+        this.style = style;
         this.itemSource = itemSource;
         itemProvider = new ItemProvider();
         // FIXME:  right now we're assuming that the reason this fails is because the style is
@@ -56,6 +58,10 @@ public class CitationProcessor {
         catch (IOException e) {
             throw new NotFoundException("Style '" + style + "' not found");
         }
+    }
+
+    public String getStyle() {
+        return style;
     }
 
     /**

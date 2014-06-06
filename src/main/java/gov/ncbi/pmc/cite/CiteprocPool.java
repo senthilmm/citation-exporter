@@ -30,6 +30,10 @@ public class CiteprocPool {
     {
         this.itemSource = itemSource;
         citationProcessors = new ConcurrentHashMap<String, CiteprocStylePool>();
+        // Pregenerate some
+        for (String style : preloadStyles) {
+            CiteprocStylePool cpsPool = new CiteprocStylePool(style, itemSource, queueSize, true);
+        }
     }
 
     /**
@@ -43,17 +47,10 @@ public class CiteprocPool {
         if (cpsPool == null) {
             // FIXME:  there should be some way to verify that the style is a valid style, before
             // we instantiate a pool object
-            cpsPool = new CiteprocStylePool(style, itemSource);
+            cpsPool = new CiteprocStylePool(style, itemSource, queueSize, false);
             citationProcessors.put(style, cpsPool);
         }
         return cpsPool.getCiteproc();
-
-        //CitationProcessor cp = citationProcessors.get(style);
-        //if (cp == null) {
-        //    cp = new CitationProcessor(style, itemSource);
-        //    citationProcessors.put(style, cp);
-        //}
-        //return cp;
     }
 
     /**
@@ -61,7 +58,9 @@ public class CiteprocPool {
      * after it is done.
      */
     public void putCiteproc(CitationProcessor cp) {
-
+        String style = cp.getStyle();
+        CiteprocStylePool cpsPool = citationProcessors.get(style);
+        cpsPool.putCiteproc(cp);
     }
 
 }
