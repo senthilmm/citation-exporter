@@ -3,6 +3,7 @@ package gov.ncbi.pmc.cite;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +22,14 @@ public class CiteprocPool {
     // Maximum number of CitationProcessors created for any given style:
     private final int queueSize = 1;
 
-    private Map<String, CitationProcessor> citationProcessors;
+    private Map<String, CiteprocStylePool> citationProcessors;
 
 
     public CiteprocPool(ItemSource itemSource)
         throws NotFoundException, IOException
     {
         this.itemSource = itemSource;
-        citationProcessors = new HashMap<String, CitationProcessor>();
+        citationProcessors = new ConcurrentHashMap<String, CiteprocStylePool>();
     }
 
     /**
@@ -38,12 +39,21 @@ public class CiteprocPool {
     public CitationProcessor getCiteproc(String style)
         throws NotFoundException
     {
-        CitationProcessor cp = citationProcessors.get(style);
-        if (cp == null) {
-            cp = new CitationProcessor(style, itemSource);
-            citationProcessors.put(style, cp);
+        CiteprocStylePool cpsPool = citationProcessors.get(style);
+        if (cpsPool == null) {
+            // FIXME:  there should be some way to verify that the style is a valid style, before
+            // we instantiate a pool object
+            cpsPool = new CiteprocStylePool(style, itemSource);
+            citationProcessors.put(style, cpsPool);
         }
-        return cp;
+        return cpsPool.getCiteproc();
+
+        //CitationProcessor cp = citationProcessors.get(style);
+        //if (cp == null) {
+        //    cp = new CitationProcessor(style, itemSource);
+        //    citationProcessors.put(style, cp);
+        //}
+        //return cp;
     }
 
     /**
