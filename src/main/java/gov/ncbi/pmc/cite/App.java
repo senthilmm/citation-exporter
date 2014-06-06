@@ -1,9 +1,6 @@
 package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,15 +17,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class App {
     private IdResolver idResolver;
+    // Jackson ObjectMapper should be thread-safe, see
+    // http://wiki.fasterxml.com/JacksonFAQThreadSafety
     private ObjectMapper mapper;
     private ItemSource itemSource;
     private TransformEngine transformEngine;
     private DocumentBuilderFactory dbf;
     private CatalogResolver catalogResolver;
-
-    // FIXME: If we want to do concurrent requests, then we'll need to make
-    // caching these a little more sophisticated, with a pool of more than one for any given style.
-    private Map<String, CitationProcessor> citationProcessors;
+    private CiteprocPool citeprocPool;
 
 
 
@@ -67,7 +63,7 @@ public class App {
         transformEngine = new TransformEngine(getClass().getClassLoader().getResource("xslt/"), mapper);
         dbf = DocumentBuilderFactory.newInstance();
         catalogResolver = new CatalogResolver();
-        citationProcessors = new HashMap<String, CitationProcessor>();
+        citeprocPool = new CiteprocPool(itemSource);
     }
 
 
@@ -114,15 +110,10 @@ public class App {
      * This is called from a Request object in order to lock a CitationProcessor
      * from the pool, to style the citations from a single request.
      */
-    public CitationProcessor getCitationProcessor(String style)
+    public CitationProcessor getCiteproc(String style)
         throws NotFoundException, IOException
     {
-        CitationProcessor cp = citationProcessors.get(style);
-        if (cp == null) {
-            cp = new CitationProcessor(style, itemSource);
-            citationProcessors.put(style, cp);
-        }
-        return cp;
+        return citeprocPool.getCiteproc(style);
     }
 
 }

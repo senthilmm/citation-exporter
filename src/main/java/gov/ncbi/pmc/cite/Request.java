@@ -18,6 +18,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -35,22 +37,22 @@ import de.undercouch.citeproc.output.Bibliography;
  * Stores information about, and handles, a single request.
  */
 public class Request {
-    public App app;
-    public HttpServletRequest req;
-    public HttpServletResponse resp;
+    private App app;
+    private HttpServletRequest req;
+    private HttpServletResponse resp;
 
     // This gets initialized by initPage(), when we know we're ready
     private PrintWriter page;
 
     // Data from query string params
-    public IdSet idSet;
-    public String outputformat;
-    public String responseformat;
-    public String[] styles = {"modern-language-association"};  // default style
+    private IdSet idSet;
+    private String outputformat;
+    private String responseformat;
+    private String[] styles = {"modern-language-association"};  // default style
 
     // One document builder shared within this request thread.  This is created on-demand by
     // getDocumentBuilder().
-    public DocumentBuilder documentBuilder;
+    private DocumentBuilder documentBuilder;
 
     private Logger log = LoggerFactory.getLogger(Request.class);
 
@@ -88,6 +90,8 @@ public class Request {
             }
 
             String idp = idsParam != null ? idsParam : idParam;
+
+            // The IdResolver seems to be thread-safe
             idSet = app.getIdResolver().resolveIds(idp, req.getParameter("idtype"));
             log.debug("Resolved ids " + idSet);
 
@@ -113,36 +117,39 @@ public class Request {
                     responseformat = "xml";
             }
 
-            if (outputformat.equals("html") || outputformat.equals("rtf")) {
-                styledCitation();
-            }
+            synchronized(app) {
+                if (outputformat.equals("html") || outputformat.equals("rtf")) {
+                    styledCitation();
+                }
 
-            else if (outputformat.equals("citeproc") && responseformat.equals("json")) {
-                citeprocJson();
-            }
+                else if (outputformat.equals("citeproc") && responseformat.equals("json")) {
+                    citeprocJson();
+                }
 
-            else if (outputformat.equals("pmfu") && responseformat.equals("xml")) {
-                pmfuXml();
-            }
+                else if (outputformat.equals("pmfu") && responseformat.equals("xml")) {
+                    pmfuXml();
+                }
 
-            else if (outputformat.equals("nxml") && responseformat.equals("xml")) {
-                nXml();
-            }
+                else if (outputformat.equals("nxml") && responseformat.equals("xml")) {
+                    nXml();
+                }
 
-            else if (outputformat.equals("nbib") && responseformat.equals("nbib") ||
-                     outputformat.equals("ris") && responseformat.equals("ris"))
-            {
-                transformXml(outputformat);
-            }
+                else if (outputformat.equals("nbib") && responseformat.equals("nbib") ||
+                         outputformat.equals("ris") && responseformat.equals("ris"))
+                {
+                    transformXml(outputformat);
+                }
 
-            else {
-                errorResponse("Not sure what I'm supposed to do. Check the values of " +
-                    "outputformat and responseformat.", 400);
-                return;
+                else {
+                    errorResponse("Not sure what I'm supposed to do. Check the values of " +
+                        "outputformat and responseformat.", 400);
+                    return;
+                }
             }
         }
         catch (NotFoundException e) {
             errorResponse(e.getMessage(), 404);
+            return;
         }
         catch (ServiceException e) {
             errorResponse(e.getMessage(), 500);
@@ -150,16 +157,26 @@ public class Request {
         }
         catch (BadParamException e) {
             errorResponse(e.getMessage(), 400);
+            return;
         }
         catch (IOException e) {
             errorResponse(e.getMessage(), 500);
+            return;
+        }
+        catch (Exception e) {
+            String emsg = e.getMessage();
+            String msg = emsg != null ? emsg : "Unknown exception";
+            log.error("Bad Exception generated during request: " + msg + "\n" +
+                ExceptionUtils.getStackTrace(e));
+            errorResponse(msg, 500);
+            return;
         }
     }
 
     /**
      * Respond to the client with a PMFU document.
      */
-    public void pmfuXml()
+    private void pmfuXml()
         throws NotFoundException, BadParamException, IOException
     {
 
@@ -201,7 +218,7 @@ public class Request {
      * Respond to the client with an NXML document.  This is only available for some of the
      * item sources, and is not an official part of the api/service.
      */
-    public void nXml()
+    private void nXml()
         throws BadParamException, NotFoundException, IOException
     {
         ItemSource itemSource = app.getItemSource();
@@ -233,14 +250,10 @@ public class Request {
         page.print(xmlStr);
 }
 
-
-
-
-
     /**
      * Utility function to serialize an XML object for output back to the client.
      */
-    public static String serializeXml(Document doc, boolean omitXmlDecl)
+    private static String serializeXml(Document doc, boolean omitXmlDecl)
         throws IOException
     {
         DOMSource domSource = new DOMSource(doc);
@@ -264,7 +277,7 @@ public class Request {
     /**
      * Same as above, but omitXmlDecl defaults to false
      */
-    public static String serializeXml(Document doc)
+    private static String serializeXml(Document doc)
         throws IOException
     {
         return serializeXml(doc, false);
@@ -274,7 +287,7 @@ public class Request {
      * Respond to the client with a document that is the result of running the PMFU
      * through an XSLT transformation.
      */
-    public void transformXml(String outputformat)
+    private void transformXml(String outputformat)
         throws NotFoundException, BadParamException, IOException
     {
         // FIXME:  this all has to be data-driven.
@@ -318,7 +331,7 @@ public class Request {
         page.print(result);
     }
 
-    public void citeprocJson()
+    private void citeprocJson()
         throws NotFoundException, BadParamException, IOException
     {
         String idType = idSet.getType();
@@ -351,12 +364,10 @@ public class Request {
         page.print(jsonString);
 }
 
-
-
     /**
      * Respond to the client with a styled citation.
      */
-    public void styledCitation()
+    private void styledCitation()
         throws BadParamException, NotFoundException, IOException
     {
         String stylesParam = req.getParameter("styles");
@@ -366,7 +377,7 @@ public class Request {
         }
         String sp = stylesParam != null ? stylesParam : styleParam;
         if (sp != null) {
-            log.debug("styles = " + styles);
+            log.debug("styles = " + StringUtils.join(styles, ", "));
             styles = sp.split(",");
         }
 
@@ -391,7 +402,8 @@ public class Request {
             // comes out might not be the same as the order that goes in, so we'll put them back
             // in the right order.
             Bibliography bibl = null;
-            bibl = app.getCitationProcessor(style).makeBibliography(idSet, "html");
+            CitationProcessor cp = app.getCiteproc(style);
+            bibl = cp.makeBibliography(idSet, "html");
 
             // Parse the output entries, and stick them into the output document
             String entryIds[] = bibl.getEntryIds();
@@ -432,7 +444,7 @@ public class Request {
         page.print(s);
     }
 
-    public void errorResponse(String msg, int status)
+    private void errorResponse(String msg, int status)
     {
         log.info("Sending error response: " + msg);
         resp.setContentType("text/plain;charset=UTF-8");

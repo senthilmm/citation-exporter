@@ -68,6 +68,12 @@ public class TransformTest
             fail("IOException: " + e);
             return;
         }
+        catch (BadParamException e) {
+            fail("BadParamException: " + e);
+        }
+        catch (NotFoundException e) {
+            fail("NotFoundException: " + e);
+        }
         assertEquals(nxml_31.getDocumentElement().getTagName(), "article");
 
         //assertNotNull(baseUrl);

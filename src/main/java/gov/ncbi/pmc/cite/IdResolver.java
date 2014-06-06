@@ -34,21 +34,20 @@ public class IdResolver {
     // The keys of the cache are just the ID strings, without the type. This means we're assuming
     // that the sets of IDs for each type are disjoint.
     // The values are numeric aiids.
+    // Note: KittyCache is thread-safe.
     KittyCache<String, Integer> aiidCache;
 
     ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
-    // Controlled by system property cache_aiids ("true" or "false")
-    public boolean cacheAiids;
     // Controlled by system property aiid_cache_ttl (integer in seconds)
-    public int aiidCacheTtl;
+    private int aiidCacheTtl;
     // Controlled by system property id_converter_url
-    public String idConverterUrl;
+    private String idConverterUrl;
     // Controlled by system property id_converter_params
-    public String idConverterParams;
+    private String idConverterParams;
 
     // Base URL to use for the ID converter.  Combination of idConverterUrl and idConverterParams
-    public String idConverterBase;
+    private String idConverterBase;
 
     // Here we specify the regexp patterns that will be used to match IDs to their type
     // The order is important:  if determining the type of an unknown id (getIdType()), then these
@@ -64,11 +63,14 @@ public class IdResolver {
     private Logger log = LoggerFactory.getLogger(IdResolver.class);
 
     public IdResolver() {
-        // Resolve system properties
+        // To cache or not to cache?
         String cacheAiidProp = System.getProperty("cache_aiids");
-        cacheAiids = cacheAiidProp != null ? Boolean.parseBoolean(cacheAiidProp) : false;
-        String aiidCacheTtlProp = System.getProperty("aiid_cache_ttl");
-        aiidCacheTtl = aiidCacheTtlProp != null ? Integer.parseInt(aiidCacheTtlProp): 86400;
+        if (cacheAiidProp != null ? Boolean.parseBoolean(cacheAiidProp) : false) {
+            String aiidCacheTtlProp = System.getProperty("aiid_cache_ttl");
+            aiidCacheTtl = aiidCacheTtlProp != null ? Integer.parseInt(aiidCacheTtlProp): 86400;
+            // Create a new cache; 50000 is max number of objects
+            aiidCache = new KittyCache<String, Integer>(50000);
+        }
 
         // FIXME:  ID converter URL should use "www", when the needed change is deployed (see PMC-20071).
         String idConverterUrlProp = System.getProperty("id_converter_url");
@@ -79,11 +81,6 @@ public class IdResolver {
             "showaiid=yes&format=json";
 
         idConverterBase = idConverterUrl + "?" + idConverterParams + "&";
-
-        if (cacheAiids) {
-            // Create a new cache; 50000 is max number of objects
-            aiidCache = new KittyCache<String, Integer>(50000);
-        }
     }
 
     /**
@@ -160,7 +157,7 @@ public class IdResolver {
         Map<String, Integer> resolvedIds = new HashMap<String, Integer>();
         List<String> idsToResolve = new ArrayList<String>();
         for (String id: idsArray) {
-            Integer aiid = cacheAiids ? aiidCache.get(id) : null;
+            Integer aiid = aiidCache != null ? aiidCache.get(id) : null;
             if (aiid != null) {
                 resolvedIds.put(id, aiid);
             }
@@ -234,7 +231,7 @@ public class IdResolver {
         int aiidInt = aiid.asInt();
         if (aiidInt == 0) return;
         resolvedIds.put(fromIdStr, aiidInt);
-        if (cacheAiids) {
+        if (aiidCache != null) {
             aiidCache.put(fromIdStr, aiidInt, aiidCacheTtl);
         }
     }

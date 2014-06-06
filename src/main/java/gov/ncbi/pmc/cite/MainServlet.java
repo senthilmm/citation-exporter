@@ -58,14 +58,6 @@ public class MainServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-        while (engaged) {
-            try {
-                Thread.sleep(10);
-            }
-            catch(Exception e) {}
-        }
-        engaged = true;
-
         String pathInfo = request.getPathInfo();
         if (pathInfo.equals("/echotest")) {
             doEchoTest(request, response);
@@ -74,9 +66,9 @@ public class MainServlet extends HttpServlet
             doSamples(request, response);
         }
         else {
-            new Request(app, request, response).doGet();
+            Request r = new Request(app, request, response);
+            r.doGet();
         }
-        engaged = false;
     }
 
     /**
