@@ -117,7 +117,7 @@ public class Request {
                     responseformat = "xml";
             }
 
-            synchronized(app) {
+            //synchronized(app) {
                 if (outputformat.equals("html") || outputformat.equals("rtf")) {
                     styledCitation();
                 }
@@ -145,7 +145,7 @@ public class Request {
                         "outputformat and responseformat.", 400);
                     return;
                 }
-            }
+            //}
         }
         catch (NotFoundException e) {
             errorResponse(e.getMessage(), 404);
@@ -347,7 +347,7 @@ public class Request {
             else {
                 jsonString = "[";
                 for (int i = 0; i < numIds; ++i) {
-                    if (i != 0) { page.print(","); }
+                    if (i != 0) { jsonString += ","; }
                     jsonString += itemSource.retrieveItemJson(idType, idSet.getId(i));
                 }
                 jsonString += "]";
@@ -402,8 +402,15 @@ public class Request {
             // comes out might not be the same as the order that goes in, so we'll put them back
             // in the right order.
             Bibliography bibl = null;
-            CitationProcessor cp = app.getCiteproc(style);
-            bibl = cp.makeBibliography(idSet, "html");
+            CiteprocPool cpPool = app.getCiteprocPool();
+            CitationProcessor cp = cpPool.getCiteproc(style);
+            try {
+                bibl = cp.makeBibliography(idSet, "html");
+            }
+            finally {
+                cpPool.putCiteproc(cp);           // return it when done
+            }
+
 
             // Parse the output entries, and stick them into the output document
             String entryIds[] = bibl.getEntryIds();

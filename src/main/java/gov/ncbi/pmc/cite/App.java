@@ -106,14 +106,7 @@ public class App {
         return transformEngine.doTransform(src, transform);
     }
 
-    /**
-     * This is called from a Request object in order to lock a CitationProcessor
-     * from the pool, to style the citations from a single request.
-     */
-    public CitationProcessor getCiteproc(String style)
-        throws NotFoundException, IOException
-    {
-        return citeprocPool.getCiteproc(style);
+    public CiteprocPool getCiteprocPool() {
+        return citeprocPool;
     }
-
 }

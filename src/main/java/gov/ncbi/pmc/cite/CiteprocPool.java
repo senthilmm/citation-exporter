@@ -20,19 +20,21 @@ public class CiteprocPool {
     private final String[] preloadStyles = {"modern-language-association", "apa", "chicago-author-date"};
 
     // Maximum number of CitationProcessors created for any given style:
-    private final int queueSize = 1;
+    private final int queueSize = 10;
 
-    private Map<String, CiteprocStylePool> citationProcessors;
+    private Map<String, CiteprocStylePool> citeprocStylePools;
 
 
     public CiteprocPool(ItemSource itemSource)
         throws NotFoundException, IOException
     {
         this.itemSource = itemSource;
-        citationProcessors = new ConcurrentHashMap<String, CiteprocStylePool>();
+        citeprocStylePools = new ConcurrentHashMap<String, CiteprocStylePool>();
         // Pregenerate some
+        log.debug("Pregenerating CiteprocStylePools");
         for (String style : preloadStyles) {
-            CiteprocStylePool cpsPool = new CiteprocStylePool(style, itemSource, queueSize, true);
+            log.debug("Instantiating CiteprocStylePool for style " + style);
+            getStylePool(style, true);
         }
     }
 
@@ -43,13 +45,7 @@ public class CiteprocPool {
     public CitationProcessor getCiteproc(String style)
         throws NotFoundException
     {
-        CiteprocStylePool cpsPool = citationProcessors.get(style);
-        if (cpsPool == null) {
-            // FIXME:  there should be some way to verify that the style is a valid style, before
-            // we instantiate a pool object
-            cpsPool = new CiteprocStylePool(style, itemSource, queueSize, false);
-            citationProcessors.put(style, cpsPool);
-        }
+        CiteprocStylePool cpsPool = getStylePool(style);
         return cpsPool.getCiteproc();
     }
 
@@ -59,8 +55,29 @@ public class CiteprocPool {
      */
     public void putCiteproc(CitationProcessor cp) {
         String style = cp.getStyle();
-        CiteprocStylePool cpsPool = citationProcessors.get(style);
+        CiteprocStylePool cpsPool = citeprocStylePools.get(style);
         cpsPool.putCiteproc(cp);
     }
 
+
+    // Helper method to get a CiteprocStylePool object from the map, and, if there isn't one there
+    // already, to create it
+    private CiteprocStylePool getStylePool(String style) throws NotFoundException {
+        return getStylePool(style, false);
+    }
+
+    private CiteprocStylePool getStylePool(String style, boolean pregenerate)
+        throws NotFoundException
+    {
+        log.debug("Let's see if there's a CiteprocStylePool available in the queue");
+        CiteprocStylePool cpsPool = citeprocStylePools.get(style);
+        if (cpsPool == null) {
+            log.debug("No CiteprocStylePool available, create one. pregenerate == " + pregenerate);
+            // FIXME:  there should be some way to verify that the style is a valid style, before
+            // we instantiate a pool object
+            cpsPool = new CiteprocStylePool(this, style, itemSource, queueSize, pregenerate);
+            citeprocStylePools.put(style, cpsPool);
+        }
+        return cpsPool;
+    }
 }
