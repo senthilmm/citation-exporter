@@ -1,6 +1,7 @@
 package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import org.eclipse.jetty.util.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -32,21 +34,20 @@ public class IdResolver {
     // The keys of the cache are just the ID strings, without the type. This means we're assuming
     // that the sets of IDs for each type are disjoint.
     // The values are numeric aiids.
+    // Note: KittyCache is thread-safe.
     KittyCache<String, Integer> aiidCache;
 
     ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
-    // Controlled by system property cache_aiids ("true" or "false")
-    public boolean cacheAiids;
     // Controlled by system property aiid_cache_ttl (integer in seconds)
-    public int aiidCacheTtl;
+    private int aiidCacheTtl;
     // Controlled by system property id_converter_url
-    public String idConverterUrl;
+    private String idConverterUrl;
     // Controlled by system property id_converter_params
-    public String idConverterParams;
+    private String idConverterParams;
 
     // Base URL to use for the ID converter.  Combination of idConverterUrl and idConverterParams
-    public String idConverterBase;
+    private String idConverterBase;
 
     // Here we specify the regexp patterns that will be used to match IDs to their type
     // The order is important:  if determining the type of an unknown id (getIdType()), then these
@@ -62,11 +63,14 @@ public class IdResolver {
     private Logger log = LoggerFactory.getLogger(IdResolver.class);
 
     public IdResolver() {
-        // Resolve system properties
+        // To cache or not to cache?
         String cacheAiidProp = System.getProperty("cache_aiids");
-        cacheAiids = cacheAiidProp != null ? Boolean.parseBoolean(cacheAiidProp) : false;
-        String aiidCacheTtlProp = System.getProperty("aiid_cache_ttl");
-        aiidCacheTtl = aiidCacheTtlProp != null ? Integer.parseInt(aiidCacheTtlProp): 86400;
+        if (cacheAiidProp != null ? Boolean.parseBoolean(cacheAiidProp) : false) {
+            String aiidCacheTtlProp = System.getProperty("aiid_cache_ttl");
+            aiidCacheTtl = aiidCacheTtlProp != null ? Integer.parseInt(aiidCacheTtlProp): 86400;
+            // Create a new cache; 50000 is max number of objects
+            aiidCache = new KittyCache<String, Integer>(50000);
+        }
 
         // FIXME:  ID converter URL should use "www", when the needed change is deployed (see PMC-20071).
         String idConverterUrlProp = System.getProperty("id_converter_url");
@@ -77,11 +81,6 @@ public class IdResolver {
             "showaiid=yes&format=json";
 
         idConverterBase = idConverterUrl + "?" + idConverterParams + "&";
-
-        if (cacheAiids) {
-            // Create a new cache; 50000 is max number of objects
-            aiidCache = new KittyCache<String, Integer>(50000);
-        }
     }
 
     /**
@@ -89,7 +88,7 @@ public class IdResolver {
      * an exception if it can't find a match.
      */
     public static String getIdType(String idStr)
-        throws Exception
+        throws BadParamException
     {
         for (int idtn = 0; idtn < idTypePatterns.length; ++idtn) {
             String[] idTypePattern = idTypePatterns[idtn];
@@ -97,7 +96,7 @@ public class IdResolver {
                 return idTypePattern[0];
             }
         }
-        throw new Exception("Invalid id: " + idStr);
+        throw new BadParamException("Invalid id: " + idStr);
     }
 
     /**
@@ -122,7 +121,7 @@ public class IdResolver {
      * @return an IdSet object, whose idType value is either "pmid" or "aiid".
      */
     public IdSet resolveIds(String idStr, String idType)
-        throws Exception
+        throws BadParamException, ServiceException, NotFoundException
     {
         String[] idsArray = idStr.split(",");
 
@@ -140,7 +139,7 @@ public class IdResolver {
                     idsArray[i] = "PMC" + id;
                 }
                 else {
-                    throw new Exception("Unrecognizable id: '" + id + "'");
+                    throw new BadParamException("Unrecognizable id: '" + id + "'");
                 }
             }
         }
@@ -158,7 +157,7 @@ public class IdResolver {
         Map<String, Integer> resolvedIds = new HashMap<String, Integer>();
         List<String> idsToResolve = new ArrayList<String>();
         for (String id: idsArray) {
-            Integer aiid = cacheAiids ? aiidCache.get(id) : null;
+            Integer aiid = aiidCache != null ? aiidCache.get(id) : null;
             if (aiid != null) {
                 resolvedIds.put(id, aiid);
             }
@@ -169,39 +168,54 @@ public class IdResolver {
 
         if (idsToResolve.size() > 0) {
             // Call the id resolver
-            URL url = new URL(idConverterBase + "idtype=" + idType + "&ids=" + StringUtils.join(idsToResolve, ","));
+            // Create the URL.  If this is malformed, it must be because of bad parameter values, therefore
+            // a bad request (right?)
+            URL url = null;
+            try {
+                url = new URL(idConverterBase + "idtype=" + idType + "&ids=" + StringUtils.join(idsToResolve, ","));
+            }
+            catch (MalformedURLException e) {
+                throw new BadParamException("Parameters must have a problem; got malformed URL for upstream service '" +
+                    idConverterBase + "'");
+            }
+
             log.debug("Invoking '" + url + "' to resolve ids");
-            ObjectNode idconvResponse = (ObjectNode) mapper.readTree(url);
+            ObjectNode idconvResponse = null;
+            try {
+                idconvResponse = (ObjectNode) mapper.readTree(url);
+            }
+            catch (Exception e) {    // JsonProcessingException or IOException
+                throw new ServiceException("Error processing service request to resolve IDs from '" +
+                    url + "'");
+            }
 
             String status = idconvResponse.get("status").asText();
             if (!status.equals("ok"))
-                throw new IOException("Problem attempting to resolve ids from " + url);
+                throw new ServiceException("Problem attempting to resolve ids from '" + url + "'");
 
-            try {
-                // Cache everything from the response, on the theory that the service call was expensive
-                ArrayNode records = (ArrayNode) idconvResponse.get("records");
-                for (int rn = 0; rn < records.size(); ++rn) {
-                    ObjectNode record = (ObjectNode) records.get(rn);
-                    JsonNode aiid = record.get("aiid");
-                    _dispatchId(record.get("pmcid"), aiid, resolvedIds);
-                    _dispatchId(record.get("doi"), aiid, resolvedIds);
+            ArrayNode records = (ArrayNode) idconvResponse.get("records");
+            for (int rn = 0; rn < records.size(); ++rn) {
+                ObjectNode record = (ObjectNode) records.get(rn);
+                JsonNode aiid = record.get("aiid");
+                _dispatchId(record.get("pmcid"), aiid, resolvedIds);
+                _dispatchId(record.get("doi"), aiid, resolvedIds);
 
-                    ArrayNode versions = (ArrayNode) record.get("versions");
+                ArrayNode versions = (ArrayNode) record.get("versions");
+                if (versions != null) {
                     for (int vn = 0; vn < versions.size(); ++vn) {
                         ObjectNode version = (ObjectNode) versions.get(vn);
                         _dispatchId(version.get("pmcid"), version.get("aiid"), resolvedIds);
                     }
                 }
             }
-            catch (Exception e) {
-                throw new IOException("Unable to parse JSON response from id converter: " + e);
-            }
         }
 
         IdSet idSet = new IdSet("aiid");
         for (String id: idsArray) {
             Integer aiid = resolvedIds.get(id);
-            if (aiid == null) throw new IOException("Wanted id " + id + " was not in idconverter response");
+            // If the requested ID was not in the response, then assume that it's a bad id value, and throw
+            // "not found"
+            if (aiid == null) throw new NotFoundException("ID " + id + " was not found in the PMC ID converter");
             idSet.addId(resolvedIds.get(id).toString());
         }
         return idSet;
@@ -210,10 +224,14 @@ public class IdResolver {
     // Helper function to handle one result pair from the idconverter
     private void _dispatchId(JsonNode fromId, JsonNode aiid, Map<String, Integer> resolvedIds) {
         if (fromId == null || aiid == null) return;
+
         String fromIdStr = fromId.asText();
+        if (fromIdStr.equals("")) return;
+
         int aiidInt = aiid.asInt();
+        if (aiidInt == 0) return;
         resolvedIds.put(fromIdStr, aiidInt);
-        if (cacheAiids) {
+        if (aiidCache != null) {
             aiidCache.put(fromIdStr, aiidInt, aiidCacheTtl);
         }
     }

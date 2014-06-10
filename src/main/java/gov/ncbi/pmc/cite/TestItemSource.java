@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ public class TestItemSource extends ItemSource {
      */
     @Override
     public Document retrieveItemNxml(String idType, String id)
-        throws IOException
+        throws BadParamException, NotFoundException, IOException
     {
         return fetchItemNxml(idType, id);
     }
@@ -50,28 +51,36 @@ public class TestItemSource extends ItemSource {
     /**
      * Get the NXML representation of an item. This assumes that it exists as an .nxml file in the
      * test directory.
+     * @throws BadParamException - if idType or id are malformed
+     * @throws IOException - if something bad happens reading the XML
      */
-    public Document fetchItemNxml(String idType, String id) throws IOException
+    public Document fetchItemNxml(String idType, String id)
+        throws BadParamException, NotFoundException, IOException
     {
+        URL nxmlUrl = null;
         try {
-            URL nxmlUrl = new URL(base_url, idType + "/" + id + ".nxml");
-            log.debug("Reading NXML from " + nxmlUrl);
-            Document nxml = app.newDocumentBuilder().parse(
+            nxmlUrl = new URL(base_url, idType + "/" + id + ".nxml");
+        }
+        catch (MalformedURLException e) {
+            throw new BadParamException("Problem forming URL for test NXML resource: '" +
+                nxmlUrl + "'; exception was: " + e.getMessage());
+        }
+
+        log.debug("Reading NXML from " + nxmlUrl);
+        Document nxml = null;
+        try {
+            nxml = app.newDocumentBuilder().parse(
                 nxmlUrl.openStream()
             );
-            if (nxml == null) {
-                throw new IOException("Failed to read NXML from " + nxmlUrl);
-            }
-            Element docElem = nxml.getDocumentElement();
+        }
+        catch (Exception e) {
+            throw new IOException(e);
+        }
+        if (nxml == null) {
+            throw new NotFoundException("Failed to read NXML from " + nxmlUrl);
+        }
 
-            return nxml;
-        }
-        catch (ParserConfigurationException e) {
-            throw new IOException(e);
-        }
-        catch (SAXException e) {
-            throw new IOException(e);
-        }
+        return nxml;
     }
 
     /**
@@ -81,7 +90,7 @@ public class TestItemSource extends ItemSource {
      */
     @Override
     public Document retrieveItemPmfu(String idType, String id)
-        throws IOException
+        throws BadParamException, NotFoundException, IOException
     {
         try {
             return fetchItemPmfu(idType, id);
@@ -96,19 +105,32 @@ public class TestItemSource extends ItemSource {
      * test directory.
      */
     public Document fetchItemPmfu(String idType, String id)
-        throws IOException
+        throws BadParamException, NotFoundException, IOException
     {
+        URL url = null;
         try {
-            return app.newDocumentBuilder().parse(
-                new URL(base_url, idType + "/" + id + ".pmfu").openStream()
+            url = new URL(base_url, idType + "/" + id + ".pmfu");
+        }
+        catch (MalformedURLException e) {
+            throw new BadParamException("Problem forming URL for test PubOne resource: '" +
+                url + "'; exception was: " + e.getMessage());
+        }
+
+        log.debug("Reading PubOne from " + url);
+
+        Document doc = null;
+        try {
+            doc = app.newDocumentBuilder().parse(
+                url.openStream()
             );
         }
-        catch (ParserConfigurationException e) {
+        catch (Exception e) {
             throw new IOException(e);
         }
-        catch (SAXException e) {
-            throw new IOException(e);
+        if (doc == null) {
+            throw new NotFoundException("Failed to read PubOne from " + url);
         }
+        return doc;
     }
 
 
@@ -119,7 +141,7 @@ public class TestItemSource extends ItemSource {
      */
     @Override
     public JsonNode retrieveItemJson(String idType, String id)
-        throws IOException
+        throws BadParamException, NotFoundException, IOException
     {
         try {
             return fetchItemJson(idType, id);
@@ -132,6 +154,7 @@ public class TestItemSource extends ItemSource {
     /**
      * Get the citeproc-json representation.  This assumes that it exists as a .json file in the
      * test directory.
+     * FIXME: this could throw more specific exceptions; see fetchItemPmfu above.
      */
     protected JsonNode fetchItemJson(String idType, String id)
             throws IOException

@@ -10,7 +10,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.undercouch.citeproc.CSL;
 import de.undercouch.citeproc.ItemDataProvider;
@@ -32,36 +34,55 @@ import de.undercouch.citeproc.output.Bibliography;
 public class CitationProcessor {
     protected Logger log;
     private CSL csl;
+    private final String style;
     private ItemSource itemSource;
     private ItemProvider itemProvider;
 
+    /**
+     * @param style
+     * @param itemSource
+     * @throws IOException - when there's an error creating the CSL object.
+     */
     CitationProcessor(String style, ItemSource itemSource)
-        throws IOException
+        throws NotFoundException
     {
         log = LoggerFactory.getLogger(this.getClass());
+        this.style = style;
         this.itemSource = itemSource;
         itemProvider = new ItemProvider();
-        csl = new CSL(itemProvider, style);
+        // FIXME:  right now we're assuming that the reason this fails is because the style is
+        // not found, but it might be something else.
+        try {
+            csl = new CSL(itemProvider, style);
+        }
+        catch (IOException e) {
+            throw new NotFoundException("Style '" + style + "' not found");
+        }
     }
 
+    public String getStyle() {
+        return style;
+    }
+
+    /**
+     *
+     * @param idSet
+     * @param format
+     * @throws IOException - for any number of things that could go wrong
+     */
     public Bibliography makeBibliography(IdSet idSet, String format)
-        throws IOException
+        throws NotFoundException, BadParamException, IOException
     {
-        try {
-            prefetchItems(idSet);
-            csl.setOutputFormat(format);
-            csl.registerCitationItems(idSet.getTids());
-            long mb_start = System.currentTimeMillis();
-            Bibliography bibl = csl.makeBibliography();
-            log.debug("makeBibliography took " + (System.currentTimeMillis() - mb_start) + " milliseconds");
-            if (bibl == null) {
-                throw new IOException("Bad request, problem with citation processor");
-            }
-            return bibl;
+        prefetchItems(idSet);
+        csl.setOutputFormat(format);
+        csl.registerCitationItems(idSet.getTids());
+        long mb_start = System.currentTimeMillis();
+        Bibliography bibl = csl.makeBibliography();
+        log.debug("makeBibliography took " + (System.currentTimeMillis() - mb_start) + " milliseconds");
+        if (bibl == null) {
+            throw new IOException("Bad request, problem with citation processor");
         }
-        catch(FileNotFoundException e) {
-            throw new IOException("Style not found: " + e);
-        }
+        return bibl;
     }
 
     /**
@@ -70,42 +91,42 @@ public class CitationProcessor {
      * informative error message, if there's a problem.  Otherwise, the retrieveItem() method (below)
      * is called from within citeproc-js, and there's no way to pass the error message back out.
      *
-     * FIXME:  Should distinguish between bad requests (like, bad id value) and internal
-     * server errors.
+     * @param idSet
+     * @throws IOException - for error in Jackson serialization, etc.
      */
-
     public void prefetchItems(IdSet idSet)
-        throws IOException
+        throws NotFoundException, BadParamException, IOException
     {
         itemProvider.clearCache();
         String idType = idSet.getType();
         int numIds = idSet.size();
 
-        try {
-            for (int i = 0; i < numIds; ++i) {
-                String id = idSet.getId(i);
-                String tid = idSet.getTid(i);
+        for (int i = 0; i < numIds; ++i) {
+            String id = idSet.getId(i);
+            String tid = idSet.getTid(i);
 
-                // Unfortunately, we have to get the JSON as a Jackson object, then serialize
-                // it and parse it back in as a citeproc-java object.  See this question:
-                // https://github.com/michel-kraemer/citeproc-java/issues/9
-                Map<String, Object> itemJsonMap =  new JsonParser(
-                    new JsonLexer(new StringReader(
-                        itemSource.getMapper().writeValueAsString(
-                            itemSource.retrieveItemJson(idType, id)
-                        )
-                    ))
-                ).parseObject();
-
-                // Add the id key-value pair
-                itemJsonMap.put("id", idSet.getTid(i));
-                CSLItemData item = CSLItemData.fromJson(itemJsonMap);
-                if (item == null) throw new IOException("Problem creating a CSLItemData object from backend JSON");
-                itemProvider.addItem(tid, item);
+            // Unfortunately, we have to get the JSON as a Jackson object, then serialize
+            // it and parse it back in as a citeproc-java object.  See this question:
+            // https://github.com/michel-kraemer/citeproc-java/issues/9
+            ObjectMapper objectMapper = itemSource.getMapper();
+            JsonNode jsonNode = itemSource.retrieveItemJson(idType, id);
+            String jsonString = null;
+            try {
+                jsonString = objectMapper.writeValueAsString(jsonNode);
             }
-        }
-        catch (IOException e) {
-            throw new IOException("Problem prefetching item data: " + e.getMessage());
+            catch (JsonProcessingException e) {
+                // An error in Jackson's serialization of known-good json data
+                throw new IOException(e);
+            }
+            JsonLexer jsonLexer = new JsonLexer(new StringReader(jsonString));
+            JsonParser jsonParser = new JsonParser(jsonLexer);
+            Map<String, Object> itemJsonMap =  jsonParser.parseObject();
+
+            // Add the id key-value pair
+            itemJsonMap.put("id", idSet.getTid(i));
+            CSLItemData item = CSLItemData.fromJson(itemJsonMap);
+            if (item == null) throw new IOException("Problem creating a CSLItemData object from backend JSON");
+            itemProvider.addItem(tid, item);
         }
     }
 

@@ -25,7 +25,7 @@ public abstract class ItemSource {
     private static final int jsonCacheTtl = 10;
 
 
-    public ItemSource(App app) throws Exception
+    public ItemSource(App app)
     {
         log = LoggerFactory.getLogger(this.getClass());
         this.app = app;
@@ -36,24 +36,29 @@ public abstract class ItemSource {
      * Get the NXML for a given ID.
      */
     public abstract Document retrieveItemNxml(String idType, String id)
-        throws IOException;
+        throws BadParamException, NotFoundException, IOException;
 
     /**
-     * Get the PMFU XML, given an ID
+     * Get the PMFU XML, given an ID.  The default implementation of this produces the PubOne by
+     * transforming the NXML.
+     *
+     * @throws IOException - if something goes wrong with the transformation
      */
     public Document retrieveItemPmfu(String idType, String id)
-        throws IOException
+        throws BadParamException, NotFoundException, IOException
     {
         Document nxml = retrieveItemNxml(idType, id);
         return (Document) app.doTransform(nxml, "pmfu");
     }
 
     /**
-     * Get the item as a json object, as defined by citeproc-json.  This modifies the results slightly,
-     * adding the id field.
+     * Get the item as a json object, as defined by citeproc-json.  This generates the JSON from the PubOne
+     * format, and then modifies the results slightly, adding the id field.
+     *
+     * @throws IOException - if there's some problem retrieving the PubOne or transforming it
      */
     public JsonNode retrieveItemJson(String idType, String id)
-        throws IOException
+        throws BadParamException, NotFoundException, IOException
     {
         String tid = IdSet.tid(idType, id);
         JsonNode cached = jsonCache.get(tid);

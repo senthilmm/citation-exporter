@@ -1,7 +1,13 @@
 {
   "test-cases": [
     {
+      "description": "Sample article",
+      "notes": "NXML, PMFU, and JSON all available in the samples directory",
+      "id": "PMC3362639"
+    },
+    {
       "description": "Correction",
+      "notes": "Only json is available in the samples directory",
       "id": "PMC3155436"
     },
     {
