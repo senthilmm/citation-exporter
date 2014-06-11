@@ -20,7 +20,7 @@ public class CiteprocPool {
     private final String[] preloadStyles = {"modern-language-association", "apa", "chicago-author-date"};
 
     // Maximum number of CitationProcessors created for any given style:
-    private final int queueSize = 10;
+    private final int poolSize = 10;
 
     private Map<String, CiteprocStylePool> citeprocStylePools;
 
@@ -75,7 +75,7 @@ public class CiteprocPool {
             log.debug("No CiteprocStylePool available, create one. pregenerate == " + pregenerate);
             // FIXME:  there should be some way to verify that the style is a valid style, before
             // we instantiate a pool object
-            cpsPool = new CiteprocStylePool(this, style, itemSource, queueSize, pregenerate);
+            cpsPool = new CiteprocStylePool(this, style, itemSource, poolSize, pregenerate);
             citeprocStylePools.put(style, cpsPool);
         }
         return cpsPool;

@@ -98,6 +98,7 @@ public class CitationProcessor {
         throws NotFoundException, BadParamException, IOException
     {
         itemProvider.clearCache();
+
         String idType = idSet.getType();
         int numIds = idSet.size();
 

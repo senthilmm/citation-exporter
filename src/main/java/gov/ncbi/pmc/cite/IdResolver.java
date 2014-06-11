@@ -68,7 +68,10 @@ public class IdResolver {
         if (cacheAiidProp != null ? Boolean.parseBoolean(cacheAiidProp) : false) {
             String aiidCacheTtlProp = System.getProperty("aiid_cache_ttl");
             aiidCacheTtl = aiidCacheTtlProp != null ? Integer.parseInt(aiidCacheTtlProp): 86400;
-            // Create a new cache; 50000 is max number of objects
+
+            // Create a new cache
+            int aiidCacheSize = 50000;
+            log.debug("Instantiating aiidsCache, size = " + aiidCacheSize + ", ttl = " + aiidCacheTtl);
             aiidCache = new KittyCache<String, Integer>(50000);
         }
 

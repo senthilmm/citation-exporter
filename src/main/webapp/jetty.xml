@@ -6,6 +6,22 @@
   plugin.  It is not used when, for example, running the app with the `mvn jetty:run` command.
 -->
 <Configure id="Server" class="org.eclipse.jetty.server.Server">
+  <!--
+    Here are some things I tried to improve performance (PMC-20472) but they had no discernable
+    effect.
+  <Set name='ThreadPool'>
+    <New class="org.eclipse.jetty.util.thread.QueuedThreadPool">
+      <Arg>
+        <New class="java.util.concurrent.ArrayBlockingQueue">
+          <Arg type="int">60000</Arg>
+        </New>
+      </Arg>
+      <Set name="minThreads">10</Set>
+      <Set name="maxThreads">200</Set>
+      <Set name="detailedDump">false</Set>
+    </New>
+  </Set>
+  -->
   <Call class="org.eclipse.jetty.util.log.Log" name="info">
     <Arg>Processing jetty.xml</Arg>
   </Call>
