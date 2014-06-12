@@ -8,8 +8,8 @@
   <groupId>gov.ncbi.pmc.cite</groupId>
   <artifactId>pmc-citation-exporter</artifactId>
   <version>0.1-SNAPSHOT</version>
-  <name>PMC Citation Service</name>
-  <!-- <url>http://chrismaloney.org/citeproc-java-demo</url>  -->
+  <name>PMC Citation Exporter Service</name>
+  <!-- <url>http://github.com/ncbi/citation-exporter</url>  -->
   <description/>
 
   <properties>
@@ -17,9 +17,9 @@
     <!--
       If we're using the earlier JDK 1.6, then we can't use the latest
       (version 9) of the jetty maven plugin.
-      <jettyVersion>9.1.2.v20140210</jettyVersion>
     -->
-    <jetty.version>8.1.14.v20131031</jetty.version>
+    <jetty.version>9.2.1.v20140609</jetty.version>
+    <!--  <jetty.version>8.1.14.v20131031</jetty.version> -->
     <slf4j.version>1.7.7</slf4j.version>
   </properties>
 
@@ -162,8 +162,7 @@
 
       <!-- Jetty Maven plugin -->
       <plugin>
-        <!-- In newer versions of Jetty, the groupId is org.eclipse.jetty. -->
-        <groupId>org.mortbay.jetty</groupId>
+        <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jetty.version}</version>
         <configuration>
@@ -229,7 +228,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>2.2</version>
+        <version>2.3</version>
         <executions>
           <execution>
             <phase>package</phase>
