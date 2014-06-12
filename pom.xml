@@ -85,6 +85,8 @@
       <artifactId>httpclient</artifactId>
       <version>4.3.3</version>
     </dependency>
+
+    <!-- Rhino:  as of 6/11/2014, the latest version is 1.7R4. -->
     <dependency>
       <groupId>org.mozilla</groupId>
       <artifactId>rhino</artifactId>
@@ -132,6 +134,12 @@
       <version>${slf4j.version}</version>
     </dependency>
 
+    <!--  citeproc-java uses this -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.3.2</version>
+    </dependency>
   </dependencies>
 
   <build>
