@@ -1,4 +1,4 @@
-ArticleInstanceId AccessionId
+aiid    pmcid
 3186925 PMC3186925
 2445293 PMC2445293
 2494480 PMC2494480
