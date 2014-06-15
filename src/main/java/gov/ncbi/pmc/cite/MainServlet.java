@@ -83,7 +83,7 @@ public class MainServlet extends HttpServlet
         PrintWriter rw = response.getWriter();
         String tenChars = "0123456789";
         String out = "";
-        for (int i = 0; i < 100; ++i) out += tenChars;
+        for (int i = 0; i < 1; ++i) out += tenChars;
         rw.println(out);
         return;
     }
