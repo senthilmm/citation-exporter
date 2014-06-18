@@ -84,32 +84,32 @@ public class TestItemSource extends ItemSource {
     }
 
     /**
-     * Get the PMFU representation. If the .pmfu file exists in the
+     * Get the PubOne representation. If the .pub1 file exists in the
      * test directory, return that.  Otherwise, fetch it the normal way, by converting from
      * NXML.
      */
     @Override
-    public Document retrieveItemPmfu(String idType, String id)
+    public Document retrieveItemPubOne(String idType, String id)
         throws BadParamException, NotFoundException, IOException
     {
         try {
-            return fetchItemPmfu(idType, id);
+            return fetchItemPubOne(idType, id);
         }
         catch (Exception e) {
-            return super.retrieveItemPmfu(idType, id);
+            return super.retrieveItemPubOne(idType, id);
         }
     }
 
     /**
-     * Get the PMFU representation of an item. This assumes that it exists as a .pmfu file in the
+     * Get the PubOne representation of an item. This assumes that it exists as a .pub1 file in the
      * test directory.
      */
-    public Document fetchItemPmfu(String idType, String id)
+    public Document fetchItemPubOne(String idType, String id)
         throws BadParamException, NotFoundException, IOException
     {
         URL url = null;
         try {
-            url = new URL(base_url, idType + "/" + id + ".pmfu");
+            url = new URL(base_url, idType + "/" + id + ".pub1");
         }
         catch (MalformedURLException e) {
             throw new BadParamException("Problem forming URL for test PubOne resource: '" +
@@ -137,7 +137,7 @@ public class TestItemSource extends ItemSource {
     /**
      * Get the citeproc-json representation of an item.  If the .json file exists in the
      * test directory, return that.  Otherwise, fetch it the normal way, by converting from
-     * PMFU.
+     * PubOne.
      */
     @Override
     public JsonNode retrieveItemJson(String idType, String id)
@@ -154,7 +154,7 @@ public class TestItemSource extends ItemSource {
     /**
      * Get the citeproc-json representation.  This assumes that it exists as a .json file in the
      * test directory.
-     * FIXME: this could throw more specific exceptions; see fetchItemPmfu above.
+     * FIXME: this could throw more specific exceptions; see fetchItemPubOne above.
      */
     protected JsonNode fetchItemJson(String idType, String id)
             throws IOException

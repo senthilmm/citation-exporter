@@ -1,6 +1,9 @@
 /catalog-local.xml
+/jats
+/src/main/resources/xslt
 /target
 /testlog
+/xslts
 dependency-reduced-pom.xml
 jetty-temp-dir
 kitty-cache-read-only

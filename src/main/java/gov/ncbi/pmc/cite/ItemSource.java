@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.spaceprogram.kittycache.KittyCache;
 
 /**
- * This fetches item data in either PMFU or citeproc-json format, given an IdSet.
+ * This fetches item data in either PubOne or citeproc-json format, given an IdSet.
  * One of these is instantiated per servlet.
  */
 public abstract class ItemSource {
@@ -39,16 +39,16 @@ public abstract class ItemSource {
         throws BadParamException, NotFoundException, IOException;
 
     /**
-     * Get the PMFU XML, given an ID.  The default implementation of this produces the PubOne by
+     * Get the PubOne XML, given an ID.  The default implementation of this produces the PubOne by
      * transforming the NXML.
      *
      * @throws IOException - if something goes wrong with the transformation
      */
-    public Document retrieveItemPmfu(String idType, String id)
+    public Document retrieveItemPubOne(String idType, String id)
         throws BadParamException, NotFoundException, IOException
     {
         Document nxml = retrieveItemNxml(idType, id);
-        return (Document) app.doTransform(nxml, "pmfu");
+        return (Document) app.doTransform(nxml, "pub-one");
     }
 
     /**
@@ -68,8 +68,8 @@ public abstract class ItemSource {
         }
         log.debug("JSON for " + tid + ": kitty-cache miss");
 
-        Document pmfu = retrieveItemPmfu(idType, id);
-        String jsonStr = (String) app.doTransform(pmfu, "pmfu2json");
+        Document pub_one = retrieveItemPubOne(idType, id);
+        String jsonStr = (String) app.doTransform(pub_one, "pub-one2json");
         ObjectNode json = (ObjectNode) app.getMapper().readTree(jsonStr);
         json.put("id", tid);
         jsonCache.put(tid, json, jsonCacheTtl);

@@ -136,7 +136,7 @@ public class MainServlet extends HttpServlet
                 td(description) +
                 td(idField) +
                 td(link(hrefBase + qs(qsParams, "outputformat=nxml"), "NXML")) +
-                td(link(hrefBase + qs(qsParams, "outputformat=pmfu"), "PMFU")) +
+                td(link(hrefBase + qs(qsParams, "outputformat=pub-one"), "PubOne")) +
                 td(link(hrefBase + qs(qsParams, "outputformat=ris"), "RIS")) +
                 td(link(hrefBase + qs(qsParams, "outputformat=nbib"), "NBIB")) +
                 td(link(hrefBase + qs(qsParams, "outputformat=citeproc"), "JSON")) +

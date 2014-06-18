@@ -111,7 +111,7 @@ public class Request {
                     responseformat = "nbib";
                 else if (outputformat.equals("citeproc"))
                     responseformat = "json";
-                else if (outputformat.equals("pmfu"))
+                else if (outputformat.equals("pub-one"))
                     responseformat = "xml";
                 else if (outputformat.equals("nxml"))
                     responseformat = "xml";
@@ -126,8 +126,8 @@ public class Request {
                     citeprocJson();
                 }
 
-                else if (outputformat.equals("pmfu") && responseformat.equals("xml")) {
-                    pmfuXml();
+                else if (outputformat.equals("pub-one") && responseformat.equals("xml")) {
+                    pubOneXml();
                 }
 
                 else if (outputformat.equals("nxml") && responseformat.equals("xml")) {
@@ -174,21 +174,21 @@ public class Request {
     }
 
     /**
-     * Respond to the client with a PMFU document.
+     * Respond to the client with a PubOne document.
      */
-    private void pmfuXml()
+    private void pubOneXml()
         throws NotFoundException, BadParamException, IOException
     {
 
         ItemSource itemSource = app.getItemSource();
         String idType = idSet.getType();
         int numIds = idSet.size();
-        log.debug("Getting PMFU for ids " + idSet);
+        log.debug("Getting PubOne for ids " + idSet);
 
-        String pmfuString;  // response goes here
+        String pubOneString;  // response goes here
         if (numIds == 1) {
-            Document d = itemSource.retrieveItemPmfu(idType, idSet.getId(0));
-            pmfuString = serializeXml(d);
+            Document d = itemSource.retrieveItemPubOne(idType, idSet.getId(0));
+            pubOneString = serializeXml(d);
         }
         else {
             // Create a new XML document which will wrap (aggregate) all the individual
@@ -198,12 +198,12 @@ public class Request {
             d.appendChild(root);
 
             for (int i = 0; i < numIds; ++i) {
-                Document record = itemSource.retrieveItemPmfu(idType, idSet.getId(i));
+                Document record = itemSource.retrieveItemPubOne(idType, idSet.getId(i));
                 // Append the root element of this record's XML document as the last child of
                 // the root element of our aggregate document.
                 root.appendChild(d.importNode(record.getDocumentElement(), true));
             }
-            pmfuString = serializeXml(d);
+            pubOneString = serializeXml(d);
         }
 
         resp.setContentType("application/xml;charset=UTF-8");
@@ -211,7 +211,7 @@ public class Request {
         resp.setStatus(HttpServletResponse.SC_OK);
         initPage();
         if (page == null) return;
-        page.print(pmfuString);
+        page.print(pubOneString);
     }
 
     /**
@@ -284,7 +284,7 @@ public class Request {
     }
 
     /**
-     * Respond to the client with a document that is the result of running the PMFU
+     * Respond to the client with a document that is the result of running the PubOne
      * through an XSLT transformation.
      */
     private void transformXml(String outputformat)
@@ -299,22 +299,22 @@ public class Request {
         TransformEngine transformEngine = app.getTransformEngine();
 
         String transformName =
-                outputformat.equals("ris") ? "pmfu2ris" :
-                outputformat.equals("nbib") ? "pmfu2medline" :
+                outputformat.equals("ris") ? "pub-one2ris" :
+                outputformat.equals("nbib") ? "pub-one2medline" :
                 outputformat;
         String contentDispHeader;
         String result = "";
         if (numIds == 1) {
             String outFilename = idSet.getTid(0) + "." + outputformat;
             contentDispHeader = "attachment; filename=" + outFilename;
-            Document d = itemSource.retrieveItemPmfu(idType, idSet.getId(0));
+            Document d = itemSource.retrieveItemPubOne(idType, idSet.getId(0));
             result = (String) transformEngine.doTransform(d, transformName);
         }
         else {
             contentDispHeader = "attachment; filename=results." + outputformat;
             for (int i = 0; i < numIds; ++i) {
                 if (i != 0) { result += "\n"; }
-                Document d = itemSource.retrieveItemPmfu(idType, idSet.getId(i));
+                Document d = itemSource.retrieveItemPubOne(idType, idSet.getId(i));
                 result += (String) transformEngine.doTransform(d, transformName) + "\n";
             }
         }

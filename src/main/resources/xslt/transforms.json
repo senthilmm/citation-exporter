@@ -8,19 +8,19 @@
     "outputformat": "application/json"
   },
   {
-    "name": "pmfu",
+    "name": "pub-one",
     "outputformat": "application/xml"
   },
   {
-    "name": "pmfu2json",
+    "name": "pub-one2json",
     "outputformat": "application/json"
   },
   {
-    "name": "pmfu2medline",
+    "name": "pub-one2medline",
     "outputformat": "application/nbib"
   },
   {
-    "name": "pmfu2ris",
+    "name": "pub-one2ris",
     "outputformat": "application/x-research-info-systems"
   }
 ]

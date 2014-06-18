@@ -43,9 +43,9 @@ public class App {
             itemSource = new TestItemSource(getClass().getClassLoader().getResource("samples/"), this);
         }
 
-        // PMFU from stcache:
-        else if (itemSourceStr.equals("stcache-pmfu")) {
-            itemSource = new StcachePmfuItemSource(this);
+        // PubOne from stcache:
+        else if (itemSourceStr.equals("stcache-pub-one")) {
+            itemSource = new StcachePubOneItemSource(this);
         }
         else if (itemSourceStr.equals("stcache-nxml")) {
             itemSource = new StcacheNxmlItemSource(this);

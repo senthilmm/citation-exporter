@@ -2,7 +2,7 @@
   "test-cases": [
     {
       "description": "Sample article",
-      "notes": "NXML, PMFU, and JSON all available in the samples directory",
+      "notes": "NXML, PubOne, and JSON all available in the samples directory",
       "id": "PMC3362639"
     },
     {
