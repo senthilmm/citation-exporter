@@ -73,9 +73,9 @@
       "outputformat": "citeproc"
     },
     {
-      "description": "pmfu format",
+      "description": "pub-one format",
       "ids": "PMC3352855",
-      "outputformat": "pmfu"
+      "outputformat": "pub-one"
     },
     {
       "description": "nbib format",
