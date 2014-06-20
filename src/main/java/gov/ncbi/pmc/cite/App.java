@@ -1,5 +1,7 @@
 package gov.ncbi.pmc.cite;
 
+import gov.ncbi.pmc.ids.IdResolver;
+
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;

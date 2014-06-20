@@ -1,4 +1,8 @@
-package gov.ncbi.pmc.cite;
+package gov.ncbi.pmc.ids;
+
+import gov.ncbi.pmc.cite.BadParamException;
+import gov.ncbi.pmc.cite.NotFoundException;
+import gov.ncbi.pmc.cite.ServiceException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -119,7 +123,19 @@ public class IdResolver {
      * Resolves a comma-delimited list of IDs into a list of aiids or pmids.
      *
      * @param idStr - comma-delimited list of IDs, from the `ids` query string param.
-     * @param idType - optional ID type, from the `idtype` query-string parameter.  If given, it
+     * @return an IdSet object, whose idType value is either "pmid" or "aiid".
+     */
+    public IdSet resolveIds(String idStr)
+            throws BadParamException, ServiceException, NotFoundException
+    {
+        return resolveIds(idStr, null);
+    }
+
+    /**
+     * Resolves a comma-delimited list of IDs into a list of aiids or pmids.
+     *
+     * @param idStr - comma-delimited list of IDs, from the `ids` query string param.
+     * @param idType - optional ID type, from the `idtype` query-string parameter.  If not null, it
      *   must be "pmcid", "pmid", "mid", "doi" or "aiid".
      * @return an IdSet object, whose idType value is either "pmid" or "aiid".
      */
@@ -213,13 +229,13 @@ public class IdResolver {
             }
         }
 
-        IdSet idSet = new IdSet("aiid");
+        IdSet idSet = new IdSet();
         for (String id: idsArray) {
             Integer aiid = resolvedIds.get(id);
             // If the requested ID was not in the response, then assume that it's a bad id value, and throw
             // "not found"
             if (aiid == null) throw new NotFoundException("ID " + id + " was not found in the PMC ID converter");
-            idSet.addId(resolvedIds.get(id).toString());
+            idSet.addId("aiid", resolvedIds.get(id).toString());
         }
         return idSet;
     }

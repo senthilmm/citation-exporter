@@ -1,9 +1,14 @@
 package gov.ncbi.pmc.cite;
 
+import gov.ncbi.pmc.ids.IdSet;
+import gov.ncbi.pmc.ids.Identifier;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -22,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -103,8 +109,10 @@ public class Request {
             if (responseformat == null) {
                 if (outputformat.equals("html"))
                     responseformat = "html";
+              /* FIXME: rtf format not implemented yet.
                 else if (outputformat.equals("rtf"))
                     responseformat = "rtf";
+              */
                 else if (outputformat.equals("ris"))
                     responseformat = "ris";
                 else if (outputformat.equals("nbib"))
@@ -117,35 +125,33 @@ public class Request {
                     responseformat = "xml";
             }
 
-            //synchronized(app) {
-                if (outputformat.equals("html") || outputformat.equals("rtf")) {
-                    styledCitation();
-                }
+            if (outputformat.equals("html") || outputformat.equals("rtf")) {
+                styledCitation();
+            }
 
-                else if (outputformat.equals("citeproc") && responseformat.equals("json")) {
-                    citeprocJson();
-                }
+            else if (outputformat.equals("citeproc") && responseformat.equals("json")) {
+                citeprocJson();
+            }
 
-                else if (outputformat.equals("pub-one") && responseformat.equals("xml")) {
-                    pubOneXml();
-                }
+            else if (outputformat.equals("pub-one") && responseformat.equals("xml")) {
+                pubOneXml();
+            }
 
-                else if (outputformat.equals("nxml") && responseformat.equals("xml")) {
-                    nXml();
-                }
+            else if (outputformat.equals("nxml") && responseformat.equals("xml")) {
+                nXml();
+            }
 
-                else if (outputformat.equals("nbib") && responseformat.equals("nbib") ||
-                         outputformat.equals("ris") && responseformat.equals("ris"))
-                {
-                    transformXml(outputformat);
-                }
+            else if (outputformat.equals("nbib") && responseformat.equals("nbib") ||
+                     outputformat.equals("ris") && responseformat.equals("ris"))
+            {
+                transformXml(outputformat);
+            }
 
-                else {
-                    errorResponse("Not sure what I'm supposed to do. Check the values of " +
-                        "outputformat and responseformat.", 400);
-                    return;
-                }
-            //}
+            else {
+                errorResponse("Not sure what I'm supposed to do. Check the values of " +
+                    "outputformat and responseformat.", 400);
+                return;
+            }
         }
         catch (NotFoundException e) {
             errorResponse(e.getMessage(), 404);
@@ -179,29 +185,41 @@ public class Request {
     private void pubOneXml()
         throws NotFoundException, BadParamException, IOException
     {
-
         ItemSource itemSource = app.getItemSource();
-        String idType = idSet.getType();
+        //String idType = idSet.getType();
         int numIds = idSet.size();
         log.debug("Getting PubOne for ids " + idSet);
 
         String pubOneString;  // response goes here
         if (numIds == 1) {
-            Document d = itemSource.retrieveItemPubOne(idType, idSet.getId(0));
+            Document d = itemSource.retrieveItemPubOne(idSet.getIdentifier(0));
             pubOneString = serializeXml(d);
         }
         else {
             // Create a new XML document which will wrap (aggregate) all the individual
-            // record's XML documents.
+            // records' XML documents.
             Document d = getDocumentBuilder().newDocument();
-            Element root = d.createElement("pm-records");
+            Element root = d.createElement("pub-one-records");
             d.appendChild(root);
 
+            List<Identifier> notFoundList = new ArrayList<Identifier>();
             for (int i = 0; i < numIds; ++i) {
-                Document record = itemSource.retrieveItemPubOne(idType, idSet.getId(i));
-                // Append the root element of this record's XML document as the last child of
-                // the root element of our aggregate document.
-                root.appendChild(d.importNode(record.getDocumentElement(), true));
+                Identifier id = idSet.getIdentifier(i);
+                try {
+                    Document record = itemSource.retrieveItemPubOne(id);
+                    // Append the root element of this record's XML document as the last child of
+                    // the root element of our aggregate document.
+                    root.appendChild(d.importNode(record.getDocumentElement(), true));
+                }
+                catch (Exception e) {
+                    System.out.println("===============================> Adding " + id);
+                    notFoundList.add(id);
+                }
+            }
+            if (notFoundList.size() > 0) {
+                Attr notFoundAttr = d.createAttributeNS("http://www.ncbi.nlm.nih.gov/ns/search", "s:not-found");
+                notFoundAttr.setValue(StringUtils.join(notFoundList, " "));
+                root.setAttributeNodeNS(notFoundAttr);
             }
             pubOneString = serializeXml(d);
         }
@@ -222,12 +240,12 @@ public class Request {
         throws BadParamException, NotFoundException, IOException
     {
         ItemSource itemSource = app.getItemSource();
-        String idType = idSet.getType();
+        //String idType = idSet.getType();
         int numIds = idSet.size();
 
         Document d = null;
         if (numIds == 1) {
-            d = itemSource.retrieveItemNxml(idType, idSet.getId(0));
+            d = itemSource.retrieveItemNxml(idSet.getIdentifier(0));
         }
         else {
             d = getDocumentBuilder().newDocument();
@@ -235,7 +253,7 @@ public class Request {
             d.appendChild(root);
 
             for (int i = 0; i < numIds; ++i) {
-                Document record = itemSource.retrieveItemNxml(idType, idSet.getId(i));
+                Document record = itemSource.retrieveItemNxml(idSet.getIdentifier(i));
                 root.appendChild(d.importNode(record.getDocumentElement(), true));
             }
         }
@@ -293,7 +311,7 @@ public class Request {
         // FIXME:  this all has to be data-driven.
         // That means:  the content-type of the output, the XSLT to use, and, a function to use
         // to handle concatenation of multiple records.
-        String idType = idSet.getType();
+        //String idType = idSet.getType();
         int numIds = idSet.size();
         ItemSource itemSource = app.getItemSource();
         TransformEngine transformEngine = app.getTransformEngine();
@@ -305,16 +323,17 @@ public class Request {
         String contentDispHeader;
         String result = "";
         if (numIds == 1) {
-            String outFilename = idSet.getTid(0) + "." + outputformat;
+            Identifier id = idSet.getIdentifier(0);
+            String outFilename = id.getType() + "-" + id.getValue() + "." + outputformat;
             contentDispHeader = "attachment; filename=" + outFilename;
-            Document d = itemSource.retrieveItemPubOne(idType, idSet.getId(0));
+            Document d = itemSource.retrieveItemPubOne(idSet.getIdentifier(0));
             result = (String) transformEngine.doTransform(d, transformName);
         }
         else {
             contentDispHeader = "attachment; filename=results." + outputformat;
             for (int i = 0; i < numIds; ++i) {
                 if (i != 0) { result += "\n"; }
-                Document d = itemSource.retrieveItemPubOne(idType, idSet.getId(i));
+                Document d = itemSource.retrieveItemPubOne(idSet.getIdentifier(i));
                 result += (String) transformEngine.doTransform(d, transformName) + "\n";
             }
         }
@@ -334,21 +353,21 @@ public class Request {
     private void citeprocJson()
         throws NotFoundException, BadParamException, IOException
     {
-        String idType = idSet.getType();
+        //String idType = idSet.getType();
         int numIds = idSet.size();
         ItemSource itemSource = app.getItemSource();
 
         String jsonString;
         try {
             if (numIds == 1) {
-                JsonNode jn = itemSource.retrieveItemJson(idType, idSet.getId(0));
+                JsonNode jn = itemSource.retrieveItemJson(idSet.getIdentifier(0));
                 jsonString = app.getMapper().writeValueAsString(jn);
             }
             else {
                 jsonString = "[";
                 for (int i = 0; i < numIds; ++i) {
                     if (i != 0) { jsonString += ","; }
-                    jsonString += itemSource.retrieveItemJson(idType, idSet.getId(i));
+                    jsonString += itemSource.retrieveItemJson(idSet.getIdentifier(i));
                 }
                 jsonString += "]";
             }
@@ -392,7 +411,7 @@ public class Request {
         entriesDoc.appendChild(entriesDiv);
 
         // The array of tids (type-and-ids) that we will be outputting
-        String[] tids = idSet.getTids();
+        String[] curies = idSet.getCuries();
 
         // For each style
         for (int styleNum = 0; styleNum < styles.length; ++styleNum) {
@@ -416,8 +435,8 @@ public class Request {
             String entryIds[] = bibl.getEntryIds();
             String entries[] = bibl.getEntries();
 
-            for (int tidNum = 0; tidNum < tids.length; ++tidNum) {
-                String tid = tids[tidNum];
+            for (int tidNum = 0; tidNum < curies.length; ++tidNum) {
+                String tid = curies[tidNum];
                 int entryNum = ArrayUtils.indexOf(entryIds, tid);
                 String entry = entries[entryNum];
 

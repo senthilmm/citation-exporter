@@ -1,5 +1,8 @@
 package gov.ncbi.pmc.cite;
 
+import gov.ncbi.pmc.ids.IdSet;
+import gov.ncbi.pmc.ids.Identifier;
+
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -35,7 +38,7 @@ public abstract class ItemSource {
     /**
      * Get the NXML for a given ID.
      */
-    public abstract Document retrieveItemNxml(String idType, String id)
+    public abstract Document retrieveItemNxml(Identifier id)
         throws BadParamException, NotFoundException, IOException;
 
     /**
@@ -44,10 +47,10 @@ public abstract class ItemSource {
      *
      * @throws IOException - if something goes wrong with the transformation
      */
-    public Document retrieveItemPubOne(String idType, String id)
+    public Document retrieveItemPubOne(Identifier id)
         throws BadParamException, NotFoundException, IOException
     {
-        Document nxml = retrieveItemNxml(idType, id);
+        Document nxml = retrieveItemNxml(id);
         return (Document) app.doTransform(nxml, "pub-one");
     }
 
@@ -57,22 +60,22 @@ public abstract class ItemSource {
      *
      * @throws IOException - if there's some problem retrieving the PubOne or transforming it
      */
-    public JsonNode retrieveItemJson(String idType, String id)
+    public JsonNode retrieveItemJson(Identifier id)
         throws BadParamException, NotFoundException, IOException
     {
-        String tid = IdSet.tid(idType, id);
-        JsonNode cached = jsonCache.get(tid);
+        String curie = id.getCurie();
+        JsonNode cached = jsonCache.get(curie);
         if (cached != null) {
-            log.debug("JSON for " + tid + ": kitty-cache hit");
+            log.debug("JSON for " + curie + ": kitty-cache hit");
             return cached;
         }
-        log.debug("JSON for " + tid + ": kitty-cache miss");
+        log.debug("JSON for " + curie + ": kitty-cache miss");
 
-        Document pub_one = retrieveItemPubOne(idType, id);
+        Document pub_one = retrieveItemPubOne(id);
         String jsonStr = (String) app.doTransform(pub_one, "pub-one2json");
         ObjectNode json = (ObjectNode) app.getMapper().readTree(jsonStr);
-        json.put("id", tid);
-        jsonCache.put(tid, json, jsonCacheTtl);
+        json.put("id", curie);
+        jsonCache.put(curie, json, jsonCacheTtl);
         return json;
     }
 

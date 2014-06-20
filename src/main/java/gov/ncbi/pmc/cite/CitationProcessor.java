@@ -1,5 +1,8 @@
 package gov.ncbi.pmc.cite;
 
+import gov.ncbi.pmc.ids.IdSet;
+import gov.ncbi.pmc.ids.Identifier;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
@@ -75,7 +78,7 @@ public class CitationProcessor {
     {
         prefetchItems(idSet);
         csl.setOutputFormat(format);
-        csl.registerCitationItems(idSet.getTids());
+        csl.registerCitationItems(idSet.getCuries());
         long mb_start = System.currentTimeMillis();
         Bibliography bibl = csl.makeBibliography();
         log.debug("makeBibliography took " + (System.currentTimeMillis() - mb_start) + " milliseconds");
@@ -99,18 +102,18 @@ public class CitationProcessor {
     {
         itemProvider.clearCache();
 
-        String idType = idSet.getType();
+        //String idType = idSet.getType();
         int numIds = idSet.size();
 
         for (int i = 0; i < numIds; ++i) {
-            String id = idSet.getId(i);
-            String tid = idSet.getTid(i);
+            Identifier id = idSet.getIdentifier(i);
+            String curie = idSet.getCurie(i);
 
             // Unfortunately, we have to get the JSON as a Jackson object, then serialize
             // it and parse it back in as a citeproc-java object.  See this question:
             // https://github.com/michel-kraemer/citeproc-java/issues/9
             ObjectMapper objectMapper = itemSource.getMapper();
-            JsonNode jsonNode = itemSource.retrieveItemJson(idType, id);
+            JsonNode jsonNode = itemSource.retrieveItemJson(id);
             String jsonString = null;
             try {
                 jsonString = objectMapper.writeValueAsString(jsonNode);
@@ -124,10 +127,10 @@ public class CitationProcessor {
             Map<String, Object> itemJsonMap =  jsonParser.parseObject();
 
             // Add the id key-value pair
-            itemJsonMap.put("id", idSet.getTid(i));
+            itemJsonMap.put("id", idSet.getCurie(i));
             CSLItemData item = CSLItemData.fromJson(itemJsonMap);
             if (item == null) throw new IOException("Problem creating a CSLItemData object from backend JSON");
-            itemProvider.addItem(tid, item);
+            itemProvider.addItem(curie, item);
         }
     }
 

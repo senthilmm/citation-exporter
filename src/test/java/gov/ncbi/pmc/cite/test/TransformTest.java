@@ -11,6 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import gov.ncbi.pmc.cite.*;
+import gov.ncbi.pmc.ids.Identifier;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -62,7 +63,7 @@ public class TransformTest
 
         Document nxml_31 = null;
         try {
-            nxml_31 = itemSource.retrieveItemNxml("aiid", "31");
+            nxml_31 = itemSource.retrieveItemNxml(new Identifier("aiid", "31"));
         }
         catch (IOException e) {
             fail("IOException: " + e);

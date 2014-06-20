@@ -1,5 +1,8 @@
 package gov.ncbi.pmc.cite;
 
+import gov.ncbi.pmc.ids.IdSet;
+import gov.ncbi.pmc.ids.Identifier;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -42,10 +45,10 @@ public class TestItemSource extends ItemSource {
      * Retrieves an item's NXML from the test directory.
      */
     @Override
-    public Document retrieveItemNxml(String idType, String id)
+    public Document retrieveItemNxml(Identifier id)
         throws BadParamException, NotFoundException, IOException
     {
-        return fetchItemNxml(idType, id);
+        return fetchItemNxml(id);
     }
 
     /**
@@ -54,12 +57,12 @@ public class TestItemSource extends ItemSource {
      * @throws BadParamException - if idType or id are malformed
      * @throws IOException - if something bad happens reading the XML
      */
-    public Document fetchItemNxml(String idType, String id)
+    public Document fetchItemNxml(Identifier id)
         throws BadParamException, NotFoundException, IOException
     {
         URL nxmlUrl = null;
         try {
-            nxmlUrl = new URL(base_url, idType + "/" + id + ".nxml");
+            nxmlUrl = new URL(base_url, id.getType() + "/" + id + ".nxml");
         }
         catch (MalformedURLException e) {
             throw new BadParamException("Problem forming URL for test NXML resource: '" +
@@ -89,14 +92,14 @@ public class TestItemSource extends ItemSource {
      * NXML.
      */
     @Override
-    public Document retrieveItemPubOne(String idType, String id)
+    public Document retrieveItemPubOne(Identifier id)
         throws BadParamException, NotFoundException, IOException
     {
         try {
-            return fetchItemPubOne(idType, id);
+            return fetchItemPubOne(id);
         }
         catch (Exception e) {
-            return super.retrieveItemPubOne(idType, id);
+            return super.retrieveItemPubOne(id);
         }
     }
 
@@ -104,12 +107,12 @@ public class TestItemSource extends ItemSource {
      * Get the PubOne representation of an item. This assumes that it exists as a .pub1 file in the
      * test directory.
      */
-    public Document fetchItemPubOne(String idType, String id)
+    public Document fetchItemPubOne(Identifier id)
         throws BadParamException, NotFoundException, IOException
     {
         URL url = null;
         try {
-            url = new URL(base_url, idType + "/" + id + ".pub1");
+            url = new URL(base_url, id.getType() + "/" + id + ".pub1");
         }
         catch (MalformedURLException e) {
             throw new BadParamException("Problem forming URL for test PubOne resource: '" +
@@ -140,14 +143,14 @@ public class TestItemSource extends ItemSource {
      * PubOne.
      */
     @Override
-    public JsonNode retrieveItemJson(String idType, String id)
+    public JsonNode retrieveItemJson(Identifier id)
         throws BadParamException, NotFoundException, IOException
     {
         try {
-            return fetchItemJson(idType, id);
+            return fetchItemJson(id);
         }
         catch (Exception e) {
-            return super.retrieveItemJson(idType, id);
+            return super.retrieveItemJson(id);
         }
     }
 
@@ -156,11 +159,12 @@ public class TestItemSource extends ItemSource {
      * test directory.
      * FIXME: this could throw more specific exceptions; see fetchItemPubOne above.
      */
-    protected JsonNode fetchItemJson(String idType, String id)
+    protected JsonNode fetchItemJson(Identifier id)
             throws IOException
     {
+        String idType = id.getType();
         ObjectNode json = (ObjectNode) app.getMapper().readTree(new URL(base_url, idType + "/" + id + ".json"));
-        json.put("id", IdSet.tid(idType, id));
+        json.put("id", id.getCurie());
         return json;
     }
 
