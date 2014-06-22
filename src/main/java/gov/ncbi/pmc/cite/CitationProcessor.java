@@ -1,6 +1,7 @@
 package gov.ncbi.pmc.cite;
 
-import gov.ncbi.pmc.ids.IdSet;
+import gov.ncbi.pmc.ids.RequestId;
+import gov.ncbi.pmc.ids.RequestIdList;
 import gov.ncbi.pmc.ids.Identifier;
 
 import java.io.FileNotFoundException;
@@ -69,16 +70,16 @@ public class CitationProcessor {
 
     /**
      *
-     * @param idSet
+     * @param idList
      * @param format
      * @throws IOException - for any number of things that could go wrong
      */
-    public Bibliography makeBibliography(IdSet idSet, String format)
+    public Bibliography makeBibliography(RequestIdList idList, String format)
         throws NotFoundException, BadParamException, IOException
     {
-        prefetchItems(idSet);
+        prefetchItems(idList);
         csl.setOutputFormat(format);
-        csl.registerCitationItems(idSet.getCuries());
+        csl.registerCitationItems(idList.getGoodCuries());
         long mb_start = System.currentTimeMillis();
         Bibliography bibl = csl.makeBibliography();
         log.debug("makeBibliography took " + (System.currentTimeMillis() - mb_start) + " milliseconds");
@@ -94,43 +95,58 @@ public class CitationProcessor {
      * informative error message, if there's a problem.  Otherwise, the retrieveItem() method (below)
      * is called from within citeproc-js, and there's no way to pass the error message back out.
      *
-     * @param idSet
+     * @param idList
      * @throws IOException - for error in Jackson serialization, etc.
      */
-    public void prefetchItems(IdSet idSet)
+    public void prefetchItems(RequestIdList idList)
         throws NotFoundException, BadParamException, IOException
     {
         itemProvider.clearCache();
-
-        //String idType = idSet.getType();
-        int numIds = idSet.size();
+        int numIds = idList.size();
 
         for (int i = 0; i < numIds; ++i) {
-            Identifier id = idSet.getIdentifier(i);
-            String curie = idSet.getCurie(i);
+            RequestId rid = idList.get(i);
+            Identifier id = rid.getResolvedId();
+            if (id == null) continue;
+            String curie = id.getCurie();
 
             // Unfortunately, we have to get the JSON as a Jackson object, then serialize
             // it and parse it back in as a citeproc-java object.  See this question:
             // https://github.com/michel-kraemer/citeproc-java/issues/9
-            ObjectMapper objectMapper = itemSource.getMapper();
-            JsonNode jsonNode = itemSource.retrieveItemJson(id);
-            String jsonString = null;
-            try {
-                jsonString = objectMapper.writeValueAsString(jsonNode);
-            }
-            catch (JsonProcessingException e) {
-                // An error in Jackson's serialization of known-good json data
-                throw new IOException(e);
-            }
-            JsonLexer jsonLexer = new JsonLexer(new StringReader(jsonString));
-            JsonParser jsonParser = new JsonParser(jsonLexer);
-            Map<String, Object> itemJsonMap =  jsonParser.parseObject();
 
-            // Add the id key-value pair
-            itemJsonMap.put("id", idSet.getCurie(i));
-            CSLItemData item = CSLItemData.fromJson(itemJsonMap);
-            if (item == null) throw new IOException("Problem creating a CSLItemData object from backend JSON");
-            itemProvider.addItem(curie, item);
+            rid.setGood(false);  // assume this will fail
+            ObjectMapper objectMapper = itemSource.getMapper();
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = itemSource.retrieveItemJson(id);
+            }
+            catch (CiteException e) { }
+            if (jsonNode != null) {
+                String jsonString = null;
+                try {
+                    jsonString = objectMapper.writeValueAsString(jsonNode);
+                }
+                catch (JsonProcessingException e) {
+                    // An error in Jackson's serialization of known-good json data
+                    throw new IOException(e);
+                }
+                JsonLexer jsonLexer = new JsonLexer(new StringReader(jsonString));
+                JsonParser jsonParser = new JsonParser(jsonLexer);
+                Map<String, Object> itemJsonMap =  jsonParser.parseObject();
+
+                // Add the id key-value pair
+                itemJsonMap.put("id", curie);
+                CSLItemData item = CSLItemData.fromJson(itemJsonMap);
+                if (item == null) throw new IOException("Problem creating a CSLItemData object from backend JSON");
+                itemProvider.addItem(curie, item);
+                rid.setGood(true); // success
+            }
+        }
+
+        // If the total number of good CSL items we've found is zero, throw an exception
+        log.debug("Number of good items found " + idList.numGood());
+        if (idList.numGood() == 0) {
+            throw new NotFoundException("Couldn't retrieve/create any good CSL items for this ID list");
         }
     }
 

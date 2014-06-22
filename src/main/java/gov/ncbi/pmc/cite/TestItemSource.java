@@ -1,6 +1,6 @@
 package gov.ncbi.pmc.cite;
 
-import gov.ncbi.pmc.ids.IdSet;
+import gov.ncbi.pmc.ids.RequestIdList;
 import gov.ncbi.pmc.ids.Identifier;
 
 import java.io.IOException;

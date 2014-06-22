@@ -18,7 +18,7 @@ public class Identifier {
 
     public String getCurie() {
         // FIXME:  this should use a colon, not a hyphen.
-        return type + "-" + value;
+        return type + ":" + value;
     }
 
     @Override

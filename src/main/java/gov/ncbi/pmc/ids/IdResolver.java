@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.eclipse.jetty.util.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +36,11 @@ import com.spaceprogram.kittycache.KittyCache;
  */
 
 public class IdResolver {
-    // The keys of the cache are just the ID strings, without the type. This means we're assuming
-    // that the sets of IDs for each type are disjoint.
-    // The values are numeric aiids.
+    // The keys of the cache are the CURIE strings of the original (unresolved) identifiers.
+    // The values are Identifiers either of type aiid or pmid.
+    // FIXME:  change the name of this to reflect that it's not just aiid.
     // Note: KittyCache is thread-safe.
-    KittyCache<String, Integer> aiidCache;
+    KittyCache<String, Identifier> aiidCache;
 
     ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
@@ -76,7 +77,7 @@ public class IdResolver {
             // Create a new cache
             int aiidCacheSize = 50000;
             log.debug("Instantiating aiidsCache, size = " + aiidCacheSize + ", ttl = " + aiidCacheTtl);
-            aiidCache = new KittyCache<String, Integer>(50000);
+            aiidCache = new KittyCache<String, Identifier>(50000);
         }
 
         // FIXME:  ID converter URL should use "www", when the needed change is deployed (see PMC-20071).
@@ -125,21 +126,21 @@ public class IdResolver {
      * @param idStr - comma-delimited list of IDs, from the `ids` query string param.
      * @return an IdSet object, whose idType value is either "pmid" or "aiid".
      */
-    public IdSet resolveIds(String idStr)
+    public RequestIdList resolveIds(String idStr)
             throws BadParamException, ServiceException, NotFoundException
     {
         return resolveIds(idStr, null);
     }
 
     /**
-     * Resolves a comma-delimited list of IDs into a list of aiids or pmids.
+     * Resolves a comma-delimited list of IDs into a ResolvedIdList.
      *
      * @param idStr - comma-delimited list of IDs, from the `ids` query string param.
      * @param idType - optional ID type, from the `idtype` query-string parameter.  If not null, it
      *   must be "pmcid", "pmid", "mid", "doi" or "aiid".
-     * @return an IdSet object, whose idType value is either "pmid" or "aiid".
+     * @return a ResolvedIdList object.  Not all of the items in that list are necessarily resolved.
      */
-    public IdSet resolveIds(String idStr, String idType)
+    public RequestIdList resolveIds(String idStr, String idType)
         throws BadParamException, ServiceException, NotFoundException
     {
         String[] idsArray = idStr.split(",");
@@ -150,7 +151,7 @@ public class IdResolver {
         }
 
         // Check every ID in the list.  If it doesn't match the expected pattern, try to canonicalize
-        // it
+        // it.  If we can't, throw an exception.
         for (int i = 0; i < idsArray.length; ++i) {
             String id = idsArray[i];
             if (!idTypeMatches(id, idType)) {
@@ -163,25 +164,24 @@ public class IdResolver {
             }
         }
 
-        // If the id type is pmid or aiid, then no resolving necessary
-        if (idType.equals("pmid") || idType.equals("aiid")) {
-            IdSet idSet = new IdSet(idType, idsArray);
-            return idSet;
-        }
 
-        // Resolve IDs to aiids.  We'll first aggregate the list of
-        // IDs that need to be resolved, so we only have to make one backend call.  Go through
-        // the list and, for each ID, either add it to resolvedIds (if it's already in the cache)
-        // or idsToResolve (if not).  No preservation of order here.
-        Map<String, Integer> resolvedIds = new HashMap<String, Integer>();
-        List<String> idsToResolve = new ArrayList<String>();
-        for (String id: idsArray) {
-            Integer aiid = aiidCache != null ? aiidCache.get(id) : null;
-            if (aiid != null) {
-                resolvedIds.put(id, aiid);
-            }
-            else {
-                idsToResolve.add(id);
+        RequestIdList idList = new RequestIdList(idType, idsArray);
+
+        // Go through the list and see if there are any identifiers that need to be resolved.
+        // Aggregate the list of IDs that need to be resolved, so we only have to make one backend call.
+        List<Identifier> idsToResolve = new ArrayList<Identifier>();
+        for (int i = 0; i < idList.size(); ++i) {
+            RequestId rid = idList.get(i);
+            if (!rid.isResolved()) {
+                Identifier origId = rid.getOriginalId();
+               // Not resolved yet; see if it is in the cache
+                Identifier cachedId = aiidCache == null ? null : aiidCache.get(origId.getCurie());
+                if (cachedId != null) {
+                    rid.setResolvedId(cachedId);
+                }
+                else {
+                    idsToResolve.add(origId);
+                }
             }
         }
 
@@ -189,9 +189,14 @@ public class IdResolver {
             // Call the id resolver
             // Create the URL.  If this is malformed, it must be because of bad parameter values, therefore
             // a bad request (right?)
+            String idString = "";
+            for (int i = 0; i < idsToResolve.size(); ++i) {
+                if (i != 0) idString += ",";
+                idString += idsToResolve.get(i).getValue();
+            }
             URL url = null;
             try {
-                url = new URL(idConverterBase + "idtype=" + idType + "&ids=" + StringUtils.join(idsToResolve, ","));
+                url = new URL(idConverterBase + "idtype=" + idType + "&ids=" + idString);
             }
             catch (MalformedURLException e) {
                 throw new BadParamException("Parameters must have a problem; got malformed URL for upstream service '" +
@@ -216,20 +221,20 @@ public class IdResolver {
             for (int rn = 0; rn < records.size(); ++rn) {
                 ObjectNode record = (ObjectNode) records.get(rn);
                 JsonNode aiid = record.get("aiid");
-                _dispatchId(record.get("pmcid"), aiid, resolvedIds);
-                _dispatchId(record.get("doi"), aiid, resolvedIds);
+                dispatchId("pmcid", record.get("pmcid"), aiid, idList);
+                dispatchId("doi", record.get("doi"), aiid, idList);
 
                 ArrayNode versions = (ArrayNode) record.get("versions");
                 if (versions != null) {
                     for (int vn = 0; vn < versions.size(); ++vn) {
                         ObjectNode version = (ObjectNode) versions.get(vn);
-                        _dispatchId(version.get("pmcid"), version.get("aiid"), resolvedIds);
+                        dispatchId("pmcid", version.get("pmcid"), version.get("aiid"), idList);
                     }
                 }
             }
         }
 
-        IdSet idSet = new IdSet();
+      /*
         for (String id: idsArray) {
             Integer aiid = resolvedIds.get(id);
             // If the requested ID was not in the response, then assume that it's a bad id value, and throw
@@ -237,21 +242,26 @@ public class IdResolver {
             if (aiid == null) throw new NotFoundException("ID " + id + " was not found in the PMC ID converter");
             idSet.addId("aiid", resolvedIds.get(id).toString());
         }
-        return idSet;
+      */
+        return idList;
     }
 
-    // Helper function to handle one result pair from the idconverter
-    private void _dispatchId(JsonNode fromId, JsonNode aiid, Map<String, Integer> resolvedIds) {
-        if (fromId == null || aiid == null) return;
+    // Helper function to handle one result pair from the idconverter.  If this was one of the ids we requested,
+    // then add it to the ResolvedIdList.  Regardless, if caching is in use, add it to the cache.
+    private void dispatchId(String fromType, JsonNode fromIdNode, JsonNode aiidNode, RequestIdList idList) {
+        if (fromIdNode == null || aiidNode == null) return;
 
-        String fromIdStr = fromId.asText();
+        if (aiidNode.asInt() == 0) return;   // been known to happen
+        Identifier aiid = new Identifier("aiid", aiidNode.asText());
+
+        String fromIdStr = fromIdNode.asText();
         if (fromIdStr.equals("")) return;
+        Identifier fromId = new Identifier(fromType, fromIdStr);
 
-        int aiidInt = aiid.asInt();
-        if (aiidInt == 0) return;
-        resolvedIds.put(fromIdStr, aiidInt);
+        int i = idList.lookup(fromId);
+        if (i != -1) idList.get(i).setResolvedId(aiid);
         if (aiidCache != null) {
-            aiidCache.put(fromIdStr, aiidInt, aiidCacheTtl);
+            aiidCache.put(fromId.getCurie(), aiid, aiidCacheTtl);
         }
     }
 }
