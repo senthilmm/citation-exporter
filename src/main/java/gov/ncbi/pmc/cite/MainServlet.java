@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -47,9 +50,44 @@ public class MainServlet extends HttpServlet
         }
     }
 
+    /**
+     * scriptUrl is the base part of the path of the URL of this application, as seen by the client.
+     * It is computed per request, because it might be different for each request,
+     * depending on whether or not it came through a load balance, for example.
+     * If the script_url system property is set, then we'll always use that.  Otherwise, if there's
+     * an HTTP header 'CAF-Url' (NCBI-specific addition, having to do with our load balancers) then dig
+     * the value out of that.  Otherwise, use the context path.  It will always end in a slash.
+     */
+    private String scriptUrl(HttpServletRequest request)
+        throws InvalidPropertiesFormatException
+    {
+        String scriptUrl;
+
+        String prop = System.getProperty("script_url");
+        if (prop != null) {
+            if (!prop.endsWith("/")) throw new InvalidPropertiesFormatException("script_url must end in a slash");
+            scriptUrl = prop;
+        }
+        else {
+            String cafUrl = request.getHeader("CAF-Url");
+            if (cafUrl != null) {
+                String pathInfo = request.getPathInfo();
+                scriptUrl = cafUrl.replaceFirst("http://[^/]*", "");
+                scriptUrl = scriptUrl.substring(0, scriptUrl.length() - pathInfo.length());
+                if (!scriptUrl.endsWith("/")) scriptUrl += "/";
+            }
+            else {
+                String contextPath = request.getContextPath();
+                scriptUrl = contextPath.equals("") ? "/" : contextPath;
+            }
+        }
+        log.info("Computed scriptUrl = '" + scriptUrl + "'");
+        return scriptUrl;
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException
+        throws InvalidPropertiesFormatException, ServletException, IOException
     {
         String pathInfo = request.getPathInfo();
         if (pathInfo.equals("/echotest")) {
@@ -60,6 +98,9 @@ public class MainServlet extends HttpServlet
         }
         else if (pathInfo.equals("/samples")) {
             doSamples(request, response);
+        }
+        else if (pathInfo.equals("/info")) {
+            doInfo(request, response);
         }
         else {
             Request r = new Request(app, request, response);
@@ -84,6 +125,50 @@ public class MainServlet extends HttpServlet
         return;
     }
 
+    /**
+     * Echo back some info about the request.  Mostly for debugging.  Most things here have
+     * been commented out for security reasons, so as not to expose internal configuration info.
+     */
+    public void doInfo(HttpServletRequest request, HttpServletResponse response)
+        throws IOException
+    {
+        response.setContentType("text/plain;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(200);
+        PrintWriter rw = response.getWriter();
+
+        rw.println("Method = " + request.getMethod());
+        rw.println("Request URI = '" + request.getRequestURI() + "'");
+        //rw.println("Request URL = '" + request.getRequestURL() + "'");
+        //rw.println("Context path = '" + request.getContextPath() + "'");
+        rw.println("Path info = '" + request.getPathInfo() + "'");
+        //rw.println("Path translated = " + request.getPathTranslated());
+        rw.println("Query string = " + request.getQueryString());
+
+      /*
+        rw.println("HTTP Headers:");
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String hn = headerNames.nextElement();
+            rw.println("  '" + hn + "': '" + request.getHeader(hn) + "'");
+        }
+        rw.println("Parameters:");
+        Enumeration<String> paramNames = request.getParameterNames();
+        while (paramNames.hasMoreElements()) {
+            String pn = paramNames.nextElement();
+            rw.println("  '" + pn + "': '" + request.getParameter(pn) + "'");
+        }
+        rw.println("System properties:");
+        Properties props = System.getProperties();
+        Enumeration<String> propNames = (Enumeration<String>) props.propertyNames();
+        while (propNames.hasMoreElements()) {
+            String pn = propNames.nextElement();
+            rw.println("  '" + pn + "': '" + props.getProperty(pn));
+        }
+      */
+        return;
+    }
+
 
     /**
      * Display the samples page.
@@ -105,8 +190,7 @@ public class MainServlet extends HttpServlet
         ));
 
         // Construct the base part of the URL that will be used in hyperlinks
-        String contextPath = request.getContextPath();
-        String hrefBase = (contextPath.equals("") ? "/" : contextPath) + "?";
+        String hrefBase = scriptUrl(request) + "?";
 
         // Read the samples json file
         URL samplesUrl = getClass().getClassLoader().getResource("samples/test-cases.json");

@@ -62,7 +62,7 @@ public class TestItemSource extends ItemSource {
     {
         URL nxmlUrl = null;
         try {
-            nxmlUrl = new URL(base_url, id.getType() + "/" + id + ".nxml");
+            nxmlUrl = new URL(base_url, id.getType() + "/" + id.getValue() + ".nxml");
         }
         catch (MalformedURLException e) {
             throw new BadParamException("Problem forming URL for test NXML resource: '" +
@@ -112,7 +112,7 @@ public class TestItemSource extends ItemSource {
     {
         URL url = null;
         try {
-            url = new URL(base_url, id.getType() + "/" + id + ".pub1");
+            url = new URL(base_url, id.getType() + "/" + id.getValue() + ".pub1");
         }
         catch (MalformedURLException e) {
             throw new BadParamException("Problem forming URL for test PubOne resource: '" +
