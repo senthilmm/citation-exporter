@@ -51,60 +51,40 @@ public class MainServlet extends HttpServlet
     }
 
     /**
-     * scriptUrl is the base part of the path of the URL of this application, as seen by the client.
-     * It is computed per request, because it might be different for each request,
-     * depending on whether or not it came through a load balance, for example.
-     * If the script_url system property is set, then we'll always use that.  Otherwise, if there's
-     * an HTTP header 'CAF-Url' (NCBI-specific addition, having to do with our load balancers) then dig
-     * the value out of that.  Otherwise, use the context path.  It will always end in a slash.
+     * FIXME:  This should be refactored to create a 'Request' object right away (which maybe could be renamed
+     * 'Controller').  Path parsing, etc., should all be moved there.
      */
-    private String scriptUrl(HttpServletRequest request)
-        throws InvalidPropertiesFormatException
-    {
-        String scriptUrl;
-
-        String prop = System.getProperty("script_url");
-        if (prop != null) {
-            if (!prop.endsWith("/")) throw new InvalidPropertiesFormatException("script_url must end in a slash");
-            scriptUrl = prop;
-        }
-        else {
-            String cafUrl = request.getHeader("CAF-Url");
-            if (cafUrl != null) {
-                String pathInfo = request.getPathInfo();
-                scriptUrl = cafUrl.replaceFirst("http://[^/]*", "");
-                scriptUrl = scriptUrl.substring(0, scriptUrl.length() - pathInfo.length());
-                if (!scriptUrl.endsWith("/")) scriptUrl += "/";
-            }
-            else {
-                String contextPath = request.getContextPath();
-                scriptUrl = contextPath.equals("") ? "/" : contextPath;
-            }
-        }
-        log.info("Computed scriptUrl = '" + scriptUrl + "'");
-        return scriptUrl;
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws InvalidPropertiesFormatException, ServletException, IOException
     {
-        String pathInfo = request.getPathInfo();
-        if (pathInfo.equals("/echotest")) {
+        Request r = new Request(app, request, response);
+
+        if (r.pathEquals("echotest")) {
+        //if (numSegs == 1 && segs[0].equals("echotest")) {
             doEchoTest(request, response);
         }
-        else if (pathInfo.equals("/errortest")) {
+        else if (r.pathEquals("errortest")) {
             throw new NullPointerException("Test exception, for checking the error response page");
         }
-        else if (pathInfo.equals("/samples")) {
-            doSamples(request, response);
+        else if (r.pathEquals("samples")) {
+            doSamples(r);
         }
-        else if (pathInfo.equals("/info")) {
+        else if (r.pathEquals("info")) {
             doInfo(request, response);
         }
-        else {
-            Request r = new Request(app, request, response);
+        else if (r.pathEmpty()) {
             r.doGet();
+        }
+        else {
+            String msg = "Unrecognized path: '" + r.getOrigPath() + "'.";
+            log.info("Sending error response: " + msg);
+            response.setContentType("text/plain;charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setStatus(404);
+            PrintWriter page = response.getWriter();
+            if (page == null) return;
+            page.println(msg);
         }
     }
 
@@ -173,9 +153,12 @@ public class MainServlet extends HttpServlet
     /**
      * Display the samples page.
      */
-    public void doSamples(HttpServletRequest request, HttpServletResponse response)
+    public void doSamples(Request r)
         throws IOException
     {
+        HttpServletRequest request = r.getRequest();
+        HttpServletResponse response = r.getResponse();
+
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setStatus(200);
@@ -190,7 +173,7 @@ public class MainServlet extends HttpServlet
         ));
 
         // Construct the base part of the URL that will be used in hyperlinks
-        String hrefBase = scriptUrl(request) + "?";
+        String hrefBase = "/" + r.getScriptPath() + "?";
 
         // Read the samples json file
         URL samplesUrl = getClass().getClassLoader().getResource("samples/test-cases.json");
@@ -231,10 +214,7 @@ public class MainServlet extends HttpServlet
             ));
         }
 
-
         rw.println("</table></body></html>");
-
-
         return;
 
     }

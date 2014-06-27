@@ -4,11 +4,15 @@ import gov.ncbi.pmc.ids.IdResolver;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.xml.resolver.tools.CatalogResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * of the context we're running in (i.e. webapp vs. unit test).
  */
 public class App {
+    public static final String apiVersion = "v1";
+
+    private Logger log = LoggerFactory.getLogger(App.class);
     private IdResolver idResolver;
     // Jackson ObjectMapper should be thread-safe, see
     // http://wiki.fasterxml.com/JacksonFAQThreadSafety
@@ -111,4 +118,5 @@ public class App {
     public CiteprocPool getCiteprocPool() {
         return citeprocPool;
     }
+
 }

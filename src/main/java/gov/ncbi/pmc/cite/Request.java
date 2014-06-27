@@ -8,7 +8,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.InvalidPropertiesFormatException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,8 +50,24 @@ import de.undercouch.citeproc.output.Bibliography;
  */
 public class Request {
     private App app;
-    private HttpServletRequest req;
-    private HttpServletResponse resp;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
+
+    // NCBI-specific, see below.  (Note: I don't know what 'caf' stands for.)
+    private LinkedList<String> cafPath;
+    // Reverse-proxy path
+    private LinkedList<String> reverseProxyPath;
+    // Servlet context path
+    private LinkedList<String> contextPath;
+    // The original path given in the URL, as seen by the server
+    private LinkedList<String> origPath;
+    // If a path segment was given corresponding to the version, store it here
+    private String versionSeg;
+    // The portion of the path specific to the resource; after caf, context, and version
+    private LinkedList<String> resourcePath;
+    // The base part of the path that is prepended to all links back to this service
+    private LinkedList<String> scriptPath;
+
 
     // This gets initialized by initPage(), when we know we're ready
     private PrintWriter page;
@@ -68,15 +89,162 @@ public class Request {
     /**
      * Constructor.
      */
-    public Request(App app, HttpServletRequest _req, HttpServletResponse _resp)
+    public Request(App app, HttpServletRequest request, HttpServletResponse response)
+        throws MalformedURLException
     {
         this.app = app;
-        req = _req;
-        resp = _resp;
+        this.request = request;
+        this.response = response;
 
         // Set CORS header right away.
-        resp.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        parsePath();
     }
+
+    /**
+     * Get the request object
+     */
+    public HttpServletRequest getRequest() {
+        return request;
+    }
+
+    /**
+     * Get the request object
+     */
+    public HttpServletResponse getResponse() {
+        return response;
+    }
+
+    /**
+     * This takes a String as input that represents a part of the path, and returns a LinkedList
+     * of path segments.  The input might be null or the empty string.  Leading and trailing
+     * slashes are first removed, duplicate slashes are normalized, and then the remaining segments
+     * are parsed out.
+     */
+    private LinkedList<String> parsePathSegs(String p) {
+        LinkedList<String> segs = new LinkedList<String>();
+        if (p != null) {
+            String normP = p.replaceFirst("^/*(.*?)/*$", "$1");
+            if (!normP.equals("")) {
+                segs.addAll(Arrays.asList(normP.split("/+")));
+            }
+        }
+        return segs;
+    }
+
+    /**
+     * For debugging, this lets us print out a list of path segments
+     */
+    private String printPathSegs(LinkedList<String> ps) {
+        return "'" + pathSegsToString(ps) + "'";
+    }
+
+    /**
+     * Convert a list of path segments into a string
+     */
+    public String pathSegsToString(LinkedList<String> ps) {
+        return StringUtils.join(ps.toArray(), "/");
+    }
+
+    /**
+     * Called from the constructor, this dissects the path part of the request URL, and initializes
+     * scriptPath and resourcePath.
+     */
+    private void parsePath()
+        throws MalformedURLException
+    {
+        //System.out.println("======================================================");
+
+        // NCBI-specific:  If we are being proxied through a web front, then the `CAF-Url` header
+        // will be set.  This needs to be added back to outgoing links
+        String cafUrl = request.getHeader("CAF-Url");
+        //System.out.println("cafUrl = '" + cafUrl + "'");
+        if (cafUrl == null) {
+            cafPath = new LinkedList<String>();
+        }
+        else {
+            URL url = new URL(cafUrl);
+            cafPath = parsePathSegs(url.getPath());
+        }
+        //System.out.println("cafPath = " + printPathSegs(cafPath));
+
+        // Servlet context path, if there is one
+        contextPath = parsePathSegs(request.getContextPath());
+        //System.out.println("contextPath = " + printPathSegs(contextPath));
+
+        // This will be the part of the URL path after contextPath
+        origPath = parsePathSegs(request.getPathInfo());
+        //System.out.println("origPath = " + printPathSegs(origPath));
+
+        // Determine the reverse-proxy path.  This is the portion of the CAF URL preceding the
+        // contextPath and the origPath
+        reverseProxyPath = new LinkedList<String>();
+        int numSegs = cafPath.size() - contextPath.size() - origPath.size();
+        if (numSegs > 0) reverseProxyPath.addAll(cafPath.subList(0, numSegs));
+        //System.out.println("reverseProxyPath = " + printPathSegs(reverseProxyPath));
+
+
+
+
+        // Remove (our) version number, if it is the first path segment
+        resourcePath = new LinkedList<String>();
+        if (origPath.size() >= 1 && origPath.get(0).equals(app.apiVersion)) {
+            versionSeg = app.apiVersion;
+            resourcePath.addAll(origPath.subList(1, origPath.size()));
+        }
+        else resourcePath.addAll(origPath);
+        //System.out.println("resourcePath = " + printPathSegs(resourcePath));
+
+        scriptPath = new LinkedList<String>();
+        scriptPath.addAll(reverseProxyPath);
+        scriptPath.addAll(contextPath);
+        if (versionSeg != null) scriptPath.add(versionSeg);
+        //System.out.println("scriptPath = " + printPathSegs(scriptPath));
+    }
+
+    public String getScriptPath() {
+        return pathSegsToString(scriptPath);
+    }
+
+
+    public String getOrigPath() {
+        return pathSegsToString(origPath);
+    }
+
+    /**
+     * Returns true if no (meaningful) path part is present in the URL.
+     */
+    public boolean pathEmpty() {
+        return resourcePath.size() == 0;
+    }
+    /**
+     * Returns true if the path in the request (after any context and version part) has only one segment,
+     * and its value matches that given.
+     */
+    public boolean pathEquals(String expectSeg) {
+        return resourcePath.size() == 1 && resourcePath.get(0).equals(expectSeg);
+    }
+
+    /**
+     * Returns true if the path in the request (after any context and version part) matches the list
+     * of segments given.
+     */
+    public boolean pathEquals(String[] expectSegs) {
+        boolean eq = false;
+        if (expectSegs.length == resourcePath.size()) {
+            eq = true;
+            int numSegs = expectSegs.length;
+            for (int i = 0; i < numSegs; ++i) {
+                if (!expectSegs[i].equals(resourcePath.get(i))) {
+                    eq = false;
+                    break;
+                }
+            }
+        }
+        return eq;
+    }
+
 
     /**
      * Process a GET request.
@@ -87,8 +255,8 @@ public class Request {
         try {
             // First attempt to resolve the IDs into an IdSet, which contains the id type and
             // each of the IDs in a canonicalized form.
-            String idsParam = req.getParameter("ids");
-            String idParam = req.getParameter("id");
+            String idsParam = request.getParameter("ids");
+            String idParam = request.getParameter("id");
             if (idsParam != null && idParam != null) {
                 errorResponse("Both `ids` and `id` parameter were set in the request", 400);
                 return;
@@ -101,15 +269,15 @@ public class Request {
             String idp = idsParam != null ? idsParam : idParam;
 
             // The IdResolver seems to be thread-safe
-            idList = app.getIdResolver().resolveIds(idp, req.getParameter("idtype"));
+            idList = app.getIdResolver().resolveIds(idp, request.getParameter("idtype"));
             log.debug("Resolved ids: " + idList);
             if (idList.numResolved() == 0) throw new BadParamException("No resolvable IDs found: " + idList);
 
             // FIXME:  this should be data-driven
             // Get outputformat and responseformat, validating and implementing defaults.
-            outputformat = req.getParameter("outputformat");
+            outputformat = request.getParameter("outputformat");
             if (outputformat == null) { outputformat = "html"; }
-            responseformat = req.getParameter("responseformat");
+            responseformat = request.getParameter("responseformat");
             if (responseformat == null) {
                 if (outputformat.equals("html"))
                     responseformat = "html";
@@ -242,9 +410,9 @@ public class Request {
             pubOneString = serializeXml(d);
         }
 
-        resp.setContentType("application/xml;charset=UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/xml;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
         initPage();
         if (page == null) return;
         page.print(pubOneString);
@@ -288,9 +456,9 @@ public class Request {
 
         String xmlStr = serializeXml(d);
 
-        resp.setContentType("application/xml;charset=UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/xml;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
         initPage();
         if (page == null) return;
         page.print(xmlStr);
@@ -369,10 +537,10 @@ public class Request {
         String contentType = outputformat.equals("nbib") ? "application/nbib" :
                              outputformat.equals("ris") ? "text/plain" :
                                  "application/xml";
-        resp.setContentType(contentType + ";charset=UTF-8");
-        resp.setHeader("Content-disposition", contentDispHeader);
-        resp.setCharacterEncoding("UTF-8");
-        resp.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType(contentType + ";charset=UTF-8");
+        response.setHeader("Content-disposition", contentDispHeader);
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
         initPage();
         if (page == null) return;
         page.print(result);
@@ -427,9 +595,9 @@ public class Request {
         catch (JsonProcessingException e) {
             throw new IOException(e);
         }
-        resp.setContentType("application/json;charset=UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
         initPage();
         if (page == null) return;
         page.print(jsonString);
@@ -441,8 +609,8 @@ public class Request {
     private void styledCitation()
         throws BadParamException, NotFoundException, IOException
     {
-        String stylesParam = req.getParameter("styles");
-        String styleParam = req.getParameter("style");
+        String stylesParam = request.getParameter("styles");
+        String styleParam = request.getParameter("style");
         if (stylesParam != null && styleParam != null) {
             throw new BadParamException("Both `styles` and `style` parameter were set in the request");
         }
@@ -523,9 +691,9 @@ public class Request {
         }
         String s = serializeXml(entriesDoc, true);
 
-        resp.setContentType("text/html;charset=UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
         initPage();
         if (page == null) return;
         page.print(s);
@@ -534,9 +702,9 @@ public class Request {
     private void errorResponse(String msg, int status)
     {
         log.info("Sending error response: " + msg);
-        resp.setContentType("text/plain;charset=UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setStatus(status);
+        response.setContentType("text/plain;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(status);
         initPage();
         if (page == null) return;
         page.println(msg);
@@ -548,7 +716,7 @@ public class Request {
      */
     private void initPage() {
         try {
-            page = resp.getWriter();
+            page = response.getWriter();
         }
         catch (IOException e) {
             log.error("Got IOException while trying to initialize HTTP response page: " + e.getMessage());
