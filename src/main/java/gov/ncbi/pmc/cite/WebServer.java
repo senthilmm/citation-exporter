@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.eclipse.jetty.server.ConnectionFactory;
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.NCSARequestLog;
 import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.server.Server;
@@ -19,8 +22,8 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.xml.XmlConfiguration;
 
 /**
- * Hello world!
- *
+ * Create a Jetty server.  This code is only used when running in the shaded "uber-jar"; not when
+ * running from, for example, `mvn jetty:run`.
  */
 public class WebServer
 {
@@ -120,10 +123,18 @@ public class WebServer
             log.info("Problem with jetty temp directory; aborting");
             System.exit(1);
         }
-        else {
-            log.info("Server started");
-            server.join();
+
+        log.info("Server started");
+        // Do not send the HTTP `Server` header, with the server version -- considered a security issue.
+        for (Connector y : server.getConnectors()) {
+            for (ConnectionFactory x  : y.getConnectionFactories()) {
+                if (x instanceof HttpConnectionFactory) {
+                    log.debug("Setting HttpConnectionFactory.setSendServerVersion(false)");
+                    ((HttpConnectionFactory)x).getHttpConfiguration().setSendServerVersion(false);
+                }
+            }
         }
+        server.join();
     }
 
     private String getShadedWarUrl() {
