@@ -56,8 +56,13 @@ public class App {
         else if (itemSourceStr.equals("stcache-pub-one")) {
             itemSource = new StcachePubOneItemSource(this);
         }
+        // NXML from stcache
         else if (itemSourceStr.equals("stcache-nxml")) {
             itemSource = new StcacheNxmlItemSource(this);
+        }
+        // NXML from Vladimir's conversion service
+        else if (itemSourceStr.equals("conv-app-nxml")) {
+            itemSource = new ConvAppNxmlItemSource(this);
         }
       /* TBD:
         else if (itemSourceStr.equals("eutils")){
