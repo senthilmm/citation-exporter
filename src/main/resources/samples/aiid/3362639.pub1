@@ -1,7 +1,4 @@
-
-<!DOCTYPE pm-record
-  SYSTEM "http://mwebdev2/staff/beck/pmfu/pmfu-record/pmfudtd/pmfu.dtd">
-<pm-record xmlns:xlink="http://www.w3.org/1999/xlink"
+<pub-one-record xmlns:xlink="http://www.w3.org/1999/xlink"
            xmlns:mml="http://www.w3.org/1998/Math/MathML"
            record-type="article"
            xml:lang="en">
@@ -79,4 +76,4 @@
           Mental Health Practice, and issue a call for papers.</p>
       </abstract>
    </document-meta>
-</pm-record>
+</pub-one-record>

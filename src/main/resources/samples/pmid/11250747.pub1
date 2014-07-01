@@ -1,9 +1,6 @@
-
-<!DOCTYPE pm-record-set
-  SYSTEM "http://mwebdev2/staff/beck/pmfu/pmfu-record/pmfudtd/pmfu.dtd">
-<pm-record-set xmlns:xlink="http://www.w3.org/1999/xlink"
+<pub-one-record-set xmlns:xlink="http://www.w3.org/1999/xlink"
                xmlns:mml="http://www.w3.org/1998/Math/MathML">
-   <pm-record record-type="article" xml:lang="eng">
+   <pub-one-record record-type="article" xml:lang="eng">
       <source-meta>
          <object-id pub-id-type="iso-abbrev">Breast Cancer Res.</object-id>
          <object-id pub-id-type="nlm-ta">Breast Cancer Res</object-id>
@@ -289,5 +286,5 @@
             </ref-list>
          </notes>
       </document-meta>
-   </pm-record>
-</pm-record-set>
+   </pub-one-record>
+</pub-one-record-set>

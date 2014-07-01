@@ -1,8 +1,6 @@
-<!DOCTYPE pm-record
-  SYSTEM "http://mwebdev2/staff/beck/pmfu/pmfu-record/pmfudtd/pmfu.dtd">
-<pm-record xmlns:xlink="http://www.w3.org/1999/xlink" 
+<pub-one-record xmlns:xlink="http://www.w3.org/1999/xlink"
            xmlns:mml="http://www.w3.org/1998/Math/MathML"
-           record-type="article" 
+           record-type="article"
            xml:lang="en">
   <source-meta>
     <object-id pub-id-type="nlm-ta">PLoS Med</object-id>
@@ -84,4 +82,4 @@
         health-centered governance.</p>
     </abstract>
   </document-meta>
-</pm-record>
+</pub-one-record>
