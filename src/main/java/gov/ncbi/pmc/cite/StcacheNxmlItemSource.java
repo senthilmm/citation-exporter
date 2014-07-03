@@ -22,7 +22,7 @@ public class StcacheNxmlItemSource extends ItemSource {
     public StcacheNxmlItemSource(App app) throws Exception
     {
         super(app);
-        nxmlImage = System.getProperty("stcache_image");
+        nxmlImage = System.getProperty("item_source_loc");
         nxmlStcache = new Nxml(nxmlImage);
     }
 

@@ -1,13 +1,11 @@
 package gov.ncbi.pmc.cite;
 
 import gov.ncbi.pmc.Pmfu;
-import gov.ncbi.pmc.ids.RequestIdList;
 import gov.ncbi.pmc.ids.Identifier;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,8 +26,8 @@ public class StcachePubOneItemSource extends ItemSource {
     public StcachePubOneItemSource(App app) throws Exception
     {
         super(app);
-        pubOneImage = System.getProperty("stcache_image");
-        if (pubOneImage == null) throw new IOException("Need a value for the stcache_image system property");
+        pubOneImage = System.getProperty("item_source_loc");
+        if (pubOneImage == null) throw new IOException("Need a value for the item_source_loc system property");
         pubOneStcache = new Pmfu(pubOneImage);
 
         dbf = DocumentBuilderFactory.newInstance();

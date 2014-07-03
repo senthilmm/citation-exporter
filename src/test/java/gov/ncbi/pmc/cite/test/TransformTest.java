@@ -1,20 +1,18 @@
 package gov.ncbi.pmc.cite.test;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
-import javax.servlet.ServletException;
-
-import org.apache.commons.io.IOUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import gov.ncbi.pmc.cite.*;
+import gov.ncbi.pmc.cite.App;
+import gov.ncbi.pmc.cite.BadParamException;
+import gov.ncbi.pmc.cite.ItemSource;
+import gov.ncbi.pmc.cite.NotFoundException;
 import gov.ncbi.pmc.ids.Identifier;
+
+import java.io.IOException;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.w3c.dom.Document;
 
 /**
  * Class for testing our transformations

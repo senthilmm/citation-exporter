@@ -3,6 +3,7 @@ package gov.ncbi.pmc.cite;
 import gov.ncbi.pmc.ids.IdResolver;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,27 +53,10 @@ public class App {
             itemSource = new TestItemSource(getClass().getClassLoader().getResource("samples/"), this);
         }
 
-        // PubOne from stcache:
-        else if (itemSourceStr.equals("stcache-pub-one")) {
-            itemSource = new StcachePubOneItemSource(this);
-        }
-        // NXML from stcache
-        else if (itemSourceStr.equals("stcache-nxml")) {
-            itemSource = new StcacheNxmlItemSource(this);
-        }
-        // NXML from Vladimir's conversion service
-        else if (itemSourceStr.equals("conv-app-nxml")) {
-            itemSource = new ConvAppNxmlItemSource(this);
-        }
-      /* TBD:
-        else if (itemSourceStr.equals("eutils")){
-            itemSource = new EutilsItemSource(itemSourceStr, this);
-        }
-      */
+        // Create a new item source by class name
         else {
-            throw new Exception("Bad value for item_source; can't continue");
+            itemSource = (ItemSource) Class.forName(itemSourceStr).getConstructor(App.class).newInstance(this);
         }
-
 
         transformEngine = new TransformEngine(getClass().getClassLoader().getResource("xslt/"), mapper);
         dbf = DocumentBuilderFactory.newInstance();

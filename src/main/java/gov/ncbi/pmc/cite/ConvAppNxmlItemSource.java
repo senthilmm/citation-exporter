@@ -15,7 +15,7 @@ public class ConvAppNxmlItemSource  extends ItemSource {
     public ConvAppNxmlItemSource(App app) throws Exception
     {
         super(app);
-        convAppUrl = new URL(System.getProperty("conv_app_url"));
+        convAppUrl = new URL(System.getProperty("item_source_loc"));
         log.debug("Using converter app at " + convAppUrl);
     }
 
