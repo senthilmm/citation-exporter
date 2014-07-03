@@ -1,0 +1,96 @@
+package gov.ncbi.pmc.cite;
+
+import gov.ncbi.pmc.Pmfu;
+import gov.ncbi.pmc.ids.RequestIdList;
+import gov.ncbi.pmc.ids.Identifier;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+
+/**
+ * Implementation of ItemSource that gets data from a single stcache.
+ */
+
+public class StcachePubOneItemSource extends ItemSource {
+    private String pubOneImage;
+    private Pmfu pubOneStcache;
+    // This class has its own DocumentBuilderFactory, because it uses some non-default settings
+    private DocumentBuilderFactory dbf;
+
+    public StcachePubOneItemSource(App app) throws Exception
+    {
+        super(app);
+        pubOneImage = System.getProperty("stcache_image");
+        if (pubOneImage == null) throw new IOException("Need a value for the stcache_image system property");
+        pubOneStcache = new Pmfu(pubOneImage);
+
+        dbf = DocumentBuilderFactory.newInstance();
+        dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+    }
+
+    @Override
+    public Document retrieveItemNxml(Identifier id)
+        throws IOException
+    {
+        throw new IOException("Using PubOne data source; can't retrieve NXML data");
+    }
+
+    public String byteToHex2(byte b) {
+        int i = b >= 0 ? b : 256 + b;
+        String hs = Integer.toHexString(i);
+        return hs.length() < 2 ? "0" + hs : hs;
+    }
+
+    /**
+     */
+    @Override
+    public Document retrieveItemPubOne(Identifier id)
+        throws NotFoundException, IOException
+    {
+        // for now, pubmed pub-one will come from the HTTP service (this is a hack)
+        String idType = id.getType();
+        if (idType.equals("pmid")) throw new NotFoundException("Only supporting aiid's at this time");
+
+        String key = null;
+        if (idType.equals("aiid") || idType.equals("pmid")) {
+            key = id.getType() + "-" + id.getValue();
+        }
+        else {
+            throw new IOException("Unrecognized identifier type: " + idType);
+        }
+        byte[] pubOneBytes;
+        try {
+            pubOneBytes = pubOneStcache.get(key);
+        }
+        catch (Exception e) {
+            throw new IOException(e);
+        }
+
+        if (pubOneBytes == null) {
+            throw new NotFoundException("Unable to retrieve PubOne data for " + id);
+        }
+        String resultStr;
+        try {
+            resultStr = new String(pubOneBytes, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            throw new IOException(e);
+        }
+
+        try {
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            return db.parse(new InputSource(new StringReader(resultStr)));
+        }
+        catch (Exception e) {
+            throw new IOException(e);
+        }
+    }
+}
