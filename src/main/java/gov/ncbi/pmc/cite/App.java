@@ -60,6 +60,7 @@ public class App {
 
         transformEngine = new TransformEngine(getClass().getClassLoader().getResource("xslt/"), mapper);
         dbf = DocumentBuilderFactory.newInstance();
+        dbf.setNamespaceAware(true);
         catalogResolver = new CatalogResolver();
         citeprocPool = new CiteprocPool(itemSource);
     }

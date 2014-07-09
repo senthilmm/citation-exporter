@@ -1,0 +1,2084 @@
+<!-- ArticleInstanceId : 3898746, Path: elsevierwt/8-2014/01-22/j.cell.2013.08.031/preload/nxml/, Name : main.nxml -->
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Archiving and Interchange DTD v1.0 20120229//EN" "JATS-archivearticle1.dtd">
+<article xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:mml="http://www.w3.org/1998/Math/MathML" article-type="research-article">
+  <?DTDIdentifier.IdentifierValue -//ES//DTD journal article DTD version 5.2.0//EN//XML?>
+  <?DTDIdentifier.IdentifierType public?>
+  <?SourceDTD.DTDName art520.dtd?>
+  <?SourceDTD.Version 5.2.0?>
+  <?ConverterInfo.XSLTName elsevier2nlmx2.xsl?>
+  <?ConverterInfo.Version 2?>
+  <?origin publisher?>
+  <?FILEmeta_CELL7080 xml ?>
+  <?FILEmain xml ?>
+  <?FILEgr1 jpg ?>
+  <?FILEgr2 jpg ?>
+  <?FILEgr3 jpg ?>
+  <?FILEgr4 jpg ?>
+  <?FILEgr5 jpg ?>
+  <?FILEgr6 jpg ?>
+  <?FILEgr7 jpg ?>
+  <?FILEfx1 jpg ?>
+  <?FILEfigs1 jpg ?>
+  <?FILEfigs2 jpg ?>
+  <?FILEfigs3 jpg ?>
+  <?FILEfigs4 jpg ?>
+  <?FILEfigs5 jpg ?>
+  <?FILEfigs6 jpg ?>
+  <?FILEfigs7 jpg ?>
+  <?FILEmmc1 pdf ?>
+  <?FILEmmc2 pdf ?>
+  <front>
+    <journal-meta>
+      <journal-id journal-id-type="nlm-ta">Cell</journal-id>
+      <journal-id journal-id-type="iso-abbrev">Cell</journal-id>
+      <journal-title-group>
+        <journal-title>Cell</journal-title>
+      </journal-title-group>
+      <issn pub-type="ppub">0092-8674</issn>
+      <issn pub-type="epub">1097-4172</issn>
+      <publisher>
+        <publisher-name>Cell Press</publisher-name>
+      </publisher>
+    </journal-meta>
+    <article-meta>
+      <article-id pub-id-type="publisher-id">S0092-8674(13)01025-8</article-id>
+      <article-id pub-id-type="doi">10.1016/j.cell.2013.08.031</article-id>
+      <article-categories>
+        <subj-group subj-group-type="heading">
+          <subject>Article</subject>
+        </subj-group>
+      </article-categories>
+      <title-group>
+        <article-title>The Cell-Cycle State of Stem Cells Determines Cell Fate Propensity</article-title>
+      </title-group>
+      <contrib-group>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Pauklin</surname>
+            <given-names>Siim</given-names>
+          </name>
+          <email>sp579@cam.ac.uk</email>
+          <xref rid="aff1" ref-type="aff">1</xref>
+          <xref rid="cor1" ref-type="corresp">&#x02217;</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Vallier</surname>
+            <given-names>Ludovic</given-names>
+          </name>
+          <email>lv225@cam.ac.uk</email>
+          <xref rid="aff1" ref-type="aff">1</xref>
+          <xref rid="aff2" ref-type="aff">2</xref>
+          <xref rid="cor2" ref-type="corresp">&#x02217;&#x02217;</xref>
+        </contrib>
+      </contrib-group>
+      <aff id="aff1">
+        <label>1</label>Wellcome Trust-Medical Research Council Cambridge Stem Cell Institute, Anne McLaren Laboratory for Regenerative Medicine and Department of Surgery, University of Cambridge, Cambridge CB2 0SZ, UK
+      </aff>
+      <aff id="aff2">
+        <label>2</label>Wellcome Trust Sanger Institute, Hinxton, Cambridge CB10 1SA, UK
+      </aff>
+      <author-notes>
+        <corresp id="cor1">
+          <label>&#x02217;</label>Corresponding author <email>sp579@cam.ac.uk</email>
+        </corresp>
+        <corresp id="cor2">
+          <label>&#x02217;&#x02217;</label>Corresponding author <email>lv225@cam.ac.uk</email>
+        </corresp>
+      </author-notes>
+      <pub-date pub-type="pmc-release">
+        <day>26</day>
+        <month>9</month>
+        <year>2013</year>
+      </pub-date>
+<!-- PMC Release delay is 0 months and 0 days and was based on <pub-date pub-type="ppub">.-->
+      <pub-date pub-type="ppub">
+        <day>26</day>
+        <month>9</month>
+        <year>2013</year>
+      </pub-date>
+      <volume>155</volume>
+      <issue>1</issue>
+      <fpage>135</fpage>
+      <lpage>147</lpage>
+      <history>
+        <date date-type="received">
+          <day>6</day>
+          <month>4</month>
+          <year>2013</year>
+        </date>
+        <date date-type="rev-recd">
+          <day>22</day>
+          <month>6</month>
+          <year>2013</year>
+        </date>
+        <date date-type="accepted">
+          <day>19</day>
+          <month>8</month>
+          <year>2013</year>
+        </date>
+      </history>
+      <permissions>
+        <copyright-statement>&#x000a9; 2013 ELL &#x00026; Excerpta Medica.</copyright-statement>
+        <copyright-year>2013</copyright-year>
+        <copyright-holder>Elsevier Inc.</copyright-holder>
+        <license>
+          <license-p>This document may be redistributed and reused, subject to <ext-link ext-link-type="uri" xlink:href="http://www.elsevier.com/wps/find/authorsview.authors/supplementalterms1.0">certain conditions</ext-link>.</license-p>
+        </license>
+      </permissions>
+      <abstract>
+        <title>Summary</title>
+        <p>Self-renewal and differentiation of stem cells are fundamentally associated with cell-cycle progression to enable tissue specification, organ homeostasis, and potentially tumorigenesis. However, technical challenges have impaired the study of the molecular interactions coordinating cell fate choice and cell-cycle progression. Here, we bypass these limitations by using the FUCCI reporter system in human pluripotent stem cells and show that their capacity of differentiation varies during the progression of their cell cycle. These mechanisms are governed by the cell-cycle regulators cyclin D1&#x02013;3 that control differentiation signals such as the TGF-&#x003b2;-Smad2/3 pathway. Conversely, cell-cycle manipulation using a small molecule directs differentiation of hPSCs and provides an approach to generate cell types with a clinical interest. Our results demonstrate that cell fate decisions are tightly associated with the cell-cycle machinery and reveal insights in the mechanisms synchronizing differentiation and proliferation in developing tissues.</p>
+      </abstract>
+      <abstract abstract-type="graphical">
+        <title>Graphical Abstract</title>
+        <fig id="undfig1" position="anchor">
+          <graphic xlink:href="fx1"/>
+        </fig>
+      </abstract>
+      <abstract abstract-type="author-highlights">
+        <title>Highlights</title>
+        <p>
+          <list list-type="simple">
+            <list-item id="u0010">
+              <label>&#x02022;</label>
+              <p>Cell fate decisions are cell-cycle dependent</p>
+            </list-item>
+            <list-item id="u0015">
+              <label>&#x02022;</label>
+              <p>Control of endoderm versus neuroectoderm differentiation by cyclin D-CDK4/6</p>
+            </list-item>
+            <list-item id="u0020">
+              <label>&#x02022;</label>
+              <p>Cyclin Ds control TGF-&#x003b2;-Smad2/3 transcriptional activity</p>
+            </list-item>
+            <list-item id="u0025">
+              <label>&#x02022;</label>
+              <p>Differentiation of hPSCs can be directed by manipulation of the cell cycle</p>
+            </list-item>
+          </list>
+        </p>
+      </abstract>
+      <abstract abstract-type="teaser">
+        <p>Cell fate decisions are influenced by the cell-cycle state and cyclin D activity of a stem cell as it embarks on differentiation. Cyclin D acts via TGF-&#x003b2;-Smad signaling to alter the propensity for endoderm versus neuroectoderm fate.</p>
+      </abstract>
+    </article-meta>
+  </front>
+  <body>
+    <sec id="sec1">
+      <title>Introduction</title>
+      <p>Tissue differentiation and maintenance is ultimately regulated by the coordination between differentiation and proliferation of specific stem cells or progenitors. The importance of these mechanisms has been well documented in early development and in a diversity of organs such as the skin, brain, gut, and hematopoietic system (<xref rid="bib11 bib15 bib17" ref-type="bibr">Fuchs, 2009; Lange and Calegari, 2010; Li and Clevers, 2010</xref>). However, the molecular regulations coordinating cell-cycle progression and differentiation remain unclear. The study of such mechanisms with adult stem cells in&#x000a0;vivo is challenging for technical reasons, whereas in&#x000a0;vitro expansion of these cells remains difficult. Human pluripotent stem cells (hPSCs) generated from embryo at the blastocyst stage (embryonic stem cells or hESCs) or from reprogrammed somatic cells (induced pluripotent stem cells or hIPSCs) represent an advantageous system to model these regulations because they can proliferate indefinitely in&#x000a0;vitro while maintaining the capacity to differentiate into the three primary germ layers, neuroectoderm, mesoderm, and endoderm. Furthermore, mechanisms maintaining the pluripotent status of hPSCs and orchestrating their cell fate specification have been broadly studied. Activin/Nodal and FGF cooperate to maintain the expression of pluripotency factors, including Nanog, that in turn block neuroectoderm differentiation (<xref rid="bib32 bib36" ref-type="bibr">Vallier et&#x000a0;al., 2009a; Xu et&#x000a0;al., 2008</xref>). Accordingly, inhibition of Activin/Nodal signaling induces neuroectoderm differentiation (<xref rid="bib4" ref-type="bibr">Chambers et&#x000a0;al., 2009</xref>). However, Activin/Nodal signaling is also necessary for endoderm differentiation and achieves these apparent contradictory functions by controlling divergent transcriptional networks in pluripotent cells and during endoderm specification (<xref rid="bib2 bib20" ref-type="bibr">Brown et&#x000a0;al., 2011; Mullen et&#x000a0;al., 2011</xref>). Thus, the activity of Activin/Nodal needs to be tightly controlled in hPSCs and factors influencing this activity can direct their differentiation either toward neuroectoderm or mesendoderm (<xref rid="bib5" ref-type="bibr">Chng et&#x000a0;al., 2010</xref>).</p>
+      <p>Pluripotency is also linked with cell-cycle regulation because studies in mouse ESCs (mESCs) have shown that their pluripotent status is associated with a specific cell-cycle profile characterized by a shortened G1 phase and the lack of G1 checkpoint regulation (<xref rid="bib7 bib27" ref-type="bibr">Coronado et&#x000a0;al., 2013; Savatier et&#x000a0;al., 1996</xref>). In conventional cells, cyclin D1&#x02013;3 are expressed in G1 phase and control the activity of CDK4/6 that inhibit pRB and free E2F to initiate the G1-S transition. In contrast, cyclin Ds are expressed at low level in mESCs, whereas pRB is constitutively phosphorylated by CDK2-cyclin E bypassing the need of a G1 checkpoint (<xref rid="bib26" ref-type="bibr">Savatier et&#x000a0;al., 1994</xref>). hESCs are also characterized by a short G1 phase, whereas their pluripotent status relies on CDK2 activity (<xref rid="bib21" ref-type="bibr">Neganova et&#x000a0;al., 2009</xref>). Furthermore, both hESCs and mESCs display the same resistance to DNA damage suggesting a similar lack in G1 check points (<xref rid="bib22" ref-type="bibr">Neganova et&#x000a0;al., 2011</xref>). However, the mechanisms involved might diverge as indicated by the expression of cyclin D proteins (<xref rid="bib21" ref-type="bibr">Neganova et&#x000a0;al., 2009</xref>) and the presence of normal pRB-cyclin Ds/CDK4/6 cascade in hESCs (<xref rid="bib28" ref-type="bibr">Sela et&#x000a0;al., 2012</xref>). This difference could be explained by species divergence but also by a different embryonic origin, mESCs representing the inner cell mass of preimplantation blastocyst in diapause, whereas hESCs being more similar to epiblast cells of postimplantation embryo (<xref rid="bib1 bib29" ref-type="bibr">Brons et&#x000a0;al., 2007; Tesar et&#x000a0;al., 2007</xref>). Nevertheless, recent studies have clearly shown that both mouse and human pluripotent stem cells exhibit a lengthening of the G1 phase during differentiation, indicating that differentiation affects cell-cycle regulation and that a truncated G1 phase is a hallmark of the pluripotent state (<xref rid="bib3 bib7" ref-type="bibr">Calder et&#x000a0;al., 2013; Coronado et&#x000a0;al., 2013</xref>). Besides these observations, the potential interconnections between cell fate choice and cell-cycle progression have remained largely unstudied due to the lack of molecular tools for investigating cell-cycle mechanisms in pluripotent cells. Indeed, cell synchronization using chemical inhibitors in ESCs systematically induces their differentiation, whereas serum deprivation has no effect (<xref rid="bib28" ref-type="bibr">Sela et&#x000a0;al., 2012</xref>).</p>
+      <p>In this study, we took advantage of the FUCCI (<xref rid="bib25" ref-type="bibr">Sakaue-Sawano et&#x000a0;al., 2008</xref>) reporter system to study the regulation of cell fate choice in hESCs and their capacity to differentiate into chemically defined culture conditions promoting endoderm, mesoderm, and neuroectoderm specification. We observed that hESCs in early G1 phase can only initiate differentiation into endoderm, whereas hESCs in late G1 were limited to neuroectoderm differentiation. Functional experiments reveal that the activity of Activin/Nodal signaling during cell-cycle progression is controlled by cyclin D proteins that activate CDK4/6 and lead to the phosphorylation of Smad2 and Smad3 in their linker region. This mechanism blocks Smad2/3 shuttling in the nucleus in late G1, thereby preventing endoderm and allowing neuroectoderm specification. Thus, cyclin D proteins act as essential regulators of signaling pathways controlling early cell fate decisions. These results unravel the molecular mechanisms by which cell fate decisions are controlled by the cell-cycle machinery and uncover how self-renewal and pluripotency could be coordinated.</p>
+    </sec>
+    <sec sec-type="results" id="sec2">
+      <title>Results</title>
+      <sec id="sec2.1">
+        <title>Generation of FUCCI-hESC Reporter Lines for Studying Cell-Cycle Progression</title>
+        <p>Analysis of cell-cycle-specific events in pluripotent cells is challenging because cell-cycle synchronization using chemicals induces their differentiation (data not shown). To overcome this limitation, we decided to adapt the FUCCI reporter system to hESCs (<xref rid="fig1" ref-type="fig">Figure&#x000a0;1</xref>A) grown in fully defined culture conditions (<xref rid="bib31" ref-type="bibr">Vallier et&#x000a0;al., 2005</xref>). We first subcloned the <italic>Geminin-mAG</italic> and <italic>Cdt-mKO2</italic> fusion genes in the pTP6 system that enables stable transgene expression based on Puromycin or Neomycin resistance (<xref rid="bib30" ref-type="bibr">Vallier et&#x000a0;al., 2004</xref>). The resulting vectors were cotransfected in hESCs using Lipofectamine 2000 as described previously (<xref rid="bib30" ref-type="bibr">Vallier et&#x000a0;al., 2004</xref>). Following antibiotics selection, we picked individual hESC colonies containing green, red, and yellow fluorescent cells for further analyses (<xref rid="fig1" ref-type="fig">Figure&#x000a0;1</xref>B and <xref rid="figs1" ref-type="fig">Figure&#x000a0;S1</xref>A available online). Of note, the resulting subclonal FUCCI-hESCs were grown in the presence of Puromycin and Neomycin to guarantee constant and homogenous expression of the reporter genes.</p>
+        <p>We first performed time-lapse microscopy on single FUCCI-hESC and observed the expected transition from red to green fluorescence upon progression of the cell cycle (<xref rid="fig1" ref-type="fig">Figure&#x000a0;1</xref>C). Furthermore, fluorescence-activated cell sorting (FACS) analyses combined with Hoechst staining showed that FUCCI-hESCs have the same cell-cycle profile as nontransfected hESCs (<xref rid="fig1" ref-type="fig">Figure&#x000a0;1</xref>D) demonstrating that transgene overexpression did not alter cell-cycle regulation. These analyses also confirm that the fluorescent proteins were expressed as expected during the cell cycle (<xref rid="fig1" ref-type="fig">Figures 1</xref>E and 1F: green fluorescent cells in G2, nonfluorescent cells in early G1, red fluorescent in late G1, and yellow fluorescent cells in G1/S). Furthermore, FACS analyses showed that sorted FUCCI-hESCs express pluripotency factors homogenously (95% Oct-4+ cells) independently of their cell cycle, whereas differentiation markers such as Sox1 (&#x0003c;1%) or Sox17 (&#x0003c;4%) were expressed in a small fraction of cells distributed equally in the different phases of the cell cycle (<xref rid="figs1" ref-type="fig">Figures S1</xref>D and S1E; data not shown). Similar results have been obtained with Nanog, Tra-1-60, Eomes, Mixl1, Goosecoid, and Pax6 (data not shown), confirming that hESCs in our culture system grow as a near-homogenous population with a minimal background of differentiation. Considered collectively, these results demonstrate the efficacy of the FUCCI reporter system to sort hESCs into different phases of their cycle without altering their fundamental characteristics.</p>
+      </sec>
+      <sec id="sec2.2">
+        <title>Differentiation Capacity of hESCs Varies during Progression of the G1 Phase</title>
+        <p>Previous studies have shown that cell fate decisions could be made during the G1 phase (<xref rid="bib3 bib28" ref-type="bibr">Calder et&#x000a0;al., 2013; Sela et&#x000a0;al., 2012</xref>). To investigate this possibility in more detail, we examined the capacity of hESCs to respond to differentiation signals at different phases of the cell cycle. For that, Tra-1-60-positive FUCCI-hESCs were sorted according to their fluorescence and then placed in defined culture conditions driving differentiation into homogenous populations of endoderm, mesoderm and neuroectoderm cells (<xref rid="bib33 bib34" ref-type="bibr">Vallier et&#x000a0;al., 2009b, 2009c</xref>). This analysis revealed that hESCs in early G1 could only initiate endoderm/mesoderm gene expression (see Mixl1, Goosecoid, Eomes, T, Mesp1, TBX6, HAND1, Mesp2; <xref rid="fig2" ref-type="fig">Figures 2</xref>A and 2B; <xref rid="mmc1" ref-type="supplementary-material">Table S1</xref>), whereas hESCs in late G1 could only initiate the expression of neuroectoderm markers (see Sox1, Sip1, Gbx2, Olig3; <xref rid="fig2" ref-type="fig">Figure&#x000a0;2</xref>C). On the other hand, cells in G2/S/M phases of the cell cycle responded poorly to differentiation signals (<xref rid="fig2" ref-type="fig">Figures 2</xref>A&#x02013;2C). These results confirm that induction of differentiation in hESCs occurs during the G1 phase of the cell cycle but also reveal that hESCs in early and late G1 might have a different capacity of differentiation.</p>
+        <p>Because these experiments represent an early snapshot of gene transcription after only 6&#x000a0;hr of differentiation, we decided to investigate the capacity of sorted FUCCI-hESCs to differentiate into neuroectoderm and endoderm over a prolonged period of time. FACS and quantitative PCR (qPCR) analyses showed that early G1 hESCs differentiated into a near-homogenous population of endoderm cells (85% Sox17+/80% CXCR4+/3% Oct4+; <xref rid="fig2" ref-type="fig">Figures 2</xref>D, 2F, and <xref rid="figs1" ref-type="fig">S1</xref>D) in 48&#x000a0;hr, whereas unsorted hESCs (35% Sox17+/40% CXCR4+/23% Oct4+; <xref rid="fig2" ref-type="fig">Figures 2</xref>D, 2F and <xref rid="figs1" ref-type="fig">S1</xref>B) or late G1-hESCs (5% Sox17/4% CXCR4+/80% Oct4; <xref rid="fig2" ref-type="fig">Figures 2</xref>D, 2F, and <xref rid="figs1" ref-type="fig">S1</xref>B) grown in the same conditions remained a heterogeneous population of cells. The opposite results were obtained for neuroectoderm differentiation (<xref rid="fig2" ref-type="fig">Figures&#x000a0;2</xref>E, 2G, <xref rid="figs1" ref-type="fig">S1</xref>C, and S1E). These observations confirmed that hESCs display different capacity of differentiation upon the progression of the G1 phase. Early G1-hESCs are permissive for initiating endoderm specification, whereas late G1-hESCs are permissive for neuroectoderm differentiation (<xref rid="figs1" ref-type="fig">Figure&#x000a0;S1</xref>F).</p>
+      </sec>
+      <sec id="sec2.3">
+        <title>The Efficiency of hESCs to Differentiate into Tissue-Specific Cells Is Influenced by Their Cell Cycle</title>
+        <p>The results described above do not exclude the possibility to generate homogenous populations of differentiated cells from hESCs as we and others have shown (<xref rid="bib33" ref-type="bibr">Vallier et&#x000a0;al., 2009b</xref>). Indeed, hESCs grown in inductive culture conditions are constantly cycling and thus sooner or later receive signals initiating their differentiation. Accordingly, unsorted FUCCI-hESCs generate populations of endoderm cells expressing homogenously Sox17/CXCR4 (95%&#x000a0;+ cells; data not shown) after 80&#x000a0;hr of differentiation. However, our observations could explain why differentiation of hESCs is always asynchronous with cells upregulating differentiation markers more rapidly than others (<xref rid="fig2" ref-type="fig">Figures 2</xref>D, 2F and <xref rid="figs1" ref-type="fig">S1</xref>B). Indeed, a late G1-hESC will delay the initiation of its differentiation toward the endoderm lineage for an additional cell cycle (&#x0223c;30&#x000a0;hr) before reaching the next early G1 phase. This mechanism would result in a population of cells differentiating toward the same lineage but at varying developmental stages. This hypothesis also implies that a cell in a specific phase of the cell cycle could lose its capacity to differentiate toward other lineages more rapidly.</p>
+        <p>To validate this point, Tra-1-60-positive FUCCI-hESCs sorted into early G1 or late G1 were grown in conditions inductive for endoderm differentiation for 12&#x000a0;hr and then for an additional 72&#x000a0;hr in conditions inductive for neuroectoderm differentiation (<xref rid="fig2" ref-type="fig">Figure&#x000a0;2</xref>H). qPCR analyses showed that early G1 hESCs induced to differentiate toward endoderm lose their capacity to express neuroectoderm markers contrary to late G1 hESCs grown in similar culture conditions (<xref rid="fig2" ref-type="fig">Figure&#x000a0;2</xref>H). These results confirmed that early G1-hESCs can differentiate more rapidly into endoderm than cells in late G1 and validate in part our hypothesis concerning the link between asynchronous differentiation of pluripotent cells and their cell-cycle state. These results also suggest that hESCs synchronized in early G1 could differentiate more efficiently into endoderm derivatives. This prompted us to investigate the importance of the cell cycle for the production of terminally differentiated cells such as pancreatic and hepatic cells. hESCs synchronized in early G1 or late G1 were differentiated into both cell types using defined culture conditions as described previously (<xref rid="bib6" ref-type="bibr">Cho et&#x000a0;al., 2012</xref>). qPCR and immunostaining analyses showed that early G1-hESCs were able to differentiate more efficiently into insulin-expressing cells and hepatocyte-like cells when compared to unsorted cells or cells sorted in late G1 as shown by the increase in the number of c-peptide-positive cells and in the expression of endocrine markers for pancreatic differentiation (Ngn3, Insulin, and Glucagon; <xref rid="fig2" ref-type="fig">Figures 2</xref>J and 2L) and the increase in the expression of hepatocytes markers for hepatic differentiation (FoxA2, Albumin, AFP, HNF4a, and A1AT; <xref rid="fig2" ref-type="fig">Figures 2</xref>K and 2M). Taken together, these results demonstrate that the phase of the cell cycle during which hESCs initiate their differentiation can influence their capacity to generate differentiated cells and underlines the importance of cell-cycle regulation in the mechanisms controlling cell fate decisions.</p>
+      </sec>
+      <sec id="sec2.4">
+        <title>Cyclin Ds Are Necessary to Maintain Pluripotency of hESCs by Preventing Endoderm Differentiation Induced by Activin/Nodal Signaling</title>
+        <p>The capacity of hESCs to initiate their differentiation toward the endoderm lineage during the early G1 phase suggest that signaling pathways inducing this differentiation might be more active during this phase of the cell cycle. Activin/Nodal signaling has been shown to be the main inducer of endoderm differentiation (<xref rid="bib8" ref-type="bibr">D&#x02019;Amour et&#x000a0;al., 2005</xref>). Therefore, we decided to define the transcriptional activity of Activin/Nodal-Smad2/3 signaling during cell-cycle progression of hESCs. We first performed Smad2/3 chromatin immunoprecipitation (ChIP) on Tra-1-60-positive sorted Fucci-hESCs and observed that Smad2/3 bound specifically to endoderm genes in early G1 (<xref rid="fig3" ref-type="fig">Figure&#x000a0;3</xref>A; <xref rid="mmc1" ref-type="supplementary-material">Table S2</xref>) and not in any other part of the cell cycle. Furthermore, transfection of Fucci-hESCs with a luciferase reporter for Smad2/3 transcriptional activity confirmed that the Activin/Nodal-Smad2/3 pathway is less potent during the late G1 phase and G1/S transition (<xref rid="figs2" ref-type="fig">Figure&#x000a0;S2</xref>A). These results show that the activity of the Activin/Nodal signaling pathway is cell-cycle dependent and suggest the existence of mechanisms controlling activity/binding of Smad2/3 during cell-cycle progression.</p>
+        <p>Because Smad2/3 binding to endoderm loci was blocked during the change from early to late G1 phase, we hypothesized that factors specifically expressed during this cell-cycle phase could control Activin/Nodal-Smad2/3 pathway. Cyclin D proteins represented interesting candidates because they are central for coordinating G1 progression in conjunction with their catalytic partners CDK4/6. Furthermore, cyclin D1&#x02013;3 proteins are expressed in hESCs (<xref rid="figs2" ref-type="fig">Figures S2</xref>C&#x02013;S2E; <xref rid="mmc1" ref-type="supplementary-material">Table S3</xref>) as shown by others (<xref rid="bib21" ref-type="bibr">Neganova et&#x000a0;al., 2009</xref>) and exhibit a cell-cycle-dependent expression in hESCs peaking at late G1 and G1/S phase (<xref rid="figs2" ref-type="fig">Figure&#x000a0;S2</xref>B) when transcriptional activity of Activin/Nodal signaling pathway is diminished (<xref rid="figs2" ref-type="fig">Figure&#x000a0;S2</xref>A). Therefore, we decided to study the pattern of cyclin D expression during germ layer specification in&#x000a0;vitro. Western blot and qPCR analyses showed that differentiation of hESCs toward neuroectoderm resulted in a rapid induction of all three cyclin Ds (<xref rid="fig3" ref-type="fig">Figures 3</xref>B, <xref rid="figs2" ref-type="fig">S2</xref>F, and S2G), whereas endoderm differentiation (<xref rid="fig3" ref-type="fig">Figures 3</xref>B, <xref rid="figs2" ref-type="fig">S2</xref>H, and S2I) was accompanied by a decrease in cyclin D1 and low expression of cyclin D2/D3. Mesoderm differentiation showed an upregulation of cyclin D2, whereas cyclin D1 and D3 exhibited a minor decrease (<xref rid="fig3" ref-type="fig">Figures 3</xref>B, <xref rid="figs2" ref-type="fig">S2</xref>J, and S2K). Thus, cyclin Ds are highly expressed during lineage specification that require Activin/Nodal signaling inhibition (neuroectoderm) whereas their expression is lower during specification of lineages requiring Activin/Nodal signaling activity (endoderm and mesoderm). Together, these data demonstrate that each germ layer is associated with a specific level/pattern of cyclin D expression.</p>
+        <p>These observations prompted us to study the function of cyclin D proteins in hESCs. For that, we stably knocked down the expression of the three cyclin Ds in all possible combinations (<xref rid="figs3" ref-type="fig">Figures S3</xref>A&#x02013;S3D). Single-knockdown hESC lines (ShD1-, ShD2-, and ShD3-hESCs) were able to self-renew, although we observed a moderate increase in expression of differentiation&#x000a0;markers, especially mesoderm/endoderm genes (data not shown). Double-knockdown hESCs (ShD1D2, ShD2D3, and ShD1D3-hESCs) showed a propensity for spontaneous differentiation into cells expressing endoderm markers, whereas pluripotency and neuroectoderm marker expression was systematically diminished (<xref rid="fig3" ref-type="fig">Figures 3</xref>C, 3D, 3F, and <xref rid="figs3" ref-type="fig">S3</xref>E). Furthermore, double-knockdown hESCs displayed a diminished capacity to differentiate into neuroectoderm and an increased capacity to differentiate into endoderm/mesoderm (<xref rid="figs3" ref-type="fig">Figures S3</xref>F&#x02013;S3H; <xref rid="mmc1" ref-type="supplementary-material">Table S4</xref>). Finally, triple-knockdown hESCs (shD1D2D3-hESCs) could not be expanded in&#x000a0;vitro suggesting an essential function for cyclin Ds in pluripotency and/or self-renewal. To bypass this limitation, GFP-expressing knockdown constructs were transitory transfected into cyclin D double-knockdown cells showing that decreased expression of all three cyclin Ds resulted in the loss of pluripotency markers while inducing differentiation into endoderm (<xref rid="fig3" ref-type="fig">Figures 3</xref>D, 3E, 3G, and <xref rid="figs3" ref-type="fig">S3</xref>I&#x02013;S3L). Taken together, these data demonstrate that cyclin Ds are necessary to maintain pluripotency in hESCs by limiting their capacity to differentiate into endoderm.</p>
+        <p>We then performed the opposite experiments by stably overexpressing cyclin Ds in hESCs (<xref rid="fig4" ref-type="fig">Figures 4</xref>A and <xref rid="figs4" ref-type="fig">S4</xref>A&#x02013;S4D). The resulting hESCs (OED-hESCs) maintained self-renewal and pluripotency, but showed an increase in neuroectoderm marker expression (<xref rid="fig4" ref-type="fig">Figures 4</xref>B and 4C). Furthermore, cyclin OED-hESCs display an enhanced capacity to differentiate into neuroectoderm (<xref rid="figs4" ref-type="fig">Figure&#x000a0;S4</xref>F) and have a limited capacity to differentiate into mesoderm/endoderm (<xref rid="figs4" ref-type="fig">Figures S4</xref>G and S4H). Collectively, these gain of function experiments show that cyclin Ds promote neuroectoderm differentiation while being able to inhibit endoderm differentiation induced by Activin/Nodal signaling. Therefore, cyclin Ds could inhibit the activity associated with Activin/Nodal signaling especially in late G1 when they are highly expressed.</p>
+      </sec>
+      <sec id="sec2.5">
+        <title>Cyclin Ds Control the Transcriptional Activity of Smad2/3</title>
+        <p>We then decided to further investigate the molecular mechanisms by which cyclin D could control Activin/Nodal signaling. Smad2/3 act as main effectors of this pathway and thus represent obvious candidates for this kind of regulation. Accordingly, we observed that cyclin D overexpression decreased Smad2/3 transcriptional activity in hESCs (<xref rid="figs4" ref-type="fig">Figure&#x000a0;S4</xref>E) and in endoderm cells (<xref rid="fig4" ref-type="fig">Figures 4</xref>D and 4E). Constitutive overexpression of cyclin Ds also decreased the propensity of early G1 hESCs to initiate endoderm differentiation (<xref rid="fig4" ref-type="fig">Figure&#x000a0;4</xref>F) and reduced the number of early G1 phase cells (11.7% in PTP6, 5.8% in OE cyclin D1, 6.3% in OE cyclin D2, and 7.5% in OE cyclin D3) while increasing late G1 phase cells (15.8% in PTP6, 18.6% in OE cyclin D1, 17.9% in OE cyclin D2, and 17.2% in OE cyclin D3). Finally, western blot analyses revealed that knockdown in cyclin D expression resulted in an increase in Smad2/3 proteins localized on chromatin, whereas overexpression of cyclin D had the opposite effect (<xref rid="fig4" ref-type="fig">Figures 4</xref>G and 4H). Therefore, the level of cyclin D proteins appears to modulate the shuttling of Smad2/3 in and out of the nucleus. To validate these observations, late G1-hESCs were transitorily transfected with a Smad2 protein containing a nuclear localization signal (NLS) (<xref rid="bib18" ref-type="bibr">Lo and Massagu&#x000e9;, 1999</xref>) and the resulting cells were induced to differentiate into endoderm. qPCR analyses 6&#x000a0;hr after sorting (<xref rid="figs4" ref-type="fig">Figure&#x000a0;S4</xref>I) or flow cytometry after 24&#x02013;48&#x000a0;hr of differentiation (<xref rid="figs4" ref-type="fig">Figure&#x000a0;S4</xref>J) show that this constitutive nuclear Smad2 was able to induce the expression of endoderm markers in late G1 hESCs thereby reinforcing the hypothesis that the cell fate restriction observed during cell-cycle progression could be associated with Smad2/3 cellular localization. Importantly, coimmunoprecipitation analyses showed that cyclin D1/D2/D3 interact with Smad2/3 in hESCs (<xref rid="fig5" ref-type="fig">Figures 5</xref>A and 5B) suggesting that nuclear transport of Smad2/3 could be controlled by this interaction. Interestingly, a previous study in a cancer cell line has shown that CDK4/6 could control the transcriptional activity of Smad2/3 (<xref rid="bib19" ref-type="bibr">Matsuura et&#x000a0;al., 2004</xref>). In accordance, overexpression of a mutant form of cyclin D1 (T156A) known to inhibit the catalytic activity of CDK4/6 (<xref rid="bib9" ref-type="bibr">Diehl and Sherr, 1997</xref>) increase the expression of endoderm and mesoderm markers in hESCs (<xref rid="figs5" ref-type="fig">Figure&#x000a0;S5</xref>A). Furthermore, the same cells display an increased capacity to differentiate into mesoderm/endoderm and a decreased capacity to express neuroectoderm markers (<xref rid="figs5" ref-type="fig">Figures S5</xref>B&#x02013;S5D) when grown in the corresponding inductive conditions. Together, these results suggest that cyclin D-CDK4/6 inhibit the transcriptional activity of Activin signaling by controlling the cellular localization of Smad2/3.</p>
+        <p>To further investigate the molecular mechanisms involved in this regulation, we specifically inhibited CDK4/6 in hESCs using the small molecule PD0332991 (<xref rid="bib10" ref-type="bibr">Fry et&#x000a0;al., 2004</xref>) and observed an increase in Smad2/3 localization to the chromatin fraction (<xref rid="fig5" ref-type="fig">Figure&#x000a0;5</xref>C). Inhibition of CDK4/6 in late G1 phase also resulted in an increase in Smad2/3-dependent transcription (<xref rid="fig5" ref-type="fig">Figure&#x000a0;5</xref>D) and partially removed the mechanism blocking endoderm differentiation in late G1 (<xref rid="fig5" ref-type="fig">Figures 5</xref>E and 5F). Taken together, these data suggest that cyclin D/CDK activity could regulate endoderm specification by controlling the transport of Smad2/3 into the nucleus. Because Smad2/3 nuclear shuttling is mediated by posttranslational modifications (<xref rid="bib13" ref-type="bibr">Kretzschmar et&#x000a0;al., 1999</xref>), we investigated the subcellular localization and phosphorylation status of Smad2 and Smad3 during cell-cycle progression (<xref rid="fig6" ref-type="fig">Figure&#x000a0;6</xref>A). Western blot showed that Smad2 and Smad3 are both specifically phosphorylated in their linker region in late G1 when they were excluded from the chromatin (<xref rid="fig6" ref-type="fig">Figure&#x000a0;6</xref>A). On the other hand, Smad2/3 proteins were phosphorylated in their MH2 region (P-S465/467) in early G1 when they were more abundant on the chromatin. Moreover, inhibition of CDK4/6 activity resulted in the loss of Smad2/3 linker region phosphorylation and accumulation of Smad2/3 onto the chromatin (<xref rid="fig6" ref-type="fig">Figure&#x000a0;6</xref>A). Consequently, CDK4/6 appear to regulate Smad2/3 nuclear shuttling in late G1 of hESCs by phosphorylating specific residues of their linker regions. To confirm these observations, we overexpressed in late G1 hESCs mutant forms of Smad2/3 devoid of phosphorylation sites in the linker region (Smad2-EPSM: T220V, S245A, S250A, S250A; Smad3-EPSM: T178V, S203A, S207A, S212A). Western blot analyses indicated that only Smad2/3-EPSM proteins accumulated onto chromatin, whereas wild-type Smad2/3 remained in the cytoplasm (<xref rid="fig6" ref-type="fig">Figure&#x000a0;6</xref>B). Similarly, Smad2/3-EPSM overexpressing hESCs were more prone to differentiate into endoderm when compared to late G1-hESCs overexpressing Smad2/3 (<xref rid="fig6" ref-type="fig">Figures 6</xref>C and 6D). Nevertheless, inhibition of CDK4/6 by PD0332991 improved endoderm differentiation of late G1-hESCs expressing Smad2 or Smad3 (<xref rid="fig6" ref-type="fig">Figure&#x000a0;6</xref>C). Finally, we analyzed the transcriptional activity of different forms of Smad2/3-EPSM mutants in late G1-hESCs taking advantage of the SEB4 reporter gene. These experiments revealed that phosphorylation of Smad2/3 at the linker region reduces their transcriptional activity (<xref rid="fig6" ref-type="fig">Figures 6</xref>E and 6F), whereas a reversion of specific phosphorylation sites to their wild-type residue (A212S, V178T) partially restored Smad3 sensitivity to cyclin D-CDK4/6-mediated phosphorylation (<xref rid="fig6" ref-type="fig">Figure&#x000a0;6</xref>E). These results demonstrate that cyclin D-CDK4/6 regulate Smad2/3 transcriptional activity in a cell-cycle phase-dependent manner by phosphorylating specific sites of the Smad2/3 linker regions to block their entry into the nucleus.</p>
+      </sec>
+      <sec id="sec2.6">
+        <title>Manipulating the Activity of Cyclin D-CDK4/6 Enables Differentiation of hIPSCs into Endoderm Cells without the Need of Exogenous Activin</title>
+        <p>Interestingly, hESCs grown in the presence of PD0332991 gradually differentiated as shown by the decrease in pluripotency marker expression and by the increase in meso/endoderm markers (<xref rid="fig7" ref-type="fig">Figures 7</xref>A&#x02013;7C and <xref rid="figs5" ref-type="fig">S5</xref>E; <xref rid="mmc1" ref-type="supplementary-material">Table S5</xref>). In addition, we observed that endoderm cells induced by PD0332991 were able to differentiate further into hepatic and pancreatic progenitors (<xref rid="fig7" ref-type="fig">Figures 7</xref>D&#x02013;7F and <xref rid="figs5" ref-type="fig">S5</xref>F). These observations prompted us to develop a protocol of endoderm differentiation taking advantage of the PD0332991 inhibitor. For that, we tested the effect of different combinations of Activin, BMP4, FGF2, and PD0332991 (<xref rid="fig7" ref-type="fig">Figure&#x000a0;7</xref>C and data not shown) on endoderm differentiation of hESCs and observed that this inhibitor decreased the need of exogenous Activin in our culture conditions. This study resulted in a protocol of endoderm differentiation in which exogenous Activin was replaced by PD0332991. To further validate this protocol, three different hIPSC lines were grown in defined culture conditions supplemented with PD0332991/FGF2/BMP4/LY29004 for 6&#x000a0;days. hIPSCs grown in these culture conditions differentiated into endoderm cells as shown by the decrease in pluripotency markers and the specific increase in endoderm markers (<xref rid="figs6" ref-type="fig">Figure&#x000a0;S6</xref>). Furthermore, the resulting endoderm cells were able to differentiate further into cells expressing hepatic and pancreatic markers (<xref rid="figs7" ref-type="fig">Figures S7</xref>A&#x02013;S7H). Finally, we also applied this protocol to hIPSCs resistant to conventional methods of differentiation and observed that chemical inhibition of CDK4/6-cyclin Ds significantly improved the capacity of these&#x000a0;lines to differentiate into endoderm derivatives thereby allowing the generation of pancreatic and hepatic cells (<xref rid="figs7" ref-type="fig">Figures S7</xref>I&#x02013;S7M). Considered together, these results show that manipulation of cyclin D-CDK4/6 activity can be used to direct differentiation of hPSCs toward the endoderm germ layers bypassing the need of exogenous Activin and the usual variability between lines. These results also showed that the function of cyclin D in cell fate choice of hESCs is conserved in hIPSCs and thus that the mechanisms revealed by our study could be applied to a broad number of human pluripotent stem cells.</p>
+      </sec>
+    </sec>
+    <sec sec-type="discussion" id="sec3">
+      <title>Discussion</title>
+      <p>Here, we have uncovered mechanisms by which the cell cycle can control the activity of signaling pathways directing cell fate&#x000a0;choice. These mechanisms are orchestrated by cyclin D-CDK4/6 complex that limits the nuclear localization of key signaling effectors such as Smad2/3. This model of regulation implies that cell fate choice primarily occurs during the narrow window of G1 phase when cyclin D proteins are dynamically expressed. Accordingly, endoderm induction is only possible in early G1 when the level of cyclin D is low, allowing Smad2/3 to bind and to activate endoderm genes. Cyclin D expression in late G1 results in activation of CDK4/6 that bind Smad2/3 proteins and phosphorylate their linker region. The phosphorylation of Smad2/3 blocks their entry into the nucleus and thereby makes late G1 cells only receptive for neuroectoderm initiation. In agreement with the expression of cyclin D proteins, differentiation of ESCs is also accompanied by a change in G1 length (<xref rid="bib7" ref-type="bibr">Coronado et&#x000a0;al., 2013</xref>), and hESCs differentiating into endoderm display a longer G1 phase when compared to hESCs grown in culture conditions inductive for neuroectoderm specification (data not shown). Furthermore, lengthening of the G1 phase is associated with an increase in the population of hESCs in early G1 phase and thus with an increase in the number of cells specifically prone to endoderm differentiation. These observations imply that manipulating cell-cycle regulators could enable a controlled differentiation of stem cells. Accordingly, inhibiting CDK4/6 in hPSCs with a small molecule increases G1 length while inducing endoderm differentiation. Therefore, our study represents a first step toward the development of a method of differentiation in which simple manipulation of the cell cycle using small molecules could direct differentiation of pluripotent stem cells toward specific cell types without the need of exogenous growth factors.</p>
+      <p>Expression studies in the mouse embryo showed that cyclin Ds have a tissue-specific expression during gastrulation (<xref rid="bib35" ref-type="bibr">Wianny et&#x000a0;al., 1998</xref>). Mesoderm expresses cyclin D1/D2, neuroectoderm cyclin D1/D2, and endoderm a low level of cyclin D2, whereas cyclin D3 is specifically expressed in the trophectoderm. Therefore, the expression pattern of cyclin Ds during gastrulation mimic the expression of cyclin Ds during in&#x000a0;vitro differentiation of hESCs, thereby suggesting that the mechanisms uncovered by our study might be transferable to the gastrulating embryo. However, genetic studies of individual cell-cycle regulators have been less conclusive and total absence of cyclin D in the mouse only leads to midgestation lethality (<xref rid="bib12" ref-type="bibr">Kozar et&#x000a0;al., 2004</xref>). Similar phenotypes were observed in embryos mutant for cyclin E or CDK2/4/6 suggesting that these factors are dispensable for early development. These results contrast with the broad number of studies that have shown the importance of these factors in established or primary cells in&#x000a0;vitro. Furthermore, the importance of cell-cycle regulation in organogenesis has been identified in a diversity of systems (<xref rid="bib11 bib17" ref-type="bibr">Fuchs, 2009; Li and Clevers, 2010</xref>). Therefore, it has been suggested that the absence of cyclin Ds in early mouse embryo could be rescued in part by CDK2-cyclin E that would compensate the absence of CDK4/6 activity by regulating the phosphorylation of pRB. Thus, the function of cyclin D in&#x000a0;vivo could be masked by redundant and aberrant mechanisms. Species divergence between human and mice could also explain the apparent difference between our data generated with hESCs and the lack of cyclin D function in early mouse embryo. Indeed, there is growing evidence that part of the mechanisms controlling early development could differ between the two species. For instance, FGF signaling, which is known to promote proliferation, plays an essential role in specification of extraembryonic tissue in mouse blastocyst, whereas its inhibition has no effect in human embryo (<xref rid="bib14 bib24" ref-type="bibr">Kuijk et&#x000a0;al., 2012; Roode et&#x000a0;al., 2012</xref>). Systematic studies on mEpiSCs could help to uncover the molecular basis for such differences and the existence of compensatory mechanisms specific to the mouse.</p>
+      <p>The interconnection of cell fate decisions and cell cycle revealed by our findings could also be relevant for stem cells in developing organs. Indeed, functional studies performed in the cortex and retina have demonstrated that loss of function of cyclin D/CDK results in the lengthening of G1 phase and is always accompanied by increased differentiation of neuronal stem cells specifically into neurons (<xref rid="bib15 bib16" ref-type="bibr">Lange and Calegari, 2010; Lange et&#x000a0;al., 2009</xref>). More recently, in&#x000a0;vitro studies have shown that the length of G1 phase increases upon differentiation of neuronal stem cells in&#x000a0;vitro, whereas inhibition of CDK4 induces their differentiation (<xref rid="bib23" ref-type="bibr">Roccio et&#x000a0;al., 2013</xref>). Similarly, absence of cyclin Ds or CDK4/6 results in premature differentiation of hematopoietic stem cells (<xref rid="bib15" ref-type="bibr">Lange and Calegari, 2010</xref>). Considered together, these results suggest that the length of G1 phase, and thus cyclin D activity, defines the capacity of multipotent stem cells to differentiate in&#x000a0;vivo. Such mechanisms would be essential to synchronize proliferation and differentiate tissue specific stem cells into particular lineages. Thus, our findings could not only start to uncover the molecular mechanisms that interconnect the cell cycle and cell fate decisions in hESCs but&#x000a0;could also be relevant to understand how proliferation and differentiation of adult stem cells is coordinated in tissue homeostasis.</p>
+    </sec>
+    <sec sec-type="methods" id="sec4">
+      <title>Experimental Procedures</title>
+      <sec id="sec4.1">
+        <title>Cell Culture of hESCs, hIPSCs, mEpiSCs, and mESCs</title>
+        <p>hESCs (H9 from WiCell) were used for all the experiments unless otherwise stated. H9 cells were grown in defined culture conditions as described previously (<xref rid="bib1" ref-type="bibr">Brons et&#x000a0;al., 2007</xref>). H9 cells were passaged weekly using collagenase IV and maintained in chemically defined medium (CDM) supplemented with Activin A (10&#x000a0;ng/ml) and FGF2 (12&#x000a0;ng/ml). hIPSCs (IPS40 and BBHX8; <xref rid="bib33" ref-type="bibr">Vallier et&#x000a0;al., 2009b</xref>; A1ATD1) were grown in culture conditions as described in the <xref rid="dtbox1" ref-type="boxed-text">Extended Experimental Procedures</xref>.</p>
+      </sec>
+      <sec id="sec4.2">
+        <title>Differentiation of hESCs and IPSCs</title>
+        <p>hESCs were differentiated into neuroectoderm, endoderm, and mesoderm as described previously (<xref rid="bib33" ref-type="bibr">Vallier et&#x000a0;al., 2009b</xref>), hIPSCs and hESCs were differentiated into endoderm, pancreatic cells, and to hepatocytes as described in the <xref rid="dtbox1" ref-type="boxed-text">Extended Experimental Procedures</xref>.</p>
+      </sec>
+      <sec id="sec4.3">
+        <title>Cell Sorting by FACS</title>
+        <p>FACS was performed as described before (<xref rid="bib25" ref-type="bibr">Sakaue-Sawano et&#x000a0;al., 2008</xref>). In sum, hESCs were washed with PBS and detached from the plate by incubating them for 10&#x000a0;min at 37&#x000b0;C in cell dissociation buffer (GIBCO). Cells were washed with cold PBS and then subjected to FACS with a Beckman Coulter MoFlo MLS high-speed cell sorter, using parameters described previously (<xref rid="bib25" ref-type="bibr">Sakaue-Sawano et&#x000a0;al., 2008</xref>).</p>
+        <p>
+          <boxed-text id="dtbox1">
+            <label>Extended Experimental Procedures</label>
+            <sec id="dtbox1sec1">
+              <title>Cell Culture of hESCs, hIPSCs, mEpiSCs, and mESCs</title>
+              <p>hESCs (H9 from WiCell) and mEpiSCs were grown in defined culture conditions as described previously (<xref rid="bib1" ref-type="bibr">Brons et&#x000a0;al., 2007</xref>). H9 cells were passaged weekly and mEpiSCs every 5&#x000a0;days using collagenase IV and maintained in chemically defined medium (CDM) supplemented with Activin A (10&#x000a0;ng/ml) and FGF2 (12&#x000a0;ng/ml). hIPSCs (IPS40 and BBHX8 [<xref rid="bib32" ref-type="bibr">Vallier et&#x000a0;al., 2009a</xref>]; A1ATD1[<xref rid="bib38" ref-type="bibr">Rashid et&#x000a0;al., 2010</xref>]) were grown culture conditions as described before (<xref rid="bib38" ref-type="bibr">Rashid et&#x000a0;al., 2010</xref>).</p>
+            </sec>
+            <sec id="dtbox1sec2">
+              <title>Differentiation of hESCs and IPSCs</title>
+              <p>hESCs were differentiated into neuroectoderm, endoderm and mesoderm as described previously (<xref rid="bib33" ref-type="bibr">Vallier et&#x000a0;al., 2009b</xref>). Briefly, cells were cultured in CDM supplemented with SB-431542 (10&#x000a0;&#x003bc;M; Tocris) and FGF2 (12&#x000a0;ng/ml) for neuroectoderm, in CDM+PVA supplemented with Activin A (100&#x000a0;ng/ml), FGF2 (20&#x000a0;ng/ml), BMP4 (10&#x000a0;ng/ml), Ly294002 (10&#x000a0;&#x003bc;M; Promega) and CHIR99021 (3&#x000a0;&#x003bc;M; Selleck) for mesoderm and in CDM-PVA supplemented with Activin A (100&#x000a0;ng/ml), FGF2 (20&#x000a0;ng/ml), BMP4 (10&#x000a0;ng/ml) and Ly294002 (10&#x000a0;&#x003bc;M; Promega) for endoderm. hIPSCs were differentiated into endoderm and into hepatocytes as described before (<xref rid="bib39" ref-type="bibr">Touboul et&#x000a0;al., 2010</xref>). Pancreatic differentiation of hESCs and hIPSCs was carried out as follows. Daily media changes were made during the entire differentiation protocol. After endoderm differentiation, cells were cultured in Advanced DMEM (Invitrogen) supplemented with SB-431542 (10&#x000a0;&#x003bc;M; Tocris), FGF10 (50&#x000a0;ng/ml; AutogenBioclear), all-trans retinoic acid (RA, 2&#x000a0;&#x003bc;M; Sigma) and Noggin (50&#x000a0;ng/ml; R&#x00026;D Systems) for 3&#x000a0;days. Cells were then cultured in Advanced DMEM&#x000a0;+ human FGF10 (50&#x000a0;ng/ml; AutogenBioclear), all-trans retinoic acid (RA, 2&#x000a0;&#x003bc;M; Sigma), KAAD-cyclopamine (0.25&#x000a0;&#x003bc;M; Toronto Research Chemicals) and Noggin (50&#x000a0;ng/ml; R&#x00026;D Systems) for 3&#x000a0;days. Next, cells were cultured in human KGF (50&#x000a0;ng/ml; R&#x00026;D Systems) for 3&#x000a0;days. For maturation of pancreatic progenitors, cells were grown in Advanced DMEM&#x000a0;+ 1% vol/vol B27 and DAPT (1&#x000a0;mM) for 3&#x000a0;days and for 3 additional days in Advanced DMEM&#x000a0;+ 1% vol/vol B27.</p>
+            </sec>
+            <sec id="dtbox1sec3">
+              <title>qPCR and Immunostaining</title>
+              <p>Methods for Q-PCR and immunostaining have been described previously (<xref rid="bib33" ref-type="bibr">Vallier et&#x000a0;al., 2009b</xref>). Q-PCR data are presented as the mean of three independent experiments and error bars indicate standard deviations. Primer sequences and antibodies have been listed in <xref rid="dtbox1" ref-type="boxed-text">Extended Experimental Procedures</xref>.</p>
+            </sec>
+            <sec id="dtbox1sec4">
+              <title>Generating Fucci-hESCs</title>
+              <p>Human mKO2-Cdt1 and mAG-Geminin fusion sequences were inserted into the pTP6 plasmid, so that mKO2-Cdt1 construct contained a selection marker for G418 and mAG-Geminin for puromycin. Constructs were verified by sequencing. Stable H9 Fucci-hESC lines were then generated with mKO2-Cdt1, mAG-Geminin or with both mKO2-Cdt1/mAG-Geminin as follows. Constructs were transfected (a simultaneous transfection with both constructs for double mKO2-Cdt1/mAG-Geminin cell line) into H9 hESCs with lipofectamine as described previously (<xref rid="bib30" ref-type="bibr">Vallier et&#x000a0;al., 2004</xref>) and grown for 3&#x000a0;days. Cells were then cultured in the presence of appropriate antibiotics (0.2&#x000a0;mg/ml G418 for and 1&#x000a0;mM for puromycin) until the emergence of resistant colonies. Clones were individually picked and further characterized for the expression of the Fucci reporter proteins (<xref rid="fig1" ref-type="fig">Figure&#x000a0;1</xref>).</p>
+            </sec>
+            <sec id="dtbox1sec5">
+              <title>Generating Cyclin D Single-Knockdown, Double-Knockdown, and Triple-Knockdown Cells</title>
+              <p>For cyclin D single knockdown, previously validated shRNA expression vectors (Open Biosystems, Cat no. RHS4533-NM053056, RHS4533-NM001759, RHS4533-NM001136017) directed against cyclin D1, D2 or D3 were transfected into H9 hESCs with lipofectamine (<xref rid="bib30" ref-type="bibr">Vallier et&#x000a0;al., 2004</xref>) and grown for 3&#x000a0;days (<xref rid="figs3" ref-type="fig">Figure&#x000a0;S3</xref>). Cells were then cultured in the presence of puromycin until antibiotic resistant colonies appeared. These were picked and characterized for knockdown efficiency (<xref rid="figs3" ref-type="fig">Figure&#x000a0;S3</xref>). For cyclin D double knockdown, single knockdown sublines were stably transfected with a second shRNA expression vector directed against a different cyclin D and containing a hygromycin resistance gene. Double knockdown cells were cultured in the presence of puromycin and hygromycin until colonies appeared. These were picked and characterized for knockdown efficiency (<xref rid="figs3" ref-type="fig">Figure&#x000a0;S3</xref>). For cyclin D triple knockdown, cyclin D double knockdown cells were transitorily transfected with an shRNA expression vector directed against the third cyclin D family member and containing eGFP as a marker for transfected (cyclin D triple knockdown) cells. eGFP cell were either sorted for Q-PCR, western blot or analyzed directly by immunostaining.</p>
+            </sec>
+            <sec id="dtbox1sec6">
+              <title>Generating Cyclin D Overexpressing Cells and Cyclin D1 Mutant Cells</title>
+              <p>cDNA of cyclin D1, D2, D3, D1 T156A and D1 T286A was cloned into the pTP6 vector (<xref rid="bib37" ref-type="bibr">Pratt et&#x000a0;al., 2000</xref>) with an N-terminal FLAG-HA tag, under the regulation of CAG promoter. The inserts were confirmed by sequencing. Vectors were transfected into H9 hESCs by lipofection (<xref rid="bib30" ref-type="bibr">Vallier et&#x000a0;al., 2004</xref>) and grown for 3&#x000a0;days (<xref rid="figs4" ref-type="fig">Figure&#x000a0;S4</xref>). Thereafter, cells with a stable integration were selected by continuous presence of puromycin. Individual clones were picked, propagated and analyzed for subsequent analyses.</p>
+            </sec>
+            <sec id="dtbox1sec7">
+              <title>Cell Sorting by FACS</title>
+              <p>FACS was performed as described before (<xref rid="bib25" ref-type="bibr">Sakaue-Sawano et&#x000a0;al., 2008</xref>). In sum, hESCs were washed with PBS and detached from the plate by incubating them for 10&#x000a0;min at 37&#x000b0;C in Cell Dissociation Buffer (GIBCO). Cells were washed with cold PBS and then subjected to FACS with a BeckmanCoulter MoFlo MLS high-speed cell sorter, using parameters described previously (<xref rid="bib25" ref-type="bibr">Sakaue-Sawano et&#x000a0;al., 2008</xref>).</p>
+            </sec>
+            <sec id="dtbox1sec8">
+              <title>Luciferase Assay</title>
+              <p>Cells were transfected with a Smad2/3 reporter construct (SBE4-luciferase), Sox17 or GSC promoter constructs (<xref rid="bib2" ref-type="bibr">Brown et&#x000a0;al., 2011</xref>) and Renilla luciferase at a ratio of 10:1, using Lipofectamine 2000 (Invitrogen) (<xref rid="bib30" ref-type="bibr">Vallier et&#x000a0;al., 2004</xref>). Luciferase activity was measured with the dual luciferase assay kit following (Promega) manufacturer instructions. Firefly luciferase activity was normalized to Renilla luciferase activity for cell numbers and transfection efficiency. Samples were analyzed on a Glomax Luminometer and software.</p>
+            </sec>
+            <sec id="dtbox1sec9">
+              <title>Time-Lapse Imaging</title>
+              <p>Cells were grown in Chambered 1.0 Borosilicate Cover Glass System (Lab-TEK). Time-lapse imaging of cells was carried out with Leica SP5 invert&#x000a0;+ live cell chamber x2 confocal microscope, using parameters as described previously (<xref rid="bib25" ref-type="bibr">Sakaue-Sawano et&#x000a0;al., 2008</xref>). Cells were maintained in the presence of CO2 at 37&#x000b0;C during microscopy.</p>
+            </sec>
+            <sec id="dtbox1sec10">
+              <title>Chromatin Immunoprecipitation</title>
+              <p>hESCs were washed with PBS and detached from the plate by incubating them for 10&#x000a0;min at 37&#x000b0;C in Cell Dissociation Buffer (GIBCO). ChIP was carried out as described before (<xref rid="bib2" ref-type="bibr">Brown et&#x000a0;al., 2011</xref>), except that crosslinking was performed in solution in PBS if samples were sorted by FACS.</p>
+            </sec>
+            <sec id="dtbox1sec11">
+              <title>Cell Fractionations</title>
+              <p>Cells were harvested with trypsin and washed twice with cold PBS. For cytoplasmic lysis, cells were suspended in 5 times packed cell volume (1&#x000a0;&#x003bc;l PCV&#x000a0;= 10<sup>6</sup> cells) equivalent of Isotonic Lysis Buffer (10&#x000a0;mM Tris HCl, pH 7.5, 3&#x000a0;mM CaCl, 2&#x000a0;mM MgCl<sub>2</sub>, 0.32&#x000a0;M Sucrose, Complete protease inhibitors and phosphatase inhibitors), and incubated for 12&#x000a0;min on ice. Triton X-100 was added to a final concentration of 0.3% and incubated for 3&#x000a0;min. The suspension was centrifuged for 5&#x000a0;min at 1,500&#x000a0;rpm at 4&#x000b0;C and the supernatant (cytoplasmic fraction) transferred to a fresh chilled tube. For nuclear lysis, nuclear pellets were resuspended in 2 x PCV Nuclear Lysis Buffer+Triton X-100 (50&#x000a0;mM Tris HCl, pH 7.5, 100&#x000a0;mM NaCl, 50&#x000a0;mM KCl, 2&#x000a0;mM MgCl<sub>2,</sub> 1&#x000a0;mM EDTA, 10% Glycerol, 0.3% Triton X-100, Complete protease inhibitors and phosphatase inhibitors) and dounce homogenized. The samples were incubated with gentle agitation for 30&#x000a0;min at 4&#x000b0;C and then centrifuged with a Ti 70.1 rotor at 22,000&#x000a0;rpm for 30&#x000a0;min at 4&#x000b0;C or with a Ti 45 rotor for 30&#x000a0;min at 20,000&#x000a0;rpm at 4&#x000b0;C. The chromatin pellets were dounce homogenized in 2 x PCV Nuclear Lysis Buffer+Triton X-100 and Benzonase until the pellets gave much less resistance. The samples were incubated at RT for 30&#x000a0;min and centrifuged with either a Ti 70.1 rotor for 30&#x000a0;min at 22,000&#x000a0;rpm at 4&#x000b0;C or with a Ti 45 rotor for 30&#x000a0;min at 20,000&#x000a0;rpm at 4&#x000b0;C.</p>
+            </sec>
+            <sec id="dtbox1sec12">
+              <title>Protein Coimmunoprecipitation</title>
+              <p>Antibodies were crosslinked to Protein G-Agarose beads (Roche, 1&#x000a0;&#x003bc;g of antibody per 5 ul of beads) with dimethyl pimelimidate (Sigma) using standard biochemical techniques, prior to performing immunoprecipitations. Samples were incubated with 5&#x000a0;&#x003bc;g of crosslinked antibodies for 12h at 4&#x000b0;C. Beads were washed five times with ten bead volumes of Nuclear Lysis Buffer and eluted in SDS western blotting buffer (30&#x000a0;mM Tris pH 6.8, 10% Glycerol, 2% SDS, 0.36&#x000a0;M beta-mercaptoethanol (Sigma), 0.02% bromophenol blue) by heating at 90&#x000b0;C for 5&#x000a0;min. Samples were analyzed by standard western blotting techniques.</p>
+            </sec>
+            <sec id="dtbox1sec13">
+              <title>Flow Cytometry</title>
+              <p>Flow cytometry was carried out with a BD MoFlo flow cytometer and analyzed by FloJo software. Cell-cycle distribution was analyzed by Click-It EdU incorporation Kit (Invitrogen) according to manufacturer&#x02019;s guidelines. Marker expression was analyzed at various time points during differentiation by first dissociating cells into single cells with Cell Dissociation Buffer (GIBCO) and fixing in 4% PFA for 20&#x000a0;min at 4&#x000b0;C. This was followed by permeabilization and blocking with 10% serum&#x000a0;+ 0.1% Triton X-100 in PBS for 30&#x000a0;min at RT and incubation with primary antibody in 1% serum&#x000a0;+ 0.1% Triton X-100 for 2h at 4&#x000b0;C. After washing the samples three times with PBS, they were incubated with a secondary antibody for 2h at 4&#x000b0;C, washed three times with PBS and analyzed by flow cytometry.</p>
+            </sec>
+          </boxed-text>
+        </p>
+      </sec>
+    </sec>
+  </body>
+  <back>
+    <ref-list>
+      <title>References</title>
+      <ref id="bib1">
+        <element-citation publication-type="journal" id="sref1">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Brons</surname>
+              <given-names>I.G.</given-names>
+            </name>
+            <name>
+              <surname>Smithers</surname>
+              <given-names>L.E.</given-names>
+            </name>
+            <name>
+              <surname>Trotter</surname>
+              <given-names>M.W.</given-names>
+            </name>
+            <name>
+              <surname>Rugg-Gunn</surname>
+              <given-names>P.</given-names>
+            </name>
+            <name>
+              <surname>Sun</surname>
+              <given-names>B.</given-names>
+            </name>
+            <name>
+              <surname>Chuva de Sousa Lopes</surname>
+              <given-names>S.M.</given-names>
+            </name>
+            <name>
+              <surname>Howlett</surname>
+              <given-names>S.K.</given-names>
+            </name>
+            <name>
+              <surname>Clarkson</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Ahrlund-Richter</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Pedersen</surname>
+              <given-names>R.A.</given-names>
+            </name>
+            <name>
+              <surname>Vallier</surname>
+              <given-names>L.</given-names>
+            </name>
+          </person-group>
+          <article-title>Derivation of pluripotent epiblast stem cells from mammalian embryos</article-title>
+          <source>Nature</source>
+          <volume>448</volume>
+          <year>2007</year>
+          <fpage>191</fpage>
+          <lpage>195</lpage>
+          <pub-id pub-id-type="pmid">17597762</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib2">
+        <element-citation publication-type="journal" id="sref2">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Brown</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Teo</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Pauklin</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Hannan</surname>
+              <given-names>N.</given-names>
+            </name>
+            <name>
+              <surname>Cho</surname>
+              <given-names>C.H.</given-names>
+            </name>
+            <name>
+              <surname>Lim</surname>
+              <given-names>B.</given-names>
+            </name>
+            <name>
+              <surname>Vardy</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Dunn</surname>
+              <given-names>N.R.</given-names>
+            </name>
+            <name>
+              <surname>Trotter</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Pedersen</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Vallier</surname>
+              <given-names>L.</given-names>
+            </name>
+          </person-group>
+          <article-title>Activin/Nodal signaling controls divergent transcriptional networks in human embryonic stem cells and in endoderm progenitors</article-title>
+          <source>Stem Cells</source>
+          <volume>29</volume>
+          <year>2011</year>
+          <fpage>1176</fpage>
+          <lpage>1185</lpage>
+          <pub-id pub-id-type="pmid">21630377</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib3">
+        <element-citation publication-type="journal" id="sref3">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Calder</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Roth-Albin</surname>
+              <given-names>I.</given-names>
+            </name>
+            <name>
+              <surname>Bhatia</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Pilquil</surname>
+              <given-names>C.</given-names>
+            </name>
+            <name>
+              <surname>Lee</surname>
+              <given-names>J.H.</given-names>
+            </name>
+            <name>
+              <surname>Bhatia</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Levadoux-Martin</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>McNicol</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Russell</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Collins</surname>
+              <given-names>T.</given-names>
+            </name>
+          </person-group>
+          <article-title>Lengthened G1 phase indicates differentiation status in human embryonic stem cells</article-title>
+          <source>Stem Cells Dev.</source>
+          <volume>22</volume>
+          <year>2013</year>
+          <fpage>279</fpage>
+          <lpage>295</lpage>
+          <pub-id pub-id-type="pmid">22827698</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib4">
+        <element-citation publication-type="journal" id="sref4">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Chambers</surname>
+              <given-names>S.M.</given-names>
+            </name>
+            <name>
+              <surname>Fasano</surname>
+              <given-names>C.A.</given-names>
+            </name>
+            <name>
+              <surname>Papapetrou</surname>
+              <given-names>E.P.</given-names>
+            </name>
+            <name>
+              <surname>Tomishima</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Sadelain</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Studer</surname>
+              <given-names>L.</given-names>
+            </name>
+          </person-group>
+          <article-title>Highly efficient neural conversion of human ES and iPS cells by dual inhibition of SMAD signaling</article-title>
+          <source>Nat. Biotechnol.</source>
+          <volume>27</volume>
+          <year>2009</year>
+          <fpage>275</fpage>
+          <lpage>280</lpage>
+          <pub-id pub-id-type="pmid">19252484</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib5">
+        <element-citation publication-type="journal" id="sref5">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Chng</surname>
+              <given-names>Z.</given-names>
+            </name>
+            <name>
+              <surname>Teo</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Pedersen</surname>
+              <given-names>R.A.</given-names>
+            </name>
+            <name>
+              <surname>Vallier</surname>
+              <given-names>L.</given-names>
+            </name>
+          </person-group>
+          <article-title>SIP1 mediates cell-fate decisions between neuroectoderm and mesendoderm in human pluripotent stem cells</article-title>
+          <source>Cell Stem Cell</source>
+          <volume>6</volume>
+          <year>2010</year>
+          <fpage>59</fpage>
+          <lpage>70</lpage>
+          <pub-id pub-id-type="pmid">20074535</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib6">
+        <element-citation publication-type="journal" id="sref6">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Cho</surname>
+              <given-names>C.H.</given-names>
+            </name>
+            <name>
+              <surname>Hannan</surname>
+              <given-names>N.R.</given-names>
+            </name>
+            <name>
+              <surname>Docherty</surname>
+              <given-names>F.M.</given-names>
+            </name>
+            <name>
+              <surname>Docherty</surname>
+              <given-names>H.M.</given-names>
+            </name>
+            <name>
+              <surname>Jo&#x000e5;o Lima</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Trotter</surname>
+              <given-names>M.W.</given-names>
+            </name>
+            <name>
+              <surname>Docherty</surname>
+              <given-names>K.</given-names>
+            </name>
+            <name>
+              <surname>Vallier</surname>
+              <given-names>L.</given-names>
+            </name>
+          </person-group>
+          <article-title>Inhibition of activin/nodal signalling is necessary for pancreatic differentiation of human pluripotent stem cells</article-title>
+          <source>Diabetologia</source>
+          <volume>55</volume>
+          <year>2012</year>
+          <fpage>3284</fpage>
+          <lpage>3295</lpage>
+          <pub-id pub-id-type="pmid">23011350</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib7">
+        <element-citation publication-type="journal" id="sref7">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Coronado</surname>
+              <given-names>D.</given-names>
+            </name>
+            <name>
+              <surname>Godet</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Bourillot</surname>
+              <given-names>P.Y.</given-names>
+            </name>
+            <name>
+              <surname>Tapponnier</surname>
+              <given-names>Y.</given-names>
+            </name>
+            <name>
+              <surname>Bernat</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Petit</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Afanassieff</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Markossian</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Malashicheva</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Iacone</surname>
+              <given-names>R.</given-names>
+            </name>
+          </person-group>
+          <article-title>A short G1 phase is an intrinsic determinant of na&#x000ef;ve embryonic stem cell pluripotency</article-title>
+          <source>Stem Cell Res. (Amst.)</source>
+          <volume>10</volume>
+          <year>2013</year>
+          <fpage>118</fpage>
+          <lpage>131</lpage>
+        </element-citation>
+      </ref>
+      <ref id="bib8">
+        <element-citation publication-type="journal" id="sref8">
+          <person-group person-group-type="author">
+            <name>
+              <surname>D&#x02019;Amour</surname>
+              <given-names>K.A.</given-names>
+            </name>
+            <name>
+              <surname>Agulnick</surname>
+              <given-names>A.D.</given-names>
+            </name>
+            <name>
+              <surname>Eliazer</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Kelly</surname>
+              <given-names>O.G.</given-names>
+            </name>
+            <name>
+              <surname>Kroon</surname>
+              <given-names>E.</given-names>
+            </name>
+            <name>
+              <surname>Baetge</surname>
+              <given-names>E.E.</given-names>
+            </name>
+          </person-group>
+          <article-title>Efficient differentiation of human embryonic stem cells to definitive endoderm</article-title>
+          <source>Nat. Biotechnol.</source>
+          <volume>23</volume>
+          <year>2005</year>
+          <fpage>1534</fpage>
+          <lpage>1541</lpage>
+          <pub-id pub-id-type="pmid">16258519</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib9">
+        <element-citation publication-type="journal" id="sref9">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Diehl</surname>
+              <given-names>J.A.</given-names>
+            </name>
+            <name>
+              <surname>Sherr</surname>
+              <given-names>C.J.</given-names>
+            </name>
+          </person-group>
+          <article-title>A dominant-negative cyclin D1 mutant prevents nuclear import of cyclin-dependent kinase 4 (CDK4) and its phosphorylation by CDK-activating kinase</article-title>
+          <source>Mol. Cell. Biol.</source>
+          <volume>17</volume>
+          <year>1997</year>
+          <fpage>7362</fpage>
+          <lpage>7374</lpage>
+          <pub-id pub-id-type="pmid">9372967</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib10">
+        <element-citation publication-type="journal" id="sref10">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Fry</surname>
+              <given-names>D.W.</given-names>
+            </name>
+            <name>
+              <surname>Harvey</surname>
+              <given-names>P.J.</given-names>
+            </name>
+            <name>
+              <surname>Keller</surname>
+              <given-names>P.R.</given-names>
+            </name>
+            <name>
+              <surname>Elliott</surname>
+              <given-names>W.L.</given-names>
+            </name>
+            <name>
+              <surname>Meade</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Trachet</surname>
+              <given-names>E.</given-names>
+            </name>
+            <name>
+              <surname>Albassam</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Zheng</surname>
+              <given-names>X.</given-names>
+            </name>
+            <name>
+              <surname>Leopold</surname>
+              <given-names>W.R.</given-names>
+            </name>
+            <name>
+              <surname>Pryer</surname>
+              <given-names>N.K.</given-names>
+            </name>
+            <name>
+              <surname>Toogood</surname>
+              <given-names>P.L.</given-names>
+            </name>
+          </person-group>
+          <article-title>Specific inhibition of cyclin-dependent kinase 4/6 by PD 0332991 and associated antitumor activity in human tumor xenografts</article-title>
+          <source>Mol. Cancer Ther.</source>
+          <volume>3</volume>
+          <year>2004</year>
+          <fpage>1427</fpage>
+          <lpage>1438</lpage>
+          <pub-id pub-id-type="pmid">15542782</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib11">
+        <element-citation publication-type="journal" id="sref11">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Fuchs</surname>
+              <given-names>E.</given-names>
+            </name>
+          </person-group>
+          <article-title>The tortoise and the hair: slow-cycling cells in the stem cell race</article-title>
+          <source>Cell</source>
+          <volume>137</volume>
+          <year>2009</year>
+          <fpage>811</fpage>
+          <lpage>819</lpage>
+          <pub-id pub-id-type="pmid">19490891</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib12">
+        <element-citation publication-type="journal" id="sref12">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Kozar</surname>
+              <given-names>K.</given-names>
+            </name>
+            <name>
+              <surname>Ciemerych</surname>
+              <given-names>M.A.</given-names>
+            </name>
+            <name>
+              <surname>Rebel</surname>
+              <given-names>V.I.</given-names>
+            </name>
+            <name>
+              <surname>Shigematsu</surname>
+              <given-names>H.</given-names>
+            </name>
+            <name>
+              <surname>Zagozdzon</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Sicinska</surname>
+              <given-names>E.</given-names>
+            </name>
+            <name>
+              <surname>Geng</surname>
+              <given-names>Y.</given-names>
+            </name>
+            <name>
+              <surname>Yu</surname>
+              <given-names>Q.</given-names>
+            </name>
+            <name>
+              <surname>Bhattacharya</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Bronson</surname>
+              <given-names>R.T.</given-names>
+            </name>
+          </person-group>
+          <article-title>Mouse development and cell proliferation in the absence of D-cyclins</article-title>
+          <source>Cell</source>
+          <volume>118</volume>
+          <year>2004</year>
+          <fpage>477</fpage>
+          <lpage>491</lpage>
+          <pub-id pub-id-type="pmid">15315760</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib13">
+        <element-citation publication-type="journal" id="sref13">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Kretzschmar</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Doody</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Timokhina</surname>
+              <given-names>I.</given-names>
+            </name>
+            <name>
+              <surname>Massagu&#x000e9;</surname>
+              <given-names>J.</given-names>
+            </name>
+          </person-group>
+          <article-title>A mechanism of repression of TGFbeta/ Smad signaling by oncogenic Ras</article-title>
+          <source>Genes Dev.</source>
+          <volume>13</volume>
+          <year>1999</year>
+          <fpage>804</fpage>
+          <lpage>816</lpage>
+          <pub-id pub-id-type="pmid">10197981</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib14">
+        <element-citation publication-type="journal" id="sref14">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Kuijk</surname>
+              <given-names>E.W.</given-names>
+            </name>
+            <name>
+              <surname>van Tol</surname>
+              <given-names>L.T.</given-names>
+            </name>
+            <name>
+              <surname>Van de Velde</surname>
+              <given-names>H.</given-names>
+            </name>
+            <name>
+              <surname>Wubbolts</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Welling</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Geijsen</surname>
+              <given-names>N.</given-names>
+            </name>
+            <name>
+              <surname>Roelen</surname>
+              <given-names>B.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>The roles of FGF and MAP kinase signaling in the segregation of the epiblast and hypoblast cell lineages in bovine and human embryos</article-title>
+          <source>Development</source>
+          <volume>139</volume>
+          <year>2012</year>
+          <fpage>871</fpage>
+          <lpage>882</lpage>
+          <pub-id pub-id-type="pmid">22278923</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib15">
+        <element-citation publication-type="journal" id="sref15">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Lange</surname>
+              <given-names>C.</given-names>
+            </name>
+            <name>
+              <surname>Calegari</surname>
+              <given-names>F.</given-names>
+            </name>
+          </person-group>
+          <article-title>CDKS and cyclins link G1 length and differentiation of embryonic, neural and hematopoietic stem cells</article-title>
+          <source>Cell Cycle</source>
+          <volume>9</volume>
+          <year>2010</year>
+          <fpage>1893</fpage>
+          <lpage>1900</lpage>
+          <pub-id pub-id-type="pmid">20436288</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib16">
+        <element-citation publication-type="journal" id="sref16">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Lange</surname>
+              <given-names>C.</given-names>
+            </name>
+            <name>
+              <surname>Huttner</surname>
+              <given-names>W.B.</given-names>
+            </name>
+            <name>
+              <surname>Calegari</surname>
+              <given-names>F.</given-names>
+            </name>
+          </person-group>
+          <article-title>Cdk4/cyclinD1 overexpression in neural stem cells shortens G1, delays neurogenesis, and promotes the generation and expansion of basal progenitors</article-title>
+          <source>Cell Stem Cell</source>
+          <volume>5</volume>
+          <year>2009</year>
+          <fpage>320</fpage>
+          <lpage>331</lpage>
+          <pub-id pub-id-type="pmid">19733543</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib17">
+        <element-citation publication-type="journal" id="sref17">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Li</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Clevers</surname>
+              <given-names>H.</given-names>
+            </name>
+          </person-group>
+          <article-title>Coexistence of quiescent and active adult stem cells in mammals</article-title>
+          <source>Science</source>
+          <volume>327</volume>
+          <year>2010</year>
+          <fpage>542</fpage>
+          <lpage>545</lpage>
+          <pub-id pub-id-type="pmid">20110496</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib18">
+        <element-citation publication-type="journal" id="sref18">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Lo</surname>
+              <given-names>R.S.</given-names>
+            </name>
+            <name>
+              <surname>Massagu&#x000e9;</surname>
+              <given-names>J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Ubiquitin-dependent degradation of TGF-beta-activated smad2</article-title>
+          <source>Nat. Cell Biol.</source>
+          <volume>1</volume>
+          <year>1999</year>
+          <fpage>472</fpage>
+          <lpage>478</lpage>
+          <pub-id pub-id-type="pmid">10587642</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib19">
+        <element-citation publication-type="journal" id="sref19">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Matsuura</surname>
+              <given-names>I.</given-names>
+            </name>
+            <name>
+              <surname>Denissova</surname>
+              <given-names>N.G.</given-names>
+            </name>
+            <name>
+              <surname>Wang</surname>
+              <given-names>G.</given-names>
+            </name>
+            <name>
+              <surname>He</surname>
+              <given-names>D.</given-names>
+            </name>
+            <name>
+              <surname>Long</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Liu</surname>
+              <given-names>F.</given-names>
+            </name>
+          </person-group>
+          <article-title>Cyclin-dependent kinases regulate the antiproliferative function of Smads</article-title>
+          <source>Nature</source>
+          <volume>430</volume>
+          <year>2004</year>
+          <fpage>226</fpage>
+          <lpage>231</lpage>
+          <pub-id pub-id-type="pmid">15241418</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib20">
+        <element-citation publication-type="journal" id="sref20">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Mullen</surname>
+              <given-names>A.C.</given-names>
+            </name>
+            <name>
+              <surname>Orlando</surname>
+              <given-names>D.A.</given-names>
+            </name>
+            <name>
+              <surname>Newman</surname>
+              <given-names>J.J.</given-names>
+            </name>
+            <name>
+              <surname>Lov&#x000e9;n</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Kumar</surname>
+              <given-names>R.M.</given-names>
+            </name>
+            <name>
+              <surname>Bilodeau</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Reddy</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Guenther</surname>
+              <given-names>M.G.</given-names>
+            </name>
+            <name>
+              <surname>DeKoter</surname>
+              <given-names>R.P.</given-names>
+            </name>
+            <name>
+              <surname>Young</surname>
+              <given-names>R.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>Master transcription factors determine cell-type-specific responses to TGF-&#x003b2; signaling</article-title>
+          <source>Cell</source>
+          <volume>147</volume>
+          <year>2011</year>
+          <fpage>565</fpage>
+          <lpage>576</lpage>
+          <pub-id pub-id-type="pmid">22036565</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib21">
+        <element-citation publication-type="journal" id="sref21">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Neganova</surname>
+              <given-names>I.</given-names>
+            </name>
+            <name>
+              <surname>Zhang</surname>
+              <given-names>X.</given-names>
+            </name>
+            <name>
+              <surname>Atkinson</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Lako</surname>
+              <given-names>M.</given-names>
+            </name>
+          </person-group>
+          <article-title>Expression and functional analysis of G1 to S regulatory components reveals an important role for CDK2 in cell cycle regulation in human embryonic stem cells</article-title>
+          <source>Oncogene</source>
+          <volume>28</volume>
+          <year>2009</year>
+          <fpage>20</fpage>
+          <lpage>30</lpage>
+          <pub-id pub-id-type="pmid">18806832</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib22">
+        <element-citation publication-type="journal" id="sref22">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Neganova</surname>
+              <given-names>I.</given-names>
+            </name>
+            <name>
+              <surname>Vilella</surname>
+              <given-names>F.</given-names>
+            </name>
+            <name>
+              <surname>Atkinson</surname>
+              <given-names>S.P.</given-names>
+            </name>
+            <name>
+              <surname>Lloret</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Passos</surname>
+              <given-names>J.F.</given-names>
+            </name>
+            <name>
+              <surname>von Zglinicki</surname>
+              <given-names>T.</given-names>
+            </name>
+            <name>
+              <surname>O&#x02019;Connor</surname>
+              <given-names>J.E.</given-names>
+            </name>
+            <name>
+              <surname>Burks</surname>
+              <given-names>D.</given-names>
+            </name>
+            <name>
+              <surname>Jones</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Armstrong</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Lako</surname>
+              <given-names>M.</given-names>
+            </name>
+          </person-group>
+          <article-title>An important role for CDK2 in G1 to S checkpoint activation and DNA damage response in human embryonic stem cells</article-title>
+          <source>Stem Cells</source>
+          <volume>29</volume>
+          <year>2011</year>
+          <fpage>651</fpage>
+          <lpage>659</lpage>
+          <pub-id pub-id-type="pmid">21319273</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib23">
+        <element-citation publication-type="journal" id="sref23">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Roccio</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Schmitter</surname>
+              <given-names>D.</given-names>
+            </name>
+            <name>
+              <surname>Knobloch</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Okawa</surname>
+              <given-names>Y.</given-names>
+            </name>
+            <name>
+              <surname>Sage</surname>
+              <given-names>D.</given-names>
+            </name>
+            <name>
+              <surname>Lutolf</surname>
+              <given-names>M.P.</given-names>
+            </name>
+          </person-group>
+          <article-title>Predicting stem cell fate changes by differential cell cycle progression patterns</article-title>
+          <source>Development</source>
+          <volume>140</volume>
+          <year>2013</year>
+          <fpage>459</fpage>
+          <lpage>470</lpage>
+          <pub-id pub-id-type="pmid">23193167</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib24">
+        <element-citation publication-type="journal" id="sref24">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Roode</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Blair</surname>
+              <given-names>K.</given-names>
+            </name>
+            <name>
+              <surname>Snell</surname>
+              <given-names>P.</given-names>
+            </name>
+            <name>
+              <surname>Elder</surname>
+              <given-names>K.</given-names>
+            </name>
+            <name>
+              <surname>Marchant</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Smith</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Nichols</surname>
+              <given-names>J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Human hypoblast formation is not dependent on FGF signalling</article-title>
+          <source>Dev. Biol.</source>
+          <volume>361</volume>
+          <year>2012</year>
+          <fpage>358</fpage>
+          <lpage>363</lpage>
+          <pub-id pub-id-type="pmid">22079695</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib25">
+        <element-citation publication-type="journal" id="sref25">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Sakaue-Sawano</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Kurokawa</surname>
+              <given-names>H.</given-names>
+            </name>
+            <name>
+              <surname>Morimura</surname>
+              <given-names>T.</given-names>
+            </name>
+            <name>
+              <surname>Hanyu</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Hama</surname>
+              <given-names>H.</given-names>
+            </name>
+            <name>
+              <surname>Osawa</surname>
+              <given-names>H.</given-names>
+            </name>
+            <name>
+              <surname>Kashiwagi</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Fukami</surname>
+              <given-names>K.</given-names>
+            </name>
+            <name>
+              <surname>Miyata</surname>
+              <given-names>T.</given-names>
+            </name>
+            <name>
+              <surname>Miyoshi</surname>
+              <given-names>H.</given-names>
+            </name>
+          </person-group>
+          <article-title>Visualizing spatiotemporal dynamics of multicellular cell-cycle progression</article-title>
+          <source>Cell</source>
+          <volume>132</volume>
+          <year>2008</year>
+          <fpage>487</fpage>
+          <lpage>498</lpage>
+          <pub-id pub-id-type="pmid">18267078</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib26">
+        <element-citation publication-type="journal" id="sref26">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Savatier</surname>
+              <given-names>P.</given-names>
+            </name>
+            <name>
+              <surname>Huang</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Szekely</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Wiman</surname>
+              <given-names>K.G.</given-names>
+            </name>
+            <name>
+              <surname>Samarut</surname>
+              <given-names>J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Contrasting patterns of retinoblastoma protein expression in mouse embryonic stem cells and embryonic fibroblasts</article-title>
+          <source>Oncogene</source>
+          <volume>9</volume>
+          <year>1994</year>
+          <fpage>809</fpage>
+          <lpage>818</lpage>
+          <pub-id pub-id-type="pmid">8108123</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib27">
+        <element-citation publication-type="journal" id="sref27">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Savatier</surname>
+              <given-names>P.</given-names>
+            </name>
+            <name>
+              <surname>Lapillonne</surname>
+              <given-names>H.</given-names>
+            </name>
+            <name>
+              <surname>van Grunsven</surname>
+              <given-names>L.A.</given-names>
+            </name>
+            <name>
+              <surname>Rudkin</surname>
+              <given-names>B.B.</given-names>
+            </name>
+            <name>
+              <surname>Samarut</surname>
+              <given-names>J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Withdrawal of differentiation inhibitory activity/leukemia inhibitory factor up-regulates D-type cyclins and cyclin-dependent kinase inhibitors in mouse embryonic stem cells</article-title>
+          <source>Oncogene</source>
+          <volume>12</volume>
+          <year>1996</year>
+          <fpage>309</fpage>
+          <lpage>322</lpage>
+          <pub-id pub-id-type="pmid">8570208</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib28">
+        <element-citation publication-type="journal" id="sref28">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Sela</surname>
+              <given-names>Y.</given-names>
+            </name>
+            <name>
+              <surname>Molotski</surname>
+              <given-names>N.</given-names>
+            </name>
+            <name>
+              <surname>Golan</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Itskovitz-Eldor</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Soen</surname>
+              <given-names>Y.</given-names>
+            </name>
+          </person-group>
+          <article-title>Human embryonic stem cells exhibit increased propensity to differentiate during the G1 phase prior to phosphorylation of retinoblastoma protein</article-title>
+          <source>Stem Cells</source>
+          <volume>30</volume>
+          <year>2012</year>
+          <fpage>1097</fpage>
+          <lpage>1108</lpage>
+          <pub-id pub-id-type="pmid">22415928</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib29">
+        <element-citation publication-type="journal" id="sref29">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Tesar</surname>
+              <given-names>P.J.</given-names>
+            </name>
+            <name>
+              <surname>Chenoweth</surname>
+              <given-names>J.G.</given-names>
+            </name>
+            <name>
+              <surname>Brook</surname>
+              <given-names>F.A.</given-names>
+            </name>
+            <name>
+              <surname>Davies</surname>
+              <given-names>T.J.</given-names>
+            </name>
+            <name>
+              <surname>Evans</surname>
+              <given-names>E.P.</given-names>
+            </name>
+            <name>
+              <surname>Mack</surname>
+              <given-names>D.L.</given-names>
+            </name>
+            <name>
+              <surname>Gardner</surname>
+              <given-names>R.L.</given-names>
+            </name>
+            <name>
+              <surname>McKay</surname>
+              <given-names>R.D.</given-names>
+            </name>
+          </person-group>
+          <article-title>New cell lines from mouse epiblast share defining features with human embryonic stem cells</article-title>
+          <source>Nature</source>
+          <volume>448</volume>
+          <year>2007</year>
+          <fpage>196</fpage>
+          <lpage>199</lpage>
+          <pub-id pub-id-type="pmid">17597760</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib30">
+        <element-citation publication-type="journal" id="sref30">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Vallier</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Rugg-Gunn</surname>
+              <given-names>P.J.</given-names>
+            </name>
+            <name>
+              <surname>Bouhon</surname>
+              <given-names>I.A.</given-names>
+            </name>
+            <name>
+              <surname>Andersson</surname>
+              <given-names>F.K.</given-names>
+            </name>
+            <name>
+              <surname>Sadler</surname>
+              <given-names>A.J.</given-names>
+            </name>
+            <name>
+              <surname>Pedersen</surname>
+              <given-names>R.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>Enhancing and diminishing gene function in human embryonic stem cells</article-title>
+          <source>Stem Cells</source>
+          <volume>22</volume>
+          <year>2004</year>
+          <fpage>2</fpage>
+          <lpage>11</lpage>
+          <pub-id pub-id-type="pmid">14688386</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib31">
+        <element-citation publication-type="journal" id="sref31">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Vallier</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Alexander</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Pedersen</surname>
+              <given-names>R.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>Activin/Nodal and FGF pathways cooperate to maintain pluripotency of human embryonic stem cells</article-title>
+          <source>J.&#x000a0;Cell Sci.</source>
+          <volume>118</volume>
+          <year>2005</year>
+          <fpage>4495</fpage>
+          <lpage>4509</lpage>
+          <pub-id pub-id-type="pmid">16179608</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib32">
+        <element-citation publication-type="journal" id="sref32">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Vallier</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Mendjan</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Brown</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Chng</surname>
+              <given-names>Z.</given-names>
+            </name>
+            <name>
+              <surname>Teo</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Smithers</surname>
+              <given-names>L.E.</given-names>
+            </name>
+            <name>
+              <surname>Trotter</surname>
+              <given-names>M.W.</given-names>
+            </name>
+            <name>
+              <surname>Cho</surname>
+              <given-names>C.H.</given-names>
+            </name>
+            <name>
+              <surname>Martinez</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Rugg-Gunn</surname>
+              <given-names>P.</given-names>
+            </name>
+          </person-group>
+          <article-title>Activin/Nodal signalling maintains pluripotency by controlling Nanog expression</article-title>
+          <source>Development</source>
+          <volume>136</volume>
+          <year>2009</year>
+          <fpage>1339</fpage>
+          <lpage>1349</lpage>
+          <pub-id pub-id-type="pmid">19279133</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib33">
+        <element-citation publication-type="journal" id="sref33">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Vallier</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Touboul</surname>
+              <given-names>T.</given-names>
+            </name>
+            <name>
+              <surname>Brown</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Cho</surname>
+              <given-names>C.</given-names>
+            </name>
+            <name>
+              <surname>Bilican</surname>
+              <given-names>B.</given-names>
+            </name>
+            <name>
+              <surname>Alexander</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Cedervall</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Chandran</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Ahrlund-Richter</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Weber</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Pedersen</surname>
+              <given-names>R.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>Signaling pathways controlling pluripotency and early cell fate decisions of human induced pluripotent stem cells</article-title>
+          <source>Stem Cells</source>
+          <volume>27</volume>
+          <year>2009</year>
+          <fpage>2655</fpage>
+          <lpage>2666</lpage>
+          <pub-id pub-id-type="pmid">19688839</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib34">
+        <element-citation publication-type="journal" id="sref34">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Vallier</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Touboul</surname>
+              <given-names>T.</given-names>
+            </name>
+            <name>
+              <surname>Chng</surname>
+              <given-names>Z.</given-names>
+            </name>
+            <name>
+              <surname>Brimpari</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Hannan</surname>
+              <given-names>N.</given-names>
+            </name>
+            <name>
+              <surname>Millan</surname>
+              <given-names>E.</given-names>
+            </name>
+            <name>
+              <surname>Smithers</surname>
+              <given-names>L.E.</given-names>
+            </name>
+            <name>
+              <surname>Trotter</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Rugg-Gunn</surname>
+              <given-names>P.</given-names>
+            </name>
+            <name>
+              <surname>Weber</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Pedersen</surname>
+              <given-names>R.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>Early cell fate decisions of human embryonic stem cells and mouse epiblast stem cells are controlled by the same signalling pathways</article-title>
+          <source>PLoS ONE</source>
+          <volume>4</volume>
+          <year>2009</year>
+          <fpage>e6082</fpage>
+          <pub-id pub-id-type="pmid">19564924</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib35">
+        <element-citation publication-type="journal" id="sref35">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Wianny</surname>
+              <given-names>F.</given-names>
+            </name>
+            <name>
+              <surname>Real</surname>
+              <given-names>F.X.</given-names>
+            </name>
+            <name>
+              <surname>Mummery</surname>
+              <given-names>C.L.</given-names>
+            </name>
+            <name>
+              <surname>Van Rooijen</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Lahti</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Samarut</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Savatier</surname>
+              <given-names>P.</given-names>
+            </name>
+          </person-group>
+          <article-title>G1-phase regulators, cyclin D1, cyclin D2, and cyclin D3: up-regulation at gastrulation and dynamic expression during neurulation</article-title>
+          <source>Dev. Dyn.</source>
+          <volume>212</volume>
+          <year>1998</year>
+          <fpage>49</fpage>
+          <lpage>62</lpage>
+          <pub-id pub-id-type="pmid">9603423</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib36">
+        <element-citation publication-type="journal" id="sref36">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Xu</surname>
+              <given-names>R.H.</given-names>
+            </name>
+            <name>
+              <surname>Sampsell-Barron</surname>
+              <given-names>T.L.</given-names>
+            </name>
+            <name>
+              <surname>Gu</surname>
+              <given-names>F.</given-names>
+            </name>
+            <name>
+              <surname>Root</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Peck</surname>
+              <given-names>R.M.</given-names>
+            </name>
+            <name>
+              <surname>Pan</surname>
+              <given-names>G.</given-names>
+            </name>
+            <name>
+              <surname>Yu</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Antosiewicz-Bourget</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Tian</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Stewart</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Thomson</surname>
+              <given-names>J.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>NANOG is a direct target of TGFbeta/activin-mediated SMAD signaling in human ESCs</article-title>
+          <source>Cell Stem Cell</source>
+          <volume>3</volume>
+          <year>2008</year>
+          <fpage>196</fpage>
+          <lpage>206</lpage>
+          <pub-id pub-id-type="pmid">18682241</pub-id>
+        </element-citation>
+      </ref>
+    </ref-list>
+    <ref-list>
+      <title>Supplemental References</title>
+      <ref id="bib37">
+        <element-citation publication-type="journal" id="sref37">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Pratt</surname>
+              <given-names>T.</given-names>
+            </name>
+            <name>
+              <surname>Sharp</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Nichols</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Price</surname>
+              <given-names>D.J.</given-names>
+            </name>
+            <name>
+              <surname>Mason</surname>
+              <given-names>J.O.</given-names>
+            </name>
+          </person-group>
+          <article-title>Embryonic stem cells and transgenic mice ubiquitously expressing a tau-tagged green fluorescent protein</article-title>
+          <source>Dev. Biol.</source>
+          <volume>228</volume>
+          <year>2000</year>
+          <fpage>19</fpage>
+          <lpage>28</lpage>
+          <pub-id pub-id-type="pmid">11087623</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib38">
+        <element-citation publication-type="journal" id="sref38">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Rashid</surname>
+              <given-names>S.T.</given-names>
+            </name>
+            <name>
+              <surname>Corbineau</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Hannan</surname>
+              <given-names>N.</given-names>
+            </name>
+            <name>
+              <surname>Marciniak</surname>
+              <given-names>S.J.</given-names>
+            </name>
+            <name>
+              <surname>Miranda</surname>
+              <given-names>E.</given-names>
+            </name>
+            <name>
+              <surname>Alexander</surname>
+              <given-names>G.</given-names>
+            </name>
+            <name>
+              <surname>Huang-Doran</surname>
+              <given-names>I.</given-names>
+            </name>
+            <name>
+              <surname>Griffin</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Ahrlund-Richter</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Skepper</surname>
+              <given-names>J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Modeling inherited metabolic disorders of the liver using human induced pluripotent stem cells</article-title>
+          <source>J.&#x000a0;Clin. Invest.</source>
+          <volume>120</volume>
+          <year>2010</year>
+          <fpage>3127</fpage>
+          <lpage>3136</lpage>
+          <pub-id pub-id-type="pmid">20739751</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="bib39">
+        <element-citation publication-type="journal" id="sref39">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Touboul</surname>
+              <given-names>T.</given-names>
+            </name>
+            <name>
+              <surname>Hannan</surname>
+              <given-names>N.R.</given-names>
+            </name>
+            <name>
+              <surname>Corbineau</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Martinez</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Martinet</surname>
+              <given-names>C.</given-names>
+            </name>
+            <name>
+              <surname>Branchereau</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Mainot</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Strick-Marchand</surname>
+              <given-names>H.</given-names>
+            </name>
+            <name>
+              <surname>Pedersen</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Di Santo</surname>
+              <given-names>J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Generation of functional hepatocytes from human embryonic stem cells under chemically defined conditions that recapitulate liver development</article-title>
+          <source>Hepatology</source>
+          <volume>51</volume>
+          <year>2010</year>
+          <fpage>1754</fpage>
+          <lpage>1765</lpage>
+          <pub-id pub-id-type="pmid">20301097</pub-id>
+        </element-citation>
+      </ref>
+    </ref-list>
+    <sec id="app2" sec-type="supplementary-material">
+      <title>Supplemental Information</title>
+      <p>
+        <supplementary-material content-type="local-data" id="mmc1">
+          <caption>
+            <title>Document S1. Tables S1&#x02013;S5</title>
+          </caption>
+          <media xlink:href="mmc1.pdf"/>
+        </supplementary-material>
+        <supplementary-material content-type="local-data" id="mmc2">
+          <caption>
+            <title>Document S2. Article plus Supplemental Information</title>
+          </caption>
+          <media xlink:href="mmc2.pdf"/>
+        </supplementary-material>
+      </p>
+    </sec>
+    <ack id="ack0010">
+      <title>Acknowledgments</title>
+      <p>We thank Anne Ferguson-Smith and Michael Stratton for discussions and proofreading and Nigel Miller for help with cell sorting experiments. This work was supported by the MRC Senior nonclinical fellowship and the Cambridge Hospitals National Institute for Health Research Biomedical Research Center (L.V.). S.P. was funded by FEBS long-term fellowship. S.P. and L.V. conceived the research and wrote the manuscript.</p>
+    </ack>
+  </back>
+  <floats-group>
+    <fig id="fig1">
+      <label>Figure&#x000a0;1</label>
+      <caption>
+        <p>Generating Fucci-hESCs for Studying Cell-Cycle-Dependent Events in Live Pluripotent Stem Cells</p>
+        <p>(A) Mechanistic overview of the FUCCI system. FUCCI system relies on the fusion of a red and green fluorescent protein (red mKO2 and green mAG) to two cell-cycle-specific proteins (Cdt1 and Geminin).</p>
+        <p>(B) Representative colony of FUCCI-hESCs showing cells in early G1 (no fluorescence), late G1 (red), G1/S transition (yellow), and S/G2/M (green). Scale bar represents 100&#x000a0;&#x003bc;m.</p>
+        <p>(C) Time-lapse imaging of a FUCCI-hESC progressing through the cell cycle. Early G1 cells express neither red mKO2-Cdt1 nor green mAG-Geminin. Late G1 cells express red mKO2-Cdt1. mAG-Geminin starts being expressed in G1/S transition giving the cells a temporal yellow color due to coexpression with mKO2-Cdt1. Cells in S, G2, and M phase expressing only the green mAG-Geminin. During cell division, mAG-Geminin is rapidly degraded and the resulting daughter cells are not fluorescent (arrows). Scale bar represents 5&#x000a0;&#x003bc;m.</p>
+        <p>(D) FUCCI system does not alter the cell-cycle distribution of hESCs. H9 hESCs and FUCCI-hESCs were analyzed for DNA content by flow cytometry and Hoechst staining.</p>
+        <p>(E) Analysis of the relative proportion of FUCCI-hESCs in each cell-cycle phase. FUCCI-hESCs were analyzed by flow cytometry for mAG-Geminin (FL1) and mKO2-Cdt1 (FL2) expression.</p>
+        <p>(F) DNA content analysis of different cell-cycle phases in FUCCI-hESCs. FUCCI-hESCs were stained with Hoechst and subpopulations of cells were gated as shown in (E). Green, early G1 phase; blue, late G1 phase; light blue, G1/S transition; orange, S/G2/M phase; red, total population.</p>
+      </caption>
+      <graphic xlink:href="gr1"/>
+    </fig>
+    <fig id="fig2">
+      <label>Figure&#x000a0;2</label>
+      <caption>
+        <p>The Cell Cycle Directs Differentiation of hESCs</p>
+        <p>(A&#x02013;C) Cell-cycle-dependent differentiation of hESCs. qPCR analysis for the expression of germ layer markers in FACS sorted Tra-1-60-positive FUCCI-hESCs incubated for 6&#x000a0;hr in culture condition inductive for three germ layers.</p>
+        <p>(D and E) Cell cycle regulates the timing of differentiation in hESCs. Fucci-hESCs sorted into early G1 phase, late G1, G1/S transition, or S/G2/M phase cells were differentiated into (D) endoderm or (E) neuroectoderm and analyzed for germ layer and pluripotency marker expression at different time points by qPCR.</p>
+        <p>(F and G) Early G1 phase directs endoderm whereas late G1 promotes neuroectoderm differentiation. Flow cytometry analysis for the expression of germ layer markers in FACS sorted Fucci-hESCs incubated for up to two days in culture condition inductive for (F) endoderm or (G) neuroectoderm differentiation.</p>
+        <p>(H) Restricted capacity of differentiation during G1 transition. Left: schematic overview of experimental approach. Right: qPCR analysis of neuroectoderm markers in samples (1&#x02013;4) treated as shown in schematic overview.</p>
+        <p>(I) Schematic presentation of pancreatic differentiation from sorted or unsorted cells.</p>
+        <p>(J) Cell-cycle stage of pluripotent cells affects insulin expression during pancreatic differentiation. Immunostaining of insulin during pancreatic differentiation.</p>
+        <p>(K) Cell-cycle stage affects foregut marker FoxA2 expression. Immunostaining for FoxA2 at day 8 of hepatic differentiation of hESCs sorted in early G1 or late G1&#x000a0;phase.</p>
+        <p>(L) Cell-cycle stage of pluripotent cells affects pancreatic differentiation. Early G1 phase cells differentiating into endoderm improves pancreatic differentiation, whereas late G1 phase cells reduces pancreatic differentiation.</p>
+        <p>(M) Cell-cycle stage affects liver differentiation. Expression of liver markers at day 25 of hepatic differentiation shows variability of developmental potential for cells&#x000a0;that were used during initial endoderm differentiation. All data are shown as mean &#x000b1; SD (n&#x000a0;= 3). Student&#x02019;s t test was performed. <sup>&#x02217;</sup>p&#x000a0;&#x0003c; 0.05. Scale bar represents 100&#x000a0;&#x003bc;m.</p>
+        <p>See also <xref rid="figs1" ref-type="fig">Figure&#x000a0;S1</xref>.</p>
+      </caption>
+      <graphic xlink:href="gr2"/>
+    </fig>
+    <fig id="fig3">
+      <label>Figure&#x000a0;3</label>
+      <caption>
+        <p>Cyclin Ds Are Necessary for Pluripotency</p>
+        <p>(A) Cell-cycle-dependent binding of Smad2/3 to endoderm genes. ChIP analyses in Tra-1-60+ sorted FUCCI-hESCs showing Smad2/3 binding on endoderm genes.</p>
+        <p>(B) Cyclin D expression during early differentiation of hESCs. Cyclin D1-3 protein expression during days 1&#x02013;3 of neuroectoderm, endoderm, and mesoderm differentiation shown by western blot analysis.</p>
+        <p>(C) Morphology of cyclin D double knockdown. Representative colonies of shRNA Scramble and cyclin D double-knockdown cells.</p>
+        <p>(D) Triple knockdown of cyclin D causes endoderm differentiation. cyclin D1/3 double-knockdown cells were transfected with a cyclin D2 shRNA construct expressing GFP and then FACS sorted for qPCR analyses.</p>
+        <p>(E) Triple knockdown of cyclin D causes loss of pluripotency markers. Immunofluorescence microscopy analyses for Oct4, Nanog, and Sox2 expression (red) in cyclin D triple-knockdown hESCs (green / arrows).</p>
+        <p>(F) Double knockdown of cyclin D causes endoderm differentiation and blocks neuroectoderm differentiation. Cyclin D double-knockdown cells were analyzed for germ layer marker expression by western blot.</p>
+        <p>(G) Triple knockdown of cyclin D causes endoderm differentiation. Cyclin D1/3 double-knockdown cells were transfected with a cyclin D2 shRNA construct expressing GFP and then FACS sorted for western blot analyses. UD, undifferentiated cells. Student&#x02019;s t test was performed. <sup>&#x02217;</sup>p&#x000a0;&#x0003c; 0.05. Scale bar represents 100&#x000a0;&#x003bc;m.</p>
+        <p>See also <xref rid="figs2" ref-type="fig">Figures S2</xref> and <xref rid="figs3" ref-type="fig">S3</xref>.</p>
+      </caption>
+      <graphic xlink:href="gr3"/>
+    </fig>
+    <fig id="fig4">
+      <label>Figure&#x000a0;4</label>
+      <caption>
+        <p>Cyclin D Overexpression in hESCs Induces Neuroectoderm Differentiation</p>
+        <p>(A) Morphology of cyclin D overexpression (OE). Representative colonies of GFP OE and cyclin D OE hESCs.</p>
+        <p>(B and C) Cyclin D OE overexpression causes neuroectoderm differentiation and decreases endoderm markers. Expression of neuroectoderm markers in cyclin D overexpressing cells shown by qPCR (B) or western blot (C).</p>
+        <p>(D and E) Cyclin Ds repress endoderm loci. Luciferase constructs with Sox17 (D) or GSC (E) promoter regions containing Smad2/3 binding sites were cotransfected with cyclin D OE constructs, then differentiated into endoderm for 48&#x000a0;hr and analyzed for luciferase activity.</p>
+        <p>(F) Cyclin Ds repress the initiation of endoderm differentiation in early G1 phase. Fucci-hESCs transfected with cyclin D OE constructs were sorted into early G1&#x000a0;phase and analyzed for marker expression by flow cytometry after endoderm differentiation.</p>
+        <p>(G) Cyclin D knockdown causes the accumulation of Smad2/3 on chromatin. Relative amount of Smad2/3 protein in cytoplasm and on chromatin in cyclin D1-3 knockdown cells compared to Scramble shRNA overexpressing cells.</p>
+        <p>(H) Cyclin D overexpression results in Smad2/3 accumulation in the cytoplasm. Smad2/3 localization in cytoplasm and on chromatin was analyzed in cyclin D1, D2, and D3 overexpressing cells by western blot. All data are shown as mean &#x000b1; SD. (n&#x000a0;= 3). Student&#x02019;s t test was performed. <sup>&#x02217;</sup>p&#x000a0;&#x0003c; 0.05.</p>
+        <p>See also <xref rid="figs4" ref-type="fig">Figure&#x000a0;S4</xref>.</p>
+      </caption>
+      <graphic xlink:href="gr4"/>
+    </fig>
+    <fig id="fig5">
+      <label>Figure&#x000a0;5</label>
+      <caption>
+        <p>Cyclin D/CDK4/6 Control Smad2/3 Transcriptional Activity</p>
+        <p>(A) Smad2/3 interacts with cyclin D proteins. Smad2/3 was immunoprecipitated and analyzed for the presence of cyclin D1&#x02013;3 by western blot.</p>
+        <p>(B) Cyclin D proteins interact with Smad2/3. Cyclin D1&#x02013;3 were immunoprecipitated and analyzed for the presence of Smad2/3 by western blot.</p>
+        <p>(C) CDK4/6 inhibition by small molecule results in Smad2/3 accumulation on chromatin. hESCs cells were treated with CDK4/6 inhibitor (CDKi or 0.75&#x000a0;&#x003bc;M PD0332991) for 2&#x000a0;hr or 8&#x000a0;hr and then Smad2/3 localization in cytoplasm and on chromatin was analyzed using western blot.</p>
+        <p>(D) Smad2/3 transcriptional activity is repressed in late G1 phase by CDK4/6. Left: schematic overview of the experiment. Right: FUCCI-hESCs were transfected with a Smad2/3-dependent Luciferase expression construct and incubated with Activin A in the presence or absence of 0.75&#x000a0;&#x003bc;M PD0332991.</p>
+        <p>(E and F) CDK4/6 inhibition partially removes the endoderm differentiation blockage from late G1 phase cells. Sorted FUCCI-hESCs were differentiated into endoderm in the presence or absence of 0.75&#x000a0;&#x003bc;M PD0332991 and analyzed by qPCR (E) after 6&#x000a0;hr or flow cytometry (F) after 1&#x02013;2&#x000a0;days of endoderm differentiation. Student&#x02019;s t test was performed. <sup>&#x02217;</sup>p&#x000a0;&#x0003c; 0.05.</p>
+      </caption>
+      <graphic xlink:href="gr5"/>
+    </fig>
+    <fig id="fig6">
+      <label>Figure&#x000a0;6</label>
+      <caption>
+        <p>Cyclin D-CDK4/6 Regulates Smad2/3 Shuttling in hPSCs by Linker Phosphorylation</p>
+        <p>(A) Smad2/3 intracellular localization and phosphorylation during cell-cycle progression depends on CDK4/6. Cytoplasm and chromatin were isolated from sorted Fucci-hESCs and analyzed by western blot.</p>
+        <p>(B) Smad2/3 phosphorylation by CDK4/6 regulates Smad2/3 localization to chromatin. Cytoplasmic and chromatin fractions were isolated from H9 cells 48&#x000a0;hr after transfection with Flag-tagged Smad2/3 constructs.</p>
+        <p>(C and D) Sorted Smad2/3 linker phosphorylation mutants can initiate endoderm in late G1 phase. Fucci-hESCs transfected with Smad2/3 constructs were sorted into late G1 cells, and analyzed by qPCR after 6&#x000a0;hr of endoderm differentiation (C) or flow cytometry after 1&#x02013;2&#x000a0;days of endoderm differentiation (D).</p>
+        <p>(E and F) Smad2/3 phosphorylation in linker residues by CDK4/6 blocks Smad2/3 transcriptional activity. FUCCI-hESCs were cotransfected with SBE4-Luc construct together with Smad3 mutant constructs (E) or Smad2 mutant constructs (F), sorted after 48&#x000a0;hr into late G1 phase and analyzed for luciferase activity. CDK4/6 was inhibited by 0.75&#x000a0;&#x003bc;M PD0332991 for 6&#x000a0;hr prior to analysis. Student&#x02019;s t test was performed. <sup>&#x02217;</sup>p&#x000a0;&#x0003c; 0.05.</p>
+      </caption>
+      <graphic xlink:href="gr6"/>
+    </fig>
+    <fig id="fig7">
+      <label>Figure&#x000a0;7</label>
+      <caption>
+        <p>CDKi Treatment Induces Differentiation of hPSCs</p>
+        <p>(A) Representative colonies of untreated hESCs and CDKi (0.75&#x000a0;&#x003bc;M PD0332991)-treated cells.</p>
+        <p>(B) CDK4/6 inhibition results in endoderm differentiation. hESCs grown for 6&#x000a0;days in the presence of CDKi (0.75&#x000a0;&#x003bc;M PD0332991) were analyzed for the expression of germ layer markers using immunofluorescence microscopy.</p>
+        <p>(C) CDK4/6 can replace Activin A during endoderm differentiation. H9 cells were incubated in the presence or absence of 0.75&#x000a0;&#x003bc;M CDKi in standard endoderm differentiation conditions and analyzed for Sox17 expression by qPCR.</p>
+        <p>(D and E) Endoderm cells generated by CDKi can give rise to cells expressing hepatic markers. CDKi-produced endoderm was grown for 25&#x000a0;days in culture conditions for hepatic differentiation and then the expression of hepatocyte markers was analyzed using qPCR (D) or immunostaining (E).</p>
+        <p>(F) Endoderm generated by CDKi can give rise to pancreatic cells. CDKi produced endoderm was grown for 18&#x000a0;days in culture conditions for pancreatic differentiation and then the expression of pancreatic markers was analyzed using qPCR (D) or immunostaining (F). Scale bar represents 100&#x000a0;&#x003bc;m. All data are shown as mean &#x000b1; SD (n&#x000a0;= 3). UD, undifferentiated cells.</p>
+        <p>See also <xref rid="figs5" ref-type="fig">Figures S5</xref>, <xref rid="figs6" ref-type="fig">S6</xref>, <xref rid="figs7" ref-type="fig">S7</xref>, and <xref rid="mmc1" ref-type="supplementary-material">Table S5</xref>.</p>
+      </caption>
+      <graphic xlink:href="gr7"/>
+    </fig>
+    <fig id="figs1">
+      <label>Figure&#x000a0;S1</label>
+      <caption>
+        <p>Generating FUCCI-hESCs for Studying Cell-Cycle-Dependent Events in Live Pluripotent Stem Cells, Related to <xref rid="fig2" ref-type="fig">Figure&#x000a0;2</xref></p>
+        <p>(A) Representative colony of Fucci-hESCs. Fucci-hESCs fixed with 4% PFA and visualized by fluorescence microscopy. Scale bar, 100&#x000a0;&#x003bc;m.</p>
+        <p>(B&#x02013;E) hESCs differentiate nonsynchronously and nonhomogenously. Live unsorted Fucci-hESCs were differentiated into (B) endoderm and (C) neuroectoderm and analyzed for germ layer and pluripotency marker expression at different time points flow cytometry. Gates depict negative FL5- and positive FL5+ populations. (D-E) Early G1 phase directs endoderm whereas late G1 promotes neuroectoderm differentiation. Live Fucci-hESCs sorted into early G1 phase, late G1, G1/S transition or S/G2/M phase cells were differentiated into (D) endoderm or (E) neuroectoderm and analyzed for germ layer and pluripotency marker expression at different time points by flow cytometry.</p>
+        <p>(F) Overview of the initiation of differentiation in hESCs. Early G1 phase directs cells into endoderm and mesoderm whereas neuroectoderm is blocked. Late G1 phase directs cells into neuroectoderm whereas endoderm and mesoderm is blocked.</p>
+      </caption>
+      <graphic xlink:href="figs1"/>
+    </fig>
+    <fig id="figs2">
+      <label>Figure&#x000a0;S2</label>
+      <caption>
+        <p>Cyclin D Expression in hESCs and during Germ Layer Specification, Related to <xref rid="fig3" ref-type="fig">Figure&#x000a0;3</xref></p>
+        <p>(A) Smad2/3 transcriptional activity during progression of the cell cycle. Fucci-hESCs transfected with a reporter for Smad2/3 transcriptional activity (SBE4-luciferase construct) were incubated with Activin A for 3h followed by FACS sorting and analysis of luciferase activity.</p>
+        <p>(B) Cyclin D expression during cell cycle progression in hESCs. Western blot analysis for cyclin D1-D3 expression in FACS sorted Fucci-hESCs.</p>
+        <p>(C) Cyclin D expression in hESCs. Flow cytometry analysis of cyclin D expression in Oct4+ pluripotent cells.</p>
+        <p>(D) Cyclin D expression in hESCs is stable. hESCs were collected at day 3 after three days of splittings and analyzed by western blot.</p>
+        <p>(E) Cyclin D expression in pluripotent cells. Immunofluorescence microscopy of pluripotency markers and cyclin D1-3 in hESCs.</p>
+        <p>(F&#x02013;K) Cyclin D expression during differentiation of hESCs into neuroectoderm (F, G), endoderm (H, I) and mesoderm (J, K) by Q-PCR and immunostaining, respectively. UD - undifferentiated H9; D1-D9&#x000a0;day 1 to 9. Data shown as mean &#x000b1; SD (n&#x000a0;= 3). Scale bar, 100&#x003bc;m.</p>
+      </caption>
+      <graphic xlink:href="figs2"/>
+    </fig>
+    <fig id="figs3">
+      <label>Figure&#x000a0;S3</label>
+      <caption>
+        <p>Cyclin D Triple Knockdown Causes Loss of Pluripotency, Related to <xref rid="fig3" ref-type="fig">Figure&#x000a0;3</xref> and <xref rid="mmc1" ref-type="supplementary-material">Table S4</xref></p>
+        <p>(A) Schematic overview of cyclin D knockdown cell line generation.</p>
+        <p>(B&#x02013;D) Cyclin D expression in knockdown clones compared to cells transfected with a Scramble shRNA expression vector. Expression of (B) cyclin D1, (C) cyclin D2, (D) cyclin D3 in corresponding knockdown clones.</p>
+        <p>(E) Double knockdown of cyclin D1-D3 decrease neuroectoderm markers and increase endoderm/mesoderm markers. Cyclin D double knockdown cells were analyzed by Q-PCR.</p>
+        <p>(F&#x02013;H) Differentiation of cyclin D double knockdown cells. Cyclin D double knockdown cells were differentiated into (F) Neuroectoderm, (G) Endoderm or (H) Mesoderm and expression of germ layer markers was analyzed by Q-PCR or western blot. Data are normalized to undifferentiated cells (UD). (G bottom left panel) Protein quantification of western blots by densitometry. (G bottom middle panel) Representative data from endoderm differentiation of cyclin D double knockdown cells. Cells were analyzed by flow cytometry after 3&#x000a0;days of endoderm differentiation. Red &#x02013; negative control, Blue &#x02013; Scramble/Scramble cells, Green&#x000a0;&#x02013; Double knockdown of cyclin D1 and cyclin D2. (G bottom right panel) Cyclin D double knockdown increases endoderm differentiation. Cells were analyzed by flow cytometry after 3&#x000a0;days of differentiation.</p>
+        <p>(I) Triple knockdown of cyclin D causes endoderm differentiation. Immunofluorescence microscopy of Sox17, Sox1 and T (red) in cyclin D1/3 double knockdown cells transfected with a cyclin D2 shRNA construct expressing GFP (green). Triple knockdown cells overlap only with Sox17 positive cells (arrows).</p>
+        <p>(J) Schematic representation of cyclin D1-3 function during early differentiation. Cyclin D proteins promote neuroectoderm differentiation while strongly reducing endoderm differentiation and moderately reducing mesoderm differentiation.</p>
+        <p>(K and L) Expression of endoderm markers in cyclin D triple knockdown cells depends on Activin signaling. Triple knockdown cells were treated with Activin/Nodal signaling inhibitor SB-431542 for 48&#x000a0;hr and analyzed by (K) Q-PCR or (L) western blot for marker expression. Scale bar, 100&#x003bc;m. Data shown as mean &#x000b1; SD (n&#x000a0;= 3).</p>
+      </caption>
+      <graphic xlink:href="figs3"/>
+    </fig>
+    <fig id="figs4">
+      <label>Figure&#x000a0;S4</label>
+      <caption>
+        <p>Cyclin D Overexpression Induces Neuroectoderm and Blocks Endoderm/Mesoderm, Related to <xref rid="fig4" ref-type="fig">Figure&#x000a0;4</xref></p>
+        <p>(A) Schematic overview of the approach used to generate cyclin D overexpression (OE) hESC lines.</p>
+        <p>(B&#x02013;D) Cyclin D overexpression clones. Cyclin D expression in (B) cyclin D1 OE clones, (C) cyclin D2 OE clones or (D) cyclin D3 OE clones compared to OE GFP. All OE cyclin D1, D2 and D3 clones showed a constitutive expression of cyclin D proteins that were similar to endogenous cyclin D levels, thus resembling physiological conditions.</p>
+        <p>(E) Cyclin Ds repress Smad2/3 dependent transcription. H9 cells cotransfected with SBE4-Luc and cyclin D constructs were analyzed for luciferase signal after 48&#x000a0;hr of transfection.</p>
+        <p>(F&#x02013;H) Overexpression of cyclin D1-D3 results in increased neuroectoderm markers and decreased endoderm/mesoderm markers. Cyclin D OE cells were differentiated into (F) Neuroectoderm, (G) Endoderm or (H) Mesoderm and differentiation markers were analyzed by Q-PCR or western blot.</p>
+        <p>(I and J) Constitutively nuclear Smad2 initiates endoderm differentiation in late G1 cells. Fucci-hESCs transfected with Smad2 constructs were sorted into late G1 phase and analyzed for marker expression by (I) Q-PCR after 6&#x000a0;hr or (J) by flow cytometry 1-2&#x000a0;days after endoderm differentiation. Data are normalized to undifferentiated cells (UD). Scale bar, 100&#x000a0;&#x003bc;m. Data shown as mean &#x000b1; SD (n&#x000a0;= 3).</p>
+      </caption>
+      <graphic xlink:href="figs4"/>
+    </fig>
+    <fig id="figs5">
+      <label>Figure&#x000a0;S5</label>
+      <caption>
+        <p>CDK4/6 Inhibition in hESCs Causes Endoderm Differentiation, Related to <xref rid="fig7" ref-type="fig">Figure&#x000a0;7</xref></p>
+        <p>(A&#x02013;D) Cyclin D1 T156A mutant increases endoderm/mesoderm and decreases neuroectoderm differentiation of hESCs. (A) Cyclin D1 T156A overexpressing cells were analyzed by Q-PCR for marker expression or differentiated into (B) Neuroectoderm, (C) Endoderm or (D) Mesoderm and then analyzed by Q-PCR. Data are normalized to undifferentiated cells (UD). Data shown as mean &#x000b1; SD (n&#x000a0;= 3).</p>
+        <p>(E) CDK4/6 inhibition in H9 cell line. hESCs were grown in the presence of CDK4/6 inhibitor 0.75&#x003bc;M PD0332991 for 6&#x000a0;days and analyzed for germ layer marker expression by immunostaining.</p>
+        <p>(F) CDKi-produced endoderm can give rise to pancreatic and hepatic cells. H9 hESCs were differentiated into endoderm with 0.75&#x003bc;M PD0332991 for 6&#x000a0;days and then the resulting cells were grown in culture conditions inducing pancreatic and hepatic differentiation for 12 and 22&#x000a0;days respectively. Marker expression was analyzed by Q-PCR. Conventional endoderm differentiation protocol was used as a positive control for pancreatic and hepatic differentiation. Data shown as mean &#x000b1; SD (n&#x000a0;= 3).</p>
+        <p>(G and H) Immunostaining of negative control cells cultured in the absence of CDKi (G) or positive control cells differentiated with the standard endoderm protocol and stained for endoderm markers (H).</p>
+        <p>(I and J) Immunostaining of negative control cells for liver (I) or pancreatic (J) differentiation. Cells were first cultured in the absence of CDKi and then differentiated into hepatocytes or pancreatic cells and immunostained for the corresponding markers.</p>
+      </caption>
+      <graphic xlink:href="figs5"/>
+    </fig>
+    <fig id="figs6">
+      <label>Figure&#x000a0;S6</label>
+      <caption>
+        <p>CDK4/6 Inhibition in hIPSCs Causes Endoderm Differentiation, Related to <xref rid="fig7" ref-type="fig">Figure&#x000a0;7</xref></p>
+        <p>IPSCs were cultured in the presence of 0.75&#x003bc;M PD0332991 for 6&#x000a0;days and analyzed by (A) Q-PCR or (B) immunostaining in IPS40 cell line, by (C) Q-PCR or (D) immunostaining in A1ATD1 cell line and by (E) Q-PCR or (F) immunostaining in BBHX8 cell line. Data shown as mean &#x000b1; SD (n&#x000a0;= 3). Scale bar, 100&#x003bc;m.</p>
+      </caption>
+      <graphic xlink:href="figs6"/>
+    </fig>
+    <fig id="figs7">
+      <label>Figure&#x000a0;S7</label>
+      <caption>
+        <p>hIPSC CDKi-Produced Endoderm Can Give Rise to Pancreatic and Hepatic Cells, Related to <xref rid="fig7" ref-type="fig">Figure&#x000a0;7</xref></p>
+        <p>(A&#x02013;D) Analysis of pancreatic differentiation in hIPSCs. IPS40, A1ATD1 and BBHX8 cells were differentiated into endoderm with 0.75&#x003bc;M PD0332991 for 6&#x000a0;days and then further into pancreatic cells. Cells were analyzed by (A) Q-PCR or immunostaining at day 18 (day 12 for Pdx1) in (B) IPS40, (C) A1ATD1 or (D) BBHX8. Conventional endoderm differentiation protocol was used as a positive control.</p>
+        <p>(E&#x02013;H) Hepatic differentiation of endoderm cells generated from hIPSCs using CDKi. IPS40, A1ATD1 and BBHX8 cells were differentiated into endoderm with 0.75&#x003bc;M PD0332991 for 6&#x000a0;days and then further into hepatocytes. Cells were analyzed by (E) Q-PCR or by immunofluorescence microscopy at day 25 in (F) IPS40, (G) A1ATD1 or (H) BBHX8. Conventional hepatic differentiation protocol was used as a positive control.</p>
+        <p>(I and J) CDK4/6 inhibition improves endoderm differentiation in endoderm-resistant hIPSCs Coxv3 and Tom. Cells were differentiated into endoderm by adding 0.75&#x003bc;M PD0332991 to conventional differentiation conditions for 6&#x000a0;days.</p>
+        <p>(K and L) Cells were differentiated into endoderm with 0.75&#x003bc;M PD0332991 for 6&#x000a0;days and then further into pancreatic cells and analyzed by Q-PCR, or (M) by flow cytometry after endoderm, pancreatic or hepatic differentiation. Data shown as mean &#x000b1; SD (n&#x000a0;= 3). Scale bar, 100&#x003bc;m.</p>
+      </caption>
+      <graphic xlink:href="figs7"/>
+    </fig>
+  </floats-group>
+</article>
+
+
