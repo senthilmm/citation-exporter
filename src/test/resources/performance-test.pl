@@ -7,6 +7,7 @@ $|++;
 use Getopt::Long;
 use Time::HiRes qw/time/;
 use LWP::UserAgent;
+use Data::Dumper;
 
 #-----------------------------------------------------------------
 # Parse command line options, output usage help, etc.
@@ -18,7 +19,7 @@ Options (any of these can be abbreviated):
 --help|-? - print this usage message and exit
 --verbose
 --num - number of requests for each test. This can be any number up to the the number of
-  ids stored in random-aiids.txt, currently 100,000.
+  ids stored in random-aiids.txt, currently 100,000. Default is 1000.
 --test=<test> - select which test to run.  Default is to run all. Tests are:
     - pub-one
     - citeproc
@@ -288,7 +289,8 @@ sub record_req_result {
     my $req_time = $req_result->{'time'};
     my $error_msg = $req_result->{error_msg};
     if (!$success && !$ignore_errors) {
-        die "Child process reports error from HTTP request: $error_msg";
+        #print Dumper($req_result);
+        die "Child process reports error from HTTP request" . ($error_msg ? ": '$error_msg'" : "");
     }
     if ($success) {
         $test_results->{l_min} = $req_time if $req_time < $test_results->{l_min};
@@ -338,7 +340,7 @@ sub do_request {
     my $error_msg;
     if (!$resp->is_success) {
         $success = 0;
-        my $error_msg = "Request '$req_url' failed: " . $resp->status_line;
+        $error_msg = "Request '$req_url' failed: " . $resp->status_line;
         if ($ignore_errors && $verbose) {
             print "$error_msg\n";
         }
