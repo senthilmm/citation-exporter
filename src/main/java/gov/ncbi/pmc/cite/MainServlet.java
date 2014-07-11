@@ -202,11 +202,11 @@ public class MainServlet extends HttpServlet
             rw.println(tr(
                 td(description) +
                 td(idField) +
-                //td(link(hrefBase + qs(qsParams, "outputformat=nxml"), "NXML")) +      <-- not official
-                td(link(hrefBase + qs(qsParams, "outputformat=pub-one"), "PubOne")) +
-                td(link(hrefBase + qs(qsParams, "outputformat=ris"), "RIS")) +
-                td(link(hrefBase + qs(qsParams, "outputformat=nbib"), "NBIB")) +
-                td(link(hrefBase + qs(qsParams, "outputformat=citeproc"), "JSON")) +
+                //td(link(hrefBase + qs(qsParams, "report=nxml"), "NXML")) +      <-- not official
+                td(link(hrefBase + qs(qsParams, "report=pub-one"), "PubOne")) +
+                td(link(hrefBase + qs(qsParams, "report=ris"), "RIS")) +
+                td(link(hrefBase + qs(qsParams, "report=nbib"), "NBIB")) +
+                td(link(hrefBase + qs(qsParams, "report=citeproc"), "JSON")) +
                 td(link(hrefBase + qs(qsParams, "style=modern-language-association"), "MLA")) +
                 td(link(hrefBase + qs(qsParams, "style=apa"), "APA")) +
                 td(link(hrefBase + qs(qsParams, "style=chicago-author-date"), "Chicago")) +

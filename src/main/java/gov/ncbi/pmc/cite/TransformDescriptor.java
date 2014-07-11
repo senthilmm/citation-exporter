@@ -5,6 +5,6 @@ package gov.ncbi.pmc.cite;
  */
 public class TransformDescriptor {
     public String name;
-    public String outputformat;
+    public String report;
 
 }

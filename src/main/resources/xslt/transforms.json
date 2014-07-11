@@ -1,26 +1,26 @@
 [
   {
     "name": "identity",
-    "outputformat": "application/xml"
+    "report": "application/xml"
   },
   {
     "name": "nxml2json",
-    "outputformat": "application/json"
+    "report": "application/json"
   },
   {
     "name": "pub-one",
-    "outputformat": "application/xml"
+    "report": "application/xml"
   },
   {
     "name": "pub-one2json",
-    "outputformat": "application/json"
+    "report": "application/json"
   },
   {
     "name": "pub-one2medline",
-    "outputformat": "application/nbib"
+    "report": "application/nbib"
   },
   {
     "name": "pub-one2ris",
-    "outputformat": "application/x-research-info-systems"
+    "report": "application/x-research-info-systems"
   }
 ]

@@ -74,8 +74,8 @@ public class Request {
 
     // Data from query string params
     private RequestIdList idList;
-    private String outputformat;
-    private String responseformat;
+    private String report;
+    private String format;
     private String[] styles = {"modern-language-association"};  // default style
 
     // One document builder shared within this request thread.  This is created on-demand by
@@ -274,54 +274,54 @@ public class Request {
             if (idList.numResolved() == 0) throw new BadParamException("No resolvable IDs found: " + idList);
 
             // FIXME:  this should be data-driven
-            // Get outputformat and responseformat, validating and implementing defaults.
-            outputformat = request.getParameter("outputformat");
-            if (outputformat == null) { outputformat = "html"; }
-            responseformat = request.getParameter("responseformat");
-            if (responseformat == null) {
-                if (outputformat.equals("html"))
-                    responseformat = "html";
+            // Get report and format, validating and implementing defaults.
+            report = request.getParameter("report");
+            if (report == null) { report = "html"; }
+            format = request.getParameter("format");
+            if (format == null) {
+                if (report.equals("html"))
+                    format = "html";
               /* FIXME: rtf format not implemented yet.
-                else if (outputformat.equals("rtf"))
-                    responseformat = "rtf";
+                else if (report.equals("rtf"))
+                    format = "rtf";
               */
-                else if (outputformat.equals("ris"))
-                    responseformat = "ris";
-                else if (outputformat.equals("nbib"))
-                    responseformat = "nbib";
-                else if (outputformat.equals("citeproc"))
-                    responseformat = "json";
-                else if (outputformat.equals("pub-one"))
-                    responseformat = "xml";
-                else if (outputformat.equals("nxml"))
-                    responseformat = "xml";
+                else if (report.equals("ris"))
+                    format = "ris";
+                else if (report.equals("nbib"))
+                    format = "nbib";
+                else if (report.equals("citeproc"))
+                    format = "json";
+                else if (report.equals("pub-one"))
+                    format = "xml";
+                else if (report.equals("nxml"))
+                    format = "xml";
             }
 
-            if (outputformat.equals("html") || outputformat.equals("rtf")) {
+            if (report.equals("html") && format.equals("html")) {
                 styledCitation();
             }
 
-            else if (outputformat.equals("citeproc") && responseformat.equals("json")) {
+            else if (report.equals("citeproc") && format.equals("json")) {
                 citeprocJson();
             }
 
-            else if (outputformat.equals("pub-one") && responseformat.equals("xml")) {
+            else if (report.equals("pub-one") && format.equals("xml")) {
                 pubOneXml();
             }
 
-            else if (outputformat.equals("nxml") && responseformat.equals("xml")) {
+            else if (report.equals("nxml") && format.equals("xml")) {
                 nXml();
             }
 
-            else if (outputformat.equals("nbib") && responseformat.equals("nbib") ||
-                     outputformat.equals("ris") && responseformat.equals("ris"))
+            else if (report.equals("nbib") && format.equals("nbib") ||
+                     report.equals("ris") && format.equals("ris"))
             {
-                transformXml(outputformat);
+                transformXml(report);
             }
 
             else {
                 errorResponse("Not sure what I'm supposed to do. Check the values of " +
-                    "outputformat and responseformat.", 400);
+                    "report and format.", 400);
                 return;
             }
         }
@@ -501,7 +501,7 @@ public class Request {
      * Respond to the client with a document that is the result of running the PubOne
      * through an XSLT transformation.
      */
-    private void transformXml(String outputformat)
+    private void transformXml(String report)
         throws NotFoundException, BadParamException, IOException
     {
         // FIXME:  this all has to be data-driven.
@@ -513,20 +513,20 @@ public class Request {
         TransformEngine transformEngine = app.getTransformEngine();
 
         String transformName =
-                outputformat.equals("ris") ? "pub-one2ris" :
-                outputformat.equals("nbib") ? "pub-one2medline" :
-                outputformat;
+                report.equals("ris") ? "pub-one2ris" :
+                report.equals("nbib") ? "pub-one2medline" :
+                report;
         String contentDispHeader;
         String result = "";
         if (numIds == 1) {
             Identifier id = idList.get(0).getResolvedId();
-            String outFilename = id.getType() + "-" + id.getValue() + "." + outputformat;
+            String outFilename = id.getType() + "-" + id.getValue() + "." + report;
             contentDispHeader = "attachment; filename=" + outFilename;
             Document d = itemSource.retrieveItemPubOne(id);
             result = (String) transformEngine.doTransform(d, transformName);
         }
         else {
-            contentDispHeader = "attachment; filename=results." + outputformat;
+            contentDispHeader = "attachment; filename=results." + report;
             for (int i = 0; i < numIds; ++i) {
                 if (i != 0) { result += "\n"; }
                 Document d = itemSource.retrieveItemPubOne(idList.get(i).getResolvedId());
@@ -534,8 +534,8 @@ public class Request {
             }
         }
 
-        String contentType = outputformat.equals("nbib") ? "application/nbib" :
-                             outputformat.equals("ris") ? "text/plain" :
+        String contentType = report.equals("nbib") ? "application/nbib" :
+                             report.equals("ris") ? "text/plain" :
                                  "application/xml";
         response.setContentType(contentType + ";charset=UTF-8");
         response.setHeader("Content-disposition", contentDispHeader);

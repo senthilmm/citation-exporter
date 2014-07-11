@@ -87,7 +87,7 @@ public class TransformEngine {
 
     /**
      * Transform an XML document according to the indicated transformation.  The type of the
-     * return value will depend on the outputformat of the transformation, as specified in
+     * return value will depend on the `report` of the transformation, as specified in
      * the transforms.json config file.
      *   application/xml - org.w3c.dom.Document
      *   anything else - String
@@ -104,7 +104,7 @@ public class TransformEngine {
             Controller controller = (Controller) xslt.newTransformer();
             Source s = new DOMSource(src);
 
-            if (td.outputformat.equals("application/xml")) {
+            if (td.report.equals("application/xml")) {
                 DOMResult result = new DOMResult();
                 controller.transform(s, result);
                 return result.getNode();
