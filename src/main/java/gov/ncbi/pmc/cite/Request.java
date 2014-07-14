@@ -95,10 +95,6 @@ public class Request {
         this.app = app;
         this.request = request;
         this.response = response;
-
-        // Set CORS header right away.
-        response.setHeader("Access-Control-Allow-Origin", "*");
-
         parsePath();
     }
 
