@@ -58,6 +58,9 @@ public class MainServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws InvalidPropertiesFormatException, ServletException, IOException
     {
+        logRequestHeaders(request);
+        setCorsHeaders(request, response);
+
         Request r = new Request(app, request, response);
 
         if (r.pathEquals("echotest")) {
@@ -149,6 +152,32 @@ public class MainServlet extends HttpServlet
         return;
     }
 
+    /**
+     * For debugging - log (trace level) all of the request headers
+     */
+    private void logRequestHeaders(HttpServletRequest req) {
+        String msg = req.getMethod() + " request received\n";
+        msg += "HTTP Headers:\n";
+        Enumeration<String> headerNames = req.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String hn = headerNames.nextElement();
+            msg += "  '" + hn + "': '" + req.getHeader(hn) + "'\n";
+        }
+        log.trace(msg);
+    }
+
+    /**
+     * Set CORS headers
+     */
+    private void setCorsHeaders(HttpServletRequest request, HttpServletResponse response) {
+        String origin = request.getHeader("Access-Control-Origin");
+        if (origin == null) origin = "*";
+        response.setHeader("Access-Control-Allow-Origin", origin);
+        response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+        String acrh = request.getHeader("Access-Control-Request-Headers");
+        if (acrh == null) acrh = "*";
+        if (acrh != null) response.setHeader("Access-Control-Allow-Headers", acrh);
+    }
 
     /**
      * Display the samples page.
@@ -253,13 +282,11 @@ public class MainServlet extends HttpServlet
     protected void doOptions(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
+        logRequestHeaders(request);
+        setCorsHeaders(request, response);
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setStatus(200);
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-        String acrh = request.getHeader("Access-Control-Request-Headers");
-        if (acrh != null) response.setHeader("Access-Control-Allow-Headers", acrh);
     }
 
 }

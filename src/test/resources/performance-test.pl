@@ -26,6 +26,7 @@ Options (any of these can be abbreviated):
     - 1-style
     - 3-styles
 --ignore-errors - continue when error (such as HTTP 404) is encountered.  Default is to abort.
+--forks - number of simultaneous forks to use, to test multi-threading.  Default is 10.
 
 Specify the address of the service under test:
 --port - IP port number of the service.  Default is 11999.
