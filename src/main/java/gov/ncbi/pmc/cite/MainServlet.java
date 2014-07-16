@@ -170,7 +170,8 @@ public class MainServlet extends HttpServlet
      * Set CORS headers
      */
     private void setCorsHeaders(HttpServletRequest request, HttpServletResponse response) {
-        String origin = request.getHeader("Access-Control-Origin");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        String origin = request.getHeader("Origin");
         if (origin == null) origin = "*";
         response.setHeader("Access-Control-Allow-Origin", origin);
         response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
