@@ -28,6 +28,7 @@ public class StcachePubOneItemSource extends ItemSource {
         super(app);
         pubOneImage = System.getProperty("item_source_loc");
         if (pubOneImage == null) throw new IOException("Need a value for the item_source_loc system property");
+        log.info("Item source location (pub-one stcache image) = '" + pubOneImage + "'");
         pubOneStcache = new Pmfu(pubOneImage);
 
         dbf = DocumentBuilderFactory.newInstance();

@@ -23,6 +23,8 @@ public class StcacheNxmlItemSource extends ItemSource {
     {
         super(app);
         nxmlImage = System.getProperty("item_source_loc");
+        if (nxmlImage == null) throw new IOException("Need a value for the item_source_loc system property");
+        log.info("Item source location (nxml stcache image) = '" + nxmlImage + "'");
         nxmlStcache = new Nxml(nxmlImage);
     }
 

@@ -49,6 +49,7 @@ public class App {
         // Controlled by system property item_provider (default is "test")
         String itemSourceProp = System.getProperty("item_source");
         String itemSourceStr = itemSourceProp != null ? itemSourceProp : "test";
+        log.info("Using item source '" + itemSourceStr + "'");
         if (itemSourceStr.equals("test")) {
             itemSource = new TestItemSource(getClass().getClassLoader().getResource("samples/"), this);
         }
