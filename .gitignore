@@ -1,5 +1,7 @@
 /catalog-local.xml
+/deploy-*.sh
 /jats
+/OxygenProject.xpr
 /src/main/resources/xslt
 /target
 /testlog
