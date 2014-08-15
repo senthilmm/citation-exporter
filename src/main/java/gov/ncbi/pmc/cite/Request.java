@@ -1,5 +1,6 @@
 package gov.ncbi.pmc.cite;
 
+import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.RequestId;
 import gov.ncbi.pmc.ids.RequestIdList;
 import gov.ncbi.pmc.ids.Identifier;
@@ -266,8 +267,15 @@ public class Request {
 
             // The IdResolver seems to be thread-safe
             idList = app.getIdResolver().resolveIds(idp, request.getParameter("idtype"));
+
+            // Right now, we only support getting the record by aiid.  Later, we will want to add pmid
             log.debug("Resolved ids: " + idList);
-            if (idList.numResolved() == 0) throw new BadParamException("No resolvable IDs found: " + idList);
+            if (idList.numHasType("aiid") == 0) throw new BadParamException("No resolvable IDs found: " + idList);
+
+            System.out.println("Found " + idList.numHasType("aiid") + " ids that have aiids");
+
+
+
 
             // FIXME:  this should be data-driven
             // Get report and format, validating and implementing defaults.
@@ -353,14 +361,15 @@ public class Request {
     private void pubOneXml()
         throws NotFoundException, BadParamException, IOException
     {
+        System.out.println("In pubOneXml");
         ItemSource itemSource = app.getItemSource();
-        //String idType = idSet.getType();
+
         int numIds = idList.size();
         log.debug("Getting PubOne for ids " + idList);
 
         String pubOneString;  // response goes here
         if (numIds == 1) {
-            Document d = itemSource.retrieveItemPubOne(idList.get(0).getResolvedId());
+            Document d = itemSource.retrieveItemPubOne(idList.get(0).getIdByType("aiid"));
             pubOneString = serializeXml(d);
         }
         else {
@@ -372,21 +381,21 @@ public class Request {
 
             List<Identifier> notFoundList = new ArrayList<Identifier>();
             for (int i = 0; i < numIds; ++i) {
-                RequestId rid = idList.get(i);
-                Identifier originalId = rid.getOriginalId();
-                Identifier resolvedId = rid.getResolvedId();
+                IdGlob idg = idList.get(i);
+                Identifier originalId = idg.getOriginalId();
+                Identifier aiid = idg.getIdByType("aiid");
                 boolean success = false;
-                if (resolvedId != null) {
+                if (aiid != null) {
                     try {
                         // Retrieve the PubOne record XML
-                        Document record = itemSource.retrieveItemPubOne(resolvedId);
+                        Document record = itemSource.retrieveItemPubOne(aiid);
 
                         // Add an `s:id` attribute with the original (requested) id
                         Element recordElem = record.getDocumentElement();
                         setSearchAttribute(recordElem, "id", originalId.getCurie());
 
-                        if (!originalId.equals(resolvedId)) {
-                            setSearchAttribute(recordElem, "resolved-id", resolvedId.getCurie());
+                        if (!originalId.equals(aiid)) {
+                            setSearchAttribute(recordElem, "resolved-id", aiid.getCurie());
                         }
 
                         // Append the root element of this record's XML document as the last child of
@@ -437,7 +446,7 @@ public class Request {
 
         Document d = null;
         if (numIds == 1) {
-            d = itemSource.retrieveItemNxml(idList.get(0).getResolvedId());
+            d = itemSource.retrieveItemNxml(idList.get(0).getIdByType("aiid"));
         }
         else {
             d = getDocumentBuilder().newDocument();
@@ -445,7 +454,7 @@ public class Request {
             d.appendChild(root);
 
             for (int i = 0; i < numIds; ++i) {
-                Document record = itemSource.retrieveItemNxml(idList.get(i).getResolvedId());
+                Document record = itemSource.retrieveItemNxml(idList.get(i).getIdByType("aiid"));
                 root.appendChild(d.importNode(record.getDocumentElement(), true));
             }
         }
@@ -515,7 +524,7 @@ public class Request {
         String contentDispHeader;
         String result = "";
         if (numIds == 1) {
-            Identifier id = idList.get(0).getResolvedId();
+            Identifier id = idList.get(0).getIdByType("aiid");
             String outFilename = id.getType() + "-" + id.getValue() + "." + report;
             contentDispHeader = "attachment; filename=" + outFilename;
             Document d = itemSource.retrieveItemPubOne(id);
@@ -525,7 +534,7 @@ public class Request {
             contentDispHeader = "attachment; filename=results." + report;
             for (int i = 0; i < numIds; ++i) {
                 if (i != 0) { result += "\n"; }
-                Document d = itemSource.retrieveItemPubOne(idList.get(i).getResolvedId());
+                Document d = itemSource.retrieveItemPubOne(idList.get(i).getIdByType("aiid"));
                 result += (String) transformEngine.doTransform(d, transformName) + "\n";
             }
         }
@@ -552,16 +561,16 @@ public class Request {
         String jsonString;
         try {
             if (numIds == 1) {
-                JsonNode jn = itemSource.retrieveItemJson(idList.get(0).getResolvedId());
+                JsonNode jn = itemSource.retrieveItemJson(idList.get(0).getIdByType("aiid"));
                 jsonString = app.getMapper().writeValueAsString(jn);
             }
             else {
                 List<String> jsonRecords = new ArrayList<String>();
                 List<Identifier> notFoundList = new ArrayList<Identifier>();
                 for (int i = 0; i < numIds; ++i) {
-                    RequestId rid = idList.get(i);
-                    Identifier origId = rid.getOriginalId();
-                    Identifier id = rid.getResolvedId();
+                    IdGlob idg = idList.get(i);
+                    Identifier origId = idg.getOriginalId();
+                    Identifier id = idg.getIdByType("aiid");
                     boolean success = false;
 
                     if (id != null) {

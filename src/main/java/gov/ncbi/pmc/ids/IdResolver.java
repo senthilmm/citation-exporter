@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,12 +41,17 @@ public class IdResolver {
     // The values are Identifiers either of type aiid or pmid.
     // FIXME:  change the name of this to reflect that it's not just aiid.
     // Note: KittyCache is thread-safe.
-    KittyCache<String, Identifier> aiidCache;
+    //KittyCache<String, Identifier> idCache;
+
+    // This will replace the above.  The keys of this cache are all of the known CURIEs that
+    // we see.
+    KittyCache<String, IdGlob> idGlobCache;
+
 
     ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
-    // Controlled by system property aiid_cache_ttl (integer in seconds)
-    private int aiidCacheTtl;
+    // Controlled by system property id_cache_ttl (integer in seconds)
+    private int idCacheTtl;
     // Controlled by system property id_converter_url
     private String idConverterUrl;
     // Controlled by system property id_converter_params
@@ -69,21 +75,21 @@ public class IdResolver {
 
     public IdResolver() {
         // To cache or not to cache?
-        String cacheAiidProp = System.getProperty("cache_aiids");
-        if (cacheAiidProp != null ? Boolean.parseBoolean(cacheAiidProp) : false) {
-            String aiidCacheTtlProp = System.getProperty("aiid_cache_ttl");
-            aiidCacheTtl = aiidCacheTtlProp != null ? Integer.parseInt(aiidCacheTtlProp): 86400;
+        String cacheIdsProp = System.getProperty("cache_ids");
+        if (cacheIdsProp != null ? Boolean.parseBoolean(cacheIdsProp) : false) {
+            String idCacheTtlProp = System.getProperty("id_cache_ttl");
+            idCacheTtl = idCacheTtlProp != null ? Integer.parseInt(idCacheTtlProp): 86400;
 
             // Create a new cache
-            int aiidCacheSize = 50000;
-            log.debug("Instantiating aiidsCache, size = " + aiidCacheSize + ", ttl = " + aiidCacheTtl);
-            aiidCache = new KittyCache<String, Identifier>(50000);
+            int idCacheSize = 50000;
+            log.debug("Instantiating idGlobCache, size = " + idCacheSize + ", time-to-live = " + idCacheTtl);
+            //idCache = new KittyCache<String, Identifier>(50000);
+            idGlobCache = new KittyCache<String, IdGlob>(50000);
         }
 
-        // FIXME:  ID converter URL should use "www", when the needed change is deployed (see PMC-20071).
         String idConverterUrlProp = System.getProperty("id_converter_url");
         idConverterUrl = idConverterUrlProp != null ? idConverterUrlProp :
-            "http://web.pubmedcentral.nih.gov/utils/idconv/v1.1/";
+            "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/";
         String idConverterParamsProp = System.getProperty("id_converter_params");
         idConverterParams = idConverterParamsProp != null ? idConverterParamsProp :
             "showaiid=yes&format=json";
@@ -164,35 +170,49 @@ public class IdResolver {
             }
         }
 
+        // Go through each ID in the list, and compose the final idList and idsToResolve list at
+        // the same time.  Note that both lists contain references to the *same* IdGlob objects.
+        RequestIdList idList = new RequestIdList();
+        List<IdGlob> idsToResolve = new ArrayList<IdGlob>();
+        for (int i = 0; i < idsArray.length; ++i) {
+            String idValue = idsArray[i];
+            System.out.println("============================== checking " + idType + ":" + idValue);
+            Identifier origId = new Identifier(idType, idValue);
 
-        RequestIdList idList = new RequestIdList(idType, idsArray);
+            // Try to get it from the cache
+            IdGlob idGlob = null;
+            if (idGlobCache != null) {
+                System.out.println("    looking in the cache");
+                idGlob = idGlobCache.get(origId.getCurie());
+                if (idGlob != null) System.out.println("    found in the cache!");
+            }
 
-        // Go through the list and see if there are any identifiers that need to be resolved.
-        // Aggregate the list of IDs that need to be resolved, so we only have to make one backend call.
-        List<Identifier> idsToResolve = new ArrayList<Identifier>();
-        for (int i = 0; i < idList.size(); ++i) {
-            RequestId rid = idList.get(i);
-            if (!rid.isResolved()) {
-                Identifier origId = rid.getOriginalId();
-               // Not resolved yet; see if it is in the cache
-                Identifier cachedId = aiidCache == null ? null : aiidCache.get(origId.getCurie());
-                if (cachedId != null) {
-                    rid.setResolvedId(cachedId);
-                }
-                else {
-                    idsToResolve.add(origId);
-                }
+            // Not in the cache, let's create a new IdGlob object
+            if (idGlob == null) {
+                System.out.println("    creating new IdGlob object");
+                idGlob = new IdGlob(origId);
+            }
+
+            // And add it to the RequestIdList
+            idList.add(idGlob);
+
+            // If it doesn't have either of the wanted types, also add it to the "to resolve" list
+            if (!idGlob.hasType("pmid") && !idGlob.hasType("aiid")) {
+                idsToResolve.add(idGlob);
             }
         }
+        System.out.println("idList.size() = " + idList.size());
+        System.out.println("idsToResolve.size() = " + idsToResolve.size());
 
+
+        // If needed, call the ID resolver.
         if (idsToResolve.size() > 0) {
-            // Call the id resolver
             // Create the URL.  If this is malformed, it must be because of bad parameter values, therefore
             // a bad request (right?)
             String idString = "";
             for (int i = 0; i < idsToResolve.size(); ++i) {
                 if (i != 0) idString += ",";
-                idString += idsToResolve.get(i).getValue();
+                idString += idsToResolve.get(i).getOriginalId().getValue();
             }
             URL url = null;
             try {
@@ -217,51 +237,80 @@ public class IdResolver {
             if (!status.equals("ok"))
                 throw new ServiceException("Problem attempting to resolve ids from '" + url + "'");
 
+
+            // In parsing the response, we'll create IdGlob objects as we go. We have to then match them
+            // back to the idList:  if the CURIE corresponding
+            // to the original id type matches something in the idList, then replace the idList value with this
+            // new (more complete, presumably) idGlob.
+            System.out.println("parsing the response");
             ArrayNode records = (ArrayNode) idconvResponse.get("records");
             for (int rn = 0; rn < records.size(); ++rn) {
                 ObjectNode record = (ObjectNode) records.get(rn);
-                JsonNode aiid = record.get("aiid");
-                dispatchId("pmcid", record.get("pmcid"), aiid, idList);
-                dispatchId("doi", record.get("doi"), aiid, idList);
+                IdGlob parent = globbifyRecord(record, idType, idList);
 
-                ArrayNode versions = (ArrayNode) record.get("versions");
-                if (versions != null) {
-                    for (int vn = 0; vn < versions.size(); ++vn) {
-                        ObjectNode version = (ObjectNode) versions.get(vn);
-                        dispatchId("pmcid", version.get("pmcid"), version.get("aiid"), idList);
+                if (parent != null) {
+                    // Now let's do the individual versions
+                    ArrayNode versions = (ArrayNode) record.get("versions");
+                    if (versions != null) {
+
+                        for (int vn = 0; vn < versions.size(); ++vn) {
+                            ObjectNode version = (ObjectNode) versions.get(vn);
+                            IdGlob versionGlob = globbifyRecord(version, idType, idList);
+                            if (versionGlob != null) parent.addVersion(versionGlob);
+                        }
                     }
                 }
             }
         }
 
-      /*
-        for (String id: idsArray) {
-            Integer aiid = resolvedIds.get(id);
-            // If the requested ID was not in the response, then assume that it's a bad id value, and throw
-            // "not found"
-            if (aiid == null) throw new NotFoundException("ID " + id + " was not found in the PMC ID converter");
-            idSet.addId("aiid", resolvedIds.get(id).toString());
-        }
-      */
         return idList;
     }
 
-    // Helper function to handle one result pair from the idconverter.  If this was one of the ids we requested,
-    // then add it to the ResolvedIdList.  Regardless, if caching is in use, add it to the cache.
-    private void dispatchId(String fromType, JsonNode fromIdNode, JsonNode aiidNode, RequestIdList idList) {
-        if (fromIdNode == null || aiidNode == null) return;
+    /**
+     * Helper function to create an IdGlob object out of a single JSON record from the id converter.
+     * Once it does that, it matches it to the requested ID in the idList, and inserts this new
+     * object.
+     */
+    private IdGlob globbifyRecord(ObjectNode record, String fromIdType, RequestIdList idList) {
+        // Get the key-value pair corresponding to the requested type.  E.g. `"pmcid": "PMC3362639",`
+        JsonNode fromNode = record.get(fromIdType);
+        if (fromNode == null) return null;  // not much we can do
 
-        if (aiidNode.asInt() == 0) return;   // been known to happen
-        Identifier aiid = new Identifier("aiid", aiidNode.asText());
+        JsonNode status = record.get("status");
+        if (status != null && status.asText() != "success") return null;
 
-        String fromIdStr = fromIdNode.asText();
-        if (fromIdStr.equals("")) return;
-        Identifier fromId = new Identifier(fromType, fromIdStr);
+        // Create an idGlob object out of this
+        Identifier fromId = new Identifier(fromIdType, fromNode.asText());
+        System.out.println("Creating new glob out of " + fromId.getCurie());
+        IdGlob newGlob = new IdGlob(fromId);
+        if (idGlobCache != null) idGlobCache.put(fromId.getCurie(), newGlob, idCacheTtl);
 
-        int i = idList.lookup(fromId);
-        if (i != -1) idList.get(i).setResolvedId(aiid);
-        if (aiidCache != null) {
-            aiidCache.put(fromId.getCurie(), aiid, aiidCacheTtl);
+        // Iterate over the other fields in the response record, and add Identifiers to the glob
+        Iterator<String> i = record.fieldNames();
+        while (i.hasNext()) {
+            String key = i.next();
+            if (!key.equals("versions") &&
+                !key.equals("current") &&
+                !key.equals("live") &&
+                !key.equals("status") &&
+                !key.equals("errmsg") &&
+                !key.equals(fromIdType))
+            {
+                Identifier newId = new Identifier(key, record.get(key).asText());
+                System.out.println("  adding nother ID: " + newId.getCurie());
+                newGlob.addId(newId);
+                if (idGlobCache != null) idGlobCache.put(newId.getCurie(), newGlob, idCacheTtl);
+            }
         }
+
+        // Replace the value in the idList with this new, improved one
+        int idListIndex = idList.lookup(fromId);
+        if (idListIndex != -1) {
+            System.out.println("  replacing index " + idListIndex + " value in idList with this new glob");
+            idList.set(idListIndex, newGlob);
+        }
+
+        return newGlob;
     }
+
 }

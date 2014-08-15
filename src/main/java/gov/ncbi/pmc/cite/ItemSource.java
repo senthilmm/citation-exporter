@@ -51,6 +51,7 @@ public abstract class ItemSource {
         throws BadParamException, NotFoundException, IOException
     {
         Document nxml = retrieveItemNxml(id);
+        System.out.println("=================> id = '" + id + "'");
         return (Document) app.doTransform(nxml, "pub-one");
     }
 

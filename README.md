@@ -84,11 +84,11 @@ Here are the parameters that are defined:
   pathname of the stcache image file.  When item_source is ConvAppNxmlItemSource, then this should
   be the URL of the converter app service.
 * `id_converter_url` - URL of the PMC ID converter API.  Default is
-  "http://web.pubmedcentral.nih.gov/utils/idconv/v1.1/".
+  "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/".
 * `id_converter_params` - Query string parameters to send to the the PMC ID
   converter API.  Default is "showaiid=yes&format=json".
-* `cache_aiids` - either "true" or "false".  Default is "false".
-* `aiid_cache_ttl` - time-to-live for each of the IDs in the ID cache, in seconds.
+* `cache_ids` - either "true" or "false".  Default is "false".
+* `id_cache_ttl` - time-to-live for each of the IDs in the ID cache, in seconds.
   Default is 86400.
 * `xml.catalog.files` - used by the Apache commons CatalogResolver; this is the pathname
   of the OASIS catalog file to use when parsing XML files.  See below for more info.
