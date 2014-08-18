@@ -27,26 +27,22 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.spaceprogram.kittycache.KittyCache;
 
 /**
- * This class resolves IDs entered by the user into canonical numeric PMC article instance
- * IDs (aiid) or PubMed IDs (pmid).
+ * This class resolves IDs entered by the user, using the PMC ID Converter
+ * API (http://www.ncbi.nlm.nih.gov/pmc/tools/id-converter-api/).  This allows the user to
+ * give us IDs in any number of forms, and we can look up the data by one of either
+ * aiid (article instance id) or (not implemented yet) pmid.
  *
- * The central method here is resolveIds(), which returns an IdSet object.
+ * The central method here is resolveIds(), which returns an RequestIdList object, which
+ * is basically just a list of IdGlobs.
  *
  * It calls the PMC ID converter backend if it gets any type of ID other than
  * aiid or pmid.  It can be configured to cache those results.
  */
 
 public class IdResolver {
-    // The keys of the cache are the CURIE strings of the original (unresolved) identifiers.
-    // The values are Identifiers either of type aiid or pmid.
-    // FIXME:  change the name of this to reflect that it's not just aiid.
-    // Note: KittyCache is thread-safe.
-    //KittyCache<String, Identifier> idCache;
-
     // This will replace the above.  The keys of this cache are all of the known CURIEs that
     // we see.
     KittyCache<String, IdGlob> idGlobCache;
-
 
     ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
@@ -143,7 +139,8 @@ public class IdResolver {
      *
      * @param idStr - comma-delimited list of IDs, from the `ids` query string param.
      * @param idType - optional ID type, from the `idtype` query-string parameter.  If not null, it
-     *   must be "pmcid", "pmid", "mid", "doi" or "aiid".
+     *   must be "pmcid", "pmid", "mid", "doi" or "aiid".  If it is null, then we try to figure out
+     *   the type from the pattern of the first id in the list.
      * @return a ResolvedIdList object.  Not all of the items in that list are necessarily resolved.
      */
     public RequestIdList resolveIds(String idStr, String idType)
@@ -176,20 +173,16 @@ public class IdResolver {
         List<IdGlob> idsToResolve = new ArrayList<IdGlob>();
         for (int i = 0; i < idsArray.length; ++i) {
             String idValue = idsArray[i];
-            System.out.println("============================== checking " + idType + ":" + idValue);
             Identifier origId = new Identifier(idType, idValue);
 
             // Try to get it from the cache
             IdGlob idGlob = null;
             if (idGlobCache != null) {
-                System.out.println("    looking in the cache");
                 idGlob = idGlobCache.get(origId.getCurie());
-                if (idGlob != null) System.out.println("    found in the cache!");
             }
 
             // Not in the cache, let's create a new IdGlob object
             if (idGlob == null) {
-                System.out.println("    creating new IdGlob object");
                 idGlob = new IdGlob(origId);
             }
 
@@ -201,8 +194,7 @@ public class IdResolver {
                 idsToResolve.add(idGlob);
             }
         }
-        System.out.println("idList.size() = " + idList.size());
-        System.out.println("idsToResolve.size() = " + idsToResolve.size());
+        //System.out.println("=============> idsToResolve.size() = " + idsToResolve.size());
 
 
         // If needed, call the ID resolver.
@@ -237,12 +229,11 @@ public class IdResolver {
             if (!status.equals("ok"))
                 throw new ServiceException("Problem attempting to resolve ids from '" + url + "'");
 
-
             // In parsing the response, we'll create IdGlob objects as we go. We have to then match them
             // back to the idList:  if the CURIE corresponding
             // to the original id type matches something in the idList, then replace the idList value with this
             // new (more complete, presumably) idGlob.
-            System.out.println("parsing the response");
+            //System.out.println("parsing the response");
             ArrayNode records = (ArrayNode) idconvResponse.get("records");
             for (int rn = 0; rn < records.size(); ++rn) {
                 ObjectNode record = (ObjectNode) records.get(rn);
@@ -281,7 +272,7 @@ public class IdResolver {
 
         // Create an idGlob object out of this
         Identifier fromId = new Identifier(fromIdType, fromNode.asText());
-        System.out.println("Creating new glob out of " + fromId.getCurie());
+        //System.out.println("Creating new glob out of " + fromId.getCurie());
         IdGlob newGlob = new IdGlob(fromId);
         if (idGlobCache != null) idGlobCache.put(fromId.getCurie(), newGlob, idCacheTtl);
 
@@ -297,7 +288,7 @@ public class IdResolver {
                 !key.equals(fromIdType))
             {
                 Identifier newId = new Identifier(key, record.get(key).asText());
-                System.out.println("  adding nother ID: " + newId.getCurie());
+                //System.out.println("  adding nother ID: " + newId.getCurie());
                 newGlob.addId(newId);
                 if (idGlobCache != null) idGlobCache.put(newId.getCurie(), newGlob, idCacheTtl);
             }
@@ -306,7 +297,7 @@ public class IdResolver {
         // Replace the value in the idList with this new, improved one
         int idListIndex = idList.lookup(fromId);
         if (idListIndex != -1) {
-            System.out.println("  replacing index " + idListIndex + " value in idList with this new glob");
+            //System.out.println("  replacing index " + idListIndex + " value in idList with this new glob");
             idList.set(idListIndex, newGlob);
         }
 

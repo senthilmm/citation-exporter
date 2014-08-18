@@ -4,6 +4,7 @@ import gov.ncbi.pmc.ids.IdResolver;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -105,6 +106,16 @@ public class App {
     {
         return transformEngine.doTransform(src, transform);
     }
+
+    /**
+     * Convenience method that delegates to TransformEngine.
+     */
+    public Object doTransform(Document src, String transform, Map<String, String> params)
+        throws IOException
+    {
+        return transformEngine.doTransform(src, transform, params);
+    }
+
 
     public CiteprocPool getCiteprocPool() {
         return citeprocPool;

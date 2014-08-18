@@ -1,7 +1,6 @@
 package gov.ncbi.pmc.cite;
 
 import gov.ncbi.pmc.ids.IdGlob;
-import gov.ncbi.pmc.ids.RequestId;
 import gov.ncbi.pmc.ids.RequestIdList;
 import gov.ncbi.pmc.ids.Identifier;
 
@@ -272,10 +271,7 @@ public class Request {
             log.debug("Resolved ids: " + idList);
             if (idList.numHasType("aiid") == 0) throw new BadParamException("No resolvable IDs found: " + idList);
 
-            System.out.println("Found " + idList.numHasType("aiid") + " ids that have aiids");
-
-
-
+            //System.out.println("Found " + idList.numHasType("aiid") + " ids that have aiids");
 
             // FIXME:  this should be data-driven
             // Get report and format, validating and implementing defaults.
@@ -361,7 +357,6 @@ public class Request {
     private void pubOneXml()
         throws NotFoundException, BadParamException, IOException
     {
-        System.out.println("In pubOneXml");
         ItemSource itemSource = app.getItemSource();
 
         int numIds = idList.size();
@@ -369,7 +364,7 @@ public class Request {
 
         String pubOneString;  // response goes here
         if (numIds == 1) {
-            Document d = itemSource.retrieveItemPubOne(idList.get(0).getIdByType("aiid"));
+            Document d = itemSource.retrieveItemPubOne(idList.get(0));
             pubOneString = serializeXml(d);
         }
         else {
@@ -388,7 +383,7 @@ public class Request {
                 if (aiid != null) {
                     try {
                         // Retrieve the PubOne record XML
-                        Document record = itemSource.retrieveItemPubOne(aiid);
+                        Document record = itemSource.retrieveItemPubOne(idg);
 
                         // Add an `s:id` attribute with the original (requested) id
                         Element recordElem = record.getDocumentElement();
@@ -446,7 +441,7 @@ public class Request {
 
         Document d = null;
         if (numIds == 1) {
-            d = itemSource.retrieveItemNxml(idList.get(0).getIdByType("aiid"));
+            d = itemSource.retrieveItemNxml(idList.get(0));
         }
         else {
             d = getDocumentBuilder().newDocument();
@@ -454,7 +449,7 @@ public class Request {
             d.appendChild(root);
 
             for (int i = 0; i < numIds; ++i) {
-                Document record = itemSource.retrieveItemNxml(idList.get(i).getIdByType("aiid"));
+                Document record = itemSource.retrieveItemNxml(idList.get(i));
                 root.appendChild(d.importNode(record.getDocumentElement(), true));
             }
         }
@@ -524,17 +519,18 @@ public class Request {
         String contentDispHeader;
         String result = "";
         if (numIds == 1) {
-            Identifier id = idList.get(0).getIdByType("aiid");
+            IdGlob idg = idList.get(0);
+            Identifier id = idg.getIdByType("aiid");
             String outFilename = id.getType() + "-" + id.getValue() + "." + report;
             contentDispHeader = "attachment; filename=" + outFilename;
-            Document d = itemSource.retrieveItemPubOne(id);
+            Document d = itemSource.retrieveItemPubOne(idg);
             result = (String) transformEngine.doTransform(d, transformName);
         }
         else {
             contentDispHeader = "attachment; filename=results." + report;
             for (int i = 0; i < numIds; ++i) {
                 if (i != 0) { result += "\n"; }
-                Document d = itemSource.retrieveItemPubOne(idList.get(i).getIdByType("aiid"));
+                Document d = itemSource.retrieveItemPubOne(idList.get(i));
                 result += (String) transformEngine.doTransform(d, transformName) + "\n";
             }
         }
@@ -561,7 +557,7 @@ public class Request {
         String jsonString;
         try {
             if (numIds == 1) {
-                JsonNode jn = itemSource.retrieveItemJson(idList.get(0).getIdByType("aiid"));
+                JsonNode jn = itemSource.retrieveItemJson(idList.get(0));
                 jsonString = app.getMapper().writeValueAsString(jn);
             }
             else {
@@ -576,7 +572,7 @@ public class Request {
                     if (id != null) {
                         try {
                             // Retrieve the JSON item and add it to our list
-                            jsonRecords.add(itemSource.retrieveItemJson(id).toString());
+                            jsonRecords.add(itemSource.retrieveItemJson(idg).toString());
                             success = true;
                         }
                         catch (CiteException e) {}
@@ -609,7 +605,7 @@ public class Request {
 }
 
     /**
-     * Respond to the client with a styled citation.
+     * Respond to the client with a list of styled citations.
      */
     private void styledCitation()
         throws BadParamException, NotFoundException, IOException
@@ -649,20 +645,26 @@ public class Request {
                 bibl = cp.makeBibliography(idList, "html");
             }
             finally {
-                cpPool.putCiteproc(cp);           // return it when done
+                cpPool.putCiteproc(cp);      // return it to the pool, when done
             }
 
             // Parse the output entries, and stick them into the output document
             String entryIds[] = bibl.getEntryIds();
             String entries[] = bibl.getEntries();
 
-            // The array of ids that we will be outputting
-            List<RequestId> goodRids = idList.getGoodRequestIds();
-            int numGoodRids = goodRids.size();
+            // The array of ids that we will be outputting -- all the ones that returned
+            // good data
+            List<IdGlob> goodIdgs = new ArrayList<IdGlob>();
+            int numRequestIds = idList.size();
+            for (int i = 0; i < numRequestIds; ++i) {
+                IdGlob idg = idList.get(i);
+                if (idg.isGood()) goodIdgs.add(idg);
+            }
+            int numGoodIdgs = goodIdgs.size();
             //String[] curies = idList.getGoodCuries();
-            for (int idnum = 0; idnum < numGoodRids; ++idnum) {
-                RequestId rid = goodRids.get(idnum);
-                Identifier resolvedId = rid.getResolvedId();
+            for (int idnum = 0; idnum < numGoodIdgs; ++idnum) {
+                IdGlob idg = goodIdgs.get(idnum);
+                Identifier resolvedId = idg.getIdByType("aiid");
                 String curie = resolvedId.getCurie();
                 int entryNum = ArrayUtils.indexOf(entryIds, curie);
                 String entry = entries[entryNum];
@@ -681,7 +683,7 @@ public class Request {
                 }
                 Element entryDiv = doc.getDocumentElement();
                 entryDiv.setAttribute("data-style", style);
-                Identifier originalId = rid.getOriginalId();
+                Identifier originalId = idg.getOriginalId();
                 entryDiv.setAttribute("data-id", originalId.getCurie());
                 if (!originalId.equals(resolvedId)) {
                     entryDiv.setAttribute("data-resolved-id", resolvedId.getCurie());
@@ -691,9 +693,10 @@ public class Request {
                 entriesDiv.appendChild(entriesDoc.importNode(entryDiv, true));
             }
         }
-        if (idList.size() != idList.numGood()) {
-            entriesDiv.setAttribute("data-not-found", StringUtils.join(idList.getBadCuries(), ""));
-        }
+        // FIXME:  I think we need to reimplement this:
+        //if (idList.size() != idList.numGood()) {
+        //    entriesDiv.setAttribute("data-not-found", StringUtils.join(idList.getBadCuries(), ""));
+        //}
         String s = serializeXml(entriesDoc, true);
 
         response.setContentType("text/html;charset=UTF-8");

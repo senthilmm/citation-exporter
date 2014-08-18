@@ -1,6 +1,7 @@
 package gov.ncbi.pmc.cite;
 
 import gov.ncbi.pmc.Pmfu;
+import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.Identifier;
 
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class StcachePubOneItemSource extends ItemSource {
     }
 
     @Override
-    public Document retrieveItemNxml(Identifier id)
+    public Document retrieveItemNxml(IdGlob idg)
         throws IOException
     {
         throw new IOException("Using PubOne data source; can't retrieve NXML data");
@@ -51,23 +52,18 @@ public class StcachePubOneItemSource extends ItemSource {
     /**
      */
     @Override
-    public Document retrieveItemPubOne(Identifier id)
+    public Document retrieveItemPubOne(IdGlob idg)
         throws NotFoundException, IOException
     {
-        // for now, pubmed pub-one will come from the HTTP service (this is a hack)
+        Identifier id = idg.getIdByType("aiid");
+        if (id == null) {
+            throw new NotFoundException("Only supporting aiid's at this time");
+        }
         String idType = id.getType();
-        if (idType.equals("pmid")) throw new NotFoundException("Only supporting aiid's at this time");
 
-        String key = null;
-        if (idType.equals("aiid") || idType.equals("pmid")) {
-            key = id.getType() + "-" + id.getValue();
-        }
-        else {
-            throw new IOException("Unrecognized identifier type: " + idType);
-        }
         byte[] pubOneBytes;
         try {
-            pubOneBytes = pubOneStcache.get(key);
+            pubOneBytes = pubOneStcache.get(idType + "-" + id.getValue());
         }
         catch (Exception e) {
             throw new IOException(e);

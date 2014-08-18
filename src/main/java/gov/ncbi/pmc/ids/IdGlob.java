@@ -12,22 +12,15 @@ import java.util.Map;
  *
  * An IdGlob that corresponds to a non-versioned identifier might have several child version IdGlobs.
  * An IdGlob that corresponds to a particular version ID will have a parent.
- *
- * FIXME:  maybe not, on all this other stuff:
- * An object of this class has two orthogonal bookkeeping variables, both of which start out as `false`.
- *   * resolved - This is set to true by the application when it is known that this glob contains
- *     one of the "wanted" types.  For example, for the citation exporter, the wanted types are
- *     pmid or aiid.
- *   * known_valid - We were able to use this ID to get good data from an NCBI database
- * As mentioned, these are orthogonal, so, for example, you can have a pmid, that doesn't need to
- * be resolved (because it's already the preferred type), and that can either be a valid or invalid
- * pmid.
  */
 
 public class IdGlob {
     private Identifier originalId;
-    //private boolean resolved = false;
-    //private boolean knownValid = false;
+
+    // This is purely for bookkeeping by the application, so that it can keep track of whether
+    // or not good data was retreived for this particular IdGlob.  FIXME:  I think this is an
+    // awful hack, and probably not thread-safe.
+    private boolean good;
 
     // Cross reference from an id-type (CURIE prefix) to Identifier object
     private Map<String, Identifier> idByType;
@@ -39,6 +32,7 @@ public class IdGlob {
 
     public IdGlob(Identifier originalId) {
         this.originalId = originalId;
+        good = true;
         idByType = new HashMap<>();
         idByType.put(originalId.getType(), originalId);
     }
@@ -61,17 +55,24 @@ public class IdGlob {
         return idByType.get(type) != null;
     }
 
+    /**
+     * Get an Identifier from this glob, given the type.  Note that this takes versions
+     * into account.  If this IdGlob has a parent (meaning that this is a version-specific
+     * IdGlob, and it doesn't have the requested type, but it's parent does, then the
+     * parent's value is returned.
+     */
     public Identifier getIdByType(String type) {
-        return idByType.get(type);
+        Identifier id = idByType.get(type);
+        if (id == null && parent != null) id = parent.getIdByType(type);
+        return id;
     }
 
-  /*
-    public boolean isResolved() {
-        return resolved;
+
+    public void setGood(boolean good) {
+        this.good = good;
     }
 
-    public boolean isKnownValid() {
-        return knownValid;
+    public boolean isGood() {
+        return good;
     }
-  */
 }

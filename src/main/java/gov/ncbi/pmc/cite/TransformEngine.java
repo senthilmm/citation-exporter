@@ -7,6 +7,7 @@ import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -95,6 +96,19 @@ public class TransformEngine {
     public Object doTransform(Document src, String transform)
         throws IOException
     {
+        return doTransform(src, transform, null);
+    }
+
+    /**
+     * Transform an XML document according to the indicated transformation.  The type of the
+     * return value will depend on the `report` of the transformation, as specified in
+     * the transforms.json config file.
+     *   application/xml - org.w3c.dom.Document
+     *   anything else - String
+     */
+    public Object doTransform(Document src, String transform, Map<String, String> params)
+        throws IOException
+    {
         try {
             TransformDescriptor td = transforms.get(transform);
             if (td == null) {
@@ -102,6 +116,11 @@ public class TransformEngine {
             }
             PreparedStylesheet xslt = getStylesheet(td);
             Controller controller = (Controller) xslt.newTransformer();
+            if (params != null) {
+                for (String key : params.keySet()) {
+                    controller.setParameter(key, params.get(key));
+                }
+            }
             Source s = new DOMSource(src);
 
             if (td.report.equals("application/xml")) {

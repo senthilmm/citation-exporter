@@ -1,5 +1,6 @@
 package gov.ncbi.pmc.cite;
 
+import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.Identifier;
 
 import java.io.IOException;
@@ -24,10 +25,11 @@ public class ConvAppNxmlItemSource  extends ItemSource {
     }
 
     @Override
-    public Document retrieveItemNxml(Identifier id)
+    public Document retrieveItemNxml(IdGlob idg)
         throws BadParamException, NotFoundException, IOException
     {
-        if (!id.getType().equals("aiid")) throw new BadParamException("Invalid type for id: " + id.getType());
+        Identifier id = idg.getIdByType("aiid");
+        if (id == null) throw new BadParamException("No id of type aiid in " + idg);
 
         URL nxmlUrl = new URL(convAppUrl, id.getValue());
         log.debug("Reading NXML from " + nxmlUrl);
@@ -42,7 +44,7 @@ public class ConvAppNxmlItemSource  extends ItemSource {
                 String head = nxmlString.substring(0, 1000);
                 head = Pattern.compile(".*?\\<\\!DOCTYPE.*?\\>", Pattern.DOTALL).matcher(head).replaceFirst("");
                 nxmlString = head + nxmlString.substring(1000);
-                System.out.println("\n======================= nxmlString = '" + nxmlString.substring(0, 200) + "...'\n\n");
+                //System.out.println("\n======================= nxmlString = '" + nxmlString.substring(0, 200) + "...'\n\n");
                 InputStream nxmlStringStream = IOUtils.toInputStream(nxmlString, "UTF-8");
                 nxml = app.newDocumentBuilder().parse(nxmlStringStream);
             }

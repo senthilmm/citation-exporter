@@ -1,9 +1,14 @@
 package gov.ncbi.pmc.cite;
 
+import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.RequestIdList;
 import gov.ncbi.pmc.ids.Identifier;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +43,7 @@ public abstract class ItemSource {
     /**
      * Get the NXML for a given ID.
      */
-    public abstract Document retrieveItemNxml(Identifier id)
+    public abstract Document retrieveItemNxml(IdGlob idg)
         throws BadParamException, NotFoundException, IOException;
 
     /**
@@ -47,12 +52,18 @@ public abstract class ItemSource {
      *
      * @throws IOException - if something goes wrong with the transformation
      */
-    public Document retrieveItemPubOne(Identifier id)
+    public Document retrieveItemPubOne(IdGlob idg)
         throws BadParamException, NotFoundException, IOException
     {
-        Document nxml = retrieveItemNxml(id);
-        System.out.println("=================> id = '" + id + "'");
-        return (Document) app.doTransform(nxml, "pub-one");
+        Document nxml = retrieveItemNxml(idg);
+        // Prepare id parameters that get passed to the xslt
+        Map<String, String> params = new HashMap<String, String>();
+        Identifier pmid = idg.getIdByType("pmid");
+        if (pmid != null) params.put("pmid", pmid.getValue());
+        Identifier pmcid = idg.getIdByType("pmcid");
+        if (pmcid != null) params.put("pmcid", pmcid.getValue());
+
+        return (Document) app.doTransform(nxml, "pub-one", params);
     }
 
     /**
@@ -61,10 +72,10 @@ public abstract class ItemSource {
      *
      * @throws IOException - if there's some problem retrieving the PubOne or transforming it
      */
-    public JsonNode retrieveItemJson(Identifier id)
+    public JsonNode retrieveItemJson(IdGlob idg)
         throws BadParamException, NotFoundException, IOException
     {
-        String curie = id.getCurie();
+        String curie = idg.getIdByType("aiid").getCurie();
         JsonNode cached = jsonCache.get(curie);
         if (cached != null) {
             log.debug("JSON for " + curie + ": kitty-cache hit");
@@ -72,7 +83,7 @@ public abstract class ItemSource {
         }
         log.debug("JSON for " + curie + ": kitty-cache miss");
 
-        Document pub_one = retrieveItemPubOne(id);
+        Document pub_one = retrieveItemPubOne(idg);
         String jsonStr = (String) app.doTransform(pub_one, "pub-one2json");
         ObjectNode json = (ObjectNode) app.getMapper().readTree(jsonStr);
         json.put("id", curie);

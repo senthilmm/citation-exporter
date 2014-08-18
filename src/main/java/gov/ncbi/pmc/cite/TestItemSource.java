@@ -1,5 +1,6 @@
 package gov.ncbi.pmc.cite;
 
+import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.RequestIdList;
 import gov.ncbi.pmc.ids.Identifier;
 
@@ -45,10 +46,10 @@ public class TestItemSource extends ItemSource {
      * Retrieves an item's NXML from the test directory.
      */
     @Override
-    public Document retrieveItemNxml(Identifier id)
+    public Document retrieveItemNxml(IdGlob idg)
         throws BadParamException, NotFoundException, IOException
     {
-        return fetchItemNxml(id);
+        return fetchItemNxml(idg);
     }
 
     /**
@@ -57,9 +58,13 @@ public class TestItemSource extends ItemSource {
      * @throws BadParamException - if idType or id are malformed
      * @throws IOException - if something bad happens reading the XML
      */
-    public Document fetchItemNxml(Identifier id)
+    public Document fetchItemNxml(IdGlob idg)
         throws BadParamException, NotFoundException, IOException
     {
+        // FIXME:  We could change this so that it checks every type that's stored in the
+        // idg, but right now it only looks for aiids.
+        Identifier id = idg.getIdByType("aiid");
+
         URL nxmlUrl = null;
         try {
             nxmlUrl = new URL(base_url, id.getType() + "/" + id.getValue() + ".nxml");
@@ -92,14 +97,14 @@ public class TestItemSource extends ItemSource {
      * NXML.
      */
     @Override
-    public Document retrieveItemPubOne(Identifier id)
+    public Document retrieveItemPubOne(IdGlob idg)
         throws BadParamException, NotFoundException, IOException
     {
         try {
-            return fetchItemPubOne(id);
+            return fetchItemPubOne(idg);
         }
         catch (Exception e) {
-            return super.retrieveItemPubOne(id);
+            return super.retrieveItemPubOne(idg);
         }
     }
 
@@ -107,9 +112,13 @@ public class TestItemSource extends ItemSource {
      * Get the PubOne representation of an item. This assumes that it exists as a .pub1 file in the
      * test directory.
      */
-    public Document fetchItemPubOne(Identifier id)
+    public Document fetchItemPubOne(IdGlob idg)
         throws BadParamException, NotFoundException, IOException
     {
+        // FIXME:  We could change this so that it checks every type that's stored in the
+        // idg, but right now it only looks for aiids.
+        Identifier id = idg.getIdByType("aiid");
+
         URL url = null;
         try {
             url = new URL(base_url, id.getType() + "/" + id.getValue() + ".pub1");
@@ -143,14 +152,14 @@ public class TestItemSource extends ItemSource {
      * PubOne.
      */
     @Override
-    public JsonNode retrieveItemJson(Identifier id)
+    public JsonNode retrieveItemJson(IdGlob idg)
         throws BadParamException, NotFoundException, IOException
     {
         try {
-            return fetchItemJson(id);
+            return fetchItemJson(idg);
         }
         catch (Exception e) {
-            return super.retrieveItemJson(id);
+            return super.retrieveItemJson(idg);
         }
     }
 
@@ -159,9 +168,13 @@ public class TestItemSource extends ItemSource {
      * test directory.
      * FIXME: this could throw more specific exceptions; see fetchItemPubOne above.
      */
-    protected JsonNode fetchItemJson(Identifier id)
+    protected JsonNode fetchItemJson(IdGlob idg)
             throws IOException
     {
+        // FIXME:  We could change this so that it checks every type that's stored in the
+        // idg, but right now it only looks for aiids.
+        Identifier id = idg.getIdByType("aiid");
+
         String idType = id.getType();
         ObjectNode json = (ObjectNode) app.getMapper().readTree(new URL(base_url, idType + "/" + id + ".json"));
         json.put("id", id.getCurie());

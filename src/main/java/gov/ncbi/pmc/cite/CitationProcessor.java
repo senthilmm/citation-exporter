@@ -1,6 +1,6 @@
 package gov.ncbi.pmc.cite;
 
-import gov.ncbi.pmc.ids.RequestId;
+import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.RequestIdList;
 import gov.ncbi.pmc.ids.Identifier;
 
@@ -79,7 +79,7 @@ public class CitationProcessor {
     {
         prefetchItems(idList);
         csl.setOutputFormat(format);
-        csl.registerCitationItems(idList.getGoodCuries());
+        csl.registerCitationItems(idList.getCuriesByType("aiid"));
         long mb_start = System.currentTimeMillis();
         Bibliography bibl = csl.makeBibliography();
         log.debug("makeBibliography took " + (System.currentTimeMillis() - mb_start) + " milliseconds");
@@ -104,9 +104,11 @@ public class CitationProcessor {
         itemProvider.clearCache();
         int numIds = idList.size();
 
+        // Keep track of whether or not we find at least one good result
+        boolean foundOneGood = false;
         for (int i = 0; i < numIds; ++i) {
-            RequestId rid = idList.get(i);
-            Identifier id = rid.getResolvedId();
+            IdGlob idg = idList.get(i);
+            Identifier id = idg.getIdByType("aiid");
             if (id == null) continue;
             String curie = id.getCurie();
 
@@ -114,11 +116,11 @@ public class CitationProcessor {
             // it and parse it back in as a citeproc-java object.  See this question:
             // https://github.com/michel-kraemer/citeproc-java/issues/9
 
-            rid.setGood(false);  // assume this will fail
+            idg.setGood(false);  // assume this will fail
             ObjectMapper objectMapper = itemSource.getMapper();
             JsonNode jsonNode = null;
             try {
-                jsonNode = itemSource.retrieveItemJson(id);
+                jsonNode = itemSource.retrieveItemJson(idg);
             }
             catch (CiteException e) { }
             if (jsonNode != null) {
@@ -139,13 +141,14 @@ public class CitationProcessor {
                 CSLItemData item = CSLItemData.fromJson(itemJsonMap);
                 if (item == null) throw new IOException("Problem creating a CSLItemData object from backend JSON");
                 itemProvider.addItem(curie, item);
-                rid.setGood(true); // success
+                idg.setGood(true); // success
+                foundOneGood = true;
             }
         }
 
         // If the total number of good CSL items we've found is zero, throw an exception
-        log.debug("Number of good items found " + idList.numGood());
-        if (idList.numGood() == 0) {
+        //log.debug("Number of good items found " + idList.numGood());
+        if (!foundOneGood) {
             throw new NotFoundException("Couldn't retrieve/create any good CSL items for this ID list");
         }
     }

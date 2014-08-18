@@ -67,7 +67,7 @@ Configuration is controlled with system properties.
 Set these on the run command line, for example:
 
 ```
-mvn jetty:run -Djetty.port=9876 -Dcache_aiids=true -Daiid_cache_ttl=8
+mvn jetty:run -Djetty.port=9876 -Dcache_ids=true -Did_cache_ttl=8
 ```
 
 Here are the parameters that are defined:
@@ -309,7 +309,8 @@ This repository has been configured such that, *by default*, it can run stand-al
 dependencies on NCBI-internal libraries or services.
 
 In the production environment, however, we require access to a Java library which has not been released
-openly (groupId=gov.ncbi.pmc, artifactId=pmc-lib). References to that library exist in two class files, StcachePubOneItemSource and
+openly (groupId=gov.ncbi.pmc, artifactId=pmc-lib). References to that library exist in two class files,
+StcachePubOneItemSource and
 StcacheNxmlItemSource; so, *by default*, those are excluded from compilation.  This is because the default
 build profile is "test", which explicitly excludes those two class files, and doesn't include the dependency
 on the pmc-lib library.
