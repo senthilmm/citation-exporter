@@ -73,9 +73,11 @@ public class RequestIdList {
      * Count the number of IdGlobs that have Identifiers of a particular type
      */
     public int numHasType(String t) {
+        //System.out.println("------------- numHasType(" + t + ")");
         int size = size();
         int num = 0;
         for (int i = 0; i < size; ++i) {
+            //System.out.println("  checking '" + get(i) + "'");
             if (get(i).hasType(t)) num++;
         }
         return num;
@@ -105,8 +107,8 @@ public class RequestIdList {
         int numIds = size();
         for (int i = 0; i < numIds; ++i) {
             IdGlob idg = get(i);
-            if (i != 0) r += ",";
-            r += idg.getOriginalId().getCurie();
+            if (i != 0) r += "|";
+            r += idg.toString();
         }
         return r;
     }

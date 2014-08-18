@@ -4,6 +4,7 @@ import gov.ncbi.pmc.cite.App;
 import gov.ncbi.pmc.cite.BadParamException;
 import gov.ncbi.pmc.cite.ItemSource;
 import gov.ncbi.pmc.cite.NotFoundException;
+import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.Identifier;
 
 import java.io.IOException;
@@ -61,7 +62,8 @@ public class TransformTest
 
         Document nxml_31 = null;
         try {
-            nxml_31 = itemSource.retrieveItemNxml(new Identifier("aiid", "31"));
+            IdGlob idg = new IdGlob(new Identifier("aiid", "31"));
+            nxml_31 = itemSource.retrieveItemNxml(idg);
         }
         catch (IOException e) {
             fail("IOException: " + e);

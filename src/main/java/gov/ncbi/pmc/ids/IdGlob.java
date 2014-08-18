@@ -8,7 +8,8 @@ import java.util.Map;
 
 /**
  * This class stores information about one requested ID from a list.  Each object keeps track of
- * the original Identifier that was used to create it.
+ * the original Identifier that was used to create it, if there is one.  In the case of mid's there
+ * is no originalId for the parent glob.
  *
  * An IdGlob that corresponds to a non-versioned identifier might have several child version IdGlobs.
  * An IdGlob that corresponds to a particular version ID will have a parent.
@@ -27,8 +28,16 @@ public class IdGlob {
 
     // If there are different versions associated with this ID, then versionKids will not be null.
     private List<IdGlob> versionKids;
+
     // If this is an individual version of a work, then this will point to the non-versioned IdGlob
     private IdGlob parent;
+
+    public IdGlob() {
+        this.originalId = null;
+        good = true;
+        idByType = new HashMap<>();
+    }
+
 
     public IdGlob(Identifier originalId) {
         this.originalId = originalId;
@@ -39,6 +48,10 @@ public class IdGlob {
 
     public Identifier getOriginalId() {
         return originalId;
+    }
+
+    public void setOriginalId(Identifier origId) {
+        originalId = origId;
     }
 
     public void addId(Identifier newId) {
@@ -52,7 +65,8 @@ public class IdGlob {
     }
 
     public boolean hasType(String type) {
-        return idByType.get(type) != null;
+        //System.out.println("    in hasType(" + type + ") for IdGlob '" + toString() + "', parent = " + parent);
+        return getIdByType(type) != null;
     }
 
     /**
@@ -74,5 +88,14 @@ public class IdGlob {
 
     public boolean isGood() {
         return good;
+    }
+
+    public String toString() {
+        String s = "";
+        for (String key : idByType.keySet()) {
+            if (!s.equals("")) s += ",";
+            s += idByType.get(key).getCurie();
+        }
+        return s;
     }
 }

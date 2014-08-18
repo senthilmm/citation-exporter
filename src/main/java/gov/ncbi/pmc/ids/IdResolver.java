@@ -236,7 +236,9 @@ public class IdResolver {
             //System.out.println("parsing the response");
             ArrayNode records = (ArrayNode) idconvResponse.get("records");
             for (int rn = 0; rn < records.size(); ++rn) {
+                //System.out.println("Iterating over a JSON record");
                 ObjectNode record = (ObjectNode) records.get(rn);
+                //System.out.println("  about to call globbifyRecord()");
                 IdGlob parent = globbifyRecord(record, idType, idList);
 
                 if (parent != null) {
@@ -263,18 +265,12 @@ public class IdResolver {
      * object.
      */
     private IdGlob globbifyRecord(ObjectNode record, String fromIdType, RequestIdList idList) {
-        // Get the key-value pair corresponding to the requested type.  E.g. `"pmcid": "PMC3362639",`
-        JsonNode fromNode = record.get(fromIdType);
-        if (fromNode == null) return null;  // not much we can do
+        //System.out.println("  In globbifyRecord");
 
         JsonNode status = record.get("status");
         if (status != null && status.asText() != "success") return null;
 
-        // Create an idGlob object out of this
-        Identifier fromId = new Identifier(fromIdType, fromNode.asText());
-        //System.out.println("Creating new glob out of " + fromId.getCurie());
-        IdGlob newGlob = new IdGlob(fromId);
-        if (idGlobCache != null) idGlobCache.put(fromId.getCurie(), newGlob, idCacheTtl);
+        IdGlob newGlob = new IdGlob();
 
         // Iterate over the other fields in the response record, and add Identifiers to the glob
         Iterator<String> i = record.fieldNames();
@@ -284,8 +280,7 @@ public class IdResolver {
                 !key.equals("current") &&
                 !key.equals("live") &&
                 !key.equals("status") &&
-                !key.equals("errmsg") &&
-                !key.equals(fromIdType))
+                !key.equals("errmsg"))
             {
                 Identifier newId = new Identifier(key, record.get(key).asText());
                 //System.out.println("  adding nother ID: " + newId.getCurie());
@@ -293,14 +288,23 @@ public class IdResolver {
                 if (idGlobCache != null) idGlobCache.put(newId.getCurie(), newGlob, idCacheTtl);
             }
         }
+        //System.out.println("In globbifyRecord, newGlob: '" + newGlob + "'");
 
-        // Replace the value in the idList with this new, improved one
-        int idListIndex = idList.lookup(fromId);
-        if (idListIndex != -1) {
-            //System.out.println("  replacing index " + idListIndex + " value in idList with this new glob");
-            idList.set(idListIndex, newGlob);
+
+        // If this new glob looks like one of the ones in the requested list, then
+        // replace the value in the idList with this new, improved one
+        Identifier fromId = newGlob.getIdByType(fromIdType);
+        if (fromId != null) {
+            newGlob.setOriginalId(fromId);
+            int idListIndex = idList.lookup(fromId);
+            //System.out.println("  idListIndex == " + idListIndex);
+            if (idListIndex != -1) {
+                //System.out.println("  replacing index " + idListIndex + " value in idList with this new glob");
+                idList.set(idListIndex, newGlob);
+            }
         }
 
+        //System.out.println("  globbifyRecord, returning " + newGlob);
         return newGlob;
     }
 
