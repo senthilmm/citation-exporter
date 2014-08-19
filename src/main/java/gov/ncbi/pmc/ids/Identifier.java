@@ -10,7 +10,6 @@ public class Identifier {
     private final String type;
     private final String value;
 
-
     // Here we specify the regexp patterns that will be used to match IDs to their type
     // The order is important:  if determining the type of an unknown id (getIdType()), then these
     // regexps are attempted in order, and first match wins.
@@ -62,8 +61,6 @@ public class Identifier {
         }
         return false;
     }
-
-
 
     /**
      * Create a new Identifier object.  This validates and canonicalizes the value given.

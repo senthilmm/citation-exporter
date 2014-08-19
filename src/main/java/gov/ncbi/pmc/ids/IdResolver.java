@@ -147,9 +147,9 @@ public class IdResolver {
             }
 
             // FIXME:
-            // For now, I think we should always resolve IDs.  In order to decide that an ID is not worth
-            // resolving, I have to know that I'll get the PubOne from a pre-generated cache, so that all
-            // the identifiers will already be inserted.
+            // For now, we *always* resolve IDs unless they are in the cache.  In order to decide
+            // that an ID is not worth resolving, we'd have to know that we'll get the PubOne from
+            // a pre-generated cache, so that we won't need the IDs to pass in as params.
             //
             //// If it doesn't have either of the wanted types, also add it to the "to resolve" list
             //if (!idGlob.hasType("pmid") && !idGlob.hasType("aiid")) {
