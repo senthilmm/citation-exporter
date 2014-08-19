@@ -7,20 +7,18 @@ import java.util.Map;
 
 
 /**
- * This class stores information about one requested ID from a list.  Each object keeps track of
- * the original Identifier that was used to create it, if there is one.  In the case of mid's there
- * is no originalId for the parent glob.
- *
- * An IdGlob that corresponds to a non-versioned identifier might have several child version IdGlobs.
- * An IdGlob that corresponds to a particular version ID will have a parent.
+ * Instances of this class store a list of identifiers that correspond to some real-world resource,
+ * like a journal article. There are two types:
+ * * non-versioned - correspond roughly to a FRBR "work", for example the ID "PMC3159421" does not refer
+ *   to any particular version.  Non-versioned globs might have a list of versioned glob "children".
+ * * versioned - corresponds roughly to a FRBR "expression", for example, the ID "PMC3159421.1".  Every
+ *   versioned glob will have a reference to its parent non-versioned glob
  */
 
 public class IdGlob {
-    private Identifier originalId;
-
     // This is purely for bookkeeping by the application, so that it can keep track of whether
-    // or not good data was retreived for this particular IdGlob.  FIXME:  I think this is an
-    // awful hack, and probably not thread-safe.
+    // or not good data was retrieved for this particular IdGlob.  FIXME:  I think this is an
+    // awful hack, and probably not thread-safe.  At the least, it should be moved to RequestId.
     private boolean good;
 
     // Cross reference from an id-type (CURIE prefix) to Identifier object
@@ -33,25 +31,8 @@ public class IdGlob {
     private IdGlob parent;
 
     public IdGlob() {
-        this.originalId = null;
         good = true;
         idByType = new HashMap<>();
-    }
-
-
-    public IdGlob(Identifier originalId) {
-        this.originalId = originalId;
-        good = true;
-        idByType = new HashMap<>();
-        idByType.put(originalId.getType(), originalId);
-    }
-
-    public Identifier getOriginalId() {
-        return originalId;
-    }
-
-    public void setOriginalId(Identifier origId) {
-        originalId = origId;
     }
 
     public void addId(Identifier newId) {
@@ -88,6 +69,10 @@ public class IdGlob {
 
     public boolean isGood() {
         return good;
+    }
+
+    public boolean isVersioned() {
+        return parent != null;
     }
 
     public String toString() {

@@ -17,51 +17,47 @@ import org.apache.commons.lang3.tuple.Pair;
  */
 
 public class RequestIdList {
-    //private List<RequestId> rids;
-    private ArrayList<IdGlob> idGlobs;
+    private ArrayList<RequestId> requestIds;
 
-    // This is used to look up the idGlob objects by the original requested value. It uses the original
-    // ID CURIE (in canonical form) as the key
+    // FIXME:  replace this with the above:
+    //private List<RequestId> rids;
+    //private ArrayList<IdGlob> idGlobs;
+
+    // This is used to look up the RequestId objects by the (canonicalized) requested value. It uses the
+    // original ID CURIE (in canonical form) as the key
     private Map<String, Integer> idMap;
 
     /**
      * Create a new, empty IdSet.
      */
     public RequestIdList() {
-        //rids = new ArrayList<RequestId>();
-        idGlobs = new ArrayList<IdGlob>();
+        requestIds = new ArrayList<RequestId>();
+        //idGlobs = new ArrayList<IdGlob>();
         idMap = new HashMap<String, Integer>();
     }
 
-    public void add(IdGlob idGlob) {
-        idMap.put(idGlob.getOriginalId().getCurie(), idGlobs.size());
-        idGlobs.add(idGlob);
+    public void add(RequestId requestId) {
+        idMap.put(requestId.getCanonical().getCurie(), size());
+        requestIds.add(requestId);
+        //idGlobs.add(idGlob);
     }
 
     /**
      * Get the size of the list.
      */
     public int size() {
-        return idGlobs.size();
+        return requestIds.size();
     }
 
     /**
      * Retrieve an individual item from the list
      */
-    public IdGlob get(int i) {
-        return idGlobs.get(i);
-    }
-
-    public IdGlob set(int i, IdGlob newGlob) {
-        IdGlob old = idGlobs.get(i);
-        idGlobs.set(i, newGlob);
-        return old;
+    public RequestId get(int i) {
+        return requestIds.get(i);
     }
 
     /**
-     * Find an entry by matching the unresolved Identifiers against the argument.  This is used
-     * when we get a result back from the ID resolver API, and we're matching the results against
-     * what we requested.  Returns -1 if not found.
+     * Find an entry by matching the argument. Returns -1 if not found.
      */
     public int lookup(Identifier id) {
         Integer i = idMap.get(id.getCurie());
@@ -78,7 +74,9 @@ public class RequestIdList {
         int num = 0;
         for (int i = 0; i < size; ++i) {
             //System.out.println("  checking '" + get(i) + "'");
-            if (get(i).hasType(t)) num++;
+            RequestId rid = get(i);
+            IdGlob idg = rid.getIdGlob();
+            if (idg != null && idg.hasType(t)) num++;
         }
         return num;
     }
@@ -90,8 +88,9 @@ public class RequestIdList {
         List<String> curies = new ArrayList<String>();
         int numIds = size();
         for (int i = 0; i < numIds; ++i) {
-            IdGlob idg = get(i);
-            if (!idg.hasType(t)) continue;
+            RequestId rid = get(i);
+            IdGlob idg = rid.getIdGlob();
+            if (idg == null || !idg.hasType(t)) continue;
             String curie = idg.getIdByType(t).getCurie();
             if (curie != null) curies.add(curie);
         }
@@ -106,9 +105,9 @@ public class RequestIdList {
         String r = "";
         int numIds = size();
         for (int i = 0; i < numIds; ++i) {
-            IdGlob idg = get(i);
+            RequestId rid = get(i);
             if (i != 0) r += "|";
-            r += idg.toString();
+            r += rid.toString();
         }
         return r;
     }

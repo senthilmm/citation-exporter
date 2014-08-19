@@ -62,7 +62,8 @@ public class TransformTest
 
         Document nxml_31 = null;
         try {
-            IdGlob idg = new IdGlob(new Identifier("aiid", "31"));
+            IdGlob idg = new IdGlob();
+            idg.addId(new Identifier("aiid", "31"));
             nxml_31 = itemSource.retrieveItemNxml(idg);
         }
         catch (IOException e) {

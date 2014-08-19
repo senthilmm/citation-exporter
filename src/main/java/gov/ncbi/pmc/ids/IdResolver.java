@@ -40,32 +40,22 @@ import com.spaceprogram.kittycache.KittyCache;
  */
 
 public class IdResolver {
-    // This will replace the above.  The keys of this cache are all of the known CURIEs that
-    // we see.
+    /// If caching is enabled, the keys of this are all of the known CURIEs that we see.
     KittyCache<String, IdGlob> idGlobCache;
 
     ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
-    // Controlled by system property id_cache_ttl (integer in seconds)
+    /// Controlled by system property id_cache_ttl (integer in seconds)
     private int idCacheTtl;
-    // Controlled by system property id_converter_url
+
+    /// Controlled by system property id_converter_url
     private String idConverterUrl;
-    // Controlled by system property id_converter_params
+
+    /// Controlled by system property id_converter_params
     private String idConverterParams;
 
-    // Base URL to use for the ID converter.  Combination of idConverterUrl and idConverterParams
+    /// Base URL to use for the ID converter.  Combination of idConverterUrl and idConverterParams
     private String idConverterBase;
-
-    // Here we specify the regexp patterns that will be used to match IDs to their type
-    // The order is important:  if determining the type of an unknown id (getIdType()), then these
-    // regexps are attempted in order, and first match wins.
-    protected static String[][] idTypePatterns = {
-        { "pmcid", "^PMC\\d+(\\.\\d+)?$" },
-        { "pmid", "^\\d+$" },
-        { "mid", "^[A-Z]+\\d+$" },
-        { "doi", "^10\\.\\d+\\/.*$" },
-        { "aiid", "^\\d+$" },
-    };
 
     private Logger log = LoggerFactory.getLogger(IdResolver.class);
 
@@ -93,34 +83,7 @@ public class IdResolver {
         idConverterBase = idConverterUrl + "?" + idConverterParams + "&";
     }
 
-    /**
-     * This method checks the id string to see what type it is, and throws
-     * an exception if it can't find a match.
-     */
-    public static String getIdType(String idStr)
-        throws BadParamException
-    {
-        for (int idtn = 0; idtn < idTypePatterns.length; ++idtn) {
-            String[] idTypePattern = idTypePatterns[idtn];
-            if (idStr.matches(idTypePattern[1])) {
-                return idTypePattern[0];
-            }
-        }
-        throw new BadParamException("Invalid id: " + idStr);
-    }
 
-    /**
-     * Checks to see if the id string matches the given type's pattern
-     */
-    public static boolean idTypeMatches(String idStr, String idType) {
-        for (int idtn = 0; idtn < idTypePatterns.length; ++idtn) {
-            String[] idTypePattern = idTypePatterns[idtn];
-            if (idTypePattern[0].equals(idType) && idStr.matches(idTypePattern[1])) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * Resolves a comma-delimited list of IDs into a list of aiids or pmids.
@@ -146,53 +109,54 @@ public class IdResolver {
     public RequestIdList resolveIds(String idStr, String idType)
         throws BadParamException, ServiceException, NotFoundException
     {
-        String[] idsArray = idStr.split(",");
+        String[] originalIdsArray = idStr.split(",");
+        RequestIdList idList = new RequestIdList();
+
 
         // If idType wasn't specified, then we infer it from the form of the first id in the list
         if (idType == null) {
-            idType = getIdType(idsArray[0]);
+            idType = Identifier.matchIdType(originalIdsArray[0]);
+        }
+        System.out.println("============ resolveIds: idType = " + idType);
+
+        // Canonicalize every ID in the list.  If it doesn't match the expected pattern,
+        // throw an exception.
+        for (int i = 0; i < originalIdsArray.length; ++i) {
+            String oid = originalIdsArray[i];
+            Identifier cid = new Identifier(idType, oid);
+            RequestId requestId = new RequestId(oid, cid);
+            idList.add(requestId);
         }
 
-        // Check every ID in the list.  If it doesn't match the expected pattern, try to canonicalize
-        // it.  If we can't, throw an exception.
-        for (int i = 0; i < idsArray.length; ++i) {
-            String id = idsArray[i];
-            if (!idTypeMatches(id, idType)) {
-                if (idType.equals("pmcid") && id.matches("\\d+")) {
-                    idsArray[i] = "PMC" + id;
-                }
-                else {
-                    throw new BadParamException("Unrecognizable id: '" + id + "'");
-                }
-            }
-        }
 
-        // Go through each ID in the list, and compose the final idList and idsToResolve list at
-        // the same time.  Note that both lists contain references to the *same* IdGlob objects.
-        RequestIdList idList = new RequestIdList();
-        List<IdGlob> idsToResolve = new ArrayList<IdGlob>();
-        for (int i = 0; i < idsArray.length; ++i) {
-            String idValue = idsArray[i];
-            Identifier origId = new Identifier(idType, idValue);
+
+        // Go through each ID in the list, and compose the idsToResolve list.
+        List<RequestId> idsToResolve = new ArrayList<RequestId>();
+        int numReqIds = idList.size();
+        for (int i = 0; i < numReqIds; ++i) {
+            RequestId requestId = idList.get(i);
+            Identifier cid = requestId.getCanonical();
 
             // Try to get it from the cache
-            IdGlob idGlob = null;
             if (idGlobCache != null) {
-                idGlob = idGlobCache.get(origId.getCurie());
+                IdGlob idGlob = idGlobCache.get(cid.getCurie());
+                if (idGlob != null) {
+                    requestId.setIdGlob(idGlob);
+                    continue;
+                }
             }
 
-            // Not in the cache, let's create a new IdGlob object
-            if (idGlob == null) {
-                idGlob = new IdGlob(origId);
-            }
+            // FIXME:
+            // For now, I think we should always resolve IDs.  In order to decide that an ID is not worth
+            // resolving, I have to know that I'll get the PubOne from a pre-generated cache, so that all
+            // the identifiers will already be inserted.
+            //
+            //// If it doesn't have either of the wanted types, also add it to the "to resolve" list
+            //if (!idGlob.hasType("pmid") && !idGlob.hasType("aiid")) {
+            //    idsToResolve.add(idGlob);
+            //}
 
-            // And add it to the RequestIdList
-            idList.add(idGlob);
-
-            // If it doesn't have either of the wanted types, also add it to the "to resolve" list
-            if (!idGlob.hasType("pmid") && !idGlob.hasType("aiid")) {
-                idsToResolve.add(idGlob);
-            }
+            idsToResolve.add(requestId);
         }
         //System.out.println("=============> idsToResolve.size() = " + idsToResolve.size());
 
@@ -204,7 +168,7 @@ public class IdResolver {
             String idString = "";
             for (int i = 0; i < idsToResolve.size(); ++i) {
                 if (i != 0) idString += ",";
-                idString += idsToResolve.get(i).getOriginalId().getValue();
+                idString += idsToResolve.get(i).getCanonical().getValue();
             }
             URL url = null;
             try {
@@ -245,7 +209,6 @@ public class IdResolver {
                     // Now let's do the individual versions
                     ArrayNode versions = (ArrayNode) record.get("versions");
                     if (versions != null) {
-
                         for (int vn = 0; vn < versions.size(); ++vn) {
                             ObjectNode version = (ObjectNode) versions.get(vn);
                             IdGlob versionGlob = globbifyRecord(version, idType, idList);
@@ -282,7 +245,12 @@ public class IdResolver {
                 !key.equals("status") &&
                 !key.equals("errmsg"))
             {
-                Identifier newId = new Identifier(key, record.get(key).asText());
+                Identifier newId = null;
+                try {
+                    newId = new Identifier(key, record.get(key).asText());
+                }
+                catch (BadParamException e) {}  // this should never happen
+
                 //System.out.println("  adding nother ID: " + newId.getCurie());
                 newGlob.addId(newId);
                 if (idGlobCache != null) idGlobCache.put(newId.getCurie(), newGlob, idCacheTtl);
@@ -295,12 +263,13 @@ public class IdResolver {
         // replace the value in the idList with this new, improved one
         Identifier fromId = newGlob.getIdByType(fromIdType);
         if (fromId != null) {
-            newGlob.setOriginalId(fromId);
+            //newGlob.setOriginalId(fromId);
             int idListIndex = idList.lookup(fromId);
             //System.out.println("  idListIndex == " + idListIndex);
             if (idListIndex != -1) {
                 //System.out.println("  replacing index " + idListIndex + " value in idList with this new glob");
-                idList.set(idListIndex, newGlob);
+                idList.get(idListIndex).setIdGlob(newGlob);
+                //idList.set(idListIndex, newGlob);
             }
         }
 

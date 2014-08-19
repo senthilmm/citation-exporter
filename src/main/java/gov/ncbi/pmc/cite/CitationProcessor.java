@@ -1,6 +1,7 @@
 package gov.ncbi.pmc.cite;
 
 import gov.ncbi.pmc.ids.IdGlob;
+import gov.ncbi.pmc.ids.RequestId;
 import gov.ncbi.pmc.ids.RequestIdList;
 import gov.ncbi.pmc.ids.Identifier;
 
@@ -107,7 +108,8 @@ public class CitationProcessor {
         // Keep track of whether or not we find at least one good result
         boolean foundOneGood = false;
         for (int i = 0; i < numIds; ++i) {
-            IdGlob idg = idList.get(i);
+            RequestId requestId = idList.get(i);
+            IdGlob idg = requestId.getIdGlob();
             Identifier id = idg.getIdByType("aiid");
             if (id == null) continue;
             String curie = id.getCurie();
