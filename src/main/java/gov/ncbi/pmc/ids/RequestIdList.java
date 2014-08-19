@@ -19,10 +19,6 @@ import org.apache.commons.lang3.tuple.Pair;
 public class RequestIdList {
     private ArrayList<RequestId> requestIds;
 
-    // FIXME:  replace this with the above:
-    //private List<RequestId> rids;
-    //private ArrayList<IdGlob> idGlobs;
-
     // This is used to look up the RequestId objects by the (canonicalized) requested value. It uses the
     // original ID CURIE (in canonical form) as the key
     private Map<String, Integer> idMap;

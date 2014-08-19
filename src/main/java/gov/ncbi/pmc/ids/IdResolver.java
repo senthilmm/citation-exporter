@@ -117,7 +117,7 @@ public class IdResolver {
         if (idType == null) {
             idType = Identifier.matchIdType(originalIdsArray[0]);
         }
-        System.out.println("============ resolveIds: idType = " + idType);
+        //System.out.println("============ resolveIds: idType = " + idType);
 
         // Canonicalize every ID in the list.  If it doesn't match the expected pattern,
         // throw an exception.

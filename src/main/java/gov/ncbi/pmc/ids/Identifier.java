@@ -110,6 +110,10 @@ public class Identifier {
         return type + ":" + value;
     }
 
+    public boolean equals(Identifier id) {
+        return type.equals(id.getType()) && value.equals(id.getValue());
+    }
+
     @Override
     public String toString() {
         return getCurie();

@@ -1,10 +1,13 @@
 package gov.ncbi.pmc.ids;
 
+import gov.ncbi.pmc.cite.BadParamException;
+
 /**
  * This stores information about a particular ID as requested by the user.
- * Note that there is nothing in this code that guarantees that the canonical Identifier,
- * which is passed into the constructor, matches the id of the same type in the idGlob.
- * That is ensured by the main users of this class, the RequestIdList and IdResolver.
+ *
+ * Implementation note:  I thought about having this extend IdGlob, rather than contain an
+ * instance, but it won't work.  The IdGlobs are cached, and once created, need to be independent
+ * of any given request.
  */
 public class RequestId {
     // The original value, as entered by the user
@@ -22,6 +25,7 @@ public class RequestId {
     public RequestId(String originalValue, Identifier canonical) {
         this.originalValue = originalValue;
         this.canonical = canonical;
+        idGlob = null;
     }
 
     public String getType() {
@@ -40,7 +44,20 @@ public class RequestId {
         return idGlob;
     }
 
-    public void setIdGlob(IdGlob idGlob) {
+    /**
+     * Set the IdGlob.  This will throw an IllegalStateException if the IdGlob has already
+     * been set, or and IllegalArgumentException if it doesn't
+     * have an identifier that exactly matches canonical.
+     */
+    public void setIdGlob(IdGlob idGlob)
+        throws IllegalStateException, IllegalArgumentException
+    {
+        if (this.idGlob != null)
+            throw new IllegalStateException("Error in RequestId: IdGlob already set");
+        Identifier id = idGlob.getIdByType(getType());
+        if (id == null || !id.equals(canonical))
+            throw new IllegalArgumentException("Error in RequestId; id of type " + getType() +
+                    " doesn't match expected");
         this.idGlob = idGlob;
     }
 
