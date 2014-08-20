@@ -198,7 +198,7 @@ public class MainServlet extends HttpServlet
         rw.println(tr(
             th("Description") +
             th("ID") +
-            "<th colspan='7'>Formats</th>"
+            "<th colspan='8'>Formats</th>"
         ));
 
         // Construct the base part of the URL that will be used in hyperlinks
@@ -236,6 +236,7 @@ public class MainServlet extends HttpServlet
                 td(link(hrefBase + qs(qsParams, "report=ris"), "RIS")) +
                 td(link(hrefBase + qs(qsParams, "report=nbib"), "NBIB")) +
                 td(link(hrefBase + qs(qsParams, "report=citeproc"), "JSON")) +
+                td(link(hrefBase + qs(qsParams, "style=american-medical-association"), "AMA")) +
                 td(link(hrefBase + qs(qsParams, "style=modern-language-association"), "MLA")) +
                 td(link(hrefBase + qs(qsParams, "style=apa"), "APA")) +
                 td(link(hrefBase + qs(qsParams, "style=chicago-author-date"), "Chicago")) +

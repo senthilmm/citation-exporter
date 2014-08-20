@@ -37,6 +37,8 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -719,6 +721,19 @@ public class Request {
                 entryDiv.setAttribute("data-id", rid.getCurie());
                 if (!rid.equals(aiid)) {
                     entryDiv.setAttribute("data-resolved-id", aiid.getCurie());
+                }
+
+                // Remove the <div class='csl-left-margin'>, if it exists (see PMC-21029)
+                NodeList divKids = entryDiv.getElementsByTagName("div");
+                int numKids = divKids.getLength();
+                for (int i = 0; i < numKids; ++i) {
+                    Node kid = divKids.item(i);
+                    if (kid.getNodeType() == Node.ELEMENT_NODE &&
+                        ((Element) kid).getAttribute("class").equals("csl-left-margin"))
+                    {
+                        entryDiv.removeChild(kid);
+                        break;  // there can be only one.
+                    }
                 }
 
                 // Add this entry to the wrapper
