@@ -36,9 +36,9 @@ public class TestItemSource extends ItemSource {
     private URL base_url;
     private Logger log = LoggerFactory.getLogger(ItemSource.class);
 
-    public TestItemSource(URL _base_url, App app) throws Exception {
+    public TestItemSource(URL base_url, App app) throws Exception {
         super(app);
-        base_url = _base_url;
+        this.base_url = base_url;
         log.debug("Setting base_url to " + base_url);
     }
 
@@ -127,7 +127,6 @@ public class TestItemSource extends ItemSource {
             throw new BadParamException("Problem forming URL for test PubOne resource: '" +
                 url + "'; exception was: " + e.getMessage());
         }
-
         log.debug("Reading PubOne from " + url);
 
         Document doc = null;
@@ -176,8 +175,9 @@ public class TestItemSource extends ItemSource {
         Identifier id = idg.getIdByType("aiid");
 
         String idType = id.getType();
-        ObjectNode json = (ObjectNode) app.getMapper().readTree(new URL(base_url, idType + "/" + id + ".json"));
-        json.put("id", id.getCurie());
+        URL url = new URL(base_url, idType + "/" + id.getValue() + ".json");
+        log.debug("Attempting to read JSON from " + url);
+        ObjectNode json = (ObjectNode) app.getMapper().readTree(url);
         return json;
     }
 

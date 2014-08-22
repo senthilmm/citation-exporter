@@ -214,6 +214,17 @@
                   <directory>src/main/webapp</directory>
                   <targetPath></targetPath>
                 </resource>
+                <!--
+                  If these exist, then use them instead of the org.citationstyles jar files
+                -->
+                <resource>
+                  <directory>styles</directory>
+                  <targetPath></targetPath>
+                </resource>
+                <resource>
+                  <directory>locales</directory>
+                  <targetPath></targetPath>
+                </resource>
               </resources>
             </configuration>
           </execution>
