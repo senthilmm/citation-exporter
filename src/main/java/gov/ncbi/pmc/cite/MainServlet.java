@@ -240,7 +240,9 @@ public class MainServlet extends HttpServlet
                 td(link(hrefBase + qs(qsParams, "style=modern-language-association"), "MLA")) +
                 td(link(hrefBase + qs(qsParams, "style=apa"), "APA")) +
                 td(link(hrefBase + qs(qsParams, "style=chicago-author-date"), "Chicago")) +
-                td(link(hrefBase + qs(qsParams, "styles=modern-language-association,apa,chicago-author-date"), "combined"))
+                td(link(hrefBase + qs(qsParams,
+                    "styles=american-medical-association,modern-language-association,apa,chicago-author-date"),
+                    "combined"))
             ));
         }
 

@@ -2,6 +2,7 @@ package gov.ncbi.pmc.cite;
 
 import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.Identifier;
+import gov.ncbi.pmc.ids.RequestId;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,11 +26,11 @@ public class ConvAppNxmlItemSource  extends ItemSource {
     }
 
     @Override
-    public Document retrieveItemNxml(IdGlob idg)
+    public Document retrieveItemNxml(RequestId requestId)
         throws BadParamException, NotFoundException, IOException
     {
-        Identifier id = idg.getIdByType("aiid");
-        if (id == null) throw new BadParamException("No id of type aiid in " + idg);
+        Identifier id = requestId.getIdByType("aiid");
+        if (id == null) throw new BadParamException("No id of type aiid in " + requestId);
 
         URL nxmlUrl = new URL(convAppUrl, id.getValue());
         log.debug("Reading NXML from " + nxmlUrl);

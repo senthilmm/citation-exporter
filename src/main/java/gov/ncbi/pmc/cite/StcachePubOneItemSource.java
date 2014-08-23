@@ -1,8 +1,8 @@
 package gov.ncbi.pmc.cite;
 
 import gov.ncbi.pmc.Pmfu;
-import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.Identifier;
+import gov.ncbi.pmc.ids.RequestId;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -37,7 +37,7 @@ public class StcachePubOneItemSource extends ItemSource {
     }
 
     @Override
-    public Document retrieveItemNxml(IdGlob idg)
+    public Document retrieveItemNxml(RequestId requestId)
         throws IOException
     {
         throw new IOException("Using PubOne data source; can't retrieve NXML data");
@@ -52,10 +52,10 @@ public class StcachePubOneItemSource extends ItemSource {
     /**
      */
     @Override
-    public Document retrieveItemPubOne(IdGlob idg)
+    public Document retrieveItemPubOne(RequestId requestId)
         throws NotFoundException, IOException
     {
-        Identifier id = idg.getIdByType("aiid");
+        Identifier id = requestId.getIdByType("aiid");
         if (id == null) {
             throw new NotFoundException("Only supporting aiid's at this time");
         }

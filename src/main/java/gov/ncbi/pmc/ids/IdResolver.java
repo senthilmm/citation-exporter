@@ -40,7 +40,10 @@ import com.spaceprogram.kittycache.KittyCache;
  */
 
 public class IdResolver {
-    /// If caching is enabled, the keys of this are all of the known CURIEs that we see.
+    /**
+     *  If caching is enabled, the results returned from the external ID resolver service are
+     *  cached here.  The keys of this are all of the known CURIEs that we see.
+     */
     KittyCache<String, IdGlob> idGlobCache;
 
     ObjectMapper mapper = new ObjectMapper(); // create once, reuse

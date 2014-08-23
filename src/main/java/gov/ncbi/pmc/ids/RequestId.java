@@ -25,7 +25,8 @@ public class RequestId {
     public RequestId(String originalValue, Identifier canonical) {
         this.originalValue = originalValue;
         this.canonical = canonical;
-        idGlob = null;
+        idGlob = new IdGlob();
+        idGlob.addId(canonical);
     }
 
     public String getType() {
@@ -40,6 +41,38 @@ public class RequestId {
         return canonical;
     }
 
+
+    public boolean hasType(String type) {
+        return idGlob.hasType(type);
+    }
+
+    /**
+     * Get an Identifier, given the type.  Note that this takes versions
+     * into account.  If this has a parent (meaning that this is a version-specific
+     * ID, and it doesn't have the requested type, but it's parent does, then the
+     * parent's value is returned.
+     */
+    public Identifier getIdByType(String type) {
+        return idGlob.getIdByType(type);
+    }
+
+
+    public void setGood(boolean good) {
+        idGlob.setGood(good);
+    }
+
+    public boolean isGood() {
+        return idGlob.isGood();
+    }
+
+    public boolean isVersioned() {
+        return idGlob.isVersioned();
+    }
+
+
+    /**
+     * Used by the IdResolver during resolution.
+     */
     public IdGlob getIdGlob() {
         return idGlob;
     }
@@ -52,8 +85,6 @@ public class RequestId {
     public void setIdGlob(IdGlob idGlob)
         throws IllegalStateException, IllegalArgumentException
     {
-        if (this.idGlob != null)
-            throw new IllegalStateException("Error in RequestId: IdGlob already set");
         Identifier id = idGlob.getIdByType(getType());
         if (id == null || !id.equals(canonical))
             throw new IllegalArgumentException("Error in RequestId; id of type " + getType() +
@@ -62,9 +93,8 @@ public class RequestId {
     }
 
     public String toString() {
-        String r = "{ originalValue: " + originalValue + ", canonical: " + canonical;
-        if (idGlob != null) r += ", idGlob: " + idGlob;
-        r += " }";
+        String r = "{ originalValue: " + originalValue + ", canonical: " + canonical +
+                   ", idGlob: " + idGlob + " }";
         return r;
     }
 }

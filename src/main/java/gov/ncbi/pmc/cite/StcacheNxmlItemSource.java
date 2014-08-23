@@ -1,7 +1,7 @@
 package gov.ncbi.pmc.cite;
 
-import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.Identifier;
+import gov.ncbi.pmc.ids.RequestId;
 import gov.ncbi.pmc.nxml.Nxml;
 
 import java.io.ByteArrayInputStream;
@@ -30,11 +30,11 @@ public class StcacheNxmlItemSource extends ItemSource {
     }
 
     @Override
-    public Document retrieveItemNxml(IdGlob idg)
+    public Document retrieveItemNxml(RequestId requestId)
         throws IOException
     {
         try {
-            Identifier id = idg.getIdByType("aiid");
+            Identifier id = requestId.getIdByType("aiid");
             if (id == null) {
                 throw new IOException("I only know how to get PMC article instances right now");
             }

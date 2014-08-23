@@ -6,6 +6,7 @@ import gov.ncbi.pmc.cite.ItemSource;
 import gov.ncbi.pmc.cite.NotFoundException;
 import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.Identifier;
+import gov.ncbi.pmc.ids.RequestId;
 
 import java.io.IOException;
 
@@ -62,9 +63,8 @@ public class TransformTest
 
         Document nxml_31 = null;
         try {
-            IdGlob idg = new IdGlob();
-            idg.addId(new Identifier("aiid", "31"));
-            nxml_31 = itemSource.retrieveItemNxml(idg);
+            RequestId requestId = new RequestId("31", new Identifier("aiid", "31"));
+            nxml_31 = itemSource.retrieveItemNxml(requestId);
         }
         catch (IOException e) {
             fail("IOException: " + e);
@@ -77,8 +77,6 @@ public class TransformTest
             fail("NotFoundException: " + e);
         }
         assertEquals(nxml_31.getDocumentElement().getTagName(), "article");
-
-        //assertNotNull(baseUrl);
     }
 
 }

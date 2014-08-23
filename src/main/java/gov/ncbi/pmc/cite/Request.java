@@ -1,6 +1,5 @@
 package gov.ncbi.pmc.cite;
 
-import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.RequestId;
 import gov.ncbi.pmc.ids.RequestIdList;
 import gov.ncbi.pmc.ids.Identifier;
@@ -368,9 +367,7 @@ public class Request {
         String pubOneString;  // response goes here
         if (numIds == 1) {
             RequestId requestId = idList.get(0);
-            IdGlob idg = requestId.getIdGlob();
-            if (idg == null) { throw new BadParamException("ID was not properly resolved"); }
-            Document d = itemSource.retrieveItemPubOne(idg);
+            Document d = itemSource.retrieveItemPubOne(requestId);
             pubOneString = serializeXml(d);
         }
         else {
@@ -385,13 +382,13 @@ public class Request {
                 boolean success = false;
                 RequestId requestId = idList.get(i);
                 Identifier rid = requestId.getCanonical();
-                IdGlob idg = requestId.getIdGlob();
-                if (idg != null) {
-                    Identifier aiid = idg.getIdByType("aiid");
+                //IdGlob idg = requestId.getIdGlob();
+                if (requestId != null) {
+                    Identifier aiid = requestId.getIdByType("aiid");
                     if (aiid != null) {
                         try {
                             // Retrieve the PubOne record XML
-                            Document record = itemSource.retrieveItemPubOne(idg);
+                            Document record = itemSource.retrieveItemPubOne(requestId);
 
                             // Add an `s:request-id` attribute with the original (requested) id
                             Element recordElem = record.getDocumentElement();
@@ -452,9 +449,9 @@ public class Request {
         Document d = null;
         if (numIds == 1) {
             RequestId requestId = idList.get(0);
-            IdGlob idg = requestId.getIdGlob();
-            if (idg == null) { throw new BadParamException("ID was not properly resolved"); }
-            d = itemSource.retrieveItemNxml(idg);
+            //IdGlob idg = requestId.getIdGlob();
+            if (requestId == null) { throw new BadParamException("ID was not properly resolved"); }
+            d = itemSource.retrieveItemNxml(requestId);
         }
         else {
             d = getDocumentBuilder().newDocument();
@@ -463,9 +460,9 @@ public class Request {
 
             for (int i = 0; i < numIds; ++i) {
                 RequestId requestId = idList.get(i);
-                IdGlob idg = requestId.getIdGlob();
-                if (idg != null) {
-                    Document record = itemSource.retrieveItemNxml(idg);
+                //IdGlob idg = requestId.getIdGlob();
+                if (requestId != null) {
+                    Document record = itemSource.retrieveItemNxml(requestId);
                     root.appendChild(d.importNode(record.getDocumentElement(), true));
                 }
             }
@@ -537,23 +534,23 @@ public class Request {
         String result = "";
         if (numIds == 1) {
             RequestId requestId = idList.get(0);
-            IdGlob idg = requestId.getIdGlob();
-            if (idg == null) { throw new BadParamException("ID was not properly resolved"); }
+            //IdGlob idg = requestId.getIdGlob();
+            if (requestId == null) { throw new BadParamException("ID was not properly resolved"); }
 
-            Identifier id = idg.getIdByType("aiid");
+            Identifier id = requestId.getIdByType("aiid");
             String outFilename = id.getType() + "-" + id.getValue() + "." + report;
             contentDispHeader = "attachment; filename=" + outFilename;
-            Document d = itemSource.retrieveItemPubOne(idg);
+            Document d = itemSource.retrieveItemPubOne(requestId);
             result = (String) transformEngine.doTransform(d, transformName);
         }
         else {
             contentDispHeader = "attachment; filename=results." + report;
             for (int i = 0; i < numIds; ++i) {
                 RequestId requestId = idList.get(i);
-                IdGlob idg = requestId.getIdGlob();
-                if (idg != null) {
+                //IdGlob idg = requestId.getIdGlob();
+                if (requestId != null) {
                     if (i != 0) { result += "\n"; }
-                    Document d = itemSource.retrieveItemPubOne(idg);
+                    Document d = itemSource.retrieveItemPubOne(requestId);
                     result += (String) transformEngine.doTransform(d, transformName) + "\n";
                 }
             }
@@ -582,10 +579,10 @@ public class Request {
         try {
             if (numIds == 1) {
                 RequestId requestId = idList.get(0);
-                IdGlob idg = requestId.getIdGlob();
-                if (idg == null) { throw new BadParamException("ID was not properly resolved"); }
+                //IdGlob idg = requestId.getIdGlob();
+                if (requestId == null) { throw new BadParamException("ID was not properly resolved"); }
 
-                JsonNode jn = itemSource.retrieveItemJson(idg);
+                JsonNode jn = itemSource.retrieveItemJson(requestId);
                 jsonString = app.getMapper().writeValueAsString(jn);
             }
             else {
@@ -596,13 +593,13 @@ public class Request {
 
                     RequestId requestId = idList.get(i);
                     Identifier rid = requestId.getCanonical();
-                    IdGlob idg = requestId.getIdGlob();
-                    if (idg != null) {
-                        Identifier aiid = idg.getIdByType("aiid");
+                    //IdGlob idg = requestId.getIdGlob();
+                    if (requestId != null) {
+                        Identifier aiid = requestId.getIdByType("aiid");
                         if (aiid != null) {
                             try {
                                 // Retrieve the JSON item and add it to our list
-                                jsonRecords.add(itemSource.retrieveItemJson(idg).toString());
+                                jsonRecords.add(itemSource.retrieveItemJson(requestId).toString());
                                 success = true;
                             }
                             catch (CiteException e) {}
@@ -690,15 +687,15 @@ public class Request {
             int numRequestIds = idList.size();
             for (int i = 0; i < numRequestIds; ++i) {
                 RequestId requestId = idList.get(i);
-                IdGlob idg = requestId.getIdGlob();
-                if (idg != null && idg.isGood()) goodIds.add(requestId);
+                //IdGlob idg = requestId.getIdGlob();
+                if (requestId != null && requestId.isGood()) goodIds.add(requestId);
             }
 
             int numGoodIds = goodIds.size();
             for (int idnum = 0; idnum < numGoodIds; ++idnum) {
                 RequestId requestId = goodIds.get(idnum);
-                IdGlob idg = requestId.getIdGlob();
-                Identifier aiid = idg.getIdByType("aiid");
+                //IdGlob idg = requestId.getIdGlob();
+                Identifier aiid = requestId.getIdByType("aiid");
                 String curie = aiid.getCurie();
                 int entryNum = ArrayUtils.indexOf(entryIds, curie);
                 String entry = entries[entryNum];

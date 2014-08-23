@@ -17,7 +17,8 @@ public class CiteprocPool {
     private Logger log = LoggerFactory.getLogger(Request.class);
 
     private ItemSource itemSource;
-    private final String[] preloadStyles = {"modern-language-association", "apa", "chicago-author-date"};
+    private final String[] preloadStyles = {"american-medical-association",
+            "modern-language-association", "apa"};
 
     // Maximum number of CitationProcessors created for any given style:
     private final int poolSize = 10;

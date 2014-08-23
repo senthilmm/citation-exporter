@@ -169,8 +169,7 @@ public class IdResolverTest
         assertEquals(origType, rid.getType());
         assertEquals(origString, rid.getOriginalValue());
         assertEquals("pmcid:PMC1234", rid.getCanonical().toString());
-
-        assertNull(rid.getIdGlob());
+        assertNotNull(rid.getIdGlob());
         IdGlob idg = new IdGlob();
         try {
             idg.addId(new Identifier("pmid", "1234"));
@@ -182,16 +181,6 @@ public class IdResolverTest
             fail("Got Exception: " + e.getMessage());
         }
         assertNotNull(rid.getIdGlob());
-
-        // Verify that trying to set an IdGlob twice causes an exception
-        exceptionThrown = false;
-        try {
-            rid.setIdGlob(idg);
-        }
-        catch (IllegalStateException e) {
-            exceptionThrown = true;
-        }
-        assert(exceptionThrown);
 
         // Verify that trying to set an IdGlob that doesn't have a matching id causes
         // an exception

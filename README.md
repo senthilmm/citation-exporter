@@ -141,8 +141,7 @@ The following two URLs are special:
   comma-delimited.  If multiple IDs are given, then this must be only one style name.  In other words, you can have multiple IDs
   or multiple styles, but not both.  Defaults to "modern-language-association".
 
-Value combinations of report and format are listed in the following table. For a given report, the default
-format is shown in bold (often, there is only one possible value).
+Value combinations of report and format are listed in the following table.
 
 ```
 report    format  Comments
@@ -315,7 +314,7 @@ StcacheNxmlItemSource; so, *by default*, those are excluded from compilation.  T
 build profile is "test", which explicitly excludes those two class files, and doesn't include the dependency
 on the pmc-lib library.
 
-Building for production is done with the use of the "prod" Maven profile (`mvn -Pproduction`).
+Building for production is done with the use of the "prod" Maven profile (`mvn -Pprod`).
 That profile doesn't exclude those class files for compilation, and does declares the dependency on the
 pmc-lib library.
 
@@ -400,14 +399,17 @@ When running this way, Jetty is configured by the src/main/webapp/jetty.xml file
 * [GitHub/michel-kraemer/citeproc-java]()
 
 To use the latest development version of this library, rather than the release package, first clone the GitHub
-repository to a local directory.  Then, see the [build
+repository to any local directory.  Then, see the [build
 instructions](http://michel-kraemer.github.io/citeproc-java/using/building/).  Do the following to create
 the jar file, and then install that in your local Maven repository:
 
 ```
 gradlew jar
-mvn install:install-file -Dfile=citeproc-java/build/libs/citeproc-java-0.6.jar -DgroupId=de.undercouch \
-    -DartifactId=citeproc-java -Dversion=0.7-SNAPSHOT -Dpackaging=jar
+mvn install:install-file -Dfile=citeproc-java/build/libs/citeproc-java-0.6.jar \
+    -DgroupId=de.undercouch \
+    -DartifactId=citeproc-java \
+    -Dversion=0.7-SNAPSHOT \
+    -Dpackaging=jar
 ```
 
 Note that this installs the library as version "0.7-SNAPSHOT", meaning that it is later than 0.6, but not a
@@ -423,8 +425,24 @@ Next, change the pom.xml file in *this* repository to require that latest versio
 </dependency>
 ```
 
+FIXME:  Is it possible to add the citeproc-java target/classes directories to the classpath, using
+\<resource> elements (see how I did that for styles and locales, below)?  That would mean that
+the dev version of citeproc-java could be used without having to repackage it every time you make
+a change.
 
 
+### Citation style language (CSL) library
+
+By default, this runs with the styles and locales packages that are uploaded to the Sonatype
+repository daily.  When packaged as an uber-jar, that version of those repos will be packaged
+as well.  So at the point it is packaged and deployed, the available CSL files is frozen.
+
+You can develop and test with a development version of these, simply by cloning the GitHub
+repositories [citation-style-language/styles](https://github.com/citation-style-language/styles) and/or
+[citation-style-language/locales](https://github.com/citation-style-language/locales) underneath
+this repo's root directory.  The pom file adds the `styles` and `locales` directories as resources
+to the classpath, so if they are present, those development versions will be used instead of the
+packaged ones.
 
 
 ### Dependencies

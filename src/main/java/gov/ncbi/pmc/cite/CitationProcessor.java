@@ -109,8 +109,8 @@ public class CitationProcessor {
         boolean foundOneGood = false;
         for (int i = 0; i < numIds; ++i) {
             RequestId requestId = idList.get(i);
-            IdGlob idg = requestId.getIdGlob();
-            Identifier id = idg.getIdByType("aiid");
+            //IdGlob idg = requestId.getIdGlob();
+            Identifier id = requestId.getIdByType("aiid");
             if (id == null) continue;
             String curie = id.getCurie();
 
@@ -118,11 +118,11 @@ public class CitationProcessor {
             // it and parse it back in as a citeproc-java object.  See this question:
             // https://github.com/michel-kraemer/citeproc-java/issues/9
 
-            idg.setGood(false);  // assume this will fail
+            requestId.setGood(false);  // assume this will fail
             ObjectMapper objectMapper = itemSource.getMapper();
             JsonNode jsonNode = null;
             try {
-                jsonNode = itemSource.retrieveItemJson(idg);
+                jsonNode = itemSource.retrieveItemJson(requestId);
             }
             catch (CiteException e) { }
             if (jsonNode != null) {
@@ -143,7 +143,7 @@ public class CitationProcessor {
                 CSLItemData item = CSLItemData.fromJson(itemJsonMap);
                 if (item == null) throw new IOException("Problem creating a CSLItemData object from backend JSON");
                 itemProvider.addItem(curie, item);
-                idg.setGood(true); // success
+                requestId.setGood(true); // success
                 foundOneGood = true;
             }
         }
