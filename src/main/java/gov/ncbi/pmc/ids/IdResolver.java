@@ -78,10 +78,10 @@ public class IdResolver {
 
         String idConverterUrlProp = System.getProperty("id_converter_url");
         idConverterUrl = idConverterUrlProp != null ? idConverterUrlProp :
-            "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/";
+            "http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/";
         String idConverterParamsProp = System.getProperty("id_converter_params");
         idConverterParams = idConverterParamsProp != null ? idConverterParamsProp :
-            "showaiid=yes&format=json";
+            "showaiid=yes&format=json&tool=ctxp&email=pubmedcentral@ncbi.nlm.nih.gov";
 
         idConverterBase = idConverterUrl + "?" + idConverterParams + "&";
     }

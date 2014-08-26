@@ -84,9 +84,9 @@ Here are the parameters that are defined:
   pathname of the stcache image file.  When item_source is ConvAppNxmlItemSource, then this should
   be the URL of the converter app service.
 * `id_converter_url` - URL of the PMC ID converter API.  Default is
-  "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/".
+  "http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/".
 * `id_converter_params` - Query string parameters to send to the the PMC ID
-  converter API.  Default is "showaiid=yes&format=json".
+  converter API.  Default is "showaiid=yes&format=json&tool=ctxp&email=pubmedcentral@ncbi.nlm.nih.gov".
 * `cache_ids` - either "true" or "false".  Default is "false".
 * `id_cache_ttl` - time-to-live for each of the IDs in the ID cache, in seconds.
   Default is 86400.
