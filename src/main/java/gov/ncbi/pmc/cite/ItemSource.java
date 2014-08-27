@@ -6,10 +6,14 @@ import gov.ncbi.pmc.ids.RequestIdList;
 import gov.ncbi.pmc.ids.Identifier;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,7 +89,16 @@ public abstract class ItemSource {
         log.debug("JSON for " + curie + ": kitty-cache miss");
 
         Document pub_one = retrieveItemPubOne(requestId);
-        String jsonStr = (String) app.doTransform(pub_one, "pub-one2json");
+
+        // Add accessed as a param
+        Map<String, String> params = new HashMap<String, String>();
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        df.setTimeZone(tz);
+        String nowAsISO = df.format(new Date());
+        params.put("accessed", nowAsISO);
+
+        String jsonStr = (String) app.doTransform(pub_one, "pub-one2json", params);
         ObjectNode json = (ObjectNode) app.getMapper().readTree(jsonStr);
         json.put("id", curie);
         jsonCache.put(curie, json, jsonCacheTtl);
