@@ -39,7 +39,13 @@ public class WebServer
         throws Exception
     {
         initLogs();
-        new WebServer().start();
+        try {
+            new WebServer().start();
+        }
+        catch (Exception e) {
+            System.err.println("Failed to start web server; there's nothing we can do! " + e.getMessage());
+            System.exit(1);
+        }
     }
 
     public WebServer() {
