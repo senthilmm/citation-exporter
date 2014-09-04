@@ -115,8 +115,8 @@ my $num_samples = scalar @$sample_ids;
 my @tests = ( 'echotest', 'pub-one', 'citeproc', '1-style', '3-styles', );
 my %tests = (
     'echotest' => $base_url . 'echotest',
-    'pub-one'  => $base_url . '?id={id}&idtype={idtype}&outputformat=pub-one',
-    'citeproc' => $base_url . '?id={id}&idtype={idtype}&outputformat=citeproc',
+    'pub-one'  => $base_url . '?id={id}&idtype={idtype}&report=pub-one',
+    'citeproc' => $base_url . '?id={id}&idtype={idtype}&report=citeproc',
     '1-style'  => $base_url . '?id={id}&idtype={idtype}',
     '3-styles' => $base_url .
         '?id={id}&idtype={idtype}&styles=modern-language-association,apa,chicago-author-date',

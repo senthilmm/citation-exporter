@@ -246,21 +246,23 @@ public class IdResolver {
                 !key.equals("current") &&
                 !key.equals("live") &&
                 !key.equals("status") &&
-                !key.equals("errmsg"))
+                !key.equals("errmsg") &&
+                !key.equals("release-date"))
             {
                 Identifier newId = null;
                 try {
                     newId = new Identifier(key, record.get(key).asText());
                 }
-                catch (BadParamException e) {}  // this should never happen
+                catch (BadParamException e) {  // this will happen if the JSON has a field we don't recognize
+                    System.out.println("Unrecognized field in ID converter JSON response: " + record.get(key).asText());
+                }
 
-                //System.out.println("  adding nother ID: " + newId.getCurie());
-                newGlob.addId(newId);
-                if (idGlobCache != null) idGlobCache.put(newId.getCurie(), newGlob, idCacheTtl);
+                if (newId != null) {
+                    newGlob.addId(newId);
+                    if (idGlobCache != null) idGlobCache.put(newId.getCurie(), newGlob, idCacheTtl);
+                }
             }
         }
-        //System.out.println("In globbifyRecord, newGlob: '" + newGlob + "'");
-
 
         // If this new glob looks like one of the ones in the requested list, then
         // replace the value in the idList with this new, improved one
