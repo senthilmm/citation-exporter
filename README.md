@@ -129,7 +129,6 @@ The following two URLs are special:
   IDs are always resolved to one of `aiid` or `pmid`.
 * **idtype** - Specifies the type of the IDs given in the ids parameter.
   Any of these types is allowed:
-    * aiid
     * pmcid - includes versioned ids
     * pmid
     * mid

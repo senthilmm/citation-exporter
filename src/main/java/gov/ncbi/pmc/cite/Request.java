@@ -557,7 +557,7 @@ public class Request {
         }
 
         String contentType = report.equals("nbib") ? "application/nbib" :
-                             report.equals("ris") ? "text/plain" :
+                             report.equals("ris") ? "application/x-research-info-systems" :
                                  "application/xml";
         response.setContentType(contentType + ";charset=UTF-8");
         response.setHeader("Content-disposition", contentDispHeader);
