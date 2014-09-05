@@ -537,7 +537,7 @@ public class Request {
             //IdGlob idg = requestId.getIdGlob();
             if (requestId == null) { throw new BadParamException("ID was not properly resolved"); }
 
-            Identifier id = requestId.getIdByType("aiid");
+            Identifier id = requestId.getIdByType("pmcid");
             String outFilename = id.getType() + "-" + id.getValue() + "." + report;
             contentDispHeader = "attachment; filename=" + outFilename;
             Document d = itemSource.retrieveItemPubOne(requestId);
