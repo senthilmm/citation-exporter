@@ -260,7 +260,7 @@ sub req_url {
     my ($req_url_t, $req_id, $idtype, $sample_ids, $req_num) = @_;
 
     # If the id was given as a command line argument, use that.  Otherwise, get one from the samples
-    my $id = $req_id ne '' ? $req_id : $sample_ids->[$req_num];
+    my $id = $req_id ne '' ? $req_id : $sample_ids->[$req_num % @$sample_ids];
     my $req_url = $req_url_t;
     $req_url =~ s/\{id\}/$id/;
     $req_url =~ s/\{idtype\}/$idtype/;
