@@ -19,8 +19,9 @@ Options (any of these can be abbreviated):
 --help|-? - print this usage message and exit
 --verbose
 --num - number of requests for each test. This can be any number up to the the number of
-  ids stored in random-aiids.txt, currently 100,000. Default is 1000.
+  ids stored in random-pmcids.txt, currently 99991. Default is 1000.
 --test=<test> - select which test to run.  Default is to run all. Tests are:
+    - echotest
     - pub-one
     - citeproc
     - 1-style
@@ -33,10 +34,10 @@ Specify the address of the service under test:
 --base-url - base URL of the service.  No default.
 
 How IDs are selected for use:
---idtype <idtype> - either aiid (default) or pmcid.  Default is aiid.
 --random - select random sample of ids each time (default is pseudo-random, which will be the same
-  set every time you run the test). Exclusive with --aiid.
+  set every time you run the test).
 --id <id> - use the given ID for every request.  Exclusive with -r.
+--idtype <idtype> - If giving an id explicitly, you can use this to specify its type.  Default is pmcid.
 );
 
 
@@ -77,37 +78,23 @@ if ($base_url eq '') {
     exit 1;
 }
 
-# Fix up id and idtype
-# If `id` was given but `idtype` was not, then compute idtype
-if ($req_id ne '' && $idtype eq '') {
-    if ($req_id =~ /^\d+$/) {
-        $idtype = 'aiid';
-    }
-    elsif ($req_id =~ /^PMC[0-9.]+/) {
-        $idtype = 'pmcid';
-    }
-    else {
-        command_line_error("Can't decipher the type of ID '$req_id'");
-    }
-}
-# Implement default value for $idtype
-$idtype = 'aiid' if $idtype eq '';
-# Validate $idtype
-if ($idtype ne 'aiid' && $idtype ne 'pmcid') {
-    command_line_error("Invalid idtype: '$idtype'");
-}
 
+# Fix up id and idtype
+if ($req_id eq '' && $idtype ne '') {
+    print "`idtype` can only be used when `id` is given explicitly.\n";
+    exit 1;
+}
+$idtype = 'pmcid' if $idtype eq '';
 
 # Prepare the web stuff
 my $ua = LWP::UserAgent->new;
 
-# Read in master list of sample ids.  Each element will be an array of [aiid, pmcid]
+# Read in master list of sample ids.  Each element will be a pmcid
 my $sample_ids = [];
-open (my $SAMPLES, "random-aiids.txt") or die "Can't find sample ids file";
-my $line = <$SAMPLES>;   # discard header
+open (my $SAMPLES, "random-pmcids.txt") or die "Can't find sample ids file";
 while (my $line = <$SAMPLES>) {
-    next if $line !~ /^(\d+)\s+(\w+)/;
-    push @$sample_ids, [$1, $2];
+    chomp $line;
+    push @$sample_ids, $line;
 }
 close $SAMPLES;
 my $num_samples = scalar @$sample_ids;
@@ -119,7 +106,7 @@ my %tests = (
     'citeproc' => $base_url . '?id={id}&idtype={idtype}&report=citeproc',
     '1-style'  => $base_url . '?id={id}&idtype={idtype}',
     '3-styles' => $base_url .
-        '?id={id}&idtype={idtype}&styles=modern-language-association,apa,chicago-author-date',
+        '?id={id}&idtype={idtype}&styles=american-medical-association,modern-language-association,apa',
 );
 
 print "          |          |  Time   |    Throughput     |         Latency                   |\n" .
@@ -177,9 +164,9 @@ sub command_line_error {
 sub run_test {
     my $test = shift;
     my $test_results = {
-        test           => $test,
-        num_reqs       => $num_reqs,
-        num_errs       => 0,
+        test     => $test,
+        num_reqs => $num_reqs,
+        num_errs => 0,
         l_max    => 0,
         l_min    => 99999,
         l_sum    => 0,
@@ -273,7 +260,7 @@ sub req_url {
     my ($req_url_t, $req_id, $idtype, $sample_ids, $req_num) = @_;
 
     # If the id was given as a command line argument, use that.  Otherwise, get one from the samples
-    my $id = $req_id ne '' ? $req_id : $sample_ids->[$req_num][$idtype eq 'aiid' ? 0 : 1];
+    my $id = $req_id ne '' ? $req_id : $sample_ids->[$req_num];
     my $req_url = $req_url_t;
     $req_url =~ s/\{id\}/$id/;
     $req_url =~ s/\{idtype\}/$idtype/;
@@ -346,6 +333,7 @@ sub do_request {
             print "$error_msg\n";
         }
     }
+
     return {
         success   => $success,
         'time'    => time - $req_start,
@@ -363,6 +351,6 @@ sub shuffle {
     my $i = @$deck;
     while (--$i) {
         my $j = int rand ($i+1);
-        @$deck[$i,$j] = @$deck[$j,$i];
+        @$deck[$i, $j] = @$deck[$j, $i];
     }
 }
