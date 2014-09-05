@@ -343,14 +343,6 @@ public class Request {
             errorResponse(e.getMessage(), 500);
             return;
         }
-        catch (Exception e) {
-            String emsg = e.getMessage();
-            String msg = emsg != null ? emsg : "Unknown exception";
-            log.error("Bad Exception generated during request: " + msg + "\n" +
-                ExceptionUtils.getStackTrace(e));
-            errorResponse(msg, 500);
-            return;
-        }
     }
 
     /**
