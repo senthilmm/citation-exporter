@@ -329,9 +329,7 @@ sub do_request {
     if (!$resp->is_success) {
         $success = 0;
         $error_msg = "Request '$req_url' failed: " . $resp->status_line;
-        if ($ignore_errors && $verbose) {
-            print "$error_msg\n";
-        }
+        print "$error_msg\n";
     }
 
     return {
