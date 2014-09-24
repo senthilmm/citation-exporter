@@ -189,6 +189,8 @@ sub run_test {
     # If $num_forks == 1, then we don't do any forking.  Everything runs as one process.
     if ($num_forks == 1) {
         for (my $req_num = 0; $req_num < $num_reqs; ++$req_num) {
+            if ($req_num % 100 == 0) { print "."; }
+
             my $req_url = req_url($req_url_t, $req_id, $idtype, $sample_ids, $req_num);
             my $req_result = do_request($req_url);
             record_req_result($test_results, $req_result);
@@ -196,6 +198,7 @@ sub run_test {
     }
     else {
         for (my $req_num = 0; $req_num < $num_reqs; ++$req_num) {
+            if ($req_num % 100 == 0) { print "."; }
 
             # If necessary, wait for one of the child processes to finish
             while (scalar keys %$child_process_data >= $num_forks) {

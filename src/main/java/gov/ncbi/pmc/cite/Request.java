@@ -251,6 +251,9 @@ public class Request {
         throws ServletException
     {
         try {
+            // FIXME:  Can take this out.
+            log.debug("Got a new GET request");
+
             // First attempt to resolve the IDs into an IdSet, which contains the id type and
             // each of the IDs in a canonicalized form.
             String idsParam = request.getParameter("ids");
@@ -267,6 +270,8 @@ public class Request {
             String idp = idsParam != null ? idsParam : idParam;
 
             // The IdResolver seems to be thread-safe
+            // FIXME:  Can take this debug message out.
+            log.debug("Resolving IDs");
             idList = app.getIdResolver().resolveIds(idp, request.getParameter("idtype"));
 
             // Right now, we only support getting the record by aiid.  Later, we will want to add pmid
@@ -300,7 +305,11 @@ public class Request {
             }
 
             if (report.equals("html") && format.equals("html")) {
+                // FIXME:  Can take this debug message out.
+                log.debug("Calling styledCitation");
                 styledCitation();
+                // FIXME:  Can take this debug message out.
+                log.debug("Back from styledCitation");
             }
 
             else if (report.equals("citeproc") && format.equals("json")) {
@@ -630,6 +639,9 @@ public class Request {
     private void styledCitation()
         throws BadParamException, NotFoundException, IOException
     {
+        // FIXME:  Can take this debug message out.
+        log.debug("================================= styledCitation ============================");
+
         String stylesParam = request.getParameter("styles");
         String styleParam = request.getParameter("style");
         if (stylesParam != null && styleParam != null) {
@@ -660,12 +672,33 @@ public class Request {
             // in the right order.
             Bibliography bibl = null;
             CiteprocPool cpPool = app.getCiteprocPool();
-            CitationProcessor cp = cpPool.getCiteproc(style);
-            try {
-                bibl = cp.makeBibliography(idList, "html");
-            }
-            finally {
-                cpPool.putCiteproc(cp);      // return it to the pool, when done
+
+            // See PMC-21297.  We've noticed that sometimes the CSL processors get into a bad state.
+            // So the code here will try up to two processors.  If the first one gives an error, then
+            // throw it away and try a second one.  If the second one gives an error, then we'll assume
+            // it's a real error, and return it to the pool.
+            for (int cpNum = 0; cpNum < 2; cpNum++) {
+                CitationProcessor cp = cpPool.getCiteproc(style);
+                boolean success = true;
+                try {
+                    bibl = cp.makeBibliography(idList, "html");
+                }
+                catch (RuntimeException e) {
+                    log.error("Got a RuntimeException from citation processor: " + e.getStackTrace());
+                    // For runtime exceptions, if this is our first attempt, then we'll assume there's
+                    // something wrong with the processor, so don't return it to the pool.
+                    success = false;
+                    throw e;
+                }
+                finally {
+                    //System.out.println("  Return citation processor to the pool?  " + returnCp);
+                    if (cpNum == 1 || success) {
+                        cpPool.putCiteproc(cp);  // return it to the pool, when done
+                    }
+                    else {
+                        log.error("Discarding CitationProcessor");
+                    }
+                }
             }
 
             // Parse the output entries, and stick them into the output document

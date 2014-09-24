@@ -79,9 +79,12 @@ public class CitationProcessor {
         throws NotFoundException, BadParamException, IOException
     {
         prefetchItems(idList);
+        //System.out.println("  CitationProcessor.makeBibliography(); idList = " + idList + "; format = " + format);
         csl.setOutputFormat(format);
+        //System.out.println("    about to call csl.registerCitationItems()");
         csl.registerCitationItems(idList.getCuriesByType("aiid"));
         long mb_start = System.currentTimeMillis();
+        //System.out.println("    about to call makeBibliography");
         Bibliography bibl = csl.makeBibliography();
         log.debug("makeBibliography took " + (System.currentTimeMillis() - mb_start) + " milliseconds");
         if (bibl == null) {

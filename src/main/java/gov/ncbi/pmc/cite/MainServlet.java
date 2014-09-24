@@ -148,6 +148,11 @@ public class MainServlet extends HttpServlet
             rw.println("  '" + pn + "': '" + props.getProperty(pn));
         }
       */
+
+        // Print out some info about the citation processors
+        CiteprocPool citeprocPool = app.getCiteprocPool();
+        rw.println(citeprocPool.printStatus());
+
         return;
     }
 
@@ -162,7 +167,14 @@ public class MainServlet extends HttpServlet
             String hn = headerNames.nextElement();
             msg += "  '" + hn + "': '" + req.getHeader(hn) + "'\n";
         }
-        log.trace(msg);
+
+        // FIXME:  should be 'trace'.
+        log.debug(msg);
+
+        // FIXME:  we can take this out (or make it 'trace'):
+        CiteprocPool citeprocPool = app.getCiteprocPool();
+        log.debug(citeprocPool.printStatus());
+
     }
 
     /**

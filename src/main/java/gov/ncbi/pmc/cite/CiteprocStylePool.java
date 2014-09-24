@@ -69,15 +69,19 @@ public class CiteprocStylePool {
             citeprocQueue.add(cp);
             log.debug("^^^^^^^^^^^^^^^^^^^^^^^^ synchronized ^^^^^^^^^^^^^^^^^^^^^");
         }
-        printState("After newCitationProcessor");
+        logStatus("After newCitationProcessor");
     }
 
     // For debugging
-    private void printState(String prefix) {
-        log.debug(prefix + ": state of CiteprocStylePool(" +
-            style + "):" + " total: " + citeprocs.size() + ", in queue: " + citeprocQueue.size());
+    public String printStatus() {
+        return "State of CiteprocStylePool(" +
+            style + "):" + " total: " + citeprocs.size() + ", in queue: " + citeprocQueue.size();
     }
 
+    // Debug log message: status
+    private void logStatus(String prefix) {
+        log.debug(prefix + ": " + printStatus());
+    }
 
     public CitationProcessor getCiteproc()
         throws NotFoundException
@@ -86,7 +90,7 @@ public class CiteprocStylePool {
         // while we're creating a new CitationProcessor object?
         synchronized(this) {
             log.debug("vvvvvvvvvvvvvvvvvvvvvvvv synchronized vvvvvvvvvvvvvvvvvvvvv");
-            printState("Before getCiteproc");
+            logStatus("Before getCiteproc");
             log.debug("CitationProcessor blocking queue for '" + style + "' current size: " + citeprocQueue.size());
 
             CitationProcessor cp = citeprocQueue.poll();
@@ -111,15 +115,15 @@ public class CiteprocStylePool {
                 }
 
             }
-            printState("After getCiteproc");
+            logStatus("After getCiteproc");
             log.debug("^^^^^^^^^^^^^^^^^^^^^^^^ synchronized ^^^^^^^^^^^^^^^^^^^^^");
             return cp;
         }
     }
 
     public void putCiteproc(CitationProcessor cp) {
-        printState("Before putCiteproc");
+        logStatus("Before putCiteproc");
         citeprocQueue.add(cp);
-        printState("After putCiteproc");
+        logStatus("After putCiteproc");
     }
 }

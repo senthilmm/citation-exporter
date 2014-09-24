@@ -2,7 +2,9 @@ package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
@@ -60,7 +62,6 @@ public class CiteprocPool {
         cpsPool.putCiteproc(cp);
     }
 
-
     // Helper method to get a CiteprocStylePool object from the map, and, if there isn't one there
     // already, to create it
     private CiteprocStylePool getStylePool(String style) throws NotFoundException {
@@ -80,5 +81,20 @@ public class CiteprocPool {
             citeprocStylePools.put(style, cpsPool);
         }
         return cpsPool;
+    }
+
+    /**
+     * This method will return a string giving some status info about the object.
+     * @return
+     */
+    public String printStatus() {
+        String r = "CiteprocPool:\n";
+        Iterator<String> keyIter = citeprocStylePools.keySet().iterator();
+        while (keyIter.hasNext()) {
+            String k = keyIter.next();
+            CiteprocStylePool csp = citeprocStylePools.get(k);
+            r += "  " + csp.printStatus() + "\n";
+        }
+        return r;
     }
 }
