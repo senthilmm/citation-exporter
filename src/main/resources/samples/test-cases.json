@@ -95,24 +95,12 @@
       "id": "PMC2714974"
     },
     {
-      "description": "Huge author list",
-      "id": "22479202",
-      "idtype": "pmid"
+      "description": "huge number of authors",
+      "id": "PMC3315470"
     },
     {
-      "description": "Huge author list",
-      "id": "23563607",
-      "idtype": "pmid"
-    },
-    {
-      "description": "no authors",
-      "id": "24754045",
-      "idtype": "pmid"
-    },
-    {
-      "description": "no abstract",
-      "id": "24737276",
-      "idtype": "pmid"
+      "description": "another huge author list",
+      "id": "PMC3973018"
     }
   ]
 }
