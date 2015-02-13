@@ -7,7 +7,7 @@
 
   <groupId>gov.ncbi.pmc.cite</groupId>
   <artifactId>pmc-citation-exporter</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <name>PMC Citation Exporter Service</name>
   <!-- <url>http://github.com/ncbi/citation-exporter</url>  -->
   <description/>
