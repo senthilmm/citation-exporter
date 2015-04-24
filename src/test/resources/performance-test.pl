@@ -30,7 +30,6 @@ Options (any of these can be abbreviated):
 --forks - number of simultaneous forks to use, to test multi-threading.  Default is 10.
 
 Specify the address of the service under test:
---port - IP port number of the service.  Default is 11999.
 --base-url - base URL of the service.  No default.
 
 How IDs are selected for use:
@@ -47,7 +46,6 @@ my $num_reqs = 1000;
 my $num_forks = 10;
 my $selected_test = 'all';
 my $ignore_errors = 0;
-my $port = 11999;
 my $base_url = '';
 my $idtype = '';
 my $random = 0;
@@ -60,7 +58,6 @@ GetOptions(
   "forks=i"       => \$num_forks,
   "test=s"        => \$selected_test,
   "ignore-errors" => \$ignore_errors,
-  "port=i"        => \$port,
   "base-url=s"    => \$base_url,
   "idtype=s"      => \$idtype,
   "random"        => \$random,
