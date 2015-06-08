@@ -1,0 +1,1021 @@
+<!-- ArticleInstanceId : 4365985, Path: jbt/olf-9999/olf/preload/nxml/, Name : jbt.15-2602-001-jbt.15-2602-001.nxml -->
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Archiving and Interchange DTD v1.1d2 20140930//EN" "JATS-archivearticle1.dtd">
+<article xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+  article-type="research-article">
+  <?OLF?>
+  <?DTDIdentifier.IdentifierValue -//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.0 20120330//EN?>
+  <?DTDIdentifier.IdentifierType public?>
+  <?SourceDTD.DTDName JATS-journalpublishing1.dtd?>
+  <?SourceDTD.Version 1.0?>
+  <?ConverterInfo.XSLTName jp2nlmx2.xsl?>
+  <?ConverterInfo.Version 2?>
+  <front>
+    <journal-meta>
+      <journal-id journal-id-type="nlm-ta">J Biomol Tech</journal-id>
+      <journal-id journal-id-type="iso-abbrev">J Biomol Tech</journal-id>
+      <journal-id journal-id-type="hwp">jbt</journal-id>
+      <journal-id journal-id-type="pmc">jbt</journal-id>
+      <journal-id journal-id-type="publisher-id">J Biomol Tech</journal-id>
+      <journal-title-group>
+        <journal-title>Journal of Biomolecular Techniques : JBT</journal-title>
+      </journal-title-group>
+      <issn pub-type="ppub">1524-0215</issn>
+      <issn pub-type="epub">1943-4731</issn>
+      <publisher>
+        <publisher-name>Association of Biomolecular Resource Facilities</publisher-name>
+        <publisher-loc>Bethesda, MD, USA</publisher-loc>
+      </publisher>
+    </journal-meta>
+    <article-meta>
+      <article-id pub-id-type="publisher-id">JBT_2015-2602-001</article-id>
+      <article-id pub-id-type="doi">10.7171/jbt.15-2602-001</article-id>
+      <article-categories>
+        <subj-group subj-group-type="heading">
+          <subject>Article</subject>
+        </subj-group>
+      </article-categories>
+      <title-group>
+        <article-title>A Quantitative Measure of Field Illumination</article-title>
+      </title-group>
+      <contrib-group>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Brown</surname>
+            <given-names>Claire M.</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff1">
+            <sup>1</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Reilly</surname>
+            <given-names>Andrew</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff2">
+            <sup>2</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author" corresp="yes">
+          <name>
+            <surname>Cole</surname>
+            <given-names>Richard W.</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff1">
+            <sup>1</sup>
+          </xref>
+          <xref ref-type="aff" rid="aff2">
+            <sup>2</sup>
+          </xref>
+          <xref ref-type="aff" rid="aff3">
+            <sup>3</sup>
+          </xref>
+        </contrib>
+        <aff>
+          <target id="aff1" target-type="aff">
+            <sup>1</sup>
+          </target>McGill University, Advanced BioImaging Facility (ABIF), Montreal, Quebec, Canada;
+            <target id="aff2" target-type="aff">
+            <sup>2</sup>
+          </target>Wadsworth Center, New York State Department of Health, Albany, New York, USA; and
+            <target id="aff3" target-type="aff">
+            <sup>3</sup>
+          </target>Department of Biomedical Sciences, School of Public Health, State University of
+          New York at Albany, New York, USA </aff>
+      </contrib-group>
+      <author-notes>
+        <corresp id="cor1">A<sc>ddress correspondence to</sc>: Richard Cole, NY State Dept. of
+          Health, Wadsworth Center, P.O. Box 509, Albany, NY, USA (Phone: 518-474-7048; E-mail:
+            <email>richard.cole@health.ny.gov</email>).</corresp>
+      </author-notes>
+      <pub-date pub-type="ppub">
+        <month>7</month>
+        <year>2015</year>
+      </pub-date>
+      <pub-date pub-type="epub">
+        <day>19</day>
+        <month>3</month>
+        <year>2015</year>
+      </pub-date>
+      <elocation-id>jbt.15-2602-001</elocation-id>
+      <permissions>
+        <copyright-statement>&#x000a9; Federation of American Societies for Experimental
+          Biology</copyright-statement>
+        <copyright-year>2015</copyright-year>
+        <copyright-holder>Association of Biomolecular Resource Facilities</copyright-holder>
+      </permissions>
+      <self-uri xlink:title="pdf" xlink:href="jbt.15-2602-001-jbt.15-2602-001.pdf"/>
+      <abstract>
+        <p>In this paper, we describe a statistically based algorithm to quantify the uniformity of
+          illumination in an optical light microscopy imaging system that outputs a single quality
+          factor (QF) score. The importance of homogeneous field illumination in quantitative light
+          microscopy is well understood and often checked. However, there is currently no standard
+          automatic quantitative measure of the uniformity of the field illumination. Images from 89
+          different laser-scanning confocal microscopes (LSCMs), which were collected as part of an
+          international study on microscope quality assessment, were used as a
+          &#x0201c;training&#x0201d; set to build the algorithm. To validate the algorithm and
+          verify its robustness, images from 33 additional microscopes, including LSCM and
+          wide-field (WF) microscopes, were used. The statistical paradigm used for developing the
+          quality scoring scale was a regression approach to supervised learning. Three intensity
+          profiles across each image&#x02014;2 corner-to-corner diagonals and a center
+          horizontal&#x02014;were used to generate pixel-intensity data. All of the lines passed
+          through the center of the image. The intensity profile data then were converted into a
+          single-field illumination QF score in the range of 0&#x02013;100, with 0 having extreme
+          variation, and therefore, essentially unusable, and 100 having no deviation,
+            <italic>i.e.</italic>, straight lines with a constant uniform intensity. Empirically, a
+          QF &#x02265; 83 was determined to be the minimum acceptable value based on manufacturer
+          acceptance tests and reasonably achievable values. This new QF is an invaluable metric to
+          ascertain objectively and easily the uniformity of illumination quality, provide a
+          traceable reference for monitoring field uniformity over time, and make a direct
+          comparison among different microscopes. The QF can also be used as an indicator of system
+          failure and the need for alignment or service of the instrument.</p>
+      </abstract>
+      <kwd-group>
+        <kwd>imaging</kwd>
+        <kwd>flat field</kwd>
+        <kwd>alignment</kwd>
+        <kwd>supervised learning</kwd>
+        <kwd>quality assessment</kwd>
+      </kwd-group>
+      <counts>
+        <page-count count="8"/>
+      </counts>
+      <custom-meta-group>
+        <custom-meta>
+          <meta-name> DJS Export </meta-name>
+          <meta-value>v1</meta-value>
+        </custom-meta>
+      </custom-meta-group>
+    </article-meta>
+  </front>
+  <body>
+    <p>Uniformity of illumination is one of the most crucial parameters in modern quantitative
+      optical imaging. This is often referred to as the &#x0201c;flat field,&#x0201d; indicating
+      that ideally all of the pixels in the image of a uniform sample would have the same brightness
+      value across the field of view, <italic>i.e.</italic>, flat.</p>
+    <p>Virtually, all of modern imaging and certainly all image quantization is based on
+      &#x0201c;perfectly&#x0201d; even illumination. If there is variation within the field
+      illumination, then all other parameters, such as illumination stability, coregistration, point
+      spread function, etc., become mute.<xref rid="B1" ref-type="bibr">
+        <sup>1</sup>
+      </xref> Whereas an image with even illumination across the field of view would be ideal,
+      current metrics of a maximum intensity variation of 10% along the image diagonal and 5% along
+      the horizontal for the LSCMs were based on nominal microscope manufacturer acceptance criteria
+      and routinely obtainable values. Therefore, published methods for measuring the uniformity of
+      the image field of view do not offer a platform-independent, single quality metric or quality
+      factor (QF).<xref rid="B2" ref-type="bibr">
+        <sup>2</sup>
+      </xref>
+      <sup>&#x02013;</sup>
+      <xref rid="B4" ref-type="bibr">
+        <sup>4</sup>
+      </xref> This makes it difficult to track image illumination quality over time and nearly
+      impossible to compare illumination quality between microscopes. Whereas the metric described
+      here can be applied to any imaging platform that uses field illumination, for this paper, we
+      concentrate on WF microscopes and LSCMs. </p>
+    <p>There are numerous components within the microscope that affect the level of homogeneity of
+      the field illumination. The first is the uniformity of the illumination source. This is
+      especially important when using mercury or xenon arc lamps on WF microscopes. These sources
+      are based on a bulb that contains a central bright source of illumination
+        (<italic>i.e.</italic>, arc) that is inherently not uniform and requires some type of
+      homogenization, such as a light diffuser or an optical scrambler. Most LSCMs use lasers as an
+      illumination source, which are inherently coherent and uniform when they are functioning
+      properly but are often coupled to the microscope that uses fiber optics. All illumination
+      sources require some type of collection and relay optics to deliver the illumination light to
+      the specimen. These intermediate optics introduce another source of nonuniformity in the field
+      illumination. The problem of nonuniform illumination is widely recognized by microscopists as
+      well as standards organizations, such as the American Society for Testing and Materials,<xref
+        rid="B5" ref-type="bibr">
+        <sup>5</sup>
+      </xref> as critical, especially as more quantitative data are extracted from light microscopy
+      images and used to make scientific conclusions.<xref rid="B6" ref-type="bibr">
+        <sup>6</sup>
+      </xref>
+    </p>
+    <sec sec-type="materials|methods" id="s1">
+      <title>MATERIALS AND METHODS</title>
+      <p>The field uniformity data that were used to develop the algorithm were collected as part of
+        an international study and performance test of 89 different LSCMs and/or objective lenses
+        from laboratories around the globe. The study was conducted by the Light Microscopy Research
+        Group of the Association of Biomolecular Resource Facilities (ABRF). The details of the data
+        collection have been published,<xref rid="B7" ref-type="bibr">
+          <sup>7</sup>
+        </xref> but in brief, the protocol was as follows:<list list-type="order" id="L1">
+          <list-item>
+            <p>All lasers were warmed up for 1 h before imaging.</p>
+          </list-item>
+          <list-item>
+            <p>Images were collected within the coverslipped area of green or orange fluorescently
+              doped plastic slides (Chroma Technology, Bellows Falls, VT, USA) by use of the 488 nm
+              laser for excitation of the green slide or the 543 nm or the 561 nm laser for
+              excitation of the orange slide.</p>
+          </list-item>
+          <list-item>
+            <p>Images were collected so that the intensity was &#x0223c;200 gray levels for 8-bit
+              images.</p>
+          </list-item>
+          <list-item>
+            <p>The microscope zoom was set to the manufacturer&#x02019;s specification (may not be
+              1).</p>
+          </list-item>
+          <list-item>
+            <p>Sufficient laser power was used so that the gain on the photomultiplier was
+              &#x0223c;75% of the maximum value (typically, 500&#x02013;600 V).</p>
+          </list-item>
+          <list-item>
+            <p>The intensity profile was measured across the image from 2 diagonal lines (upper left
+              to lower right; upper right to lower left) and a center horizontal line drawn across
+              the image.</p>
+          </list-item>
+        </list>
+      </p>
+      <p>The intensity profiles from the study data were used to train the computer algorithm
+        method.</p>
+      <p>The algorithm was generated through training by use of data from the 89 microscopes from
+        the international study. To validate the QF method, data from 33 WF microscopes or LSCMs
+        were included in a reserved &#x0201c;confirmatory&#x0201d; dataset that were not used for
+        the development of the QF score. The procedure used to collect these images was essentially
+        the same as listed above. The 33 confirmatory microscopes were used to judge the robustness
+        and validity of algorithm and the QF score (<xref ref-type="table" rid="T1">
+          <bold>Table 1</bold>
+        </xref>). </p>
+      <table-wrap id="T1" orientation="portrait" position="float">
+        <label>TABLE 1</label>
+        <caption>
+          <p>Microscope Type, Objective Lens, and Illumination Source</p>
+        </caption>
+        <table frame="hsides" rules="groups">
+          <col width="24.73%" span="1"/>
+          <col width="19.14%" span="1"/>
+          <col width="28.83%" span="1"/>
+          <col width="27.3%" span="1"/>
+          <thead>
+            <tr>
+              <th valign="top" align="left" scope="col" rowspan="1" colspan="1">Microscope type</th>
+              <th valign="top" align="center" scope="col" rowspan="1" colspan="1">Sample size</th>
+              <th valign="top" align="center" scope="col" rowspan="1" colspan="1">Objective lens
+                used</th>
+              <th valign="top" align="center" scope="col" rowspan="1" colspan="1">Illumination
+                source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td valign="top" align="left" scope="row" rowspan="1" colspan="1">LSCM<xref
+                  ref-type="table-fn" rid="t1n1">
+                  <italic>
+                    <sup>a</sup>
+                  </italic>
+                </xref>
+              </td>
+              <td valign="bottom" align="center" rowspan="1" colspan="1">89<xref ref-type="table-fn"
+                  rid="t1n1">
+                  <italic>
+                    <sup>a</sup>
+                  </italic>
+                </xref>
+              </td>
+              <td valign="bottom" align="center" rowspan="1" colspan="1">20&#x02013;15&#x000d7;<xref
+                  ref-type="table-fn" rid="t1n1">
+                  <italic>
+                    <sup>a</sup>
+                  </italic>
+                </xref>
+              </td>
+              <td valign="bottom" align="center" rowspan="1" colspan="1">Lasers<xref
+                  ref-type="table-fn" rid="t1n1">
+                  <italic>
+                    <sup>a</sup>
+                  </italic>
+                </xref>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" align="left" scope="row" rowspan="1" colspan="1">LSCM<italic>
+                  <sup>b</sup>
+                </italic>
+              </td>
+              <td valign="bottom" align="center" rowspan="1" colspan="1">15<italic>
+                  <sup>b</sup>
+                </italic>
+              </td>
+              <td valign="bottom" align="center" rowspan="1" colspan="1">20&#x000d7;<italic>
+                  <sup>b</sup>
+                </italic>
+              </td>
+              <td valign="bottom" align="center" rowspan="1" colspan="1">Lasers<italic>
+                  <sup>b</sup>
+                </italic>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" align="left" scope="row" rowspan="1" colspan="1">WF<italic>
+                  <sup>b</sup>
+                </italic>
+              </td>
+              <td valign="bottom" align="center" rowspan="1" colspan="1">18<italic>
+                  <sup>b</sup>
+                </italic>
+              </td>
+              <td valign="bottom" align="center" rowspan="1" colspan="1">10&#x02013;20&#x000d7;<italic>
+                  <sup>b</sup>
+                </italic>
+              </td>
+              <td valign="bottom" align="center" rowspan="1" colspan="1">Arc lamp<italic>
+                  <sup>b</sup>
+                </italic>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table-wrap-foot>
+          <fn id="t1n1">
+            <label>a</label>
+            <p>Algorithm training set and <italic>
+                <sup>b</sup>
+              </italic>confirmatory microscopes to validate the algorithm QF score determination.
+            </p>
+          </fn>
+        </table-wrap-foot>
+      </table-wrap>
+      <sec id="s2">
+        <title>Illumination Sources</title>
+        <p>The illumination and imaging techniques used in LSCM and WF microscopes are substantially
+          different and are described below.</p>
+        <p>The most common illumination source used for the LSCM is a laser. The laser beam is
+          scanned across the sample via a galvanometer mirror, with a fly-back from the end of one
+          line to start the next line. As these microscopes have multiple lasers and pinholes, the
+          coupling and alignment of the laser fiber optics to the scanning mirror are crucial to
+          achieve uniform field illumination. The digital zoom capabilities of most LSCM make it
+          possible to have even illumination (roll-off at the edges) across the entire field of
+          view, typically at zoom &#x02265; 1.25. Therefore, most manufacturers will provide a
+          specification, <italic>i.e.</italic>, the expectable roll-off at the edges for a given
+          zoom value. The specifications are typically 5% variation for the horizontal intensity
+          across the center of the field of view and 10% for the intensity variation along the
+          diagonal corner to corner of the field of view. The original acceptance test value should
+          be consulted to determine what the exact values are. Whereas all of the confocal
+          microscopes tested in this study were LSCM types, other types would also be amenable to
+          these same tests, such as the spinning-disk confocal microscope. In principle, the
+          algorithm and the QF determination are compatible with any intensity-based microscope
+          image.</p>
+        <p>The illumination source for WF imaging is most commonly an external arc lamp coupled to
+          the microscope, directly or with a fiber optic. However, light-emitting diode (LED)
+          illumination sources are quickly replacing the traditional arc lamp. Similar to the arc
+          lamp, LED light sources are also often coupled to the microscope via a fiber optic and
+          coupling optics. The illumination must be delivered to the back aperture of the objective
+          lens on axis to achieve even field illumination. Whereas tilted or off-axis illumination
+          often goes undetected at high magnification, it can be problematic at lower magnification.
+          The coupling of the fiber to the microscope often requires multiaxis adjustability.
+          Whereas most illumination manufacturers offer their version of an adjustable coupler, we
+          have found our laboratory-built version more flexible and easier to use with both arc and
+          LED sources (<xref ref-type="fig" rid="F1">
+            <bold>Figs. 1</bold>
+          </xref> and <xref ref-type="fig" rid="F2">
+            <bold>2</bold>
+          </xref>). Full mechanical drawings of our coupler can be provided upon request. </p>
+        <fig id="F1" fig-type="figure" orientation="portrait" position="float">
+          <label>Figure 1</label>
+          <caption>
+            <p>Photograph of the adjustable fiberoptic microscope coupler with salient parts
+              labeled.</p>
+          </caption>
+          <graphic xlink:href="jbt.15-2602-001-jbt.15-2602-001_f1"/>
+        </fig>
+        <fig id="F2" fig-type="figure" orientation="portrait" position="float">
+          <label>Figure 2</label>
+          <caption>
+            <p>Assembly drawing of the adjustable fiberoptic coupler. The device is green,
+              dimensions are black, hidden lines are blue, centers are red, and tapped holes are
+              purple. All dimensions are in millimeters. Part numbers are from MSC Industrial Supply
+              (Melville, NY, USA; MSCdirect.com); substitution from other suppliers is also
+              possible. OD, outer diameter.</p>
+          </caption>
+          <graphic xlink:href="jbt.15-2602-001-jbt.15-2602-001_f2"/>
+        </fig>
+      </sec>
+      <sec id="s3">
+        <title>Computer Modeling</title>
+        <p>Because the gray-scale values of the images collected (all microscopes) varied in dynamic
+          range and intensity, it was necessary to normalize and rescale to an illumination range of
+          0&#x02013;255 (Eq. 1 in <ext-link ext-link-type="uri"
+            xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2602-001/-/DC1"
+            >Supplemental Data</ext-link>). This rescaling allowed for all of the microscopes to be
+          compared directly. The initial 5 and final 5 pixel intensity values for each scan line
+          were not included in the analysis to minimize artifacts at the image edges as a result of
+          LSCM mirror fly-back errors. This was done to minimize the edge effect and will have
+          little or no impact on image quality or quantification. Whereas the 5 pixels that were cut
+          off represent &#x0003c;0.5% of the image, cases where there was significant deviation from
+          the mean gray vales of the image would yield a misleading QF score. Additionally, image
+          sizes were normalized by rescaling diagonal ranges to 715 observations. The horizontal
+          intensity profiles were typically shorter than the diagonal ones so that all 0 intensity
+          values were removed.</p>
+        <p>The &#x0201c;ideal&#x0201d; response from a well-aligned microscope with even field
+          illumination is a consistently bright intensity with some allowable variance of
+          illumination across the field of view. In practice, the intensity data from the
+          international study often displayed regions in which the illumination was steadily
+          increasing or decreasing (<xref ref-type="fig" rid="F3">
+            <bold>Fig. 3</bold>
+          </xref>), had sudden illumination discontinuities, or had high variance. This suggests
+          that many LSCMs in place in laboratories across the globe are not properly aligned. This
+          validates the need for this algorithm and QF determination. A linear segmentation
+            technique<xref rid="B8" ref-type="bibr">
+            <sup>8</sup>
+          </xref> was used to quantify these observed types of departures from ideal illumination
+          and factor them into the QF. The resulting estimated segmentations delineate regions of
+          approximately linearly change or constant illumination and discontinuities and provided a
+          means to estimate the variance (see fitted segmentations in <xref ref-type="fig" rid="F3"
+            >Fig. 3</xref>). The fast algorithm associated with this technique, to the best of our
+          knowledge, is the best method for capturing the important departures from ideal
+          illumination observed in the data. The resulting slope and variance estimates were used in
+          the development of the QF and were directed at penalizing nonlinearity and high variance. </p>
+        <fig id="F3" fig-type="figure" orientation="portrait" position="float">
+          <label>Figure 3</label>
+          <caption>
+            <p>Plotted intensity data and the line segments [upper left to lower right (red); upper
+              right to lower left (blue); and a center horizontal line (yellow)] for Microscope D.
+              This scope exhibited increased illumination on the left, more stable central
+              illumination, and decreasing illumination on the right. Also on the right, the yellow
+              scan displays an apparent discontinuity. Each scan has been approximated by 3
+              optimally determined line segments whose slopes are used in the scoring function.</p>
+          </caption>
+          <graphic xlink:href="jbt.15-2602-001-jbt.15-2602-001_f3"/>
+        </fig>
+        <p>The scoring function was developed in 3 steps. In the first step, illumination responses
+          were modeled by segmenting each intensity profile (2 diagonal and 1 horizontal) into 3
+          linear functions.<xref rid="B8" ref-type="bibr">
+            <sup>8</sup>
+          </xref> This method captured consistent illumination in each scan by estimating 3 lines
+          with similar intercepts and near-0 slopes. Quasiparabolic illumination responses (<xref
+            ref-type="fig" rid="F4">
+            <bold>Fig. 4</bold>
+          </xref>) generally yielded an initial line with positive slope, a terminal line with
+          negative slope, and an intermediate line with near-0 slope. A perfect field illumination
+          would yield 3 flat lines with 0 slopes. </p>
+        <fig id="F4" fig-type="figure" orientation="portrait" position="float">
+          <label>Figure 4</label>
+          <caption>
+            <p>Plotted intensity data and the line segments [upper left to lower right (red); upper
+              right to lower left (blue); and a center horizontal line (yellow)] for Microscope AM
+              (see <ext-link ext-link-type="uri"
+                xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2602-001/-/DC1"
+                >Supplemental Data</ext-link> for more information on this scope), exhibiting a
+              quasiparabolic illumination profile and demonstrating the fit of the 3 line-segment
+              approximations.</p>
+          </caption>
+          <graphic xlink:href="jbt.15-2602-001-jbt.15-2602-001_f4"/>
+        </fig>
+        <p>In the second step, root mean squared intensity (RMSI) and the length-adjusted absolute
+          values of each of the 3 slopes were totaled across measurements, resulting in 4 variables
+          for each microscope tested. These variables were augmented by 2 more: total absolute first
+          differences (AFDs) and total absolute second differences (ASDs; <xref ref-type="table"
+            rid="T2">
+            <bold>Table 2</bold>
+          </xref>). The non-RMSI variables were then log transformed to make their distributions
+          more Gaussian. </p>
+        <table-wrap id="T2" orientation="portrait" position="float">
+          <label>TABLE 2</label>
+          <caption>
+            <p>Score Function Parameter Estimates</p>
+          </caption>
+          <table frame="hsides" rules="groups">
+            <col width="13.44%" span="1"/>
+            <col width="13.73%" span="1"/>
+            <col width="15.38%" span="1"/>
+            <col width="13.29%" span="1"/>
+            <col width="44.16%" span="1"/>
+            <thead>
+              <tr>
+                <th valign="top" align="left" scope="col" rowspan="1" colspan="1">Term</th>
+                <th valign="top" align="center" scope="col" rowspan="1" colspan="1">Estimate</th>
+                <th valign="top" align="center" scope="col" rowspan="1" colspan="1">T statistic</th>
+                <th valign="top" align="center" scope="col" rowspan="1" colspan="1">
+                  <italic>P</italic>
+                </th>
+                <th valign="top" align="center" scope="col" rowspan="1" colspan="1">Definition</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">Mean</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">&#x02212;13.058</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">&#x02212;0.601</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">0.28</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">Value when other variables
+                  are 0</td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">RMSI</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">0.708</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">3.278</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">0.00082</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">
+                  <inline-formula>
+                    <inline-graphic xlink:href="jbt.15-2602-001-jbt.15-2602-001_inf1.jpg"/>
+                  </inline-formula>
+                </td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">LinMid</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">4.638</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">4.348</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">0.00002</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">
+                  <inline-formula>
+                    <inline-graphic xlink:href="jbt.15-2602-001-jbt.15-2602-001_inf2.jpg"/>
+                  </inline-formula>
+                </td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">LinRght</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">5.174</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">4.233</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">0.00003</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">
+                  <inline-formula>
+                    <inline-graphic xlink:href="jbt.15-2602-001-jbt.15-2602-001_inf3.jpg"/>
+                  </inline-formula>
+                </td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">FirstDif</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">&#x02212;57.831</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">&#x02212;1.308</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">0.096</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">
+                  <inline-formula>
+                    <inline-graphic xlink:href="jbt.15-2602-001-jbt.15-2602-001_inf4.jpg"/>
+                  </inline-formula>
+                </td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">ScndDif</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">44.981</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">1.091</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">0.14</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">
+                  <inline-formula>
+                    <inline-graphic xlink:href="jbt.15-2602-001-jbt.15-2602-001_inf5.jpg"/>
+                  </inline-formula>
+                </td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1"
+                  >RMSI<sup>2</sup></td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">&#x02212;0.001</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">&#x02212;2.665</td>
+                <td valign="top" align="char" char="." rowspan="1" colspan="1">0.0048</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">RMSI squared</td>
+              </tr>
+            </tbody>
+          </table>
+          <table-wrap-foot>
+            <fn fn-type="other">
+              <p>
+                <italic>I<sub>s</sub></italic> (<italic>i</italic>), Scaled illumination (Eq. 1 in
+                  <ext-link ext-link-type="uri"
+                  xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2602-001/-/DC1"
+                  >Supplemental Data</ext-link>) at position <italic>i</italic> of scan
+                  <italic>s</italic>; <italic>&#x003b7;<sub>s</sub></italic>, number of non-0 scan
+                  <italic>s</italic> values; <italic>&#x003b2;<sub>s</sub></italic>
+                  (<italic>L</italic>), slope of scan <italic>s</italic> in line segment
+                  <italic>L</italic>: left = 1, middle = 2, or right = 3;
+                    <italic>&#x003b7;<sub>s</sub></italic> (<italic>L</italic>), its length. RMSI
+                penalizes departures from the maximal intensity. Linear middle (LinMid) and linear
+                right (LinRght) variables penalize illumination changes depending on their lengths.
+                First differences (FirstDif) and second differences (ScndDif) penalize changes in
+                adjacent and triplet positions. With the exception of RMSI, all variables are logged
+                before computing the score function, defined as the sum of the product of the
+                estimates and variables. </p>
+            </fn>
+          </table-wrap-foot>
+        </table-wrap>
+        <p>Multiple experts (<italic>n</italic> = 5) ordered the microscopes in an iterative method
+          to refine the algorithm. The mean intensity, the aforementioned 6 variables, and their
+          squares were subject to robust backward-model selection in regressions against the
+          expertly ranked training set order.<xref rid="B9" ref-type="bibr">
+            <sup>9</sup>
+          </xref> All square terms, except RMSI, dropped out, as did the scan's initial slope,
+          presumably as symmetry typically rendered it redundant with the terminal line's slope.
+          Investigation of each microscope&#x02019;s influence on the resulting scoring function
+          found 4 microscopes to be extremely influential. They were removed from the training set
+          to ensure that they were not unduly controlling the parameter estimates. Although they
+          were nonsignificant, elimination of AFD and ASD was found to lead to misordering of the
+          top-ranked microscopes. It was asserted that this might be mediated by error-prone expert
+          rankings of the bottom-ranked microscopes, as a result of the difficulty of determining
+          relative rankings for microscopes showing poor performance. To account for decreasing
+          ranking accuracy at high ranks, a weighting function was introduced to down weight the
+          bottom-ranked microscopes and improve the scoring function on the top-ranked microscopes
+          (Eq. 2 in <ext-link ext-link-type="uri"
+            xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2602-001/-/DC1"
+            >Supplemental Data</ext-link>). This modification proved successful in generating a
+          scoring function, acceptably ranking all of the microscopes in the training set (<xref
+            ref-type="table" rid="T1">Table 1</xref> and <xref ref-type="fig" rid="F4">Fig.
+          4</xref>) </p>
+        <p>When the resulting algorithm was applied to the reserved 33 confirmatory microscopes, the
+          resulting rankings were in agreement with the expert rankings (<xref ref-type="fig"
+            rid="F5">
+            <bold>Fig. 5</bold>
+          </xref>). </p>
+        <fig id="F5" fig-type="figure" orientation="portrait" position="float">
+          <label>Figure 5</label>
+          <caption>
+            <p>Agreement between expert rankings and quality-score percentages (blue circles),
+              showing the relationship is linear (dashed black line). The quality-score percentages
+              were transformed from regression estimates of a score function, in which agreement
+              with expert rankings was achieved only after down-weighting high-ranked scopes (red
+              line; Eq. 2 in <ext-link ext-link-type="uri"
+                xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2602-001/-/DC1"
+                >Supplemental Data</ext-link>).</p>
+          </caption>
+          <graphic xlink:href="jbt.15-2602-001-jbt.15-2602-001_f5"/>
+        </fig>
+      </sec>
+      <sec id="s4">
+        <title>The QF</title>
+        <p>The third step was to turn the scoring function into a more familiar quality-rating score
+          or QF. The range of scores observed in all training microscopes that we examined was from
+          25 to 92. The score function was transformed to a percentage scale based on the 89
+          microscopes in the training set: quality score percentage = 100 &#x000d7; min (1, 1
+          min(1(scoring function &#x02212; 24)/71)), which yielded values in our training data in a
+          slightly smaller range than 0&#x02013;100%, where a QF score of 100% indicated the highest
+          quality. The minima introduced in the formula were needed to keep the values in range.
+          MATLAB code, which scaled and segmented the triplicate measurements (input as a 3 column
+          comma separated variable file), generated 6 regression variables, computed the score
+          function, and out put the final QF as a percentage (the code is provided as <ext-link
+            ext-link-type="uri"
+            xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2602-001/-/DC1"
+            >Supplemental Data</ext-link>).</p>
+      </sec>
+    </sec>
+    <sec sec-type="results" id="s5">
+      <title>RESULTS</title>
+      <p>A scoring function was developed to produce a QF score, which measures the evenness of
+        field illumination for WF microscopes and LSCMs. To accomplish this, a training set of
+        illumination data from 89 microscopes was ranked independently by multiple light microscopy
+        experts and used to build the algorithm. This proved to be successful in producing a robust
+        and useful formula. The iterative process of ranking and refining the algorithm added
+        accuracy and robustness to it, especially across multiple imaging modalities. The newly
+        developed algorithm was then applied to illumination data from 33 &#x0201c;test&#x0201d;
+        microscopes. Not only was the algorithm robust enough to rank LSCM data correctly, data
+        similar to the data from which they were constructed also were able to properly rank WF
+        microscopes, which were not used in developing or refining the algorithm. The validity of
+        the algorithm is evidenced by the high degree of agreement between the final expert rankings
+        and the QF percentages (see <xref ref-type="fig" rid="F5">Fig. 5</xref>); an
+          <italic>R</italic>
+        <sup>2</sup> value of 74% was achieved. This is quite remarkable, given the expected
+        variation between microscopes and the difference in image formation and detection between WF
+        microscopes and LSCMs (see above sections). </p>
+      <p>Whereas the ideal QF score is 100%, this is not routinely achievable. Therefore, there a
+        balance between ideal and achievable results was built into the scoring algorithm. A QF
+        &#x02265; 83% was set as the minimum acceptable value (plots of all microscopes are in
+          <ext-link ext-link-type="uri"
+          xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2602-001/-/DC1"
+          >Supplemental Data</ext-link>), and this was based on no more than a 10% deviation in
+        fluorescence intensity along the diagonal-intensity profile across the field of view and a
+        5% deviation across the horizontal-intensity profile data. These deviations were based on
+        manufacturer&#x02019;s specifications, as well as what had been established as routinely
+          achievable.<xref rid="B7" ref-type="bibr">
+          <sup>7</sup>
+        </xref> The QF percentages appear at the top of each microscope line intensity-profile plots
+        in <ext-link ext-link-type="uri"
+          xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2602-001/-/DC1"
+          >Supplemental Fig. 1</ext-link>. The QF percentages for the 33 independent confirmatory
+        microscopes are shown at the top of each microscope image line intensity-profile plot scan
+        in <ext-link ext-link-type="uri"
+          xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2602-001/-/DC1"
+          >Supplemental Fig. 2</ext-link>. The shocking and concerning outcome was that most of the
+        training scopes 77&#x02013;89 failed to meet the QF scope of 83%. The test set was better
+        with 14 of 33 passing the minimum QF score. These data were collected voluntarily and sent
+        in as part of another project (uniformity of illumination), and therefore, one would have
+        expected a higher number of passing scopes. These low QF scores support the need for testing
+        scopes and for a metric to quantify the evenness of illumination, such as the QF score that
+        we present here. </p>
+      <p>Malalignment of the illumination source, whatever type it was, may not have been readily
+        apparent, or all systems would have been aligned all the time. For WF microscopes, alignment
+        of the illumination source is typically done by the operator or core facility personnel.
+        Once a misalignment is determined, realignment can be accomplished easily (see <xref
+          ref-type="fig" rid="F1">Fig. 1</xref> for an example of a coupler that is simple to
+        align). For example, microscope 31 had a QF score of 9.2 before alignment and a QF score of
+        88.4 after alignment (see test set.pdf in <ext-link ext-link-type="uri"
+          xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2602-001/-/DC1"
+          >Supplemental Data</ext-link>). The dramatic improvement in the QF score was simply a
+        result of the correction of the alignment and was accomplished easily once the need for
+        realignment was determined. This points out the need for monitoring the illumination, as
+        well as having a metric that alerts users and/or core facility personnel when alignment is
+        necessary. The algorithm presented here can serve as that metric.</p>
+      <p>Low signal to noise, usually associated with LSCMs, can mask the actual state of alignment,
+        both for aligned and misaligned microscopes. Thus, it is particularly important to check for
+        even illumination, quantify it, and realign the system if need be. The graphs from the
+        algorithm provide a visual representation of QF score, which then allows for more efficient
+        corrective action to be taken. In some instances, this is as simple as improving the signal
+        to noise of the image collection. In other cases, a service engineer will need to align the
+        coupling between the laser light sources and the LSCM head.</p>
+    </sec>
+    <sec sec-type="discussion" id="s6">
+      <title>DISCUSSION</title>
+      <p>The importance of an even illumination across the microscope field of view cannot be
+        overstressed, even for nonquantitative imaging. Whereas the need for homogenous illumination
+        might be obvious where intensity measurements are made directly, it is equally important
+        when postacquisition techniques are applied, for example, colocalization, deconvolution,
+        ratio imaging, morphology measurements, etc. One of the basic assumptions for all of these
+        techniques is homogenous illumination. Even when no measurement or postacquisition
+        techniques are used, nonhomogenous illumination distorts and even corrupts the image and
+        potentially, the conclusions drawn from it.</p>
+      <p>The triplet intensity-scan procedure (2 diagonal + 1 horizontal-intensity line profiles) of
+        a flat-field image presented here is fast and only requires simple specimens with uniform
+        intensity. For fluorescence imaging, the test specimen could be a doped microscope
+          slide,<xref rid="B7" ref-type="bibr">
+          <sup>7</sup>
+        </xref> thin layer of fluorescent dye,<xref rid="B1" ref-type="bibr">
+          <sup>1</sup>
+        </xref>
+        <sup>,</sup>
+        <xref rid="B6" ref-type="bibr">
+          <sup>6</sup>
+        </xref> or Schott GG-475 glass.<xref rid="B9" ref-type="bibr">
+          <sup>9</sup>
+        </xref> For brightfield imaging, no specimen is needed for field-uniformity testing. The
+        algorithm and QF score calculation should be easy to incorporate into standard operating
+        procedures, having minimal impact on overall microscope operation and far-reaching benefits.
+        These benefits include a single test for multiple microscope modalities, the ability to
+        track the illumination system, microscope alignment and light-source stability over time,
+        and the generation of a single QF metric that is comparable across multiple imaging
+        modalities. </p>
+      <p>The underlying contribution of the statistical development is to provide estimates that
+        give an empirically derived relative weighting to nonlinearity (LinMid, LinRght) and
+        illumination inhomogeneity (RMSI, FirstDif, ScndDif). In as much as there seems to be no
+        theory to gauge their relative importance, the expert rankings and subsequent model
+        selection serve as unbiased substitutes. Microscope failures of the test,
+          <italic>i.e.</italic>, a QF below 83%, were sometimes a result of high variance, as test
+        images were collected with a low signal to noise. Simply recollecting the images with higher
+        signal to noise could potentially raise the QF significantly; this is especially true for
+        LSCM.</p>
+      <p>Whereas we have only demonstrated optical microscopy in this paper, this technique and
+        algorithm would be applicable to any imaging modality where there is a directed illumination
+        source, including, but not limited to, plate readers, slide scanners, electron microscopes,
+        and gel boxes.</p>
+      <sec id="s7">
+        <title>Future Directions</title>
+        <p>As the number and diversity of imaging platforms that use this algorithm increase, so
+          will the precision of the outcome QF score. Therefore, we encourage users to submit their
+          data to us (contact richard.cole@health.ny.gov for submission instructions). This will
+          thereby provide information for the future improvement of the output QF score for all
+          researchers by use of the algorithm. To achieve full use of this algorithm, we are
+          planning on converting the MATLAB code over to a readily accessible Fiji plug-in.</p>
+      </sec>
+    </sec>
+    <sec sec-type="supplementary-material">
+      <title>Supplementary Material</title>
+      <supplementary-material content-type="local-data">
+        <label>Supplemental Figures</label>
+        <media xlink:href="jbt.15-2602-001-jbt.15-2602-001-s01.pdf">
+          <caption>
+            <p>Click here for additional data file.</p>
+          </caption>
+        </media>
+      </supplementary-material>
+      <supplementary-material content-type="local-data">
+        <label>Supplemental Equations</label>
+        <media xlink:href="jbt.15-2602-001-jbt.15-2602-001-s02.pdf">
+          <caption>
+            <p>Click here for additional data file.</p>
+          </caption>
+        </media>
+      </supplementary-material>
+      <supplementary-material content-type="local-data">
+        <label>Supplemental Test Set</label>
+        <media xlink:href="jbt.15-2602-001-jbt.15-2602-001-s03.pdf">
+          <caption>
+            <p>Click here for additional data file.</p>
+          </caption>
+        </media>
+      </supplementary-material>
+      <supplementary-material content-type="local-data">
+        <label>Supplemental Training Set</label>
+        <media xlink:href="jbt.15-2602-001-jbt.15-2602-001-s04.pdf">
+          <caption>
+            <p>Click here for additional data file.</p>
+          </caption>
+        </media>
+      </supplementary-material>
+    </sec>
+  </body>
+  <back>
+    <ack>
+      <p>Some of the microscope data were obtained through an ABRF-sponsored study. This work was
+        partially supported by the Wadsworth Center Advanced Light Microscopy and Image Analysis and
+        Bioinformatics Core Facilities. The authors declare no competing interest.</p>
+    </ack>
+    <ref-list>
+      <title>REFERENCES</title>
+      <ref id="B1">
+        <label>1</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Model</surname>
+              <given-names>MA</given-names>
+            </name>, <name>
+              <surname>Blank</surname>
+              <given-names>JL</given-names>
+            </name>
+          </person-group>
+          <article-title>Concentrated dyes as a source of two-dimensional fluorescent field for
+            characterization of a confocal microscope.</article-title>
+          <source>J Microsc</source>
+          <year>2008</year>;<volume>229</volume>:<fpage>12</fpage>&#x02013;<lpage>16</lpage>.<pub-id
+            pub-id-type="pmid">18173639</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B2">
+        <label>2</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Kedziora</surname>
+              <given-names>KM</given-names>
+            </name>, <name>
+              <surname>Prehn</surname>
+              <given-names>JH</given-names>
+            </name>, <name>
+              <surname>Dobrucki</surname>
+              <given-names>J</given-names>
+            </name>, <name>
+              <surname>Bernas</surname>
+              <given-names>T</given-names>
+            </name>
+          </person-group>
+          <article-title>Method of calibration of a fluorescence microscope for quantitative
+            studies.</article-title>
+          <source>J Microsc</source>
+          <year>2011</year>;<volume>244</volume>:<fpage>101</fpage>&#x02013;<lpage>111</lpage>.<pub-id
+            pub-id-type="pmid">21756257</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B3">
+        <label>3</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Zucker</surname>
+              <given-names>RM</given-names>
+            </name>, <name>
+              <surname>Price</surname>
+              <given-names>OT</given-names>
+            </name>
+          </person-group>
+          <article-title>Practical confocal microscopy and the evaluation of system
+            performance.</article-title>
+          <source>Methods</source>
+          <year>1999</year>;<volume>18</volume>:<fpage>447</fpage>&#x02013;<lpage>458</lpage>.<pub-id
+            pub-id-type="pmid">10491274</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B4">
+        <label>4</label>
+        <mixed-citation publication-type="book">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Matthews</surname>
+              <given-names>C</given-names>
+            </name>, <name>
+              <surname>Cordeli&#x000e8;res</surname>
+              <given-names>FP</given-names>
+            </name>
+          </person-group>
+          <article-title>MetroloJ: an ImageJ plugin to help monitor microscopes'
+            health.</article-title>
+          <source>Image J User &#x00026; Developer Conference.</source>
+          <publisher-name>Mondorf-les-Bains, Luxembourg</publisher-name>,<year>2010</year>.
+        </mixed-citation>
+      </ref>
+      <ref id="B5">
+        <label>5</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>DeRose</surname>
+              <given-names>PC</given-names>
+            </name>, <name>
+              <surname>Resch-Genger</surname>
+              <given-names>U</given-names>
+            </name>
+          </person-group>
+          <article-title>Recommendations for fluorescence instrument qualification: the new ASTM
+            Standard Guide.</article-title>
+          <source>Anal Chem</source>
+          <year>2010</year>;<volume>82</volume>:<fpage>2129</fpage>&#x02013;<lpage>2133</lpage>.<pub-id
+            pub-id-type="pmid">20136134</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B6">
+        <label>6</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Murray</surname>
+              <given-names>JM</given-names>
+            </name>, <name>
+              <surname>Appleton</surname>
+              <given-names>PL</given-names>
+            </name>, <name>
+              <surname>Swedlow</surname>
+              <given-names>JR</given-names>
+            </name>, <name>
+              <surname>Waters</surname>
+              <given-names>JC</given-names>
+            </name>
+          </person-group>
+          <article-title>Evaluating performance in three-dimensional fluorescence
+            microscopy.</article-title>
+          <source>J Microsc</source>
+          <year>2007</year>;<volume>228</volume>:<fpage>390</fpage>&#x02013;<lpage>405</lpage>.<pub-id
+            pub-id-type="pmid">18045334</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B7">
+        <label>7</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Stack</surname>
+              <given-names>RF</given-names>
+            </name>, <name>
+              <surname>Bayles</surname>
+              <given-names>CJ</given-names>
+            </name>, <name>
+              <surname>Girard</surname>
+              <given-names>AM</given-names>
+            </name>, <name>
+              <surname>Martin</surname>
+              <given-names>K</given-names>
+            </name>, <name>
+              <surname>Opansky</surname>
+              <given-names>C</given-names>
+            </name>, <name>
+              <surname>Schulz</surname>
+              <given-names>K</given-names>
+            </name>, <name>
+              <surname>Cole</surname>
+              <given-names>RW</given-names>
+            </name>
+          </person-group>
+          <article-title>Quality assurance testing for modern optical imaging
+            systems.</article-title>
+          <source>Microsc Microanal</source>
+          <year>2011</year>;<volume>17</volume>:<fpage>598</fpage>&#x02013;<lpage>606</lpage>.<pub-id
+            pub-id-type="pmid">21477410</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B8">
+        <label>8</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Killick</surname>
+              <given-names>R</given-names>
+            </name>, <name>
+              <surname>Fearnhead</surname>
+              <given-names>P</given-names>
+            </name>, <name>
+              <surname>Eckley</surname>
+              <given-names>IA</given-names>
+            </name>
+          </person-group>
+          <article-title>Optimal detection of changepoints with a linear computational
+            Cost.</article-title>
+          <source>J Am Stat Assoc</source>
+          <year>2012</year>;<volume>107</volume>:<fpage>1590</fpage>&#x02013;<lpage>1598</lpage>.
+        </mixed-citation>
+      </ref>
+      <ref id="B9">
+        <label>9</label>
+        <mixed-citation publication-type="book">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Paulson</surname>
+              <given-names>AS</given-names>
+            </name> and <name>
+              <surname>Delehanty</surname>
+              <given-names>TA</given-names>
+            </name>
+          </person-group>
+          <article-title>In Computer Science and Statistics: Proceedings of the 14th Symposium on
+            the Interface</article-title> (<person-group person-group-type="editor">
+            <name>
+              <surname>Heiner</surname>
+              <given-names>KW</given-names>
+            </name>, <name>
+              <surname>Sacher</surname>
+              <given-names>RS</given-names>
+            </name>, <name>
+              <surname>Wilkinson</surname>
+              <given-names>JW</given-names>
+            </name>
+          </person-group>, eds), <publisher-name>Springer Verlag</publisher-name>,
+            <publisher-loc>New York</publisher-loc>,
+            <year>1983</year>;<fpage>52</fpage>&#x02013;<lpage>57</lpage>. </mixed-citation>
+      </ref>
+    </ref-list>
+  </back>
+</article>
