@@ -1,0 +1,1018 @@
+<!-- ArticleInstanceId : 4363927, Path: jbt/26-2015/1/001/preload/nxml/, Name : jbt-26-4.nxml -->
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Archiving and Interchange DTD v1.1d2 20140930//EN" "JATS-archivearticle1.dtd">
+<article xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:mml="http://www.w3.org/1998/Math/MathML" article-type="research-article">
+  <?DTDIdentifier.IdentifierValue -//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.0 20120330//EN?>
+  <?DTDIdentifier.IdentifierType public?>
+  <?SourceDTD.DTDName JATS-journalpublishing1.dtd?>
+  <?SourceDTD.Version 1.0?>
+  <?ConverterInfo.XSLTName jp2nlmx2.xsl?>
+  <?ConverterInfo.Version 2?>
+  <front>
+    <journal-meta>
+      <journal-id journal-id-type="nlm-ta">J Biomol Tech</journal-id>
+      <journal-id journal-id-type="iso-abbrev">J Biomol Tech</journal-id>
+      <journal-id journal-id-type="hwp">jbt</journal-id>
+      <journal-id journal-id-type="pmc">jbt</journal-id>
+      <journal-id journal-id-type="publisher-id">J Biomol Tech</journal-id>
+      <journal-title-group>
+        <journal-title>Journal of Biomolecular Techniques : JBT</journal-title>
+      </journal-title-group>
+      <issn pub-type="ppub">1524-0215</issn>
+      <issn pub-type="epub">1943-4731</issn>
+      <publisher>
+        <publisher-name>Association of Biomolecular Resource Facilities</publisher-name>
+        <publisher-loc>Bethesda, MD, USA</publisher-loc>
+      </publisher>
+    </journal-meta>
+    <article-meta>
+      <article-id pub-id-type="publisher-id">JBT_2015-2601-001</article-id>
+      <article-id pub-id-type="doi">10.7171/jbt.15-2601-001</article-id>
+      <article-categories>
+        <subj-group subj-group-type="heading">
+          <subject>Articles</subject>
+        </subj-group>
+      </article-categories>
+      <title-group>
+        <article-title>Evaluation of Commercially Available RNA Amplification Kits for RNA Sequencing Using Very Low Input Amounts of Total RNA</article-title>
+      </title-group>
+      <contrib-group>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Shanker</surname>
+            <given-names>Savita</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff1">
+            <sup>1</sup>
+          </xref>
+          <xref ref-type="author-notes" rid="afn1">*</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Paulson</surname>
+            <given-names>Ariel</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff2">
+            <sup>2</sup>
+          </xref>
+          <xref ref-type="author-notes" rid="afn1">*</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Edenberg</surname>
+            <given-names>Howard J.</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff3">
+            <sup>3</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Peak</surname>
+            <given-names>Allison</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff2">
+            <sup>2</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Perera</surname>
+            <given-names>Anoja</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff2">
+            <sup>2</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Alekseyev</surname>
+            <given-names>Yuriy O.</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff4">
+            <sup>4</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Beckloff</surname>
+            <given-names>Nicholas</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff5">
+            <sup>5</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Bivens</surname>
+            <given-names>Nathan J.</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff6">
+            <sup>6</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Donnelly</surname>
+            <given-names>Robert</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff7">
+            <sup>7</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Gillaspy</surname>
+            <given-names>Allison F.</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff8">
+            <sup>8</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Grove</surname>
+            <given-names>Deborah</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff9">
+            <sup>9</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Gu</surname>
+            <given-names>Weikuan</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff10">
+            <sup>10</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Jafari</surname>
+            <given-names>Nadereh</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff11">
+            <sup>11</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Kerley-Hamilton</surname>
+            <given-names>Joanna S.</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff12">
+            <sup>12</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Lyons</surname>
+            <given-names>Robert H.</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff13">
+            <sup>13</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Tepper</surname>
+            <given-names>Clifford</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff14">
+            <sup>14</sup>
+          </xref>
+        </contrib>
+        <contrib contrib-type="author" corresp="yes">
+          <name>
+            <surname>Nicolet</surname>
+            <given-names>Charles M.</given-names>
+          </name>
+          <xref ref-type="aff" rid="aff15">
+            <sup>15</sup>
+          </xref>
+        </contrib>
+        <aff>
+          <target id="aff1" target-type="aff">
+            <sup>1</sup>
+          </target>Genomic Division, Interdisciplinary Center for Biotechnology Research, University of Florida, Gainesville, Florida 32610, USA; <target id="aff2" target-type="aff">
+            <sup>2</sup>
+          </target>Stowers Institute for Medical Research, Kansas City, Missouri 64112, USA; <target id="aff3" target-type="aff">
+            <sup>3</sup>
+          </target>Department of Biochemistry and Molecular Biology, Indiana University School of Medicine, Indianapolis, Indiana 46202-5122, USA; <target id="aff4" target-type="aff">
+            <sup>4</sup>
+          </target>Department of Pathology and Laboratory Medicine, Boston University School of Medicine, Boston, Massachusetts 02118, USA; <target id="aff5" target-type="aff">
+            <sup>5</sup>
+          </target>Research Technology Support Facility, Office of the Vice President for Research and Graduate Studies, Michigan State University, East Lansing, Michigan 48824, USA; <target id="aff6" target-type="aff">
+            <sup>6</sup>
+          </target>DNA Core Facility,Office of Research, University of Missouri, Columbia, Missouri 65211, USA; <target id="aff7" target-type="aff">
+            <sup>7</sup>
+          </target>New Jersey Medical School&#x02013;Molecular Resource Facility, Rutgers Biomedical and Health Sciences, Rutgers University, Newark, New Jersey 08863, USA; <target id="aff8" target-type="aff">
+            <sup>8</sup>
+          </target>College of Medicine, Laboratory for Molecular Biology and Cytometry Research, Department of Microbiology and Immunology, The University of Oklahoma Health Sciences Center, Oklahoma City, Oklahoma 73104, USA; <target id="aff9" target-type="aff">
+            <sup>9</sup>
+          </target>Huck Institutes of the Life Sciences, The Pennsylvania State University, University Park, Pennsylvania 16802, USA; <target id="aff10" target-type="aff">
+            <sup>10</sup>
+          </target>Department of Orthopaedic Surgery and Biomedical Engineering, College of Medicine, University of Tennessee Health Sciences Center, Memphis, Tennessee 38163, USA; <target id="aff11" target-type="aff">
+            <sup>11</sup>
+          </target>Genomics Core Facility Center for Genetic Medicine, Feinberg School of Medicine, Northwestern University, Chicago, Illinois 60611, USA; <target id="aff12" target-type="aff">
+            <sup>12</sup>
+          </target>Norris Cotton Cancer Center, Geisel School of Medicine at Dartmouth College, Hanover, New Hampshire 03756, USA; <target id="aff13" target-type="aff">
+            <sup>13</sup>
+          </target>University of Michigan DNA Sequencing Core, Biomedical Research Core Facilities, University of Michigan, Ann Arbor, Michigan 48109, USA; <target id="aff14" target-type="aff">
+            <sup>14</sup>
+          </target>Department of Biochemistry and Molecular Medicine, University of California&#x02014;Davis, School of Medicine, Sacramento, California 95817, USA; and <target id="aff15" target-type="aff">
+            <sup>15</sup>
+          </target>Norris Comprehensive Cancer Center, Keck School of Medicine, University of Southern California, Los Angeles, California 90033, USA
+        </aff>
+      </contrib-group>
+      <author-notes>
+        <fn id="afn1" fn-type="equal">
+          <label>*</label>
+          <p>These authors contributed equally to this work.</p>
+        </fn>
+        <corresp id="cor1">
+          <sc>Address correspondence to</sc>: Charles Nicolet, 1450 Biggy Street, Los Angeles, CA 90033, USA (Phone: 323-442-7988; FAX: 323-442-7880; E-mail: <email>cnicolet@usc.edu</email>).
+        </corresp>
+      </author-notes>
+      <pub-date pub-type="ppub">
+        <month>4</month>
+        <year>2015</year>
+      </pub-date>
+      <pub-date pub-type="epub">
+        <day>29</day>
+        <month>1</month>
+        <year>2015</year>
+      </pub-date>
+      <volume>26</volume>
+      <issue>1</issue>
+      <fpage>4</fpage>
+      <lpage>18</lpage>
+      <permissions>
+        <copyright-statement>&#x000a9; Federation of American Societies for Experimental Biology</copyright-statement>
+        <copyright-year>2015</copyright-year>
+        <copyright-holder>Association of Biomolecular Resource Facilities</copyright-holder>
+      </permissions>
+      <self-uri xlink:title="pdf" xlink:href="jbt-26-4.pdf"/>
+      <abstract>
+        <p>This article includes supplemental data. Please visit <italic>
+            <ext-link ext-link-type="uri" xlink:href="http://www.fasebj.org">http://www.fasebj.org</ext-link>
+          </italic> to obtain this information.Multiple recent publications on RNA sequencing (RNA-seq) have demonstrated the power of next-generation sequencing technologies in whole-transcriptome analysis. Vendor-specific protocols used for RNA library construction often require at least 100 ng total RNA. However, under certain conditions, much less RNA is available for library construction. In these cases, effective transcriptome profiling requires amplification of subnanogram amounts of RNA. Several commercial RNA amplification kits are available for amplification prior to library construction for next-generation sequencing, but these kits have not been comprehensively field evaluated for accuracy and performance of RNA-seq for picogram amounts of RNA. To address this, 4 types of amplification kits were tested with 3 different concentrations, from 5 ng to 50 pg, of a commercially available RNA. Kits were tested at multiple sites to assess reproducibility and ease of use. The human total reference RNA used was spiked with a control pool of RNA molecules in order to further evaluate quantitative recovery of input material. Additional control data sets were generated from libraries constructed following polyA selection or ribosomal depletion using established kits and protocols. cDNA was collected from the different sites, and libraries were synthesized at a single site using established protocols. Sequencing runs were carried out on the Illumina platform. Numerous metrics were compared among the kits and dilutions used. Overall, no single kit appeared to meet all the challenges of small input material. However, it is encouraging that excellent data can be recovered with even the 50 pg input total RNA.
+        </p>
+      </abstract>
+      <kwd-group>
+        <kwd>cDNA synthesis kits</kwd>
+        <kwd>polyA</kwd>
+        <kwd>ribodepletion</kwd>
+      </kwd-group>
+      <counts>
+        <page-count count="15"/>
+      </counts>
+      <custom-meta-group>
+        <custom-meta>
+          <meta-name> DJS Export </meta-name>
+          <meta-value>v1</meta-value>
+        </custom-meta>
+      </custom-meta-group>
+    </article-meta>
+  </front>
+  <body>
+    <sec sec-type="intro" id="s1">
+      <title>INTRODUCTION</title>
+      <p>For over a decade, hybridization-based approaches (microarrays) have been the method of choice for comprehensive assessment of RNA expression. The advent of next-generation sequencing (NGS) allowed a potentially more comprehensive way to measure expression level,<xref rid="B1" ref-type="bibr">
+          <sup>1</sup>
+        </xref>
+        <sup>&#x02013;</sup>
+        <xref rid="B3" ref-type="bibr">
+          <sup>3</sup>
+        </xref> identify alternative RNA processing,<xref rid="B4" ref-type="bibr">
+          <sup>4</sup>
+        </xref>
+        <sup>,</sup>
+        <xref rid="B5" ref-type="bibr">
+          <sup>5</sup>
+        </xref> and discover new genes<xref rid="B6" ref-type="bibr">
+          <sup>6</sup>
+        </xref> by allowing RNA analysis through sequencing of cDNA at massively parallel scales. This procedure is denoted RNA sequencing (RNA-seq).
+      </p>
+      <p>RNA-seq has been widely used for whole-transcriptome analysis, yet often faces the limitation of requiring at least 100 ng total RNA for library construction. Sometimes, it is not possible to obtain that much RNA, for example, if one is working with single cells or small clinical samples. Methods for constructing RNA libraries from low starting amounts of RNA in a high-throughput and reproducible manner are thus required. For instance, Tang et al.<xref rid="B7" ref-type="bibr">
+          <sup>7</sup>
+        </xref>
+        <sup>,</sup>
+        <xref rid="B8" ref-type="bibr">
+          <sup>8</sup>
+        </xref> used a modified protocol that has been initially developed for single-cell microarray analysis to perform transcriptome analysis using individual mouse oocytes and early embryonic cells. To further address this need, several vendors have recently developed RNA amplification kits designed to use low starting input amounts. Results from one such kit (SMARTer; Clontech, Mountain View, CA, USA) performing RNA-seq from individual circulating tumor cells and single neurons have been reported.<xref rid="B9" ref-type="bibr">
+          <sup>9</sup>
+        </xref>
+        <sup>,</sup>
+        <xref rid="B10" ref-type="bibr">
+          <sup>10</sup>
+        </xref> More recently, in-house developed protocols have been used to examine gene expression from single cells in developing embryos.<xref rid="B11" ref-type="bibr">
+          <sup>11</sup>
+        </xref> Vendors have also optimized or retooled RNA amplification kits that were initially developed for microarray analysis. Tariq et al.<xref rid="B12" ref-type="bibr">
+          <sup>12</sup>
+        </xref> applied the Ovation RNA-Seq System (NuGEN Technologies Incorporated, San Carlos, CA, USA) to do whole-transcriptome RNA-seq analysis from minute amounts of total RNA isolated from mouse tissue.
+      </p>
+      <p>In response to the increased interest in working with small amounts of input material, numerous protocols have been developed, tested, and compared in different laboratories.<xref rid="B11" ref-type="bibr">
+          <sup>11</sup>
+        </xref>
+        <sup>,</sup>
+        <xref rid="B13" ref-type="bibr">
+          <sup>13</sup>
+        </xref>
+        <sup>&#x02013;</sup>
+        <xref rid="B15" ref-type="bibr">
+          <sup>15</sup>
+        </xref> One limitation of the comparison experiments is that they are all done in the same lab, sometimes the lab that developed a procedure, and it can be difficult to extrapolate those results to a broader group of researchers.
+      </p>
+      <p>This paper reports the results of a field evaluation of low-input RNA amplification kits carried out by the DNA Sequence Research Group (DSRG) of the Association of Biomolecular Resource Facilities (ABRF). One novel aspect of this study is that the work is done in many different core laboratories, allowing comparison of the output material across different generation sites.</p>
+      <p>The ABRF DSRG compared RNA-seq results from standardized RNA samples using 4 different kits: Ovation RNA amplification kit, SMARTer amplification kit, TransPLEX-WTA2-SEQ kit (Sigma-Aldrich, St. Louis, MO, USA), and SuperAMP kit (Miltenyi Biotech, San Diego, CA, USA). To assess how the kits worked across different amounts of starting RNA, we amplified and sequenced 3 dilutions (5 ng, 500 pg, and 50 pg) of a standard commercial RNA (Clontech) spiked with External RNA Control Consortium (ERCC) control RNAs (Ambion, Life Technologies, Carlsbad, CA, USA). The reproducibility of these 4 kits was tested by performing amplification with each kit type at 3 core facilities, for a total of 12 participating sites. RNA and amplification kits were distributed by the DSRG to the participating core facilities to conduct amplification. Amplified cDNA samples were then collected by the DSRG for library construction at a single site (to reduce variability not associated with the amplification itself) with the Illumina TruSeq RNA kit (Illumina Incorporated, San Diego, CA, USA). Illumina TruSeq mRNA libraries were also prepared using 5 ng, 100 ng, and 1 <italic>&#x003bc;</italic>g total RNA spiked with ERCC control Mix 1 and 100 ng and 1 <italic>&#x003bc;</italic>g ribosomal-depleted RNA spiked with ERCC control Mix 1 as standards. All libraries were pooled and sequenced on the Illumina HiSeq 2000 platform. The data obtained from all samples were used to assess the effects of RNA abundance on the amplification kits under study.</p>
+    </sec>
+    <sec sec-type="materials|methods" id="s2">
+      <title>MATERIALS AND METHODS</title>
+      <sec id="s3">
+        <title>Input Material</title>
+        <p>The human universal reference total RNA [(part number) 636538; Clontech] spiked in with ERCC control mix (part number 4456740) was used in this study. The quality of the RNA (RNA integrity number 8.2) was determined on the Agilent 2100 Bioanalyzer (Agilent Technologies, Palo Alto, CA, USA) as per the manufacturer&#x02019;s instructions.</p>
+      </sec>
+      <sec id="s4">
+        <title>Control &#x0201c;Standard&#x0201d; RNA-Seq Library Construction</title>
+        <p>To construct libraries for unamplified control suitable for Illumina sequencing, the total RNA sample was processed using both the polyA-based TruSeq V2 as well as a ribo-depletion-based mRNA enrichment method (Epicentre, Madison, WI, USA).</p>
+        <p>The polyA-based TruSeq V2 RNA sample preparation kit was used following the low-throughput modified protocol according to the manufacturer&#x02019;s instructions. Because neither of the kits for the control data sets is configured to use the low starting amounts used for the other kits, input amounts of 5 ng, 100 ng, and 1 <italic>&#x003bc;</italic>g total RNA were tested. It should be noted that 5 ng is 20-fold lower than the recommended minimum for the TruSeq kit.</p>
+        <p>For the ribo-depletion method, 100 ng and 1 <italic>&#x003bc;</italic>g total RNA were used for ribosomal depletions using the Ribo-Zero Gold Kit for human, mouse, or rat (part number MRZG12324; Epicentre) according to the manufacturer&#x02019;s instructions.</p>
+        <p>Both the polyA and rRNA-depleted RNAs were subjected to thermal fragmentation using the elute, prime, and fragment mix from the TruSeq RNA sample preparation kit. RNA fragments were then converted to double-stranded (ds) cDNA using reverse transcriptase and random primers provided in the TruSeq RNA library preparation kit. The end repair, dA-tailing, ligation of bar-coded adaptors (PN. 514104; Bioo Scientific, Austin, TX, USA) to cDNA fragments for Illumina sequencing and AMPure purification steps (Beckman Coulter Genomics, Brea, CA, USA) were done on the Tecan Freedom EVO Liquid Handling Robot (Tecan Group, M&#x000e4;nnedorf, Switzerland).</p>
+      </sec>
+      <sec id="s5">
+        <title>Generation of cDNA Using RNA Amplification Kits</title>
+        <p>The same batch of RNA and ERCC control mix was shipped to 12 different laboratories on dry ice. For comparison studies between amplification kits, each participant was instructed to combine 1 <italic>&#x003bc;</italic>l total RNA (1 <italic>&#x003bc;</italic>g/<italic>&#x003bc;</italic>l) with 2 <italic>&#x003bc;</italic>l of 1:100 dilution of ERCC spike-in mix 1 and 7 <italic>&#x003bc;</italic>l water. Serial dilutions (5 ng, 500 pg, and 50 pg) of the initial RNA cocktail (100 ng/<italic>&#x003bc;</italic>l) were used as substrates for amplification reactions using the manufacturer&#x02019;s recommended protocols.</p>
+        <p>There were 4 different RNA amplification kits used in this study: SMARTer Ultra Low input RNA (part number 634935); SuperAmp (R&#x00026;D Systems, Minneapolis, MN, USA); Ovation RNA-Seq System V2 (part number 7102; NuGEN Technologies Incorporated); and SeqPlex RNA (Sigma-Aldrich; R&#x00026;D Systems). Kits were generously provided by the suppliers.</p>
+        <sec id="s6">
+          <title>SMARTer cDNA Synthesis</title>
+          <p>For cDNA synthesis using the SMARTer Ultra Low RNA-Seq System, RNA samples were primed with modified Oligo-dT primer (SMART CDS primer II A 5&#x02032;-AAGCAGTGGTATCAACGCAGAGTACT(30) N-1N-3&#x02032;, where N = A, C, G, or T, and N-1 = A, G, or C), and first-strand synthesis was carried out using SMARTScribe (Clontech) reverse transcriptase (<ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Fig. 1</ext-link>). Once the reverse-transcriptase reaction reaches the 5&#x02032; end of an RNA molecule, the terminal transferase activity of Moloney murine leukemia virus adds a few nontemplated bases to the 3&#x02032; end of cDNA. The SMARTer II A Oligonucleotide (5&#x02032;-AAGCAGTGGTATCAACGCAGAGTACXXXXX-3&#x02032;, where X = undisclosed bases) then base pairs with the nontemplate nucleotide stretch, creating an extended template. The SMARTScribe then switches template and continues transcribing to the end of oligonucleotide. The resulting full-length, single-stranded (ss) cDNA contains the complete 5&#x02032; end of the mRNA, as well as anchor sequences that are complementary to the SMARTer Oligonucleotide for second-strand synthesis. The ds cDNA was purified using Agencourt AMPure beads (Beckman Coulter Genomics). The purified cDNA was then amplified by long-distance PCR using the Advantage 2 PCR Kit (part number 639206; Clontech) and the included PCR primer (5&#x02032;-AAGCAGTGGTATCAACGCAGAGT-3&#x02032;) for 12 PCR cycles (5 ng), 14 PCR cycles (500 pg), and 17 cycles (50 pg) in 50 <italic>&#x003bc;</italic>l reaction according to the manufacturer&#x02019;s instructions.</p>
+        </sec>
+        <sec id="s7">
+          <title>SuperAMP cDNA Synthesis</title>
+          <p>RNA samples were combined with 5 <italic>&#x003bc;</italic>l supermagnetic MACS MicroBeads (Miltenyi Biotec) for mRNA isolation (<ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Fig. 2</ext-link>). The bead-RNA mixture was applied to a column and rinsed to remove rRNA and other contaminants. First-strand cDNA mix was added, then in-column cDNA synthesis was carried out at 42&#x000b0;C for 45 min. After rinsing, the 3&#x02032; tailing mix was applied on top of the column matrix and incubated at 37&#x000b0;C for 1 h for 3&#x02032; tailing of ss cDNA. After washing steps, the column was removed from the thermoMACS separator (Miltenyi Biotec) and placed into a 0.2 ml PCR tube. Resuspended PCR mix (New England Biolabs, Ipswich, MA, USA) was applied to elute material from the magnetic beads. A total of 2 <italic>&#x003bc;</italic>l New England Biolabs Phusion High-Fidelity DNA polymerase was added to the eluate and amplified ss cDNA by running SuperAMP PCR for 40 cycles. The ds cDNA was then purified using the High Pure PCR Product Purification Kit (Roche, Basel, Switzerland) following the manufacturer&#x02019;s instructions. This Miltenyi Biotec product was a prerelease item provided by Miltenyi Biotec for the purposes of this project. Following discussions between Miltenyi Biotec scientists and participating researchers, they have further improved their protocol by optimizing the bead composition and reducing the final number of PCR cycles. These changes have not been evaluated in this study.</p>
+        </sec>
+        <sec id="s8">
+          <title>Ovation cDNA Synthesis</title>
+          <p>For cDNA synthesis with the Ovation RNA-Seq kit, RNA samples were reverse transcribed by using a combination of random hexamers and poly-T RNA/DNA chimeric primer mix (<ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Fig. 3</ext-link>). The ds cDNA with a unique DNA/RNA heteroduplex at one end was then generated by fragmentation of the mRNA using RNA-dependent DNA polymerase. The resulting cDNA was then purified using RNAClean XP purification beads (Beckman Coulter, Brea, CA, USA). The purified cDNA was then subjected to linear amplification by the so-called single primer isothermal amplification (SPIA) process. In this protocol, DNA/RNA chimeric SPIA primer binding, DNA replication, strand displacement, and RNA cleavage are repeated for multiple rounds, resulting in accumulation of SPIA cDNA. Random hexamer priming was then used to convert ss-SPIA cDNA to ds cDNA.</p>
+        </sec>
+        <sec id="s9">
+          <title>SeqPlex cDNA Synthesis</title>
+          <p>With the SeqPlex RNA amplification kit, the RNA samples were reverse transcribed with random primers having semidegenerate 3&#x02032; ends and defined universal 5&#x02032; ends (<ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Fig. 4</ext-link>). The displaced single strands generated during the process serve as a template for primer annealing and second-strand cDNA synthesis. The resultant ds cDNA flanked by a single universal primer was amplified by 17&#x02013;19 cycles of PCR. The cDNA was then purified using the GenElute PCR Clean-Up Kit (catalog number NA1020; Sigma-Aldrich) or AMPure beads (part number A63881; Beckman Coulter Genomics). Finally, the primer at both ends was removed using primer removal enzyme followed by purification using the GenElute PCR Clean-Up Kit or AMPure beads (Agencourt).</p>
+        </sec>
+      </sec>
+      <sec id="s10">
+        <title>Construction of Libraries from Amplified cDNA</title>
+        <p>The yield of all the amplified products was measured using a Qubit (Invitrogen, Carlsbad, CA, USA). The fragment size of the purified ds cDNA was assessed on the Agilent 2100 Bioanalyzer. Details of the amount of cDNA recovered, fragment sizes of amplified cDNA for each dilution, and difficulty level of the kits are included in <ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Table 1</ext-link>.</p>
+        <p>All kits except the Sigma-Aldrich SeqPlex RNA amplification kit generated cDNA that required fragmentation prior to library generation. Fragmentation was carried out with a Covaris S220 AFA Ultrasonicator (Woburn, MA, USA) using the recommended conditions for generating 200&#x02013;500 bp fragments. When possible, 500 ng cDNA was used for subsequent manipulations, though frequently the entire sample was used (<ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Table 1</ext-link>). All the libraries were constructed on the Tecan Freedom EVO300 Liquid Handling Robot using the TruSeq DNA Sample Preparation kit reagents at a single site (Stowers Institute, Kansas City, MO, USA). All adapter ligation mixes were amplified for 12 cycles. Finished libraries were purified from free adaptor product using AMPure beads (Agencourt). The resulting purified libraries were quantitated using a Qubit, and the size range of the products was confirmed by Caliper&#x02019;s LabChip GX (<ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Table 2</ext-link>).</p>
+      </sec>
+      <sec id="s11">
+        <title>Sequencing</title>
+        <p>The indexed 35 cDNA libraries (30 from amplified and 5 from nonamplified cDNA) were combined in equimolar ratios into 1 pool and loaded into 7 lanes of the Illumina HiSeq 2000 for a 50-cycle sequencing run, with the Illumina PhiX sample used as control. A new pool was created for underrepresented libraries (based on the data generated using the first pool) and subjected to sequencing on another 5 lanes of HiSeq 2000. Image analysis and base calling were performed using Illumina pipeline version 1.5.15.1. Average number of total reads is shown in <ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Table 3</ext-link>.</p>
+      </sec>
+      <sec id="s12">
+        <title>Alignments</title>
+        <p>Reads were aligned with TopHat 2.0.6 (Bowtie 2.0.2): bt2-very-sensitive setting, Ensembl 66 Gene Transfer Format (GTF), to University of California, Santa Cruz (UCSC) hg19. The Ensembl GTF was modified to reflect UCSC chromosome names. Read hits to genomic features were quantitated using intersectBed.</p>
+        <p>There were 2 additional alignment versions made: 1 without multireads (Unique), and another with no multireads and with only 1 read per unique start position in the genome (Unique-Rmdup), for purposes of comparison. Library complexity was examined using read uniqueness, as (N unique reads) / (N total reads), for each sample.</p>
+      </sec>
+      <sec id="s13">
+        <title>ERCC Controls</title>
+        <p>Unaligned reads were aligned to ERCC92 sequences (<ext-link ext-link-type="uri" xlink:href="http://tools.invitrogen.com/downloads/ERCC92.fa">http://tools.invitrogen.com/downloads/ERCC92.fa</ext-link>) with Bowtie 2.0.2: very fast setting and quantitated with samtools idxstats. Observed relative spike concentrations were correlated to expected (<ext-link ext-link-type="uri" xlink:href="http://tools.invitrogen.com/content/sfs/manuals/cms_095046.txt">http://tools.invitrogen.com/content/sfs/manuals/cms_095046.txt</ext-link>) and plotted. Sample similarities were measured by Pearson correlation of all ERCC values.</p>
+      </sec>
+      <sec id="s14">
+        <title>Reads per Kilobase of Exon per Million Reads</title>
+        <p>Exon- and junction-aligning reads were converted into reads per kilobase of exon per million reads (RPKMs) per sample, where M is the total number of exon- and junction-aligned reads for all genes per sample. Sample similarities were measured by Pearson correlation of all gene RPKMs.</p>
+      </sec>
+      <sec id="s15">
+        <title>Gene Detection</title>
+        <p>All read sets were randomly down sampled to 10 million reads to avoid biases in gene detection due to differential number of recovered reads. Stochasticity in detections was addressed in 2 ways: 1) down sampling was repeated 5 times; and 2) gene detectability was calculated using 1, 2, or 5 reads. Detectability of each Ensembl gene biotype was evaluated for all methods.</p>
+      </sec>
+      <sec id="s16">
+        <title>Gene Coverage</title>
+        <p>For each gene and sample, base-by-base read depth values were extracted from the whole-genome BedGraph file. Intronic positions were removed, coverage vectors for minus-strand genes were reversed, and remaining values divided into 100 bins and averaged to produce a uniform 100-column matrix of gene coverage&#x02019;s for each sample. Genes shorter than 100 bp were dropped. Global coverage bias per sample was graphed by converting rows of the matrix to Z scores and plotting the column sums. Gene-wise trends in coverage bias and variability were investigated by taking the coefficient of variance of the original coverage vector per gene and also by taking the ratio of the first-quarter mean depth (5&#x02032; coverage) to fourth-quarter mean depth (3&#x02032; coverage) on the gene body.</p>
+      </sec>
+    </sec>
+    <sec sec-type="results" id="s17">
+      <title>RESULTS</title>
+      <sec id="s18">
+        <title>Library Generation</title>
+        <p>One of the primary goals in many ABRF Research Group studies is the assessment of site-to-site variability in experimental manipulations. For the current low-input study, 12 sites participated in the comparison of 4 kits, with 3 sites per kit. There were 2 sites unable to generate material resulting in sequenceable libraries. Because reagents for these studies are donated by the manufacturers, it is not always possible to repeat compromised experiments. Thus, data series for 2 sites are unavailable.</p>
+        <p>Control universal human reference RNA, representing a pool of total RNA from different human tissues, was distributed to the sites. As described in MATERIALS AND METHODS, all kit manufacturers&#x02019; protocols were faithfully followed to generate cDNA. The resulting output cDNA was quantified by Qubit and further characterized by bioanalyzer. The different kits produced patterns and sizes of cDNAs stereotypical for each kit but distinct from each other. Representative trace files are shown in <ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Table 1</ext-link>. The cDNAs from all sites were sent to The Stowers Institute for library production and sequencing on the Illumina HiSeq platform; details of the syntheses are provided in <ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Table 1</ext-link>. The control libraries were also produced at Stowers Institute. Because all libraries were synthesized simultaneously, using automation throughout, it is expected that variances at the construction step will be as controlled for as possible. Libraries were evaluated by Bioanalyzer analysis prior to sequencing (<ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Table 2</ext-link>).</p>
+        <p>Despite similarities in the bioanalyzer appearance of the libraries, they exhibited different behaviors on the sequencer. The Clontech samples showed the strong presence of a particular sequence derived from the SMART adapters used during amplification. This is a known contaminant with this system (Clontech, personal communication). The Miltenyi Biotec samples demonstrated more rapid decline in base quality over the course of the run, though the cause is not known. Because these are from samples prepared at different sites, it seems probable that they represent common outcomes from these kits (Fastqc results not shown).</p>
+      </sec>
+      <sec id="s19">
+        <title>Analysis</title>
+        <p>Various sequencing metric and data comparisons were carried out to assess the output of the different kits. In some cases, the analyses utilized the entire data set generated from a particular kit, whereas other analyses were normalized to the same number of reads in an attempt to emphasize the validity of the comparisons (<ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Table 3</ext-link>). Control data sets were generated from libraries using established commercial reagents and suggested protocols for construction. Although providing an essential analytic comparison, data sets from these TruSeq polyA-based and Ribo-Zero ribo-depleted libraries were generated with much more starting material, i.e., under less-challenging conditions. Therefore, these libraries would be expected to perform better. Another important caveat is that the lowest RNA concentration of 50 pg was out of specifications for the Sigma-Aldrich and NuGEN Technologies Incorporated kits, whereas the lowest amount of RNA used in the TruSeq V2 kit, 5 ng, was also out of the manufacturer-recommended range of starting material.</p>
+      </sec>
+      <sec id="s20">
+        <title>Read Mapping and Library Complexity</title>
+        <p>Initial analyses focused on the basic parameters of mapped reads and read compositions. All the reads from each kit and concentration were used for these calculations. <xref ref-type="fig" rid="F1">Figure 1</xref> shows the percent distributions of reads into those that aligned, reads that aligned and uniquely mapped, and uniquely mapping reads from which duplicate reads have been removed (<ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Table 3</ext-link> shows the data from which these figures were derived). Several trends are observable. One is that the percent distribution of aligned reads for a given kit is not greatly affected by input concentrations. Another observation is that site-to-site variability using different kits appears small. Finally, whereas all methods produced predominantly uniquely mapping reads, the percentage of duplicate reads (those beginning with the same chromosomal coordinates) varied substantially between kits and across the concentration ranges detected, with the lowest input amounts showing the largest percentage of putative PCR duplicates (<xref ref-type="fig" rid="F1">Fig. 1</xref> and <ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Table 3</ext-link>). The results revealed that the highest percentage of unique reads was generated by Clontech, which showed unique read values very close to those generated by the control libraries. The Miltenyi Biotec and Sigma-Aldrich kits produced the lowest percentage of unique sequences.</p>
+        <fig id="F1" fig-type="figure" orientation="portrait" position="float">
+          <label>Figure 1</label>
+          <caption>
+            <p>Read composition comparison. The percentage of all recovered reads falling into particular categories is shown: red indicates all aligning reads, yellow represents all aligning reads mapping to a unique genomic location, and blue shows the uniquely mapping reads with putative PCR duplicates (i.e., reads starting at the same coordinate) removed. The numbers represent the different sites providing the starting cDNA from the indicated kits; RNA concentrations from high to low are represented by the blue triangles. RZ, Ribo-Zero; TS, TruSeq.</p>
+          </caption>
+          <graphic xlink:href="jbt-26-4-f1"/>
+        </fig>
+        <p>The distribution of reads across several broad biologic categories, i.e., read composition, is shown in <xref ref-type="fig" rid="F2">Fig. 2</xref>. These comparisons are shown with duplicate reads included (<xref ref-type="fig" rid="F2">Fig. 2A</xref>) and removed (<xref ref-type="fig" rid="F2">Fig. 2B</xref>). The most noticeable and important trend here is that polyA selection-based methods (Clontech, Miltenyi Biotec, and &#x0201c;TS&#x0201d; for Illumina TruSeq kit) show a substantially higher proportion of exonic reads than the ribo-depletion-based methods (NuGEN Technologies Incorporated, Sigma-Aldrich, and &#x0201c;RZ&#x0201d; for Ribo-Zero). This difference can be up to 4-fold in certain pairwise comparisons, an important factor when deciding the number of reads required to match a specific experimental goal. The loss of reads in the exonic compartment was primarily due to the increased number of rRNA reads (&#x0223c;35% for NuGEN Technologies Incorporated and &#x0223c;29% for Sigma-Aldrich) and intronic reads (representing unprocessed or partially processed transcripts). Although NuGEN Technologies Incorporated and Sigma-Aldrich had many more rRNA reads than Ribo-Zero-depleted material, the intronic fraction was higher in the latter. Removal of putative PCR duplicates (i.e., reads starting at the same nucleotide) had varying effects on read representation. For NuGEN Technologies Incorporated and Sigma-Aldrich, whereas the proportion of exonic reads increased overall, the proportion of intronic reads increased more. For Miltenyi Biotec, Clontech, and both control libraries, the exonic read proportion actually decreased.</p>
+        <fig id="F2" fig-type="figure" orientation="portrait" position="float">
+          <label>Figure 2</label>
+          <caption>
+            <p>(A) Comparison of RNA category percentages. The percent composition of several broad categories of RNAs is displayed; 100% represents the total number of uniquely aligning reads for each sample set. Blue indicates exonic reads, red shows intronic, yellow represents ribosomal, purple indicates intergenic, aqua shows novel splice junctions, and green indicates known splice junctions. The kits used and participating sites are indicated, with RNA input amounts from highest to lowest represented by blue triangles. (B) Comparison of RNA category percentages. Designations shown are the same as those in (A), except the putative PCR duplicates have been removed from these data sets prior to percent category calculations.</p>
+          </caption>
+          <graphic xlink:href="jbt-26-4-f2"/>
+        </fig>
+      </sec>
+      <sec id="s21">
+        <title>Gene Abundance and Biotype Comparisons</title>
+        <p>The sensitivity of gene detection was assessed for each input amount of RNA and kit. This comparison, based on a detection threshold of 2 reads, is shown in <xref ref-type="fig" rid="F3">Fig. 3</xref>. The genes used are the GRCh37 Ensembl version 66 compilations of 53,598 genes. To normalize detection for the variable read numbers recovered, 5 random samplings of 10 million reads each were carried out per library (the lowest read count for any library was 13.3 million). Detected genes are broken down into coding, noncoding, and pseudogenes. The composition of detected gene biotypes showed variability across protocols and dilutions. However, the number of genes detected reduced with lower amounts of input RNA. This trend was evident for all the low-input protocols tested and at most of the sites. The unamplified control, tested using 3 different amounts of input RNA (5 ng, 100 ng, and 1 <italic>&#x003bc;</italic>g), was more robust. The results revealed that the 5 ng Clontech and NuGEN Technologies Incorporated samples performed nearly as well as the control data sets, with Sigma-Aldrich very close. The Miltenyi Biotec protocol yielded the fewest number of detected genes, which may be a consequence of the large number of amplification cycles used in this protocol (see DISCUSSION).</p>
+        <fig id="F3" fig-type="figure" orientation="portrait" position="float">
+          <label>Figure 3</label>
+          <caption>
+            <p>(A) Detection sensitivity. The number of genes represented by 2 alignment hits is shown for the different construction kits and protocols; coding genes are shown in blue, ncRNAs in green, and pseudogenes in red. RNA concentrations going from high to low are represented by blue triangles, and the site numbers are indicated. The queried set is the Ensembl version 66 compilation of 53,599 genes. (B) Sensitivity of gene detection by gene type. The different biotypes are indicated on the left-hand side. For each library, detected gene percentages represent the mean from 5 different 10 million read down samplings. Heatmap values are detected genes as percent detectable, detection requires &#x02265;2 reads, and &#x0201c;detectable&#x0201d; genes are those with &#x02265;2 reads in the 1 <italic>&#x003bc;</italic>g Ribo-Zero control. Kit types and dilutions are indicated as in the other figures.</p>
+          </caption>
+          <graphic xlink:href="jbt-26-4-f3"/>
+        </fig>
+        <p>Because both polyA and non-polyA-based kits were used, the proportion of gene biotypes recovered would be expected to differ substantially. To assess this, the detectability of different classes of noncoding and protein-coding RNAs was calculated and plotted on the heatmap in <xref ref-type="fig" rid="F3">Fig. 3B</xref> and <ext-link ext-link-type="uri" xlink:href="http://JBT.fasebj.org/lookup/suppl/doi:10.7171/jbt.15-2601-001/-/DC1">Supplemental Table 4</ext-link>. For each sample and biotype, the number of genes detected by at least 2 reads in that sample is shown as a percentage of detectable genes in that biotype. The values for detectable genes in a particular biotype were determined experimentally: a gene was considered &#x0201c;detectable&#x0201d; if it had at least 2 reads in the 1 <italic>&#x003bc;</italic>g Ribo-Zero control. Thus, by definition, Ribo-Zero detected the most genes in every biotype. The 50 pg libraries had substantial sensitivity loss in all biotypes; noncoding RNAs (ncRNAs) in particular showed up to 60% loss versus their 5 ng counterparts. Minimal detectability of small housekeeping ncRNAs like mi-, sn-, and snoRNAs, as well as their pseudogenes, is to be expected and may be due more to library size selection than to amplification bias. Performance of ribo-depleted libraries was more robust than polyA libraries across lowered input amounts: comparing detected genes at 5 ng and 50 pg for each kit, the ribo-depletion-based kits had average losses of 14 and 37% for protein-coding and ncRNAs, respectively, whereas the polyA-based kits had average losses of 30 and 52%.</p>
+        <p>To determine if any potential biases in expression level are generated during amplification, RPKM values per gene were calculated for each kit. RPKMs showed the least variation among kits, sites, and dilutions. RPKMs were calculated using bedTools to count reads on exons. The distributions of 5 RPKM percentiles per library (0, 25, 50, 75, and 100%) are shown in <xref ref-type="fig" rid="F4">Fig. 4</xref>. A consistent trend was that the maximum RPKMs are higher in the ribo-depleted libraries than polyA based; this is caused by the mitochondrial rRNAs and 1 somatic rRNA pseudogene.</p>
+        <fig id="F4" fig-type="figure" orientation="portrait" position="float">
+          <label>Figure 4</label>
+          <caption>
+            <p>RPKM measurements of detected reads. Gene abundance was quantified and divided into quantiles based on their relative levels. RNA concentrations going from high to low are represented by blue triangles, and the site numbers are indicated.</p>
+          </caption>
+          <graphic xlink:href="jbt-26-4-f4"/>
+        </fig>
+        <p>Because the goal of many RNA-seq experiments is to analyze differential gene expression among samples, it was of interest to quantify expression similarities between kits and dilutions. Expression profiles for all expressed genes were compared by Pearson correlation, using log2 (median RPKM), and displayed in a heatmap matrix shown in <xref ref-type="fig" rid="F5">Fig. 5A</xref>. Specific sets of R values were extracted from the matrix and box plotted in <xref ref-type="fig" rid="F5">Fig. 5B</xref>. In accordance with earlier performance metrics, the 50 pg samples had low correlations with the control libraries, whereas 500 pg and 5 ng tended to behave similarly. Not surprisingly, at the higher input amounts, all kits had more similar expression profiles. Also, gene expression values in the ribo-depletion kits (NuGEN Technologies Incorporated and Sigma-Aldrich) were more similar to each other than were the polyA kits (Clontech and Miltenyi Biotec). The greater consistency in RPKMs for ribo-depleting kits parallels their increased gene detection. The NuGEN Technologies Incorporated kit appeared to have the least expression bias because it correlated best with both control libraries and also had highest intrakit R values. Furthermore, it appears that intersite variability is not substantially different from intrasite variability. For example, the correlations between the different input amounts within a site vary from 0.55 to &#x0223c;0.9, about the same range as the correlations within and between the concentrations among all sites.</p>
+        <fig id="F5" fig-type="figure" orientation="portrait" position="float">
+          <label>Figure 5</label>
+          <caption>
+            <p>(A) Gene expression comparisons. Pearson correlations among kits and across dilutions were graphed based on gene expression values. These values were derived from the Log<sub>2</sub>(Median Library RPKM) per gene. (B) Pairwise correlations of gene expression measurements. Values are displayed as box plots when sufficient data points are used, otherwise individual values are displayed.</p>
+          </caption>
+          <graphic xlink:href="jbt-26-4-f5"/>
+        </fig>
+      </sec>
+      <sec id="s22">
+        <title>Coverage Uniformity</title>
+        <p>As discussed, the amplification kits and controls used here employ widely varying strategies for generating cDNA. It was therefore of interest to examine the uniformity of gene body coverage with the different kits. This is visualized in <xref ref-type="fig" rid="F6">Fig. 6</xref>. For this figure, the coverage data from a particular kit were pooled for all RNA concentrations and across all sites. This was done because gene body coverage was not substantially affected by dilution or sites (data not shown). Analysis of read coverage across the exonic regions of genes demonstrated that all amplification kits showed 3&#x02032; biases in comparison to Ribo-Zero control sample. The Miltenyi Biotec and Smart kits&#x02019; polyA-based enrichment methods showed significant 3&#x02032; bias, followed by TruSeq and then NuGEN Technologies Incorporated, probably because NuGEN Technologies Incorporated uses both Oligo-dT and random primers during first-step cDNA synthesis. The Sigma-Aldrich kit displayed more even coverage after a pronounced but short 3&#x02032; bias. Variation in 3&#x02032; bias per input concentration was negligible except for Miltenyi Biotec, which moderately increased in bias with increasing input. Our results also show a slight 5&#x02032; bias in Ribo-Zero samples.</p>
+        <fig id="F6" fig-type="figure" orientation="portrait" position="float">
+          <label>Figure 6</label>
+          <caption>
+            <p>Gene body coverage. The mean coverage from all reporting genes and all samples from the different kits is displayed (i.e., all input concentrations and site data were pooled for a given kit). The figure shows the Z score across each bin, going from 5&#x02032; to 3&#x02032; left to right. Exonic reads within detected genes were used for the calculations.</p>
+          </caption>
+          <graphic xlink:href="jbt-26-4-f6"/>
+        </fig>
+      </sec>
+      <sec id="s23">
+        <title>ERCC Controls</title>
+        <p>The universal human reference RNA sample distributed to each site was spiked with an ERCC control prior to dilution. ERCC controls are synthetic polyadenylated transcript pools with each transcript present at known concentration. Comparison of these known concentrations with the values recovered in the experiment can provide a quantitative measure of sequence loss or bias during library preparation. ERCC analyses are shown in <xref ref-type="fig" rid="F7">
+            <bold>Fig. 7</bold>
+          </xref>, the Pearson correlation of ERCC RPKMs between samples displayed as a heatmap matrix is shown in <xref ref-type="fig" rid="F7">Fig. 7A</xref>, and Pearson correlations of observed versus expected concentrations are shown in <xref ref-type="fig" rid="F7">Fig. 7B</xref>. Despite the apparent spread in values in <xref ref-type="fig" rid="F7">Fig. 7A</xref>, the lowest correlations measured (excluding Miltenyi Biotec) were &#x0003e;0.76. These results indicate that ERCC recovery was broadly consistent across treatments and concentrations. Similar to the other metrics displayed, intersite variability was low, and again the lowest dilution, 50 pg, was apparent through compromised performance. However, the degree of falloff seemed to be kit dependent, with the Clontech protocol showing the most consistent results across the dilution series. <xref ref-type="fig" rid="F7">Figure 7B</xref> shows the log linearity of ERCC RPKMs because spike-in transcript concentrations have a logarithmic distribution. If the recovered concentrations of spike-ins equaled the expected concentrations, this value would be 1.0. Particularly at the 2 higher concentrations, all kits and sites performed similarly and were able to approach the expected level of expression. The Clontech kit did the best job of approaching the theoretic perfect value.
+        </p>
+        <fig id="F7" fig-type="figure" orientation="portrait" position="float">
+          <label>Figure 7</label>
+          <caption>
+            <p>(A) ERCC standards expression. Pearson correlations among kits and across dilutions were graphed based on the recovered RPKM values of ERCC standards. Blue triangles indicate dilution series. (B) Log linearity of ERCC RPKM values. Box plots indicate expression levels relative to the known concentrations of the original standards present. A value of 1.0 indicates equivalence between the published standard values and the recovered values.</p>
+          </caption>
+          <graphic xlink:href="jbt-26-4-f7"/>
+        </fig>
+      </sec>
+    </sec>
+    <sec sec-type="discussion" id="s24">
+      <title>DISCUSSION</title>
+      <p>The ability to elucidate the transcriptome from a single or small number of cells will provide a high-resolution examination of basic processes like differentiation, carcinogenesis, and circulating cell physiology. A number of kits are currently available to assist this effort. These kits differ in their basic approaches, generally splitting into polyA-based versus ribo-depleted protocols. Suggested input concentrations can also vary. Two of the kits tested, NuGEN Technologies Incorporated and Sigma-Aldrich, were challenged with starting material amounts below the manufacturer&#x02019;s recommendations.</p>
+      <p>It was of interest to see how the read composition and biotype distribution varied from kit to kit. These comparisons were made between kits but also between the low-input kits and data sets generated from libraries made using commonly utilized higher-input kits. The chief findings here are that the kits showed substantial differences in both the complexity of the libraries generated, as indicated by the percentage of duplicate reads (<xref ref-type="fig" rid="F1">Fig. 1</xref>), and the distribution of recovered reads in different transcript compartments (<xref ref-type="fig" rid="F2">Fig. 2</xref>). These latter differences in compartmentalization were to be expected because ribo-depletion-based kits (here, Sigma-Aldrich and NuGEN Technologies Incorporated) are known to generate substantially more reads in intronic regions and more rRNA reads. The proportion of rRNA reads, at least for the NuGEN Technologies Incorporated kit, was higher than expected based on a previously published study<xref rid="B12" ref-type="bibr">
+          <sup>12</sup>
+        </xref> and manufacturer&#x02019;s reports (<ext-link ext-link-type="uri" xlink:href="http://www.nugeninc.com/nugen/index.cfm/products/cs/ngs/rna-seq-v2">http://www.nugeninc.com/nugen/index.cfm/products/cs/ngs/rna-seq-v2</ext-link>/), but the fact that the values reported here were generated across all dilutions at different sites suggests that technical issues within the testing laboratories were not involved. The proportion of exonic reads was highest using the Miltenyi Biotec kit, but this metric alone is misleading because these libraries are among the least complex. Both this and the Sigma-Aldrich kits generated many more PCR duplicates than the other kits. The 50 pg libraries, whereas in general are less complex for all kits, controls, and sites, were particularly compromised for Miltenyi Biotec and Sigma-Aldrich, both probably being the prereleased kits (Miltenyi Biotec has since modified its protocol to include fewer PCR cycles, which is expected to improve this). A recent publication<xref rid="B13" ref-type="bibr">
+          <sup>13</sup>
+        </xref> covering some of the library preparation conditions tested here showed similar overall patterns.
+      </p>
+      <p>An important consideration with constructing libraries using low amounts of input material is the sensitivity of gene detection. This was assessed by examining the read occurrence of the known set of GRCh37 genes in the sample-specific data sets. <xref ref-type="fig" rid="F3">Figure 3A</xref> shows detection sensitivity for 3 broad classes of genes: protein coding, pseudogenes, and ncRNAs. Interestingly, there were not substantial differences between the polyA-based and ribo-depletion kits for this particular analysis. For the test kit samples, the least sensitive libraries were those constructed with the lowest amount of material. A more detailed breakdown of the biotypes, shown in <xref ref-type="fig" rid="F3">Fig. 3B</xref>, indicates more subtle distinctions among the tested conditions. The heatmap indicates that the Ribo-Zero versus TruSeq controls in particular show noticeable differences for ncRNA biotype detection. However, overall, there are surprisingly minor differences between the kits with regard to the percentages of gene types detected. The main effect observed is that increasing dilution leads to decreased sensitivity at all the amounts tested. This behavior is not unexpected, but the difference between 5 ng and 500 pg seems a little more substantial than for many other metrics tested.</p>
+      <p>A frequently desired goal of RNA-seq experiments is the assessment of differential gene expression. Comparison of recovered expression values should indicate the suitability of the different kits and dilutions for these experiments. <xref ref-type="fig" rid="F4">Figure 4</xref> shows that for the detected reads, the RPKM values did not show substantial variability. The &#x0201c;Min&#x0201d; values, representing genes with the lowest RPKMs, had more spread, yet the median values were similar across all conditions and close to control values. This suggests that whereas all the kits might not identify the same spectrum of genes, expression values for the detected genes are accurate. Gene expression comparisons assessed by Pearson correlations further suggest the suitability of the different kits for quantitative comparisons, at least under certain conditions (<xref ref-type="fig" rid="F5">Fig. 5A</xref>). The 50 pg sample again showed the greatest divergence between kits and between the other dilutions with the same kit. Comparison of the correlations (<xref ref-type="fig" rid="F5">Fig. 5B</xref>) reveals additional interesting data. Ribo-depletion approaches appear to have higher correlations and less spread than polyA protocols. The NuGEN Technologies Incorporated kit was better correlated to the controls. Somewhat surprisingly, given Clontech&#x02019;s excellence in other metrics, this kit showed less correlation with the controls than NuGEN Technologies Incorporated or Sigma-Aldrich. Correlations within kits also showed that NuGEN Technologies Incorporated and Sigma-Aldrich were tied for lowest variability. These results suggest that despite yielding a lower proportion of exonic reads, ribo-depletion approaches provide equivalent or superior quantitative expression data compared to the tested polyA approaches. In general, it would appear that cross kit, method, and dilution correlations outweigh intersite variability. This is an important component assessed in ABRF studies, but not in others in which multiple kits are tested in the same laboratory. The main source of variability did seem to be the success with which the kits were utilized&#x02014;2 of the sites with 2 different kits (Miltenyi Biotec and NuGEN Technologies Incorporated) were unable to generate cDNA suitable for subsequent library generation.</p>
+      <p>Analysis of the expression level of the ERCC RNA standards is shown in <xref ref-type="fig" rid="F7">Fig. 7</xref>. Pearson correlations displayed by heatmap in <xref ref-type="fig" rid="F7">Fig. 7A</xref> show the outcome observed in most other metric assessments, namely that the 50 pg samples behave notably poorer than the others in most pairwise combinations, whereas the 500 pg and 5 ng samples closely resemble each other. Nevertheless, all kits performed reasonably well, with Pearson correlation values rarely going below 0.8. The log-linearity plots in <xref ref-type="fig" rid="F7">Fig. 7B</xref> emphasize this conclusion because all kits performed about as well as the controls (except for the 50 pg samples). Clontech actually exceeded the control values and came closest to recapitulating the actual amounts of the added ERCC standards.</p>
+      <p>The main conclusions that emerge are that expression analyses using small input amounts of RNA, whereas challenging, are relatively consistent across laboratories and that several available kits work reasonably well. Both polyA and ribo-depleted protocols can do a good job recapitulating the transcriptome across a wide range of input concentrations. The middle input concentration of 500 pg behaved nearly identically to 5 ng in this and many other important sequencing metrics. At the lowest tested level of 50 pg input RNA, supposedly corresponding to 5 cells, nearly every sequencing quality metric was clearly compromised (though as noted for the Sigma-Aldrich and NuGEN Technologies Incorporated kits, this amount was outside recommendations). A reasonable assumption is that 5-fold lower input amounts (i.e., single cell) would lead to even more variability and compromised performance, at least with the kits tested here. Other studies, notably those using actual single cells and not diluted control RNAs, have borne this out.<xref rid="B10" ref-type="bibr">
+          <sup>10</sup>
+        </xref> This study helps push down the lower input limit for standardized library performance.
+      </p>
+      <p>Another interesting finding is that kit protocols are often robust enough to perform well outside of the manufacturer&#x02019;s recommendations. With proper controls in place, such as ERCC spike-ins, a good strategy for labs would be to expand the usable parameters for the kits of choice. In general, the specific needs of the user and characteristics of the starting material will often dictate the choice of kits.</p>
+      <p>An additional conclusion emerging from this study, though it was not directly addressed, is that determining how many reads are needed for an experiment is a complicated question. As is clear in <xref ref-type="fig" rid="F1">Fig. 1</xref>, exonic read proportions can vary widely depending on the kit and protocol used. Whether or not duplicate removal is required for a given analysis will also substantially influence the number of initial reads required. At these very small amounts, library complexity and sampling issues become important and need to be considered.</p>
+      <p>Low-input RNA-seq analysis using different amplification kits has demonstrated some promising performance, but further development toward single-cell analysis is needed before it can be used as a routine application for basic and clinical research.</p>
+    </sec>
+    <sec sec-type="supplementary-material">
+      <title>Supplementary Material</title>
+      <supplementary-material content-type="local-data">
+        <label>Supplemental Figures</label>
+        <media xlink:href="jbt-26-4-s01.docx">
+          <caption>
+            <p>Click here for additional data file.</p>
+          </caption>
+        </media>
+      </supplementary-material>
+      <supplementary-material content-type="local-data">
+        <label>Supplemental Tables</label>
+        <media xlink:href="jbt-26-4-s02.xlsx">
+          <caption>
+            <p>Click here for additional data file.</p>
+          </caption>
+        </media>
+      </supplementary-material>
+    </sec>
+  </body>
+  <back>
+    <ack>
+      <p>The authors thank Clontech, Sigma-Aldrich, Miltenyi Biotech, and NuGEN Technologies Incorporated for providing reagents, kits, and technical support for the study. The authors thank Illumina for providing library preparation kits and sequencing reagents. The authors also thank the ABRF Executive Board for providing support for this study. Authors declare no competing financial interests.</p>
+    </ack>
+    <ref-list>
+      <title>REFERENCES</title>
+      <ref id="B1">
+        <label>1</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Wang</surname>
+              <given-names>Z</given-names>
+            </name>, <name>
+              <surname>Gerstein</surname>
+              <given-names>M</given-names>
+            </name>, <name>
+              <surname>Snyder</surname>
+              <given-names>M</given-names>
+            </name>
+          </person-group>
+          <article-title>RNA-Seq: a revolutionary tool for transcriptomics.</article-title>
+          <source>Nat Rev Genet</source>
+          <year>2009</year>;<volume>10</volume>:<fpage>57</fpage>&#x02013;<lpage>63</lpage>.<pub-id pub-id-type="pmid">19015660</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B2">
+        <label>2</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Mortazavi</surname>
+              <given-names>A</given-names>
+            </name>, <name>
+              <surname>Williams</surname>
+              <given-names>BA</given-names>
+            </name>, <name>
+              <surname>McCue</surname>
+              <given-names>K</given-names>
+            </name>, <name>
+              <surname>Schaeffer</surname>
+              <given-names>L</given-names>
+            </name>, <name>
+              <surname>Wold</surname>
+              <given-names>B</given-names>
+            </name>
+          </person-group>
+          <article-title>Mapping and quantifying mammalian transcriptomes by RNA-Seq.</article-title>
+          <source>Nat Methods</source>
+          <year>2008</year>;<volume>5</volume>:<fpage>621</fpage>&#x02013;<lpage>628</lpage>.<pub-id pub-id-type="pmid">18516045</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B3">
+        <label>3</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Ozsolak</surname>
+              <given-names>F</given-names>
+            </name>, <name>
+              <surname>Milos</surname>
+              <given-names>PM</given-names>
+            </name>
+          </person-group>
+          <article-title>RNA sequencing: advances, challenges and opportunities.</article-title>
+          <source>Nat Rev Genet</source>
+          <year>2011</year>; <volume>12</volume>: <fpage>87</fpage>&#x02013;<lpage>98</lpage>.<pub-id pub-id-type="pmid">21191423</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B4">
+        <label>4</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Wang</surname>
+              <given-names>ET</given-names>
+            </name>, <name>
+              <surname>Sandberg</surname>
+              <given-names>R</given-names>
+            </name>, <name>
+              <surname>Luo</surname>
+              <given-names>S</given-names>
+            </name>, <name>
+              <surname>Khrebtukova</surname>
+              <given-names>I</given-names>
+            </name>, <name>
+              <surname>Zhang</surname>
+              <given-names>L</given-names>
+            </name>, <name>
+              <surname>Mayr</surname>
+              <given-names>C</given-names>
+            </name>, <name>
+              <surname>Kingsmore</surname>
+              <given-names>SF</given-names>
+            </name>, <name>
+              <surname>Schroth</surname>
+              <given-names>GP</given-names>
+            </name>, <name>
+              <surname>Burge</surname>
+              <given-names>CB</given-names>
+            </name>
+          </person-group>
+          <article-title>Alternative isoform regulation in human tissue transcriptomes.</article-title>
+          <source>Nature</source>
+          <year>2008</year>;<volume>456</volume>:<fpage>470</fpage>&#x02013;<lpage>476</lpage>.<pub-id pub-id-type="pmid">18978772</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B5">
+        <label>5</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Jiang</surname>
+              <given-names>H</given-names>
+            </name>, <name>
+              <surname>Wong</surname>
+              <given-names>WH</given-names>
+            </name>
+          </person-group>
+          <article-title>Statistical inferences for isoform expression in RNA-Seq.</article-title>
+          <source>Bioinformatics</source>
+          <year>2009</year>;<volume>25</volume>:<fpage>1026</fpage>&#x02013;<lpage>1032</lpage>.<pub-id pub-id-type="pmid">19244387</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B6">
+        <label>6</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Guttman</surname>
+              <given-names>M</given-names>
+            </name>, <name>
+              <surname>Garber</surname>
+              <given-names>M</given-names>
+            </name>, <name>
+              <surname>Levin</surname>
+              <given-names>JZ</given-names>
+            </name>, <name>
+              <surname>Donaghey</surname>
+              <given-names>J</given-names>
+            </name>, <name>
+              <surname>Robinson</surname>
+              <given-names>J</given-names>
+            </name>, <name>
+              <surname>Adiconis</surname>
+              <given-names>X</given-names>
+            </name>, <name>
+              <surname>Fan</surname>
+              <given-names>L</given-names>
+            </name>, <name>
+              <surname>Koziol</surname>
+              <given-names>MJ</given-names>
+            </name>, <name>
+              <surname>Gnirke</surname>
+              <given-names>A</given-names>
+            </name>, <name>
+              <surname>Nusbaum</surname>
+              <given-names>C</given-names>
+            </name>, <name>
+              <surname>Rinn</surname>
+              <given-names>JL</given-names>
+            </name>, <name>
+              <surname>Lander</surname>
+              <given-names>ES</given-names>
+            </name>, <name>
+              <surname>Regev</surname>
+              <given-names>A</given-names>
+            </name>
+          </person-group>
+          <article-title>Ab initio reconstruction of cell type-specific transcriptomes in mouse reveals the conserved multi-exonic structure of lincRNAs.</article-title>
+          <source>Nat. Biotechnol.</source>
+          <year>2010</year>;<volume>28</volume>:<fpage>503</fpage>&#x02013;<lpage>510</lpage>.<pub-id pub-id-type="pmid">20436462</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B7">
+        <label>7</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Tang</surname>
+              <given-names>F</given-names>
+            </name>, <name>
+              <surname>Barbacioru</surname>
+              <given-names>C</given-names>
+            </name>, <name>
+              <surname>Wang</surname>
+              <given-names>Y</given-names>
+            </name>, <name>
+              <surname>Nordman</surname>
+              <given-names>E</given-names>
+            </name>, <name>
+              <surname>Lee</surname>
+              <given-names>C</given-names>
+            </name>, <name>
+              <surname>Xu</surname>
+              <given-names>N</given-names>
+            </name>, <name>
+              <surname>Wang</surname>
+              <given-names>X</given-names>
+            </name>, <name>
+              <surname>Bodeau</surname>
+              <given-names>J</given-names>
+            </name>, <name>
+              <surname>Tuch</surname>
+              <given-names>BB</given-names>
+            </name>, <name>
+              <surname>Siddiqui</surname>
+              <given-names>A</given-names>
+            </name>, <name>
+              <surname>Lao</surname>
+              <given-names>K</given-names>
+            </name>, <name>
+              <surname>Surani</surname>
+              <given-names>MA</given-names>
+            </name>
+          </person-group>
+          <article-title>mRNA-seq whole-transcriptome analysis of a single cell.</article-title>
+          <source>Nat Methods</source>
+          <year>2009</year>;<volume>6</volume>:<fpage>377</fpage>&#x02013;<lpage>382</lpage>.<pub-id pub-id-type="pmid">19349980</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B8">
+        <label>8</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Tang</surname>
+              <given-names>F</given-names>
+            </name>, <name>
+              <surname>Barbacioru</surname>
+              <given-names>C</given-names>
+            </name>, <name>
+              <surname>Bao</surname>
+              <given-names>S</given-names>
+            </name>, <name>
+              <surname>Lee</surname>
+              <given-names>C</given-names>
+            </name>, <name>
+              <surname>Nordman</surname>
+              <given-names>E</given-names>
+            </name>, <name>
+              <surname>Wang</surname>
+              <given-names>X</given-names>
+            </name>, <name>
+              <surname>Lao</surname>
+              <given-names>K</given-names>
+            </name>, <name>
+              <surname>Surani</surname>
+              <given-names>MA</given-names>
+            </name>
+          </person-group>
+          <article-title>Tracing the derivation of embryonic stem cells from the inner cell mass by single-cell RNA-seq analysis.</article-title>
+          <source>Cell Stem Cell</source>
+          <year>2010</year>;<volume>6</volume>:<fpage>468</fpage>&#x02013;<lpage>478</lpage>.<pub-id pub-id-type="pmid">20452321</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B9">
+        <label>9</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Ramsk&#x000f6;ld</surname>
+              <given-names>D</given-names>
+            </name>, <name>
+              <surname>Luo</surname>
+              <given-names>S</given-names>
+            </name>, <name>
+              <surname>Wang</surname>
+              <given-names>YC</given-names>
+            </name>, <name>
+              <surname>Li</surname>
+              <given-names>R</given-names>
+            </name>, <name>
+              <surname>Deng</surname>
+              <given-names>Q</given-names>
+            </name>, <name>
+              <surname>Faridani</surname>
+              <given-names>OR</given-names>
+            </name>, <name>
+              <surname>Daniels</surname>
+              <given-names>GA</given-names>
+            </name>, <name>
+              <surname>Khrebtukova</surname>
+              <given-names>I</given-names>
+            </name>, <name>
+              <surname>Loring</surname>
+              <given-names>JF</given-names>
+            </name>, <name>
+              <surname>Laurent</surname>
+              <given-names>LC</given-names>
+            </name>, <name>
+              <surname>Schroth</surname>
+              <given-names>GP</given-names>
+            </name>, <name>
+              <surname>Sandberg</surname>
+              <given-names>R</given-names>
+            </name>
+          </person-group>
+          <article-title>Full-length mRNA-Seq from single-cell levels of RNA and individual circulating tumor cells.</article-title>
+          <source>Nat Biotechnol</source>
+          <year>2012</year>;<volume>30</volume>:<fpage>777</fpage>&#x02013;<lpage>782</lpage>.<pub-id pub-id-type="pmid">22820318</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B10">
+        <label>10</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Qiu</surname>
+              <given-names>S</given-names>
+            </name>, <name>
+              <surname>Luo</surname>
+              <given-names>S</given-names>
+            </name>, <name>
+              <surname>Evgrafov</surname>
+              <given-names>O</given-names>
+            </name>, <name>
+              <surname>Li</surname>
+              <given-names>R</given-names>
+            </name>, <name>
+              <surname>Schroth</surname>
+              <given-names>GP</given-names>
+            </name>, <name>
+              <surname>Levitt</surname>
+              <given-names>P</given-names>
+            </name>, <name>
+              <surname>Knowles</surname>
+              <given-names>JA</given-names>
+            </name>, <name>
+              <surname>Wang</surname>
+              <given-names>K</given-names>
+            </name>
+          </person-group>
+          <article-title>Single-neuron RNA-Seq: technical feasibility and reproducibility.</article-title>
+          <source>Front Genet</source>
+          <year>2012</year>;<volume>3</volume>:<fpage>124</fpage>.<pub-id pub-id-type="pmid">22934102</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B11">
+        <label>11</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Xue</surname>
+              <given-names>Z</given-names>
+            </name>, <name>
+              <surname>Huang</surname>
+              <given-names>K</given-names>
+            </name>, <name>
+              <surname>Cai</surname>
+              <given-names>C</given-names>
+            </name>, <name>
+              <surname>Cai</surname>
+              <given-names>L</given-names>
+            </name>, <name>
+              <surname>Jiang</surname>
+              <given-names>CY</given-names>
+            </name>, <name>
+              <surname>Feng</surname>
+              <given-names>Y</given-names>
+            </name>, <name>
+              <surname>Liu</surname>
+              <given-names>Z</given-names>
+            </name>, <name>
+              <surname>Zeng</surname>
+              <given-names>Q</given-names>
+            </name>, <name>
+              <surname>Cheng</surname>
+              <given-names>L</given-names>
+            </name>, <name>
+              <surname>Sun</surname>
+              <given-names>YE</given-names>
+            </name>, <name>
+              <surname>Liu</surname>
+              <given-names>JY</given-names>
+            </name>, <name>
+              <surname>Horvath</surname>
+              <given-names>S</given-names>
+            </name>, <name>
+              <surname>Fan</surname>
+              <given-names>G</given-names>
+            </name>
+          </person-group>
+          <article-title>Genetic programs in human and mouse early embryos revealed by single-cell RNA sequencing.</article-title>
+          <source>Nature</source>
+          <year>2013</year>;<volume>500</volume>:<fpage>593</fpage>&#x02013;<lpage>597</lpage>.<pub-id pub-id-type="pmid">23892778</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B12">
+        <label>12</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Tariq</surname>
+              <given-names>MA</given-names>
+            </name>, <name>
+              <surname>Kim</surname>
+              <given-names>HJ</given-names>
+            </name>, <name>
+              <surname>Jejelowo</surname>
+              <given-names>O</given-names>
+            </name>, <name>
+              <surname>Pourmand</surname>
+              <given-names>N</given-names>
+            </name>
+          </person-group>
+          <article-title>Whole-transcriptome RNAseq analysis from minute amount of total RNA.</article-title>
+          <source>Nucleic Acids Res</source>
+          <year>2011</year>;<volume>39</volume>:<fpage>e120</fpage>.<pub-id pub-id-type="pmid">21737426</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B13">
+        <label>13</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Adiconis</surname>
+              <given-names>X</given-names>
+            </name>, <name>
+              <surname>Borges-Rivera</surname>
+              <given-names>D</given-names>
+            </name>, <name>
+              <surname>Satija</surname>
+              <given-names>R</given-names>
+            </name>, <name>
+              <surname>DeLuca</surname>
+              <given-names>DS</given-names>
+            </name>, <name>
+              <surname>Busby</surname>
+              <given-names>MA</given-names>
+            </name>, <name>
+              <surname>Berlin</surname>
+              <given-names>AM</given-names>
+            </name>, <name>
+              <surname>Sivachenko</surname>
+              <given-names>A</given-names>
+            </name>, <name>
+              <surname>Thompson</surname>
+              <given-names>DA</given-names>
+            </name>, <name>
+              <surname>Wysoker</surname>
+              <given-names>A</given-names>
+            </name>, <name>
+              <surname>Fennell</surname>
+              <given-names>T</given-names>
+            </name>, <name>
+              <surname>Gnirke</surname>
+              <given-names>A</given-names>
+            </name>, <name>
+              <surname>Pochet</surname>
+              <given-names>N</given-names>
+            </name>, <name>
+              <surname>Regev</surname>
+              <given-names>A</given-names>
+            </name>, <name>
+              <surname>Levin</surname>
+              <given-names>JZ</given-names>
+            </name>
+          </person-group>
+          <article-title>Comparative analysis of RNA sequencing methods for degraded or low-input samples.</article-title>
+          <source>Nat Methods</source>
+          <year>2013</year>;<volume>10</volume>:<fpage>623</fpage>&#x02013;<lpage>629</lpage>.<pub-id pub-id-type="pmid">23685885</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B14">
+        <label>14</label>
+        <mixed-citation publication-type="other">Wu AR, Neff NF, Kalisky T, Dalerba P, Treutlein B, Rothenberg ME, Mburu FM, Mantalas GL, Sim S, Clarke MF, Quake SR. Quantitative assessment of single-cell RNA-sequencing methods. Nat Methods 2014;11:41&#x02013;46.</mixed-citation>
+      </ref>
+      <ref id="B15">
+        <label>15</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Bhargava</surname>
+              <given-names>V</given-names>
+            </name>, <name>
+              <surname>Head</surname>
+              <given-names>SR</given-names>
+            </name>, <name>
+              <surname>Ordoukhanian</surname>
+              <given-names>P</given-names>
+            </name>, <name>
+              <surname>Mercola</surname>
+              <given-names>M</given-names>
+            </name>, <name>
+              <surname>Subramaniam</surname>
+              <given-names>S</given-names>
+            </name>
+          </person-group>
+          <article-title>Technical variations in low-input RNA-seq methodologies.</article-title>
+          <source>Sci Rep</source>
+          <year>2014</year>;<volume>4</volume>:<fpage>3678</fpage>.<pub-id pub-id-type="pmid">24419370</pub-id>
+        </mixed-citation>
+      </ref>
+    </ref-list>
+  </back>
+</article>
+
+
