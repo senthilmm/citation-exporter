@@ -45,6 +45,41 @@ mvn jetty:run
 Point your browser to [http://localhost:11999/samples](http://localhost:11999/samples).
 
 
+## Modified instructions for ahead-of-print branch
+
+After cloning this citation-exporter repo, checkout the pmc-22661-ahead-of-print branch:
+
+```
+git checkout pmc-22661-ahead-of-print
+```
+
+In addition to maven-installing kitty-cache, you'll also have to maven-install a special branch
+of the `citeproc-java` application:
+
+```
+git clone git@github.com:Klortho/citeproc-java.git
+cd citeproc-java
+git checkout pmc-22661-ahead-of-print
+./gradlew install
+cd ..
+```
+
+Finally, clone a special branch of the citation-style-language/styles repo:
+
+```
+git clone git@github.com:Klortho/styles.git
+cd styles
+git checkout pmc-22661-olf
+```
+
+The above forks includes changes to support:
+
+* Multiple dates: I added the `epub-date` field
+* Ahead-of-print
+
+Then, you should be able to build and run the citation-exporter, with `mvn jetty:run`.
+
+
 ## Running tests
 
 ```
