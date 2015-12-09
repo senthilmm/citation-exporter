@@ -126,4 +126,10 @@ public class CiteprocStylePool {
         citeprocQueue.add(cp);
         logStatus("After putCiteproc");
     }
+
+    public void discardCiteproc(CitationProcessor cp) {
+        logStatus("Before discardCiteproc");
+        citeprocs.remove(cp);
+        logStatus("After discardCiteproc");
+    }
 }

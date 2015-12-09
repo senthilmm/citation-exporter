@@ -20,7 +20,7 @@ public class CiteprocPool {
 
     private ItemSource itemSource;
     private final String[] preloadStyles = {"american-medical-association",
-            "modern-language-association", "apa"};
+        "modern-language-association", "apa"};
 
     // Maximum number of CitationProcessors created for any given style:
     private final int poolSize = 10;
@@ -60,6 +60,15 @@ public class CiteprocPool {
         String style = cp.getStyle();
         CiteprocStylePool cpsPool = citeprocStylePools.get(style);
         cpsPool.putCiteproc(cp);
+    }
+
+    /**
+     * Discard a CitationProcessor that's suspected of being bad.
+     */
+    public void discardCiteproc(CitationProcessor cp) {
+        String style = cp.getStyle();
+        CiteprocStylePool cpsPool = citeprocStylePools.get(style);
+        cpsPool.discardCiteproc(cp);
     }
 
     // Helper method to get a CiteprocStylePool object from the map, and, if there isn't one there

@@ -697,6 +697,7 @@ public class Request {
                     }
                     else {
                         log.error("Discarding CitationProcessor");
+                        cpPool.discardCiteproc(cp);
                     }
                 }
             }
