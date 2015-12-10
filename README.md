@@ -99,18 +99,26 @@ page](http://www.ncbi.nlm.nih.gov/pmc/utils/ctxp/samples).
 Use the test script src/test/resources/performance-test.pl to test performance and reliability under
 load. Use `-?` to get usage help.
 
-For example, to run it against a local installation, with 10 forks, using the "3-style" test, 
-and 500,000 iterations, use the following:
+On a development deployment (one that uses item_source="test") then you need 
+to make sure that you only use a fixed set of IDs, that correspond to the
+available test files in src/main/resources/samples.
+
+For example, to run it against a local installation, that was started with the command
+line
 
 ```
-./performance-test.pl -b http://localhost:11999 -t 3-styles -n 500000 -r --ignore-errors
+mvn jetty:run
 ```
 
-Note that with "--ignore-errors" set, errors are still reported, but they don't cause the script to abort.
+You could use the following:
 
-This uses the file random-pmcids.txt for the list of IDs to test against.  This list contains 100000 IDs, 
-that are pulled at random from the PMC database.
+```
+cd src/test/resources
+./performance-test.pl --id 3352855
+```
 
+Because there exists the PubOne-format file src/main/resources/samples/aiid/3352855.pub1,
+the service will be able to generate all of the responses in the requested formats. 
 
 
 ## Running as executable jar with embedded Jetty
