@@ -31,7 +31,18 @@ import de.undercouch.citeproc.helper.json.JsonParser;
 /**
  * This implementation of the ItemSource produces fake item data for testing.
  * This class uses test files that should be stored in webapp/test.
+ * 
+ * There are two types of methods here:
+ * 
+ * - `fetch` methods are particular to this test class. The first look to see if the 
+ *   file exists in the test directory; and if so, return that. If not, they throw an 
+ *   exception.
+ *   
+ * - the `retrieve` methods override the ones in ItemSource. Each of these first calls
+ *   the corresponding fetch method to get the file from the test directory. Failing that,
+ *   they call the default retrieve method, which converts the upstream format.
  */
+
 public class TestItemSource extends ItemSource {
     private URL base_url;
     private Logger log = LoggerFactory.getLogger(ItemSource.class);
@@ -93,7 +104,7 @@ public class TestItemSource extends ItemSource {
 
     /**
      * Get the PubOne representation. If the .pub1 file exists in the
-     * test directory, return that.  Otherwise, fetch it the normal way, by converting from
+     * test directory, return that. Otherwise, fetch it the normal way, by converting from
      * NXML.
      */
     @Override
@@ -127,7 +138,7 @@ public class TestItemSource extends ItemSource {
             throw new BadParamException("Problem forming URL for test PubOne resource: '" +
                 url + "'; exception was: " + e.getMessage());
         }
-        log.debug("Reading PubOne from " + url);
+        log.debug("Trying to read PubOne from " + url);
 
         Document doc = null;
         try {
@@ -139,6 +150,7 @@ public class TestItemSource extends ItemSource {
             throw new IOException(e);
         }
         if (doc == null) {
+        	log.debug("Failed to read PubOne file");
             throw new NotFoundException("Failed to read PubOne from " + url);
         }
         return doc;
@@ -165,7 +177,6 @@ public class TestItemSource extends ItemSource {
     /**
      * Get the citeproc-json representation.  This assumes that it exists as a .json file in the
      * test directory.
-     * FIXME: this could throw more specific exceptions; see fetchItemPubOne above.
      */
     protected JsonNode fetchItemJson(RequestId requestId)
             throws IOException
@@ -176,13 +187,16 @@ public class TestItemSource extends ItemSource {
 
         String idType = id.getType();
         URL url = new URL(base_url, idType + "/" + id.getValue() + ".json");
-        log.debug("Attempting to read JSON from " + url);
-        ObjectNode json = (ObjectNode) app.getMapper().readTree(url);
-        return json;
+        log.debug("Trying to read JSON from " + url);
+        try {
+            ObjectNode json = (ObjectNode) app.getMapper().readTree(url);
+            return json;
+        }
+        catch (Exception e) {
+        	log.debug("Failed to read JSON file");
+        	throw new IOException(e);
+        }
     }
-
-
-
 
 
     /**

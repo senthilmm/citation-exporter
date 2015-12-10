@@ -337,18 +337,22 @@ public class Request {
             }
         }
         catch (NotFoundException e) {
+        	log.error("NotFoundException", e);
             errorResponse(e.getMessage(), 404);
             return;
         }
         catch (ServiceException e) {
+        	log.error("ServiceException", e);
             errorResponse(e.getMessage(), 500);
             return;
         }
         catch (BadParamException e) {
+        	log.error("BadParamException", e);
             errorResponse(e.getMessage(), 400);
             return;
         }
         catch (IOException e) {
+        	log.error("IOException", e);
             errorResponse(e.getMessage(), 500);
             return;
         }

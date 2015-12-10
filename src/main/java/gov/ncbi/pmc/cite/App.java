@@ -63,6 +63,12 @@ public class App {
         transformEngine = new TransformEngine(getClass().getClassLoader().getResource("xslt/"), mapper);
         dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
+
+        String xml_catalog_files = System.getProperty("xml.catalog.files");
+        if (xml_catalog_files == null || xml_catalog_files.equals("")) {
+        	System.setProperty("xml.catalog.files", "catalog.xml");
+        }
+        log.info("Instantiating an XML catalog resolver, using xml.catalog.files = " + System.getProperty("xml.catalog.files"));
         catalogResolver = new CatalogResolver();
         citeprocPool = new CiteprocPool(itemSource);
     }

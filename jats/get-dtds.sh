@@ -6,7 +6,8 @@ unzip archive-interchange-dtd-3.0.zip
 rm archive-interchange-dtd-3.0.zip
 mv archiving nlm-archiving-dtd-3.0
 cd nlm-archiving-dtd-3.0
-sed 's/xml:base.*//' < catalog-v3.xml > catalog.xml
+sed 's/group xml:base.*/group /' < catalog-v3.xml > catalog.xml
+cd ..
 
 # JATS Archiving and Interchange 1.0
 wget ftp://ftp.ncbi.nlm.nih.gov/pub/jats/archiving/1.0/jats-archiving-dtd-1.0.zip

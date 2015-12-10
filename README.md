@@ -155,25 +155,38 @@ Here are the parameters that are defined:
   Default is 86400.
 * `xml.catalog.files` - used by the Apache commons CatalogResolver; this is the pathname
   of the OASIS catalog file to use when parsing XML files.  See below for more info.
+  Default value is "catalog.xml"
 * `log` - location of the log files.  Defaults to the *log* subdirectory of the directory
   from which the app is run.
 
 ### DTDs and XML catalog files
 
-The repository comes with an OASIS catalog file, *catalog.xml* that is used, by default, to find DTDs.
-This causes the resolver to look first in the subdirectory *jats* for these, and that works with the
-"getting started" instructions above.
+The repository comes with an OASIS catalog file, *catalog.xml* that is used, 
+by default, to find DTDs. This contains:
 
-If the JATS (and other) DTDs are located somewhere else on your system, then there are two ways to
-override the default behavior.
+```xml
+<nextCatalog catalog="catalog-local.xml"/>
+<nextCatalog catalog="jats/catalog.xml"/>
+```
+
+This causes the resolver to try to resolve IDs from:
+
+* catalog-local.xml, if it exists. If you create this file, then you can override
+  any cross-references from other catalogs.
+* jats/catalog.xml, if it exists. This file is included in the repository, and 
+  you can use the jats/get-dtds.sh script to download the corresponding DTDs from
+  the JATS site.
+
+If the JATS (and other) DTDs are located somewhere else on your system, then 
+there are two ways to override the default behavior.
 
 1.  Set the `xml.catalog.files` system property, to point to some other master catalog file.
     For example:
 
         mvn test -Dxml.catalog.files=/pmc/load/catalog/linux-oxygen-pmc3-catalog.xml
 
-2.  Create a *catalog-local.xml* file in the root directory of the repo, and override specific
-    DTDs there.
+2.  Create a *catalog-local.xml* file in the root directory of the repo, and 
+    override specific DTDs there.
 
 
 ## API
