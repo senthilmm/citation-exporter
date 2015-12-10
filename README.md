@@ -7,15 +7,25 @@ tools:
 
 ## Quick start
 
-Clone the repository, and cd to it
+Clone this repository:
 
 ```
 git clone https://github.com/ncbi/citation-exporter.git
-cd citation-exporter
 ```
 
-This depends on a library, [kitty-cache](https://code.google.com/p/kitty-cache/),
-that is not in Maven central, so you'll need to build and install that first:
+Then you'll need to download and install some dependencies. First, a
+forked version of citeproc-java:
+
+```
+git clone https://github.com/Klortho/citeproc-java.git
+cd citeproc-java
+git checkout pmc-22661-ahead-of-print
+./gradlew install
+cd ..
+```
+
+Next, [kitty-cache](https://code.google.com/p/kitty-cache/),
+that is not in Maven central, so you'll need to build and install that first.
 
 ```
 svn checkout http://kitty-cache.googlecode.com/svn/trunk/ kitty-cache-read-only
@@ -24,16 +34,27 @@ mvn install
 cd ..
 ```
 
-The service also depends on XSLT files that are, unfortunately, at the time of this writing,
-internal to NCBI.  Please write to maloneyc@ncbi.nlm.nih.gov to get a copy of these "pub-one" XSLT
-files.  These should then be copied into the src/main/resources/xslt directory.
+Next, clone a special branch of the citation-style-language/styles repo. This
+must be put under the citation-exporter working directory:
+
+```
+cd citation-exporter
+git clone https://github.com/Klortho/styles.git
+cd styles
+git checkout pmc-22661-olf
+cd ../..
+```
+
+The service also depends on XSLT files that are, unfortunately, at the time 
+of this writing, internal to NCBI.  Please write to maloneyc@ncbi.nlm.nih.gov 
+to get a copy of these "pub-one" XSLT files.  These should then be copied 
+into the citation-exporter/src/main/resources/xslt directory.
 
 Finally, you need to download the JATS DTDs:
 
 ```
-wget http://jatspan.org/downloads/jats-core-bundle-0.8.zip
-unzip jats-core-bundle-0.8.zip
-mv jatspacks jats
+cd citation-exporter/jats
+./get-dtds.sh
 ```
 
 Then build and run this web service:
@@ -47,30 +68,6 @@ Point your browser to [http://localhost:11999/samples](http://localhost:11999/sa
 
 ### Modified instructions for ahead-of-print branch
 
-After cloning this citation-exporter repo, checkout the pmc-22661-ahead-of-print branch:
-
-```
-git checkout pmc-22661-ahead-of-print
-```
-
-In addition to maven-installing kitty-cache, you'll also have to maven-install a special branch
-of the `citeproc-java` application:
-
-```
-git clone git@github.com:Klortho/citeproc-java.git
-cd citeproc-java
-git checkout pmc-22661-ahead-of-print
-./gradlew install
-cd ..
-```
-
-Finally, clone a special branch of the citation-style-language/styles repo:
-
-```
-git clone git@github.com:Klortho/styles.git
-cd styles
-git checkout pmc-22661-olf
-```
 
 The above forks includes changes to support:
 
@@ -78,6 +75,9 @@ The above forks includes changes to support:
 * Ahead-of-print
 
 Then, you should be able to build and run the citation-exporter, with `mvn jetty:run`.
+
+
+
 
 
 ## Testing

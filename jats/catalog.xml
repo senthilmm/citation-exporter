@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
+  "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
+
+<!-- 
+  This is the master catalog file for JATS DTDs used by citation-exporter,
+  in development.
+-->
+
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"
+         prefer='public'>
+
+  <nextCatalog catalog="nlm-archiving-dtd-3.0/catalog.xml"/>
+  <nextCatalog catalog="jats-archiving-dtd-1.0/catalog-test-jats-v1.xml"/>
+  <nextCatalog catalog="jats-archiving-dtd-1.1d2/catalog-jats-v1-1d2-no-base.xml"/>
+
+</catalog>

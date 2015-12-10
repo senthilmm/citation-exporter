@@ -17,7 +17,8 @@ Usage: performance-test.pl [options]
 
 Options (any of these can be abbreviated):
 --help|-? - print this usage message and exit
---verbose
+--verbose - turn on lots of debug messages
+--quiet - turn off tick-marks
 --num - number of requests for each test. This can be any number up to the the number of
   ids stored in random-pmcids.txt, currently 99991. Default is 1000.
 --test=<test> - select which test to run.  Default is to run all. Tests are:
@@ -30,23 +31,24 @@ Options (any of these can be abbreviated):
 --forks - number of simultaneous forks to use, to test multi-threading.  Default is 10.
 
 Specify the address of the service under test:
---base-url - base URL of the service.  No default.
+--base-url - base URL of the service; defaults to http://localhost:11999/.
 
 How IDs are selected for use:
 --random - select random sample of ids each time (default is pseudo-random, which will be the same
   set every time you run the test).
---id <id> - use the given ID for every request.  Exclusive with -r.
+--id <id> - use the given ID for every request.  Exclusive with --random.
 --idtype <idtype> - If giving an id explicitly, you can use this to specify its type.  Default is pmcid.
 );
 
 
 my $help = 0;
 my $verbose = 0;
+my $quiet = 0;
 my $num_reqs = 1000;
 my $num_forks = 10;
 my $selected_test = 'all';
 my $ignore_errors = 0;
-my $base_url = '';
+my $base_url = 'http://localhost:11999/';
 my $idtype = '';
 my $random = 0;
 my $req_id = '';
@@ -54,6 +56,7 @@ my $req_id = '';
 GetOptions(
   "help|?"        => \$help,
   "verbose"       => \$verbose,
+  "quiet"         => \$quiet,
   "num=i"         => \$num_reqs,
   "forks=i"       => \$num_forks,
   "test=s"        => \$selected_test,
@@ -68,13 +71,6 @@ if ($help) {
     print $usage;
     exit 0;
 }
-
-# Set default base_url
-if ($base_url eq '') {
-    print "Missing required parameter base-url.\n";
-    exit 1;
-}
-
 
 # Fix up id and idtype
 if ($req_id eq '' && $idtype ne '') {
@@ -127,6 +123,7 @@ for my $test (@tests) {
         my $l_variance = ($r->{l_sum_sq} - $l_sum * $l_sum / $n) / ($n - 1);
         $l_stddev_str = sprintf("%6.3f", sqrt($l_variance));
     }
+    if (!$quiet) { print "\n"; }
     printf("%8s  | %7d  | %7.1f | %7.3f | %7.3f | %6.3f | %6.3f | %6.3f | %s | %4d\n",
            $r->{test}, $r->{num_reqs}, $r->{delta}, $r->{time_req}, $r->{req_sec},
            $r->{l_min}, $l_ave, $r->{l_max}, $l_stddev_str,
@@ -186,7 +183,7 @@ sub run_test {
     # If $num_forks == 1, then we don't do any forking.  Everything runs as one process.
     if ($num_forks == 1) {
         for (my $req_num = 0; $req_num < $num_reqs; ++$req_num) {
-            if ($req_num % 100 == 0) { print "."; }
+            if (!$quiet && $req_num % 100 == 0) { print "."; }
 
             my $req_url = req_url($req_url_t, $req_id, $idtype, $sample_ids, $req_num);
             my $req_result = do_request($req_url);
@@ -195,7 +192,7 @@ sub run_test {
     }
     else {
         for (my $req_num = 0; $req_num < $num_reqs; ++$req_num) {
-            if ($req_num % 100 == 0) { print "."; }
+            if (!$quiet && $req_num % 100 == 0) { print "."; }
 
             # If necessary, wait for one of the child processes to finish
             while (scalar keys %$child_process_data >= $num_forks) {
