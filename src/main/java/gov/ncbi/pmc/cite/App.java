@@ -26,24 +26,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class App {
     public static final String apiVersion = "v1";
 
-    private Logger log = LoggerFactory.getLogger(App.class);
-    private IdResolver idResolver;
+    private static Logger log = LoggerFactory.getLogger(App.class);
+    private static IdResolver idResolver;
     // Jackson ObjectMapper should be thread-safe, see
     // http://wiki.fasterxml.com/JacksonFAQThreadSafety
-    private ObjectMapper mapper;
-    private ItemSource itemSource;
-    private TransformEngine transformEngine;
-    private DocumentBuilderFactory dbf;
-    private CatalogResolver catalogResolver;
-    private CiteprocPool citeprocPool;
+    private static ObjectMapper mapper;
+    private static ItemSource itemSource;
+    private static TransformEngine transformEngine;
+    private static DocumentBuilderFactory dbf;
+    private static CatalogResolver catalogResolver;
+    private static CiteprocPool citeprocPool;
 
 
 
     /**
      * Create a new App object.
+     * FIXME: get rid of this, make everything static
      * @throws IOException
      */
     public App() throws Exception {
+    	init();
+    }
+
+    public static void init() throws Exception {
         idResolver = new IdResolver();
         mapper = new ObjectMapper();
 
@@ -52,15 +57,15 @@ public class App {
         String itemSourceStr = itemSourceProp != null ? itemSourceProp : "test";
         log.info("Using item source '" + itemSourceStr + "'");
         if (itemSourceStr.equals("test")) {
-            itemSource = new TestItemSource(getClass().getClassLoader().getResource("samples/"), this);
+            itemSource = new TestItemSource(App.class.getClassLoader().getResource("samples/"));
         }
 
         // Create a new item source by class name
         else {
-            itemSource = (ItemSource) Class.forName(itemSourceStr).getConstructor(App.class).newInstance(this);
+            itemSource = (ItemSource) Class.forName(itemSourceStr).getConstructor().newInstance();
         }
 
-        transformEngine = new TransformEngine(getClass().getClassLoader().getResource("xslt/"), mapper);
+        transformEngine = new TransformEngine(App.class.getClassLoader().getResource("xslt/"), mapper);
         dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
 
@@ -73,41 +78,40 @@ public class App {
         citeprocPool = new CiteprocPool(itemSource);
     }
 
-
     /**
      * Utility function for getting an XML DocumentBuilder that uses catalogs
      */
-    public DocumentBuilder newDocumentBuilder() throws ParserConfigurationException {
+    public static DocumentBuilder newDocumentBuilder() throws ParserConfigurationException {
         DocumentBuilder db = dbf.newDocumentBuilder();
         db.setEntityResolver(catalogResolver);
         return db;
     }
 
 
-    public IdResolver getIdResolver() {
+    public static IdResolver getIdResolver() {
         return idResolver;
     }
 
-    public ObjectMapper getMapper() {
+    public static ObjectMapper getMapper() {
         return mapper;
     }
 
-    public ItemSource getItemSource() {
+    public static ItemSource getItemSource() {
         return itemSource;
     }
 
-    public TransformEngine getTransformEngine() {
+    public static TransformEngine getTransformEngine() {
         return transformEngine;
     }
 
-    public void setTransformEngine(TransformEngine transformEngine) {
-        this.transformEngine = transformEngine;
+    public static void setTransformEngine(TransformEngine _transformEngine) {
+        transformEngine = _transformEngine;
     }
 
     /**
      * Convenience method that delegates to TransformEngine.
      */
-    public Object doTransform(Document src, String transform)
+    public static Object doTransform(Document src, String transform)
         throws IOException
     {
         return transformEngine.doTransform(src, transform);
@@ -116,14 +120,15 @@ public class App {
     /**
      * Convenience method that delegates to TransformEngine.
      */
-    public Object doTransform(Document src, String transform, Map<String, String> params)
+    public static Object doTransform(Document src, String transform, Map<String, String> params)
         throws IOException
     {
         return transformEngine.doTransform(src, transform, params);
     }
 
 
-    public CiteprocPool getCiteprocPool() {
+    // FIXME: this will go away
+    public static CiteprocPool getCiteprocPool() {
         return citeprocPool;
     }
 

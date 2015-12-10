@@ -25,7 +25,7 @@ cd ..
 ```
 
 Next, [kitty-cache](https://code.google.com/p/kitty-cache/),
-that is not in Maven central, so you'll need to build and install that first.
+that is not in Maven central, so you'll need to build and install that:
 
 ```
 svn checkout http://kitty-cache.googlecode.com/svn/trunk/ kitty-cache-read-only
@@ -64,20 +64,6 @@ mvn jetty:run
 ```
 
 Point your browser to [http://localhost:11999/samples](http://localhost:11999/samples).
-
-
-### Modified instructions for ahead-of-print branch
-
-
-The above forks includes changes to support:
-
-* Multiple dates: I added the `epub-date` field
-* Ahead-of-print
-
-Then, you should be able to build and run the citation-exporter, with `mvn jetty:run`.
-
-
-
 
 
 ## Testing
@@ -140,9 +126,23 @@ Set these on the run command line, for example:
 mvn jetty:run -Djetty.port=9876 -Dcache_ids=true -Did_cache_ttl=8
 ```
 
-Here are the parameters that are defined:
+Here are some of the parameters that can be used:
 
-* `jetty.port`
+* `cache_ids` - either "true" or "false".  Default is "false".
+* `com.sun.management.jmxremote.authenticate' - Set this to "false" to turn on
+  turn on the [JMX monitor 
+  console](http://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html),
+  without user authentication. Note that this is only suitable for a development
+  environment.
+* `com.sun.management.jmxremote.port` - Set this to a port number, if you want to use
+  the [JMX monitor 
+  console](http://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html).
+* `id_cache_ttl` - time-to-live for each of the IDs in the ID cache, in seconds.
+  Default is 86400.
+* `id_converter_params` - Query string parameters to send to the the PMC ID
+  converter API.  Default is "showaiid=yes&format=json&tool=ctxp&email=pubmedcentral@ncbi.nlm.nih.gov".
+* `id_converter_url` - URL of the PMC ID converter API.  Default is
+  "http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/".
 * `item_source` - string specifying which ItemSource to use.  The default is "test",
   which indicates to use the TestItemSource, which loads data items from files in the class path.
   If not "test", then the value should be the fully qualified name of the class.
@@ -154,18 +154,18 @@ Here are the parameters that are defined:
 * `item_source_loc` - When item_source is one of the Stcache options, this needs to be the full
   pathname of the stcache image file.  When item_source is ConvAppNxmlItemSource, then this should
   be the URL of the converter app service.
-* `id_converter_url` - URL of the PMC ID converter API.  Default is
-  "http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/".
-* `id_converter_params` - Query string parameters to send to the the PMC ID
-  converter API.  Default is "showaiid=yes&format=json&tool=ctxp&email=pubmedcentral@ncbi.nlm.nih.gov".
-* `cache_ids` - either "true" or "false".  Default is "false".
-* `id_cache_ttl` - time-to-live for each of the IDs in the ID cache, in seconds.
-  Default is 86400.
+* `java.io.tmpdir` - used when running as an "uber jar"; this is where the application
+  is unpacked.
+* `jetty.port` - the IP port number that the service will listen on
+* `log` - location of the log files.  Defaults to the *log* subdirectory of the directory
+  from which the app is run.
 * `xml.catalog.files` - used by the Apache commons CatalogResolver; this is the pathname
   of the OASIS catalog file to use when parsing XML files.  See below for more info.
   Default value is "catalog.xml"
-* `log` - location of the log files.  Defaults to the *log* subdirectory of the directory
-  from which the app is run.
+
+
+
+
 
 ### DTDs and XML catalog files
 
@@ -180,7 +180,7 @@ by default, to find DTDs. This contains:
 This causes the resolver to try to resolve IDs from:
 
 * catalog-local.xml, if it exists. If you create this file, then you can override
-  any cross-references from other catalogs.
+  any definitions from other catalogs.
 * jats/catalog.xml, if it exists. This file is included in the repository, and 
   you can use the jats/get-dtds.sh script to download the corresponding DTDs from
   the JATS site.
@@ -205,6 +205,8 @@ The following two URLs are special:
 
 * /samples - provides a list of links to sample outputs of various document, in various formats
 * /errortest - strictly for testing, this causes the application to generate an error page
+* /echotest - for testing, causes the application to echo a very simple text page
+* /info - some status information
 
 ### Parameters:
 
@@ -377,6 +379,10 @@ response with two good records and one bad one will look like this (request
 ]
 ```
 
+
+# Monitoring the application
+
+
 ## Logging
 
 The location of log files is controlled by the system parameter `log`, which is usually set to
@@ -387,6 +393,32 @@ file. The log level is controlled by the `log4j.rootLogger` property, and can be
 one of TRACE, DEBUG, INFO, WARN, ERROR or FATAL.
 
 
+## JMX Monitor Console
+
+To enable [JMX 
+monitoring](http://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html),
+start the service with, for example:
+
+```
+mvn -Dcom.sun.management.jmxremote.port=11997 \
+    -Dcom.sun.management.jmxremote.authenticate=false \
+    jetty:run
+```
+
+Or (as an "uber jar"):
+
+```
+mvn package
+java -Dcom.sun.management.jmxremote.port=11997 \
+     -Dcom.sun.management.jmxremote.authenticate=false \
+     -jar target/pmc-citation-exporter-1.0.1.jar
+```
+
+Then, you can connect to a monitor console by using the command, for example:
+
+```
+jconsole localhost:11997
+```
 
 
 ## Development
@@ -543,11 +575,13 @@ Requires Java version 8.
 
 * Platform / library [Javadocs](http://docs.oracle.com/javase/8/docs/api/)
 
+
 **Saxon**
 
 It uses Saxon for XSLT tranformations.
 
 * [Javadocs](http://www.saxonica.com/documentation/Javadoc/index.html)
+
 
 **citeproc-java**
 
@@ -557,15 +591,43 @@ See [above](#citeproc-java) for some information about how to build and
 link the development version of this library, rather
 than using the released package.
 
+
 **citeproc-js**
 
 * [Manual](http://gsl-nagoya-u.net/http/pub/citeproc-doc.html)
 
-This is included by reference, from citeproc-java.
+This is included by reference, from citeproc-java. The repository URL
+and the exact commit are specified in the citeproc-java/build.gradle
+file.
+
+As of 12/10/2015, we are using a fork of this, on BitBucket at
+[klortho/citeproc-js](https://bitbucket.org/klortho/citeproc-js), branch
+[pmc-22661-epub-date](https://bitbucket.org/klortho/citeproc-js/branch/pmc-22661-epub-date).
+
+
+**citation-style-language/styles**
+
+The GitHub repo 
+[citation-style-languages/styles](https://github.com/citation-style-language/styles)
+that contains all of the CSL style definition files. Currently (12/10/2015) 
+we're using a fork of this, at [klortho/styles](https://github.com/Klortho/styles),
+in the [pmc-22661-olf branch](https://github.com/Klortho/styles/tree/pmc-22661-olf), 
+in support of an epublication date and an indication of ahead-of-print.
+
+In order to use a development version of these, instead of the default version, 
+merely clone this repo under the citation-exporter repository clone, and build 
+as usual.
+
+
+**citation-style-languages/locales**
+
+From GitHub [here](https://github.com/citation-style-language/locales).
+
 
 **PMC ID Converter API**
 
 * [Documentation](https://www.ncbi.nlm.nih.gov/pmc/tools/id-converter-api/)
+
 
 **Jackson**
 

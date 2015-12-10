@@ -30,7 +30,6 @@ import com.spaceprogram.kittycache.KittyCache;
  */
 public abstract class ItemSource {
     protected Logger log;
-    protected App app;
     // Implement a small-lightweight cache for the retrieved JSON items, to support requests
     // for multiple styles of the same id (for example)
     private KittyCache<String, JsonNode> jsonCache;
@@ -38,10 +37,9 @@ public abstract class ItemSource {
     private static final int jsonCacheTtl = 10;
 
 
-    public ItemSource(App app)
+    public ItemSource()
     {
         log = LoggerFactory.getLogger(this.getClass());
-        this.app = app;
         jsonCache = new KittyCache<String, JsonNode>(jsonCacheSize);
     }
 
@@ -68,7 +66,7 @@ public abstract class ItemSource {
         Identifier pmcid = requestId.getIdByType("pmcid");
         if (pmcid != null) params.put("pmcid", pmcid.getValue());
 
-        return (Document) app.doTransform(nxml, "pub-one", params);
+        return (Document) App.doTransform(nxml, "pub-one", params);
     }
 
     /**
@@ -98,13 +96,13 @@ public abstract class ItemSource {
         String nowAsISO = df.format(new Date());
         params.put("accessed", nowAsISO);
 
-        String jsonStr = (String) app.doTransform(pub_one, "pub-one2json", params);
-        ObjectNode json = (ObjectNode) app.getMapper().readTree(jsonStr);
+        String jsonStr = (String) App.doTransform(pub_one, "pub-one2json", params);
+        ObjectNode json = (ObjectNode) App.getMapper().readTree(jsonStr);
         json.put("id", curie);
         jsonCache.put(curie, json, jsonCacheTtl);
         return json;
     }
 
     public ObjectMapper getMapper() {
-        return app.getMapper();
+        return App.getMapper();
     }}

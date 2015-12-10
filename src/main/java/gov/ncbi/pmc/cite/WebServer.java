@@ -112,6 +112,7 @@ public class WebServer
 
         // Create the temp directory if it doesn't exist yet
         File tempDir = new File(System.getProperty("java.io.tmpdir"));
+        //System.out.println("===================> java.io.tmpdir = " + tempDir);
         if (!tempDir.exists()) {
             log.debug("Creating java.io.tmpdir directory: " + tempDir);
             if (!tempDir.mkdir()) {

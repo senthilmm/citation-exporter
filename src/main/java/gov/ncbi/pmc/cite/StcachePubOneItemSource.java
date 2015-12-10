@@ -24,7 +24,7 @@ public class StcachePubOneItemSource extends ItemSource {
     // This class has its own DocumentBuilderFactory, because it uses some non-default settings
     private DocumentBuilderFactory dbf;
 
-    public StcachePubOneItemSource(App app) throws Exception
+    public StcachePubOneItemSource() throws Exception
     {
         super(app);
         pubOneImage = System.getProperty("item_source_loc");

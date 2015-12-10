@@ -17,9 +17,9 @@ import org.w3c.dom.Document;
 public class ConvAppNxmlItemSource  extends ItemSource {
     private URL convAppUrl;
 
-    public ConvAppNxmlItemSource(App app) throws Exception
+    public ConvAppNxmlItemSource() throws Exception
     {
-        super(app);
+        super();
         convAppUrl = new URL(System.getProperty("item_source_loc"));
         if (convAppUrl == null) throw new IOException("Need a value for the item_source_loc system property");
         log.info("Item source location (nxml converter app URL) = '" + convAppUrl + "'");
@@ -47,10 +47,10 @@ public class ConvAppNxmlItemSource  extends ItemSource {
                 nxmlString = head + nxmlString.substring(1000);
                 //System.out.println("\n======================= nxmlString = '" + nxmlString.substring(0, 200) + "...'\n\n");
                 InputStream nxmlStringStream = IOUtils.toInputStream(nxmlString, "UTF-8");
-                nxml = app.newDocumentBuilder().parse(nxmlStringStream);
+                nxml = App.newDocumentBuilder().parse(nxmlStringStream);
             }
             else {
-                nxml = app.newDocumentBuilder().parse(
+                nxml = App.newDocumentBuilder().parse(
                     nxmlUrl.openStream()
                 );
             }

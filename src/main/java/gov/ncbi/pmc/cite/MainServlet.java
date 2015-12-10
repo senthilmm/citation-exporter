@@ -30,7 +30,6 @@ public class MainServlet extends HttpServlet
     private static final long serialVersionUID = 1L;
     public ServletContext context;
     private Logger log = LoggerFactory.getLogger(MainServlet.class);
-    private App app;
 
     @Override
     public void init() throws ServletException
@@ -39,7 +38,7 @@ public class MainServlet extends HttpServlet
 
         try {
             context = getServletContext();
-            app = new App();
+            App.init();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +59,7 @@ public class MainServlet extends HttpServlet
         logRequestHeaders(request);
         setCorsHeaders(request, response);
 
-        Request r = new Request(app, request, response);
+        Request r = new Request(request, response);
 
         if (r.pathEquals("echotest")) {
         //if (numSegs == 1 && segs[0].equals("echotest")) {
@@ -150,7 +149,7 @@ public class MainServlet extends HttpServlet
       */
 
         // Print out some info about the citation processors
-        CiteprocPool citeprocPool = app.getCiteprocPool();
+        CiteprocPool citeprocPool = App.getCiteprocPool();
         rw.println(citeprocPool.printStatus());
 
         return;
@@ -172,7 +171,7 @@ public class MainServlet extends HttpServlet
         log.debug(msg);
 
         // FIXME:  we can take this out (or make it 'trace'):
-        CiteprocPool citeprocPool = app.getCiteprocPool();
+        CiteprocPool citeprocPool = App.getCiteprocPool();
         log.debug(citeprocPool.printStatus());
 
     }
@@ -218,7 +217,7 @@ public class MainServlet extends HttpServlet
 
         // Read the samples json file
         URL samplesUrl = getClass().getClassLoader().getResource("samples/test-cases.json");
-        ObjectNode samples = (ObjectNode) app.getMapper().readTree(samplesUrl);
+        ObjectNode samples = (ObjectNode) App.getMapper().readTree(samplesUrl);
         ArrayNode testCases = (ArrayNode) samples.get("test-cases");
         Iterator<JsonNode> i = testCases.elements();
         while (i.hasNext()) {

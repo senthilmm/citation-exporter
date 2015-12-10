@@ -51,7 +51,6 @@ import de.undercouch.citeproc.output.Bibliography;
  * Stores information about, and handles, a single request.
  */
 public class Request {
-    private App app;
     private HttpServletRequest request;
     private HttpServletResponse response;
 
@@ -88,13 +87,32 @@ public class Request {
 
     private static final String searchNS = "http://www.ncbi.nlm.nih.gov/ns/search";
 
+  /*
+    private static final ThreadLocal<CitationProcessor> citeproc_locals = 
+    	new ThreadLocal<CitationProcessor>(){
+	        @Override
+	        protected CitationProcessor initialValue()
+	        {
+	            CitationProcessor cp = null;
+	            try {
+	                cp = new CitationProcessor(style, App.getItemSource());
+	            }
+	            catch (NotFoundException e) {
+	                // FIXME
+	            }
+	            return cp;
+	        }
+	    };
+  */
+    
+    
+    
     /**
      * Constructor.
      */
-    public Request(App app, HttpServletRequest request, HttpServletResponse response)
+    public Request(HttpServletRequest request, HttpServletResponse response)
         throws MalformedURLException
     {
-        this.app = app;
         this.request = request;
         this.response = response;
         parsePath();
@@ -187,8 +205,8 @@ public class Request {
 
         // Remove (our) version number, if it is the first path segment
         resourcePath = new LinkedList<String>();
-        if (origPath.size() >= 1 && origPath.get(0).equals(app.apiVersion)) {
-            versionSeg = app.apiVersion;
+        if (origPath.size() >= 1 && origPath.get(0).equals(App.apiVersion)) {
+            versionSeg = App.apiVersion;
             resourcePath.addAll(origPath.subList(1, origPath.size()));
         }
         else resourcePath.addAll(origPath);
@@ -272,7 +290,7 @@ public class Request {
             // The IdResolver seems to be thread-safe
             // FIXME:  Can take this debug message out.
             log.debug("Resolving IDs");
-            idList = app.getIdResolver().resolveIds(idp, request.getParameter("idtype"));
+            idList = App.getIdResolver().resolveIds(idp, request.getParameter("idtype"));
 
             // Right now, we only support getting the record by aiid.  Later, we will want to add pmid
             log.debug("Resolved ids: " + idList);
@@ -364,7 +382,7 @@ public class Request {
     private void pubOneXml()
         throws NotFoundException, BadParamException, IOException
     {
-        ItemSource itemSource = app.getItemSource();
+        ItemSource itemSource = App.getItemSource();
 
         int numIds = idList.size();
         log.debug("Getting PubOne for ids " + idList);
@@ -447,7 +465,7 @@ public class Request {
     private void nXml()
         throws BadParamException, NotFoundException, IOException
     {
-        ItemSource itemSource = app.getItemSource();
+        ItemSource itemSource = App.getItemSource();
         //String idType = idSet.getType();
         int numIds = idList.size();
 
@@ -528,8 +546,8 @@ public class Request {
         // to handle concatenation of multiple records.
         //String idType = idSet.getType();
         int numIds = idList.size();
-        ItemSource itemSource = app.getItemSource();
-        TransformEngine transformEngine = app.getTransformEngine();
+        ItemSource itemSource = App.getItemSource();
+        TransformEngine transformEngine = App.getTransformEngine();
 
         String transformName =
                 report.equals("ris") ? "pub-one2ris" :
@@ -576,7 +594,7 @@ public class Request {
     private void citeprocJson()
         throws NotFoundException, BadParamException, IOException
     {
-        ItemSource itemSource = app.getItemSource();
+        ItemSource itemSource = App.getItemSource();
         int numIds = idList.size();
         log.debug("Getting citeproc-json for ids " + idList);
 
@@ -588,7 +606,7 @@ public class Request {
                 if (requestId == null) { throw new BadParamException("ID was not properly resolved"); }
 
                 JsonNode jn = itemSource.retrieveItemJson(requestId);
-                jsonString = app.getMapper().writeValueAsString(jn);
+                jsonString = App.getMapper().writeValueAsString(jn);
             }
             else {
                 List<String> jsonRecords = new ArrayList<String>();
@@ -675,7 +693,7 @@ public class Request {
             // comes out might not be the same as the order that goes in, so we'll put them back
             // in the right order.
             Bibliography bibl = null;
-            CiteprocPool cpPool = app.getCiteprocPool();
+            CiteprocPool cpPool = App.getCiteprocPool();
 
             // See PMC-21297.  We've noticed that sometimes the CSL processors get into a bad state.
             // So the code here will try up to two processors.  If the first one gives an error, then
@@ -697,11 +715,11 @@ public class Request {
                 finally {
                     //System.out.println("  Return citation processor to the pool?  " + returnCp);
                     if (cpNum == 1 || success) {
-                        cpPool.putCiteproc(cp);  // return it to the pool, when done
+                        //cpPool.putCiteproc(cp);  // return it to the pool, when done
                     }
                     else {
                         log.error("Discarding CitationProcessor");
-                        cpPool.discardCiteproc(cp);
+                        //cpPool.discardCiteproc(cp);
                     }
                 }
             }
@@ -815,7 +833,7 @@ public class Request {
     {
         if (documentBuilder == null) {
             try {
-                documentBuilder = app.newDocumentBuilder();
+                documentBuilder = App.newDocumentBuilder();
             }
             catch (ParserConfigurationException e) {
                 throw new IOException("Problem creating a Saxon DocumentBuilder: " + e);

@@ -47,8 +47,8 @@ public class TestItemSource extends ItemSource {
     private URL base_url;
     private Logger log = LoggerFactory.getLogger(ItemSource.class);
 
-    public TestItemSource(URL base_url, App app) throws Exception {
-        super(app);
+    public TestItemSource(URL base_url) throws Exception {
+        super();
         this.base_url = base_url;
         log.debug("Setting base_url to " + base_url);
     }
@@ -88,7 +88,7 @@ public class TestItemSource extends ItemSource {
         log.debug("Reading NXML from " + nxmlUrl);
         Document nxml = null;
         try {
-            nxml = app.newDocumentBuilder().parse(
+            nxml = App.newDocumentBuilder().parse(
                 nxmlUrl.openStream()
             );
         }
@@ -142,7 +142,7 @@ public class TestItemSource extends ItemSource {
 
         Document doc = null;
         try {
-            doc = app.newDocumentBuilder().parse(
+            doc = App.newDocumentBuilder().parse(
                 url.openStream()
             );
         }
@@ -189,7 +189,7 @@ public class TestItemSource extends ItemSource {
         URL url = new URL(base_url, idType + "/" + id.getValue() + ".json");
         log.debug("Trying to read JSON from " + url);
         try {
-            ObjectNode json = (ObjectNode) app.getMapper().readTree(url);
+            ObjectNode json = (ObjectNode) App.getMapper().readTree(url);
             return json;
         }
         catch (Exception e) {

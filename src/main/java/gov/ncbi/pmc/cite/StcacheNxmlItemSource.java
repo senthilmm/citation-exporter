@@ -20,7 +20,7 @@ public class StcacheNxmlItemSource extends ItemSource {
     private String nxmlImage;
     private Nxml nxmlStcache;
 
-    public StcacheNxmlItemSource(App app) throws Exception
+    public StcacheNxmlItemSource() throws Exception
     {
         super(app);
         nxmlImage = System.getProperty("item_source_loc");
