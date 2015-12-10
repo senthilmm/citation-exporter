@@ -231,6 +231,7 @@ public class IdResolver {
      * object.
      */
     private IdGlob globbifyRecord(ObjectNode record, String fromIdType, RequestIdList idList) {
+      synchronized(this) {
         //System.out.println("  In globbifyRecord");
 
         JsonNode status = record.get("status");
@@ -280,6 +281,7 @@ public class IdResolver {
 
         //System.out.println("  globbifyRecord, returning " + newGlob);
         return newGlob;
+      }
     }
 
 }

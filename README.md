@@ -45,7 +45,7 @@ mvn jetty:run
 Point your browser to [http://localhost:11999/samples](http://localhost:11999/samples).
 
 
-## Modified instructions for ahead-of-print branch
+### Modified instructions for ahead-of-print branch
 
 After cloning this citation-exporter repo, checkout the pmc-22661-ahead-of-print branch:
 
@@ -80,11 +80,38 @@ The above forks includes changes to support:
 Then, you should be able to build and run the citation-exporter, with `mvn jetty:run`.
 
 
-## Running tests
+## Testing
+
+Run unit tests as follows:
 
 ```
 mvn test
 ```
+
+### Test samples
+
+A good set of samples is listed in the application's [samples 
+page](http://www.ncbi.nlm.nih.gov/pmc/utils/ctxp/samples).
+
+
+### Performance tests
+
+Use the test script src/test/resources/performance-test.pl to test performance and reliability under
+load. Use `-?` to get usage help.
+
+For example, to run it against a local installation, with 10 forks, using the "3-style" test, 
+and 500,000 iterations, use the following:
+
+```
+./performance-test.pl -b http://localhost:11999 -t 3-styles -n 500000 -r --ignore-errors
+```
+
+Note that with "--ignore-errors" set, errors are still reported, but they don't cause the script to abort.
+
+This uses the file random-pmcids.txt for the list of IDs to test against.  This list contains 100000 IDs, 
+that are pulled at random from the PMC database.
+
+
 
 ## Running as executable jar with embedded Jetty
 
@@ -114,7 +141,8 @@ Here are the parameters that are defined:
   Possible values are:
     * gov.ncbi.pmc.cite.StcachePubOneItemSource - requires item_source_loc to also be set
     * gov.ncbi.pmc.cite.StcacheNxmlItemSource - requires item_source_loc to also be set
-    * gov.ncbi.pmc.cite.ConvAppNxmlItemSource - Get NXML from an HTTP web service. Requires item_source_loc to also be set
+    * gov.ncbi.pmc.cite.ConvAppNxmlItemSource - Get NXML from an HTTP web service. Requires 
+      item_source_loc to also be set
 * `item_source_loc` - When item_source is one of the Stcache options, this needs to be the full
   pathname of the stcache image file.  When item_source is ConvAppNxmlItemSource, then this should
   be the URL of the converter app service.
@@ -130,7 +158,7 @@ Here are the parameters that are defined:
 * `log` - location of the log files.  Defaults to the *log* subdirectory of the directory
   from which the app is run.
 
-### Configuring DTDs and an XML catalog file
+### DTDs and XML catalog files
 
 The repository comes with an OASIS catalog file, *catalog.xml* that is used, by default, to find DTDs.
 This causes the resolver to look first in the subdirectory *jats* for these, and that works with the
@@ -147,6 +175,7 @@ override the default behavior.
 2.  Create a *catalog-local.xml* file in the root directory of the repo, and override specific
     DTDs there.
 
+
 ## API
 
 ### Special URLs
@@ -158,7 +187,8 @@ The following two URLs are special:
 
 ### Parameters:
 
-* **id** or **ids** - List of IDs, comma-delimited. The types and expected patterns of the values given here are the same as for
+* **id** or **ids** - List of IDs, comma-delimited. The types and expected 
+  patterns of the values given here are the same as for
   the [PMC ID converter API](https://www.ncbi.nlm.nih.gov/pmc/tools/id-converter-api/).
   The type can either be specified explicitly with the idtype parameter, or can be inferred.
   IDs are always resolved to one of `aiid` or `pmid`.
@@ -168,12 +198,16 @@ The following two URLs are special:
     * pmid
     * mid
     * doi
-* **report** - Specifies the embedded format of the data.  Defaults to "html".  See the table below for allowed values.
-* **format** - corresponds to the returned "content-type". Can be used as substitute for content negotiation.  Default
-  depends on report; see the table below.
-* **style** or **styles** - CSL style name, or a list of stylenames.  If just one ID is given, this can include multiple names,
-  comma-delimited.  If multiple IDs are given, then this must be only one style name.  In other words, you can have multiple IDs
-  or multiple styles, but not both.  Defaults to "modern-language-association".
+* **report** - Specifies the embedded format of the data.  Defaults to "html".
+  See the table below for allowed values.
+* **format** - corresponds to the returned "content-type". Can be used as 
+  substitute for content negotiation.  Default depends on report; see the 
+  table below.
+* **style** or **styles** - CSL style name, or a list of stylenames.  If 
+  just one ID is given, this can include multiple names, comma-delimited.
+  If multiple IDs are given, then this must be only one style name. In 
+  other words, you can have multiple IDs or multiple styles, but not both.  
+  Defaults to "modern-language-association".
 
 Value combinations of report and format are listed in the following table.
 
@@ -324,7 +358,7 @@ response with two good records and one bad one will look like this (request
 
 ## Logging
 
-The location of log files is controlled by the system paramter `log`, which is usually set to
+The location of log files is controlled by the system parameter `log`, which is usually set to
 the value "log" using `-Dlog=log` command-line switch.
 
 Logging is controlled by properties set in the *src/main/resources/log4j.properties*
@@ -438,12 +472,7 @@ instructions](http://michel-kraemer.github.io/citeproc-java/using/building/).  D
 the jar file, and then install that in your local Maven repository:
 
 ```
-gradlew jar
-mvn install:install-file -Dfile=citeproc-java/build/libs/citeproc-java-0.6.jar \
-    -DgroupId=de.undercouch \
-    -DartifactId=citeproc-java \
-    -Dversion=0.7-SNAPSHOT \
-    -Dpackaging=jar
+./gradlew install
 ```
 
 Note that this installs the library as version "0.7-SNAPSHOT", meaning that it is later than 0.6, but not a
@@ -455,7 +484,7 @@ Next, change the pom.xml file in *this* repository to require that latest versio
 <dependency>
   <groupId>de.undercouch</groupId>
   <artifactId>citeproc-java</artifactId>
-  <version>0.7</version>
+  <version>0.7-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -503,12 +532,15 @@ It uses Saxon for XSLT tranformations.
 
 * [Javadocs](http://michel-kraemer.github.io/citeproc-java/api/latest/)
 
-See above for some information about how to build and link the development version of this library, rather
+See [above](#citeproc-java) for some information about how to build and 
+link the development version of this library, rather
 than using the released package.
 
 **citeproc-js**
 
 * [Manual](http://gsl-nagoya-u.net/http/pub/citeproc-doc.html)
+
+This is included by reference, from citeproc-java.
 
 **PMC ID Converter API**
 
