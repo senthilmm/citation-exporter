@@ -150,7 +150,7 @@ public class MainServlet extends HttpServlet
 
         // Print out some info about the citation processors
         CiteprocPool citeprocPool = App.getCiteprocPool();
-        rw.println(citeprocPool.printStatus());
+        rw.println(citeprocPool.status());
 
         return;
     }
@@ -172,7 +172,7 @@ public class MainServlet extends HttpServlet
 
         // FIXME:  we can take this out (or make it 'trace'):
         CiteprocPool citeprocPool = App.getCiteprocPool();
-        log.debug(citeprocPool.printStatus());
+        log.debug(citeprocPool.status());
 
     }
 

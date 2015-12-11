@@ -11,68 +11,89 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Provides a pool of (non-thread-safe) CitationProcessor objects which are allocated
- * to threads upon request.  A further complication is that CitationProcessors are style-specific,
- * so this pool comprises a HashMap of BlockingQueues of CitationProcessors, one array for each style.
+ * Provides a way to access non-thread-safe CitationProcessor objects which are created per-thread
+ * (using ThreadLocals). Each CitationProcessor is style-specific,
+ * so this pool comprises a HashMap of ThreadLocals of CitationProcessors.
  */
 public class CiteprocPool {
     private Logger log = LoggerFactory.getLogger(Request.class);
-
     private ItemSource itemSource;
 
-    private final String[] preloadStyles = {"american-medical-association",
-        "modern-language-association", "apa"};
+    /**
+     * This wraps a ThreadLocal of CitationProcessors. There will be one of these
+     * for each style that we get a request for.
+     */
+    private class CiteprocStyleLocals {
+        public ThreadLocal<CitationProcessor> citeproc_locals;
 
-    private Map<String, CiteprocStylePool> citeprocStylePools;
+        public CiteprocStyleLocals(String style)
+        {
+            citeproc_locals = new ThreadLocal<CitationProcessor>(){
+                @Override
+                protected CitationProcessor initialValue()
+                {
+                    CitationProcessor cp = null;
+                    try {
+                        cp = new CitationProcessor(style, itemSource);
+                    }
+                    catch (NotFoundException e) {
+                        // FIXME
+                    }
+                    return cp;
+                }
+            };
+        }
+    }
+
+    private Map<String, CiteprocStyleLocals> styleLocals;
 
 
     public CiteprocPool(ItemSource itemSource)
         throws NotFoundException, IOException
     {
         this.itemSource = itemSource;
-        citeprocStylePools = new ConcurrentHashMap<String, CiteprocStylePool>();
-        // Pregenerate some
-        log.debug("Pregenerating CiteprocStylePools");
-        for (String style : preloadStyles) {
-            log.debug("Instantiating CiteprocStylePool for style " + style);
-            getStylePool(style);
-        }
+        styleLocals = new ConcurrentHashMap<String, CiteprocStyleLocals>();
     }
 
     /**
-     * This is called from a Request object in order to lock a CitationProcessor
-     * from the pool, to style the citations from a single request.
+     * This is called from a Request object in order to get the CitationProcessor
+     * for this style and this thread.
      */
     public CitationProcessor getCiteproc(String style)
         throws NotFoundException
     {
-        CiteprocStylePool cpsPool = getStylePool(style);
-        return cpsPool.getCiteproc();
-    }
-
-    // Helper method to get a CiteprocStylePool object from the map, and, if there isn't one there
-    // already, to create it
-    private CiteprocStylePool getStylePool(String style)
-        throws NotFoundException
-    {
-        log.debug("Let's see if there's a CiteprocStylePool available in the queue");
-        CiteprocStylePool cpsPool = citeprocStylePools.get(style);
-        if (cpsPool == null) {
-            log.debug("No CiteprocStylePool available, create one.");
-            // FIXME:  there should be some way to verify that the style is a valid style, before
-            // we instantiate a pool object
-            cpsPool = new CiteprocStylePool(this, style, itemSource/*, poolSize, pregenerate*/);
-            citeprocStylePools.put(style, cpsPool);
+        // We'll wait until we know that this is a good style before saving this
+        // `locals` object in our hashmap.
+        boolean new_local = false;
+        CiteprocStyleLocals styleLocal = styleLocals.get(style);
+        if (styleLocal == null) {
+            new_local = true;
+            styleLocal = new CiteprocStyleLocals(style);
         }
-        return cpsPool;
+
+        // Now get the CitationProcessor for this thread. If this thread doesn't
+        // already have one, a new one is created
+        CitationProcessor cp = styleLocal.citeproc_locals.get();
+        if (cp == null) {
+            throw new NotFoundException(
+                "Failed to create a CitationProcessor for style '" + style + "'");
+        }
+
+        if (new_local) styleLocals.put(style, styleLocal);
+        return cp;
     }
 
     /**
-     * This method will return a string giving some status info about the object.
-     * @return
+     * @return a string giving some status info about the object.
      */
-    public String printStatus() {
-        String r = "CiteprocPool: okay!\n";
+    public String status() {
+        String r = "CiteprocPool has CitationProcessors for " + styleLocals.size() + " styles:\n";
+        Iterator<String> keyIter = styleLocals.keySet().iterator();
+        while (keyIter.hasNext()) {
+            String style = keyIter.next();
+            r += "  " + style + "\n";
+        }
         return r;
     }
+
 }

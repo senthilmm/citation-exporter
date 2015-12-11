@@ -87,26 +87,6 @@ public class Request {
 
     private static final String searchNS = "http://www.ncbi.nlm.nih.gov/ns/search";
 
-  /*
-    private static final ThreadLocal<CitationProcessor> citeproc_locals = 
-    	new ThreadLocal<CitationProcessor>(){
-	        @Override
-	        protected CitationProcessor initialValue()
-	        {
-	            CitationProcessor cp = null;
-	            try {
-	                cp = new CitationProcessor(style, App.getItemSource());
-	            }
-	            catch (NotFoundException e) {
-	                // FIXME
-	            }
-	            return cp;
-	        }
-	    };
-  */
-    
-    
-    
     /**
      * Constructor.
      */
@@ -355,22 +335,22 @@ public class Request {
             }
         }
         catch (NotFoundException e) {
-        	log.error("NotFoundException", e);
+            log.error("NotFoundException", e);
             errorResponse(e.getMessage(), 404);
             return;
         }
         catch (ServiceException e) {
-        	log.error("ServiceException", e);
+            log.error("ServiceException", e);
             errorResponse(e.getMessage(), 500);
             return;
         }
         catch (BadParamException e) {
-        	log.error("BadParamException", e);
+            log.error("BadParamException", e);
             errorResponse(e.getMessage(), 400);
             return;
         }
         catch (IOException e) {
-        	log.error("IOException", e);
+            log.error("IOException", e);
             errorResponse(e.getMessage(), 500);
             return;
         }
