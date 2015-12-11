@@ -16,8 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.impl.Log4jLoggerAdapter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -30,6 +32,8 @@ public class MainServlet extends HttpServlet
     private static final long serialVersionUID = 1L;
     public ServletContext context;
     private Logger log = LoggerFactory.getLogger(MainServlet.class);
+
+    Log4jLoggerAdapter ljla;
 
     @Override
     public void init() throws ServletException

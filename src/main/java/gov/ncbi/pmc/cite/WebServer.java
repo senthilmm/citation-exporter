@@ -38,6 +38,12 @@ public class WebServer
     public static void main( String[] args )
         throws Exception
     {
+        // Here is where we encode the default value for some system properties,
+        // for when running as an uber-jar. Note that when running with `mvn jetty:run`,
+        // the defaults are set in the pom.xml file.
+        setDefaultSystemProperty("log", "log");
+        setDefaultSystemProperty("log_level", "INFO");
+
         initLogs();
         try {
             new WebServer().start();
@@ -53,19 +59,21 @@ public class WebServer
     }
 
     /**
-     * Initialize the `log` system property, the main log file, and the path for the
-     * request log.
+     * Helper function - this sets the system property to its default, only if it wasn't already set.
+     */
+    public static void setDefaultSystemProperty(String name, String def) {
+        String p = System.getProperty(name);
+        if (p == null) {
+            System.setProperty(name, def);
+        }
+    }
+
+    /**
+     * Initialize the main log file, and the path for the request log.
      */
     public static void initLogs() {
-        String logDir = System.getProperty("log");
-        if (logDir == null) {
-            logDir = "log";
-            System.setProperty("log", logDir);
-        }
         log = Log.getLogger(WebServer.class);
-
-        // Also set the path request log
-        requestLogPath = new File(logDir, "access/yyyy_mm_dd.request.log");
+        requestLogPath = new File(System.getProperty("log"), "access/yyyy_mm_dd.request.log");
     }
 
     private void start() throws Exception

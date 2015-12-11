@@ -159,6 +159,10 @@ Here are some of the parameters that can be used:
 * `jetty.port` - the IP port number that the service will listen on
 * `log` - location of the log files.  Defaults to the *log* subdirectory of the directory
   from which the app is run.
+* `log_level` - sets the logging level for the root logger, as one of the
+  [log4j levels](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html); 
+  e.g. "DEBUG", "INFO". By default, this is `DEBUG` when running from the jetty maven plugin,
+  and `INFO` when running as an "uber jar".
 * `xml.catalog.files` - used by the Apache commons CatalogResolver; this is the pathname
   of the OASIS catalog file to use when parsing XML files.  See below for more info.
   Default value is "catalog.xml"

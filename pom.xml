@@ -171,6 +171,10 @@
               <name>log</name>
               <value>log</value>
             </systemProperty>
+            <systemProperty>
+              <name>log_level</name>
+              <value>DEBUG</value>
+            </systemProperty>
           </systemProperties>
         </configuration>
       </plugin>
