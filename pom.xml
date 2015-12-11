@@ -14,12 +14,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!--
-      If we're using the earlier JDK 1.6, then we can't use the latest
-      (version 9) of the jetty maven plugin.
-    -->
     <jetty.version>9.2.1.v20140609</jetty.version>
-    <!--  <jetty.version>8.1.14.v20131031</jetty.version> -->
     <slf4j.version>1.7.7</slf4j.version>
   </properties>
 
@@ -162,6 +157,15 @@
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jetty.version}</version>
         <configuration>
+          <scanIntervalSeconds>2</scanIntervalSeconds>
+          <scanTargetPatterns>
+            <scanTargetPattern>
+              <directory>src/main/resources</directory>
+              <includes>
+                <scanTargetPatterns>**/*.*</scanTargetPatterns>
+              </includes>
+            </scanTargetPattern>
+          </scanTargetPatterns>
           <systemProperties>
             <systemProperty>
               <name>jetty.port</name>

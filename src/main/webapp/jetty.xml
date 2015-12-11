@@ -11,7 +11,7 @@
   * http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/src/main/config/etc/jetty.xml
   * http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/src/main/config/etc/jetty-http.xml
 
-  I [cfm] don't claim to understand them.
+  I [maloneyc/klortho] don't claim to understand them.
 -->
 <Configure id="Server" class="org.eclipse.jetty.server.Server">
 

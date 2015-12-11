@@ -461,41 +461,77 @@ http://locahost:12006/pmc-citation-service/.
 
 ### Jetty configuration
 
-There are two ways to run the server under Jetty.  Running with `mvn jetty:run` is used during development, and is quicker.
-For production, however, the application should be packaged as an "uber-jar", using the
-[Apache Maven Shade plugin](http://maven.apache.org/plugins/maven-shade-plugin/), and then run as an executable jar file (see
-the next section for more about that).
+There are two ways to run the server under Jetty:
 
-Jetty is configured by the following code in the *pom.xml* file:
+* Using the [Jetty Maven 
+  plugin](http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html),
+  with `mvn jetty:run`. This is useful for development.
+* As an executable "uber jar", created using the [Apache Maven Shade 
+  plugin](http://maven.apache.org/plugins/maven-shade-plugin/), with
+  `mvn package; java -jar target/pmc-citation-exporter...jar`.
+
+Some options are set in the pom.xml to cause this to scan for changes to source files, and to 
+automatically redeploy whenever any are detected. Also, in the pom file, some default
+values are given for System properties that are used to configure the app.
+
+For example:
 
 ```xml
-...
-<properties>
-  ...
-  <jettyVersion>9.2.1.v20140609</jettyVersion>
-</properties>
-...
-<dependencies>
-  ...
-  <dependency>
-    <groupId>org.eclipse.jetty.orbit</groupId>
-    <artifactId>javax.servlet</artifactId>
-    <version>3.0.0.v201112011016</version>
-    <scope>provided</scope>
-  </dependency>
-</dependencies>
-...
-<build>
-  <plugins>
-    ...
-    <plugin>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-maven-plugin</artifactId>
-      <version>${jettyVersion}</version>
-    </plugin>
-  </plugins>
-</build>
+<!-- Jetty Maven plugin -->
+<plugin>
+  <groupId>org.eclipse.jetty</groupId>
+  <artifactId>jetty-maven-plugin</artifactId>
+  <version>${jetty.version}</version>
+  <configuration>
+    <scanIntervalSeconds>2</scanIntervalSeconds>
+    <scanTargetPatterns>
+      <scanTargetPattern>
+        <directory>src/main/resources</directory>
+        <includes>
+          <scanTargetPatterns>**/*.*</scanTargetPatterns>
+        </includes>
+      </scanTargetPattern>
+    </scanTargetPatterns>
+    <systemProperties>
+      <systemProperty>
+        <name>jetty.port</name>
+        <value>11999</value>
+      </systemProperty>
+      <systemProperty>
+        <name>log</name>
+        <value>log</value>
+      </systemProperty>
+      <systemProperty>
+        <name>log_level</name>
+        <value>DEBUG</value>
+      </systemProperty>
+    </systemProperties>
+  </configuration>
+</plugin>
 ```
+
+But note that there seems to be a bug in the "hot redeploy" feature
+of the Jetty Maven plugin. When changes are made to sample files under
+src/main/resources/samples, the application is restarted, but for some reason,
+those changed files are not copied into the target/classes/samples directory
+as they should be. Those sample files *are* copied, however, when the application
+restarts as a result of a Java source file changing.
+
+
+
+### Run with Jetty Maven plugin
+
+To use the Jetty Maven plugin, run with, for example:
+
+```
+mvn clean jetty:run
+```
+
+This *does not use* the src/main/webapp/jetty.xml configuration file.
+
+Also, in this case, the main entry point to the app is in MainServlet.java; the
+code in WebServer.java does not get executed.
+
 
 ### Jetty shaded uber-jar
 
@@ -506,17 +542,21 @@ all of the dependencies, including Jetty itself.
 This is controlled by the [Apache Maven Shade plugin](http://maven.apache.org/plugins/maven-shade-plugin/),
 which is configured by a \<plugin> section of the pom.xml.
 
-In addition, another plugin section, build-helper-maven-plugin, is required to specify additional directories to copy
+In addition, another plugin section, build-helper-maven-plugin, is required to specify 
+additional directories to copy
 into the target jar file.
 
 To run the server from this executable jar, execute something like this
 
-    java -Djava.io.tmpdir=./jetty-temp-dir -jar target/pmc-citation-exporter-0.1-SNAPSHOT.jar
+```
+java -Djava.io.tmpdir=./jetty-temp-dir -jar target/pmc-citation-exporter-0.1-SNAPSHOT.jar
+```
 
 Note that system properties must be set on the command line *before* the `-jar` option.
 
-When running this way, Jetty is configured by the src/main/webapp/jetty.xml file. (Note that this is
-*not used* when running with `mvn jetty:run`).
+When running this way, Jetty is configured by the src/main/webapp/jetty.xml file. 
+(Note that this is *not used* when running with `mvn jetty:run`).
+
 
 ### citeproc-java
 
