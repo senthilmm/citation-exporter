@@ -451,7 +451,15 @@ pmc-lib library.
 When the value of *item_source" is "test", the citation data is mock data from the
 *src/main/webapp/test* directory.
 
-### Eclipse / Tomcat configuration
+### Eclipse setup
+
+To work in Eclipse, import this project into your workspace.
+
+Turn off validation of the *jats*, *styles*, and *locales* folders 
+(if present) by right-clicking on them, selecting
+"Properties", and then check "derived". This will cause all of the files
+under these directories to be excluded from validation. You might have
+to select "Project" -> "Clean" to get rid of existing errors.
 
 To run the application from Eclipse, right-click on the project, and select
 *Run As* -> *Run on server*.  Depending on your workspace server configuration
