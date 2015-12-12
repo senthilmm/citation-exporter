@@ -34,8 +34,8 @@ import gov.ncbi.pmc.cite.ServiceException;
 
 public class IdResolver {
     /**
-     *  If caching is enabled, the results returned from the external ID resolver service are
-     *  cached here.  The keys of this are all of the known CURIEs that we see.
+     * If caching is enabled, the results returned from the external ID resolver service are
+     * cached here.  The keys of this are all of the known CURIEs that we see.
      */
     KittyCache<String, IdGlob> idGlobCache;
 
@@ -93,6 +93,12 @@ public class IdResolver {
         return resolveIds(idStr, null);
     }
 
+    public RequestIdList resolveIds(String idStr, String idType)
+            throws BadParamException, ServiceException, NotFoundException
+    {
+        return resolveIds(idStr, idType, null);
+    }
+
     /**
      * Resolves a comma-delimited list of IDs into a ResolvedIdList.
      *
@@ -102,12 +108,11 @@ public class IdResolver {
      *   the type from the pattern of the first id in the list.
      * @return a ResolvedIdList object.  Not all of the items in that list are necessarily resolved.
      */
-    public RequestIdList resolveIds(String idStr, String idType)
+    public RequestIdList resolveIds(String idStr, String idType, String[] wantTypes)
         throws BadParamException, ServiceException, NotFoundException
     {
         String[] originalIdsArray = idStr.split(",");
         RequestIdList idList = new RequestIdList();
-
 
         // If idType wasn't specified, then we infer it from the form of the first id in the list
         if (idType == null) {
@@ -123,8 +128,6 @@ public class IdResolver {
             RequestId requestId = new RequestId(oid, cid);
             idList.add(requestId);
         }
-
-
 
         // Go through each ID in the list, and compose the idsToResolve list.
         List<RequestId> idsToResolve = new ArrayList<RequestId>();
@@ -142,17 +145,16 @@ public class IdResolver {
                 }
             }
 
-            // FIXME:
-            // For now, we *always* resolve IDs unless they are in the cache.  In order to decide
-            // that an ID is not worth resolving, we'd have to know that we'll get the PubOne from
-            // a pre-generated cache, so that we won't need the IDs to pass in as params.
-            //
-            //// If it doesn't have either of the wanted types, also add it to the "to resolve" list
-            //if (!idGlob.hasType("pmid") && !idGlob.hasType("aiid")) {
-            //    idsToResolve.add(idGlob);
-            //}
+            boolean isWanted = false;
+            for (int j = 0; wantTypes != null && j < wantTypes.length; ++j) {
+                if (idType.equals(wantTypes[j])) isWanted = true;
+            }
+            //if (!idType.equals("pmid") && !idType.equals("aiid")) {
+            if (!isWanted) {
+                idsToResolve.add(requestId);
+            }
 
-            idsToResolve.add(requestId);
+            //idsToResolve.add(requestId);
         }
         //System.out.println("=============> idsToResolve.size() = " + idsToResolve.size());
 

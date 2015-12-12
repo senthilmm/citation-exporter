@@ -32,7 +32,6 @@ public abstract class ItemSource {
     private static final int jsonCacheSize = 100;
     private static final int jsonCacheTtl = 10;
 
-
     public ItemSource()
     {
         log = LoggerFactory.getLogger(this.getClass());

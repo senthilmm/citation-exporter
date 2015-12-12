@@ -1,10 +1,11 @@
 catalog-local.xml
 ctxp.sublime-*
-OxygenProject.xpr
+dependency-reduced-pom.xml
+jats/
+jetty-temp-dir/
+kitty-cache-read-only/
+log/
 src/main/resources/xslt/*.xsl
 styles/
 target/
-dependency-reduced-pom.xml
-jetty-temp-dir
-kitty-cache-read-only
-log/
+testlog/

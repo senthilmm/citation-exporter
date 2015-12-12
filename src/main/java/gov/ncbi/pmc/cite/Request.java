@@ -263,9 +263,8 @@ public class Request {
             String idp = idsParam != null ? idsParam : idParam;
 
             // The IdResolver seems to be thread-safe
-            // FIXME:  Can take this debug message out.
-            log.debug("Resolving IDs");
-            idList = App.getIdResolver().resolveIds(idp, request.getParameter("idtype"));
+            idList = App.getIdResolver().resolveIds(idp, request.getParameter("idtype"),
+                    new String[] {"aiid"});
 
             // Right now, we only support getting the record by aiid.  Later, we will want to add pmid
             log.debug("Resolved ids: " + idList);
