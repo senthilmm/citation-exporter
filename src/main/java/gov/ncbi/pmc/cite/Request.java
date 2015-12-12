@@ -1,9 +1,5 @@
 package gov.ncbi.pmc.cite;
 
-import gov.ncbi.pmc.ids.RequestId;
-import gov.ncbi.pmc.ids.RequestIdList;
-import gov.ncbi.pmc.ids.Identifier;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
@@ -12,10 +8,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +24,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
@@ -43,9 +36,11 @@ import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.undercouch.citeproc.output.Bibliography;
+import gov.ncbi.pmc.ids.Identifier;
+import gov.ncbi.pmc.ids.RequestId;
+import gov.ncbi.pmc.ids.RequestIdList;
 
 /**
  * Stores information about, and handles, a single request.

@@ -55,11 +55,13 @@ Finally, you need to download the JATS DTDs:
 ```
 cd citation-exporter/jats
 ./get-dtds.sh
+cd ..
 ```
 
 Then build and run this web service:
 
 ```
+mvn test
 mvn jetty:run
 ```
 

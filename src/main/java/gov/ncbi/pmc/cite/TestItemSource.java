@@ -1,32 +1,21 @@
 package gov.ncbi.pmc.cite;
 
-import gov.ncbi.pmc.ids.RequestId;
-import gov.ncbi.pmc.ids.RequestIdList;
-import gov.ncbi.pmc.ids.Identifier;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Map;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import de.undercouch.citeproc.helper.json.JsonLexer;
-import de.undercouch.citeproc.helper.json.JsonParser;
+import gov.ncbi.pmc.ids.Identifier;
+import gov.ncbi.pmc.ids.RequestId;
 
 /**
  * This implementation of the ItemSource produces fake item data for testing.

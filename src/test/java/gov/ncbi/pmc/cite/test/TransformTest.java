@@ -1,20 +1,18 @@
 package gov.ncbi.pmc.cite.test;
 
+import java.io.IOException;
+
+import org.w3c.dom.Document;
+
 import gov.ncbi.pmc.cite.App;
 import gov.ncbi.pmc.cite.BadParamException;
 import gov.ncbi.pmc.cite.ItemSource;
 import gov.ncbi.pmc.cite.NotFoundException;
-import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.Identifier;
 import gov.ncbi.pmc.ids.RequestId;
-
-import java.io.IOException;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import org.w3c.dom.Document;
 
 /**
  * Class for testing our transformations
@@ -47,7 +45,7 @@ public class TransformTest
     protected void setUp() {
         System.setProperty("log", "testlog");
         try {
-            app = new App();
+            App.init();
         }
         catch (Exception e) {
             fail("Exception while instantiating App: " + e);
@@ -59,7 +57,7 @@ public class TransformTest
      * Test the transformations
      */
     public void testTransforms() {
-        ItemSource itemSource = app.getItemSource();
+        ItemSource itemSource = App.getItemSource();
 
         Document nxml_31 = null;
         try {

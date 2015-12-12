@@ -1,17 +1,10 @@
 package gov.ncbi.pmc.cite;
 
-import gov.ncbi.pmc.ids.IdGlob;
-import gov.ncbi.pmc.ids.RequestId;
-import gov.ncbi.pmc.ids.RequestIdList;
-import gov.ncbi.pmc.ids.Identifier;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -23,6 +16,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.spaceprogram.kittycache.KittyCache;
+
+import gov.ncbi.pmc.ids.Identifier;
+import gov.ncbi.pmc.ids.RequestId;
 
 /**
  * This fetches item data in either PubOne or citeproc-json format, given an IdSet.

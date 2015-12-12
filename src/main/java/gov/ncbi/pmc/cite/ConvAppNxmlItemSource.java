@@ -1,9 +1,5 @@
 package gov.ncbi.pmc.cite;
 
-import gov.ncbi.pmc.ids.IdGlob;
-import gov.ncbi.pmc.ids.Identifier;
-import gov.ncbi.pmc.ids.RequestId;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -11,6 +7,9 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
+
+import gov.ncbi.pmc.ids.Identifier;
+import gov.ncbi.pmc.ids.RequestId;
 
 
 

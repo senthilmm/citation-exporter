@@ -1,15 +1,7 @@
 package gov.ncbi.pmc.cite;
 
-import gov.ncbi.pmc.ids.IdGlob;
-import gov.ncbi.pmc.ids.RequestId;
-import gov.ncbi.pmc.ids.RequestIdList;
-import gov.ncbi.pmc.ids.Identifier;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -20,11 +12,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.undercouch.citeproc.CSL;
-import de.undercouch.citeproc.ItemDataProvider;
 import de.undercouch.citeproc.csl.CSLItemData;
 import de.undercouch.citeproc.helper.json.JsonLexer;
 import de.undercouch.citeproc.helper.json.JsonParser;
 import de.undercouch.citeproc.output.Bibliography;
+import gov.ncbi.pmc.ids.Identifier;
+import gov.ncbi.pmc.ids.RequestId;
+import gov.ncbi.pmc.ids.RequestIdList;
 
 /**
  * This is a wrapper for a pair of citeproc-java objects: one CSL and one ItemDataProvider.

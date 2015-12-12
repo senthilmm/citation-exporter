@@ -1,30 +1,23 @@
 package gov.ncbi.pmc.ids;
 
-import gov.ncbi.pmc.cite.BadParamException;
-import gov.ncbi.pmc.cite.NotFoundException;
-import gov.ncbi.pmc.cite.ServiceException;
-
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.eclipse.jetty.util.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.spaceprogram.kittycache.KittyCache;
+
+import gov.ncbi.pmc.cite.BadParamException;
+import gov.ncbi.pmc.cite.NotFoundException;
+import gov.ncbi.pmc.cite.ServiceException;
 
 /**
  * This class resolves IDs entered by the user, using the PMC ID Converter

@@ -7,7 +7,6 @@ import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,18 +19,16 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.w3c.dom.Document;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import net.sf.saxon.Configuration;
 import net.sf.saxon.Controller;
 import net.sf.saxon.PreparedStylesheet;
 import net.sf.saxon.TransformerFactoryImpl;
-
-import org.w3c.dom.Document;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * An object of this class handles XSLT transformations.  There is one of

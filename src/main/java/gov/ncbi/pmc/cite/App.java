@@ -1,13 +1,8 @@
 package gov.ncbi.pmc.cite;
 
-import gov.ncbi.pmc.ids.IdResolver;
-
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import gov.ncbi.pmc.ids.IdResolver;
 
 /**
  * Container for some singleton-type objects that are instantiated and shared, regardless

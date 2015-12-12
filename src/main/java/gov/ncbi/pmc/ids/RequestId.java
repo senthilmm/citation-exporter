@@ -1,7 +1,5 @@
 package gov.ncbi.pmc.ids;
 
-import gov.ncbi.pmc.cite.BadParamException;
-
 /**
  * This stores information about a particular ID as requested by the user.
  *
