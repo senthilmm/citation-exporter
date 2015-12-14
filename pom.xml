@@ -28,6 +28,10 @@
         <updatePolicy>daily</updatePolicy>
       </snapshots>
     </repository>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -104,10 +108,20 @@
       <version>2.3.1</version>
     </dependency>
 
+  <!--
+    Kitty-cache is a java library that has a pom.xml file, but is not uploaded
+    to Maven Central, or any other public repository. So, we'll use jitpack.io
+    to declare manage this dependency, specifying a commit explicitly.
     <dependency>
       <groupId>com.spaceprogram</groupId>
       <artifactId>KittyCache</artifactId>
       <version>1.2</version>
+    </dependency>
+  -->
+    <dependency>
+      <groupId>com.github.Klortho</groupId>
+      <artifactId>kitty-cache</artifactId>
+      <version>065b8d34e2b16c991c4d9db7cdbd16ec1038f325</version>
     </dependency>
 
     <dependency>

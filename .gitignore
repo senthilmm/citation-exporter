@@ -3,7 +3,6 @@ ctxp.sublime-*
 dependency-reduced-pom.xml
 jats/
 jetty-temp-dir/
-kitty-cache-read-only/
 log/
 src/main/resources/xslt/*.xsl
 styles/

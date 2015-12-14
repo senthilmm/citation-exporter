@@ -24,16 +24,6 @@ git checkout pmc-22661-ahead-of-print
 cd ..
 ```
 
-Next, [kitty-cache](https://code.google.com/p/kitty-cache/),
-that is not in Maven central, so you'll need to build and install that:
-
-```
-svn checkout http://kitty-cache.googlecode.com/svn/trunk/ kitty-cache-read-only
-cd kitty-cache-read-only
-mvn install
-cd ..
-```
-
 Next, clone a special branch of the citation-style-language/styles repo. This
 must be put under the citation-exporter working directory:
 
@@ -696,15 +686,16 @@ We're using the Jackson library to read JSON objects:
 
 **kitty-cache**
 
-This library, [kitty-cache](https://code.google.com/p/kitty-cache/), is not in
-Maven Central. It is declared in the *pom.xml*, but needs to be built and installed to your
-local maven repository.  For example:
+The library 
+Google code [here](https://code.google.com/p/kitty-cache/), and is also
+mirrored to GitHub, at [treeder/kitty-cache](https://github.com/treeder/kitty-cache).
 
-```
-svn checkout http://kitty-cache.googlecode.com/svn/trunk/ kitty-cache-read-only
-cd kitty-cache-read-only
-mvn install
-```
+It is declared in the *pom.xml* using the free service
+[JitPack.io](https://jitpack.io) to build and deploy it from a fork of the
+repository on GitHub, at [Klortho/kitty-cache](https://github.com/Klortho/kitty-cache).
+(The reason for using a fork is to protect against the possibility of the original
+repo being removed.)
+
 
 **DtdAnalyzer**
 
