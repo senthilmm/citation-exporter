@@ -43,9 +43,8 @@ public class TransformTest
      */
     @Override
     protected void setUp() {
-        System.setProperty("log", "testlog");
         try {
-            App.init();
+            CommonSetup.setUp();
         }
         catch (Exception e) {
             fail("Exception while instantiating App: " + e);
@@ -57,6 +56,7 @@ public class TransformTest
      * Test the transformations
      */
     public void testTransforms() {
+        System.out.println("======================> testTransforms");
         ItemSource itemSource = App.getItemSource();
 
         Document nxml_31 = null;

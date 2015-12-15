@@ -47,8 +47,10 @@
       <version>1.2</version>
     </dependency>
 
-
   <!--
+    FIXME: this is experimental; let's see how it goes.
+    Load the specific fork of citeproc-java using jitpack.io,
+    specifying the github repo, and a commit, explicitly.
     <dependency>
       <groupId>de.undercouch</groupId>
       <artifactId>citeproc-java</artifactId>
@@ -60,8 +62,6 @@
       <artifactId>citeproc-java</artifactId>
       <version>3f30f220c279557892d69c9ec95b92d84cf2114d</version>
     </dependency>
-
-
 
     <dependency>
       <groupId>org.citationstyles</groupId>

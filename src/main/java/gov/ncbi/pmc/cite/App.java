@@ -35,14 +35,13 @@ public class App {
     private static CiteprocPool citeprocPool;
 
 
-
     /**
      * Create a new App object.
      * FIXME: get rid of this, make everything static
      * @throws IOException
      */
     public App() throws Exception {
-    	init();
+        init();
     }
 
     public static void init() throws Exception {
@@ -68,7 +67,7 @@ public class App {
 
         String xml_catalog_files = System.getProperty("xml.catalog.files");
         if (xml_catalog_files == null || xml_catalog_files.equals("")) {
-        	System.setProperty("xml.catalog.files", "catalog.xml");
+            System.setProperty("xml.catalog.files", "catalog.xml");
         }
         log.info("Instantiating an XML catalog resolver, using xml.catalog.files = " + System.getProperty("xml.catalog.files"));
         catalogResolver = new CatalogResolver();
