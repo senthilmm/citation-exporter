@@ -21,14 +21,13 @@ import gov.ncbi.pmc.ids.RequestId;
 import gov.ncbi.pmc.ids.RequestIdList;
 
 /**
- * This is a wrapper for a pair of citeproc-java objects: one CSL and one ItemDataProvider.
- * That pair of objects collaborate to generate a bibliography in a particular style for a
- * set of citations.
+ * This is a wrapper for a pair of citeproc-java objects: one CSL and one
+ * ItemDataProvider. That pair of objects collaborate to generate a
+ * bibliography in a particular style for a set of citations.
  *
- * Since instantiating a CSL object is expensive, there will be a pool of these, that
- * will be cached. Each one is style-specific:  it can only format citations in one
- * given style.  And, they are not thread safe, so we can only have one Request using one
- * of these at a time.
+ * Each object is style-specific:  it can only format citations in one given
+ * style. They are not thread safe, so they are managed by a CiteprocPool
+ * object.
  */
 public class CitationProcessor {
     protected Logger log;
@@ -62,33 +61,43 @@ public class CitationProcessor {
     }
 
     /**
+     * Make a bibliography in the "html" format.
+     */
+    public Bibliography makeBibliography(RequestIdList idList)
+            throws NotFoundException, BadParamException, IOException
+    {
+        return makeBibliography(idList, "html");
+    }
+
+    /**
+     * Make a bibliography.
      * @param idList
-     * @param format
-     * @throws IOException - for any number of things that could go wrong
+     * @param format - one of "html", "text", "asciidoc", "fo", or "rtf".
+     * (See the citeproc-java API docs)
      */
     public Bibliography makeBibliography(RequestIdList idList, String format)
         throws NotFoundException, BadParamException, IOException
     {
         prefetchItems(idList);
-        //System.out.println("  CitationProcessor.makeBibliography(); idList = " + idList + "; format = " + format);
         csl.setOutputFormat(format);
-        //System.out.println("    about to call csl.registerCitationItems()");
         csl.registerCitationItems(idList.getCuriesByType("aiid"));
         long mb_start = System.currentTimeMillis();
-        //System.out.println("    about to call makeBibliography");
         Bibliography bibl = csl.makeBibliography();
-        log.debug("makeBibliography took " + (System.currentTimeMillis() - mb_start) + " milliseconds");
+        log.debug("makeBibliography took " +
+            (System.currentTimeMillis() - mb_start) + " milliseconds");
         if (bibl == null) {
-            throw new IOException("Bad request, problem with citation processor");
+            throw new IOException(
+                "Bad request, problem with citation processor");
         }
         return bibl;
     }
 
     /**
-     * Pre-fetch the JSON, and construct a CSLItemData object for a set of IDs that we're interested in
-     * (per request).  This allows us to respond with an
-     * informative error message, if there's a problem.  Otherwise, the retrieveItem() method (below)
-     * is called from within citeproc-js, and there's no way to pass the error message back out.
+     * Pre-fetch the JSON, and construct a CSLItemData object for a set of IDs
+     * that we're interested in (per request).  This allows us to respond with
+     * an informative error message, if there's a problem.  Otherwise, the
+     * retrieveItem() method (below) is called from within citeproc-js, and
+     * there's no way to pass the error message back out.
      *
      * @param idList
      * @throws IOException - for error in Jackson serialization, etc.
@@ -108,8 +117,9 @@ public class CitationProcessor {
             if (id == null) continue;
             String curie = id.getCurie();
 
-            // Unfortunately, we have to get the JSON as a Jackson object, then serialize
-            // it and parse it back in as a citeproc-java object.  See this question:
+            // Unfortunately, we have to get the JSON as a Jackson object, then
+            // serialize it and parse it back in as a citeproc-java object. See
+            // this question:
             // https://github.com/michel-kraemer/citeproc-java/issues/9
 
             requestId.setGood(false);  // assume this will fail
@@ -132,27 +142,30 @@ public class CitationProcessor {
                     jsonString = objectMapper.writeValueAsString(jsonNode);
                 }
                 catch (JsonProcessingException jpe) {
-                    // An error in Jackson's serialization of known-good json data
+                    // An error in Jackson's serialization of known-good json
                     throw new IOException(jpe);
                 }
-                JsonLexer jsonLexer = new JsonLexer(new StringReader(jsonString));
+                JsonLexer jsonLexer =
+                    new JsonLexer(new StringReader(jsonString));
                 JsonParser jsonParser = new JsonParser(jsonLexer);
                 Map<String, Object> itemJsonMap =  jsonParser.parseObject();
 
                 // Add the id key-value pair
                 itemJsonMap.put("id", curie);
                 CSLItemData item = CSLItemData.fromJson(itemJsonMap);
-                if (item == null) throw new IOException("Problem creating a CSLItemData object from backend JSON");
+                if (item == null) throw new IOException(
+                    "Problem creating a CSLItemData object from backend JSON");
                 itemProvider.addItem(curie, item);
                 requestId.setGood(true); // success
                 foundOneGood = true;
             }
         }
 
-        // If the total number of good CSL items we've found is zero, throw an exception
-        //log.debug("Number of good items found " + idList.numGood());
+        // If the total number of good CSL items we've found is zero, throw an
+        // exception
         if (!foundOneGood) {
-            String msg = "Couldn't retrieve/create any good CSL items for this ID list";
+            String msg = "Couldn't retrieve/create any good CSL items for " +
+                "this ID list";
             if (e == null) throw new NotFoundException(msg);
             else throw new NotFoundException(msg, e);
         }
