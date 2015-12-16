@@ -35,14 +35,6 @@ public class App {
     private static CiteprocPool citeprocPool;
 
 
-    /**
-     * Create a new App object.
-     * FIXME: get rid of this, make everything static
-     * @throws IOException
-     */
-    public App() throws Exception {
-        init();
-    }
 
     public static void init() throws Exception {
         idResolver = new IdResolver();
@@ -53,15 +45,18 @@ public class App {
         String itemSourceStr = itemSourceProp != null ? itemSourceProp : "test";
         log.info("Using item source '" + itemSourceStr + "'");
         if (itemSourceStr.equals("test")) {
-            itemSource = new TestItemSource(App.class.getClassLoader().getResource("samples/"));
+            itemSource = new TestItemSource(
+                App.class.getClassLoader().getResource("samples/"));
         }
 
         // Create a new item source by class name
         else {
-            itemSource = (ItemSource) Class.forName(itemSourceStr).getConstructor().newInstance();
+            itemSource = (ItemSource) Class.forName(itemSourceStr)
+                .getConstructor().newInstance();
         }
 
-        transformEngine = new TransformEngine(App.class.getClassLoader().getResource("xslt/"), mapper);
+        transformEngine = new TransformEngine(
+            App.class.getClassLoader().getResource("xslt/"), mapper);
         dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
 
@@ -69,15 +64,19 @@ public class App {
         if (xml_catalog_files == null || xml_catalog_files.equals("")) {
             System.setProperty("xml.catalog.files", "catalog.xml");
         }
-        log.info("Instantiating an XML catalog resolver, using xml.catalog.files = " + System.getProperty("xml.catalog.files"));
+        log.info("Instantiating an XML catalog resolver, using " +
+            "xml.catalog.files = " + System.getProperty("xml.catalog.files"));
         catalogResolver = new CatalogResolver();
         citeprocPool = new CiteprocPool(itemSource);
     }
 
     /**
-     * Utility function for getting an XML DocumentBuilder that uses catalogs
+     * Utility function for getting an XML DocumentBuilder that uses
+     * catalogs
      */
-    public static DocumentBuilder newDocumentBuilder() throws ParserConfigurationException {
+    public static DocumentBuilder newDocumentBuilder()
+        throws ParserConfigurationException
+    {
         DocumentBuilder db = dbf.newDocumentBuilder();
         db.setEntityResolver(catalogResolver);
         return db;
@@ -100,7 +99,8 @@ public class App {
         return transformEngine;
     }
 
-    public static void setTransformEngine(TransformEngine _transformEngine) {
+    public static void setTransformEngine(TransformEngine _transformEngine)
+    {
         transformEngine = _transformEngine;
     }
 
@@ -116,14 +116,16 @@ public class App {
     /**
      * Convenience method that delegates to TransformEngine.
      */
-    public static Object doTransform(Document src, String transform, Map<String, String> params)
+    public static Object doTransform(Document src, String transform,
+                                     Map<String, String> params)
         throws IOException
     {
         return transformEngine.doTransform(src, transform, params);
     }
 
-
-    // FIXME: this will go away
+    /**
+     * Get the CiteprocPool object
+     */
     public static CiteprocPool getCiteprocPool() {
         return citeprocPool;
     }

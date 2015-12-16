@@ -52,8 +52,9 @@ public class MainServlet extends HttpServlet
     }
 
     /**
-     * FIXME:  This should be refactored to create a 'Request' object right away (which maybe could be renamed
-     * 'Controller').  Path parsing, etc., should all be moved there.
+     * FIXME:  This should be refactored to create a 'Request' object right
+     * away (which maybe could be renamed 'Controller').  Path parsing, etc.,
+     * should all be moved there.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -69,7 +70,8 @@ public class MainServlet extends HttpServlet
             doEchoTest(request, response);
         }
         else if (r.pathEquals("errortest")) {
-            throw new NullPointerException("Test exception, for checking the error response page");
+            throw new NullPointerException(
+                "Test exception, for checking the error response page");
         }
         else if (r.pathEquals("samples")) {
             doSamples(r);
@@ -110,8 +112,9 @@ public class MainServlet extends HttpServlet
     }
 
     /**
-     * Echo back some info about the request.  Mostly for debugging.  Most things here have
-     * been commented out for security reasons, so as not to expose internal configuration info.
+     * Echo back some info about the request.  Mostly for debugging.  Most
+     * things here have been commented out for security reasons, so as not to
+     * expose internal configuration info.
      */
     public void doInfo(HttpServletRequest request, HttpServletResponse response)
         throws IOException

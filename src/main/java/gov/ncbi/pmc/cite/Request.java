@@ -59,9 +59,11 @@ public class Request {
     private LinkedList<String> origPath;
     // If a path segment was given corresponding to the version, store it here
     private String versionSeg;
-    // The portion of the path specific to the resource; after caf, context, and version
+    // The portion of the path specific to the resource; after caf, context, and
+    // version
     private LinkedList<String> resourcePath;
-    // The base part of the path that is prepended to all links back to this service
+    // The base part of the path that is prepended to all links back to this
+    // service
     private LinkedList<String> scriptPath;
 
 
@@ -74,13 +76,14 @@ public class Request {
     private String format;
     private String[] styles = {"modern-language-association"};  // default style
 
-    // One document builder shared within this request thread.  This is created on-demand by
-    // getDocumentBuilder().
+    // One document builder shared within this request thread. This is created
+    // on-demand by getDocumentBuilder().
     private DocumentBuilder documentBuilder;
 
     private Logger log = LoggerFactory.getLogger(Request.class);
 
-    private static final String searchNS = "http://www.ncbi.nlm.nih.gov/ns/search";
+    private static final String searchNS =
+            "http://www.ncbi.nlm.nih.gov/ns/search";
 
     /**
      * Constructor.
@@ -108,10 +111,10 @@ public class Request {
     }
 
     /**
-     * This takes a String as input that represents a part of the path, and returns a LinkedList
-     * of path segments.  The input might be null or the empty string.  Leading and trailing
-     * slashes are first removed, duplicate slashes are normalized, and then the remaining segments
-     * are parsed out.
+     * This takes a String as input that represents a part of the path, and
+     * returns a LinkedList of path segments.  The input might be null or the
+     * empty string. Leading and trailing slashes are first removed, duplicate
+     * slashes are normalized, and then the remaining segments are parsed out.
      */
     private LinkedList<String> parsePathSegs(String p) {
         LinkedList<String> segs = new LinkedList<String>();
@@ -127,6 +130,7 @@ public class Request {
     /**
      * For debugging, this lets us print out a list of path segments
      */
+    @SuppressWarnings("unused")
     private String printPathSegs(LinkedList<String> ps) {
         return "'" + pathSegsToString(ps) + "'";
     }
@@ -139,18 +143,16 @@ public class Request {
     }
 
     /**
-     * Called from the constructor, this dissects the path part of the request URL, and initializes
-     * scriptPath and resourcePath.
+     * Called from the constructor, this dissects the path part of the request
+     * URL, and initializes scriptPath and resourcePath.
      */
     private void parsePath()
         throws MalformedURLException
     {
-        //System.out.println("======================================================");
-
-        // NCBI-specific:  If we are being proxied through a web front, then the `CAF-Url` header
-        // will be set.  This needs to be added back to outgoing links
+        // NCBI-specific:  If we are being proxied through a web front, then
+        // the `CAF-Url` header will be set.  This needs to be added back to
+        // outgoing links
         String cafUrl = request.getHeader("CAF-Url");
-        //System.out.println("cafUrl = '" + cafUrl + "'");
         if (cafUrl == null) {
             cafPath = new LinkedList<String>();
         }
@@ -158,24 +160,18 @@ public class Request {
             URL url = new URL(cafUrl);
             cafPath = parsePathSegs(url.getPath());
         }
-        //System.out.println("cafPath = " + printPathSegs(cafPath));
 
         // Servlet context path, if there is one
         contextPath = parsePathSegs(request.getContextPath());
-        //System.out.println("contextPath = " + printPathSegs(contextPath));
 
         // This will be the part of the URL path after contextPath
         origPath = parsePathSegs(request.getPathInfo());
-        //System.out.println("origPath = " + printPathSegs(origPath));
 
-        // Determine the reverse-proxy path.  This is the portion of the CAF URL preceding the
-        // contextPath and the origPath
+        // Determine the reverse-proxy path.  This is the portion of the CAF
+        // URL preceding the contextPath and the origPath
         reverseProxyPath = new LinkedList<String>();
         int numSegs = cafPath.size() - contextPath.size() - origPath.size();
         if (numSegs > 0) reverseProxyPath.addAll(cafPath.subList(0, numSegs));
-        //System.out.println("reverseProxyPath = " + printPathSegs(reverseProxyPath));
-
-
 
 
         // Remove (our) version number, if it is the first path segment
@@ -185,13 +181,11 @@ public class Request {
             resourcePath.addAll(origPath.subList(1, origPath.size()));
         }
         else resourcePath.addAll(origPath);
-        //System.out.println("resourcePath = " + printPathSegs(resourcePath));
 
         scriptPath = new LinkedList<String>();
         scriptPath.addAll(reverseProxyPath);
         scriptPath.addAll(contextPath);
         if (versionSeg != null) scriptPath.add(versionSeg);
-        //System.out.println("scriptPath = " + printPathSegs(scriptPath));
     }
 
     public String getScriptPath() {
@@ -210,16 +204,16 @@ public class Request {
         return resourcePath.size() == 0;
     }
     /**
-     * Returns true if the path in the request (after any context and version part) has only one segment,
-     * and its value matches that given.
+     * Returns true if the path in the request (after any context and version
+     * part) has only one segment, and its value matches that given.
      */
     public boolean pathEquals(String expectSeg) {
         return resourcePath.size() == 1 && resourcePath.get(0).equals(expectSeg);
     }
 
     /**
-     * Returns true if the path in the request (after any context and version part) matches the list
-     * of segments given.
+     * Returns true if the path in the request (after any context and version
+     * part) matches the list of segments given.
      */
     public boolean pathEquals(String[] expectSegs) {
         boolean eq = false;
@@ -244,15 +238,16 @@ public class Request {
         throws ServletException
     {
         try {
-            // FIXME:  Can take this out.
             log.debug("Got a new GET request");
 
-            // First attempt to resolve the IDs into an IdSet, which contains the id type and
-            // each of the IDs in a canonicalized form.
+            // First attempt to resolve the IDs into an IdSet, which contains
+            // the id type and each of the IDs in a canonicalized form.
             String idsParam = request.getParameter("ids");
             String idParam = request.getParameter("id");
             if (idsParam != null && idParam != null) {
-                errorResponse("Both `ids` and `id` parameter were set in the request", 400);
+                errorResponse(
+                    "Both `ids` and `id` parameter were set in the request",
+                    400);
                 return;
             }
             if (idsParam == null && idParam == null) {
@@ -263,14 +258,15 @@ public class Request {
             String idp = idsParam != null ? idsParam : idParam;
 
             // The IdResolver seems to be thread-safe
-            idList = App.getIdResolver().resolveIds(idp, request.getParameter("idtype"),
-                    new String[] {"aiid"});
+            idList = App.getIdResolver().resolveIds(idp,
+                request.getParameter("idtype"), new String[] {"aiid"});
 
-            // Right now, we only support getting the record by aiid.  Later, we will want to add pmid
+            // Right now, we only support getting the record by aiid.
+            // Later, we will want to add pmid
             log.debug("Resolved ids: " + idList);
-            if (idList.numHasType("aiid") == 0) throw new BadParamException("No resolvable IDs found: " + idList);
-
-            //System.out.println("Found " + idList.numHasType("aiid") + " ids that have aiids");
+            if (idList.numHasType("aiid") == 0)
+                throw new BadParamException("No resolvable IDs found: " +
+                    idList);
 
             // FIXME:  this should be data-driven
             // Get report and format, validating and implementing defaults.
@@ -297,11 +293,7 @@ public class Request {
             }
 
             if (report.equals("html") && format.equals("html")) {
-                // FIXME:  Can take this debug message out.
-                log.debug("Calling styledCitation");
                 styledCitation();
-                // FIXME:  Can take this debug message out.
-                log.debug("Back from styledCitation");
             }
 
             else if (report.equals("citeproc") && format.equals("json")) {
@@ -323,8 +315,8 @@ public class Request {
             }
 
             else {
-                errorResponse("Not sure what I'm supposed to do. Check the values of " +
-                    "report and format.", 400);
+                errorResponse("Not sure what I'm supposed to do. Check the " +
+                    "values of report and format.", 400);
                 return;
             }
         }
@@ -368,8 +360,8 @@ public class Request {
             pubOneString = serializeXml(d);
         }
         else {
-            // Create a new XML document which will wrap (aggregate) all the individual
-            // records' XML documents.
+            // Create a new XML document which will wrap (aggregate) all
+            // the individual records' XML documents.
             Document d = getDocumentBuilder().newDocument();
             Element root = d.createElement("pub-one-records");
             d.appendChild(root);
@@ -379,25 +371,30 @@ public class Request {
                 boolean success = false;
                 RequestId requestId = idList.get(i);
                 Identifier rid = requestId.getCanonical();
-                //IdGlob idg = requestId.getIdGlob();
                 if (requestId != null) {
                     Identifier aiid = requestId.getIdByType("aiid");
                     if (aiid != null) {
                         try {
                             // Retrieve the PubOne record XML
-                            Document record = itemSource.retrieveItemPubOne(requestId);
+                            Document record =
+                                itemSource.retrieveItemPubOne(requestId);
 
-                            // Add an `s:request-id` attribute with the original (requested) id
+                            // Add an `s:request-id` attribute with the original
+                            // (requested) id
                             Element recordElem = record.getDocumentElement();
-                            setSearchAttribute(recordElem, "request-id", rid.getCurie());
+                            setSearchAttribute(recordElem, "request-id",
+                                rid.getCurie());
 
-                            // If that's different from the aiid, then add another attribute, `s:resolved-id`
+                            // If that's different from the aiid, then add another
+                            // attribute, `s:resolved-id`
                             if (!rid.equals(aiid)) {
-                                setSearchAttribute(recordElem, "resolved-id", aiid.getCurie());
+                                setSearchAttribute(recordElem, "resolved-id",
+                                    aiid.getCurie());
                             }
 
-                            // Append the root element of this record's XML document as the last child of
-                            // the root element of our aggregate document.
+                            // Append the root element of this record's XML
+                            // document as the last child of the root element
+                            // of our aggregate document.
                             root.appendChild(d.importNode(recordElem, true));
                             success = true;
                         }
@@ -407,9 +404,11 @@ public class Request {
                 if (!success) notFoundList.add(rid);
             }
 
-            // If there were any IDs not found, add an attribute to the record-set element
+            // If there were any IDs not found, add an attribute to the
+            // record-set element
             if (notFoundList.size() > 0) {
-                setSearchAttribute(root, "not-found", StringUtils.join(notFoundList, " "));
+                setSearchAttribute(root, "not-found",
+                    StringUtils.join(notFoundList, " "));
             }
             pubOneString = serializeXml(d);
         }
@@ -425,7 +424,9 @@ public class Request {
     /**
      * Utility function to set a search-namespaced attribute on an Element
      */
-    private void setSearchAttribute(Element elem, String attrName, String attrValue) {
+    private void setSearchAttribute(Element elem, String attrName,
+                                    String attrValue)
+    {
         Document doc = elem.getOwnerDocument();
         Attr attr = doc.createAttributeNS(searchNS, "s:" + attrName);
         attr.setValue(attrValue);
@@ -433,8 +434,9 @@ public class Request {
     }
 
     /**
-     * Respond to the client with an NXML document.  This is only available for some of the
-     * item sources, and is not an official part of the api/service.
+     * Respond to the client with an NXML document.  This is only available
+     * for some of the item sources, and is not an official part of the
+     * api/service.
      */
     private void nXml()
         throws BadParamException, NotFoundException, IOException
@@ -447,7 +449,8 @@ public class Request {
         if (numIds == 1) {
             RequestId requestId = idList.get(0);
             //IdGlob idg = requestId.getIdGlob();
-            if (requestId == null) { throw new BadParamException("ID was not properly resolved"); }
+            if (requestId == null)
+                throw new BadParamException("ID was not properly resolved");
             d = itemSource.retrieveItemNxml(requestId);
         }
         else {
@@ -460,7 +463,8 @@ public class Request {
                 //IdGlob idg = requestId.getIdGlob();
                 if (requestId != null) {
                     Document record = itemSource.retrieveItemNxml(requestId);
-                    root.appendChild(d.importNode(record.getDocumentElement(), true));
+                    root.appendChild(d.importNode(record.getDocumentElement(),
+                         true));
                 }
             }
         }
@@ -476,7 +480,8 @@ public class Request {
 }
 
     /**
-     * Utility function to serialize an XML object for output back to the client.
+     * Utility function to serialize an XML object for output back to the
+     * client.
      */
     private static String serializeXml(Document doc, boolean omitXmlDecl)
         throws IOException
@@ -509,16 +514,15 @@ public class Request {
     }
 
     /**
-     * Respond to the client with a document that is the result of running the PubOne
-     * through an XSLT transformation.
+     * Respond to the client with a document that is the result of running
+     * the PubOne through an XSLT transformation.
      */
     private void transformXml(String report)
         throws NotFoundException, BadParamException, IOException
     {
         // FIXME:  this all has to be data-driven.
-        // That means:  the content-type of the output, the XSLT to use, and, a function to use
-        // to handle concatenation of multiple records.
-        //String idType = idSet.getType();
+        // That means:  the content-type of the output, the XSLT to use, and,
+        // a function to use to handle concatenation of multiple records.
         int numIds = idList.size();
         ItemSource itemSource = App.getItemSource();
         TransformEngine transformEngine = App.getTransformEngine();
@@ -532,7 +536,8 @@ public class Request {
         if (numIds == 1) {
             RequestId requestId = idList.get(0);
             //IdGlob idg = requestId.getIdGlob();
-            if (requestId == null) { throw new BadParamException("ID was not properly resolved"); }
+            if (requestId == null)
+                throw new BadParamException("ID was not properly resolved");
 
             Identifier id = requestId.getIdByType("pmcid");
             String outFilename = id.getType() + "-" + id.getValue() + "." + report;
@@ -548,14 +553,15 @@ public class Request {
                 if (requestId != null) {
                     if (i != 0) { result += "\n"; }
                     Document d = itemSource.retrieveItemPubOne(requestId);
-                    result += (String) transformEngine.doTransform(d, transformName) + "\n";
+                    result += (String)
+                        transformEngine.doTransform(d, transformName) + "\n";
                 }
             }
         }
 
         String contentType = report.equals("nbib") ? "application/nbib" :
-                             report.equals("ris") ? "application/x-research-info-systems" :
-                                 "application/xml";
+            report.equals("ris") ? "application/x-research-info-systems" :
+            "application/xml";
         response.setContentType(contentType + ";charset=UTF-8");
         response.setHeader("Content-disposition", contentDispHeader);
         response.setCharacterEncoding("UTF-8");
@@ -577,7 +583,8 @@ public class Request {
             if (numIds == 1) {
                 RequestId requestId = idList.get(0);
                 //IdGlob idg = requestId.getIdGlob();
-                if (requestId == null) { throw new BadParamException("ID was not properly resolved"); }
+                if (requestId == null)
+                    throw new BadParamException("ID was not properly resolved");
 
                 JsonNode jn = itemSource.retrieveItemJson(requestId);
                 jsonString = App.getMapper().writeValueAsString(jn);
@@ -596,7 +603,9 @@ public class Request {
                         if (aiid != null) {
                             try {
                                 // Retrieve the JSON item and add it to our list
-                                jsonRecords.add(itemSource.retrieveItemJson(requestId).toString());
+                                jsonRecords.add(
+                                     itemSource.retrieveItemJson(requestId)
+                                       .toString());
                                 success = true;
                             }
                             catch (CiteException e) {}
@@ -606,13 +615,15 @@ public class Request {
                 }
 
                 // Now construct the aggregated JSON array
-                // FIXME:  I really should be using the Jackson library methods to construct this.
-                // Right now there's no guarantee that the not-found-list of IDs will be well-formed.
-                // FIXME:  If there were no good records retrieved, throw an exception.  Same goes for
-                // the PubOne and other formats.
+                // FIXME:  I really should be using the Jackson library methods
+                // to construct this. Right now there's no guarantee that the
+                // not-found-list of IDs will be well-formed.
+                // FIXME:  If there were no good records retrieved, throw an
+                // exception.  Same goes for the PubOne and other formats.
                 jsonString = "[";
                 if (notFoundList.size() > 0) {
-                    jsonString += "{ \"not-found\": \"" + StringUtils.join(notFoundList, " ") + "\" },";
+                    jsonString += "{ \"not-found\": \"" +
+                        StringUtils.join(notFoundList, " ") + "\" },";
                 }
                 jsonString += StringUtils.join(jsonRecords, ", ");
                 jsonString += "]";
@@ -635,13 +646,11 @@ public class Request {
     private void styledCitation()
         throws BadParamException, NotFoundException, IOException
     {
-        // FIXME:  Can take this debug message out.
-        log.debug("================================= styledCitation ============================");
-
         String stylesParam = request.getParameter("styles");
         String styleParam = request.getParameter("style");
         if (stylesParam != null && styleParam != null) {
-            throw new BadParamException("Both `styles` and `style` parameter were set in the request");
+            throw new BadParamException(
+                "Both `styles` and `style` parameter were set in the request");
         }
         String sp = stylesParam != null ? stylesParam : styleParam;
         if (sp != null) {
@@ -651,10 +660,13 @@ public class Request {
 
         int numIds = idList.size();
         if (numIds > 1 && styles.length > 1) {
-            throw new BadParamException("Sorry, I can do multiple records (ids) or multiple styles, but not both.");
+            throw new BadParamException(
+                "Sorry, I can do multiple records (ids) or multiple styles, " +
+                "but not both.");
         }
 
-        // Create a new XML document which will wrap the individual bibliographies.
+        // Create a new XML document which will wrap the individual
+        // bibliographies.
         Document entriesDoc = getDocumentBuilder().newDocument();
         Element entriesDiv = entriesDoc.createElement("div");
         entriesDoc.appendChild(entriesDiv);
@@ -663,16 +675,18 @@ public class Request {
         for (int styleNum = 0; styleNum < styles.length; ++styleNum) {
             String style = styles[styleNum];
 
-            // Generate the bibliography (array of styled citations).  Note that the order that
-            // comes out might not be the same as the order that goes in, so we'll put them back
-            // in the right order.
+            // Generate the bibliography (array of styled citations). Note
+            // that the order that comes out might not be the same as the
+            // order that goes in, so we'll put them back in the right order.
             Bibliography bibl = null;
             CiteprocPool cpPool = App.getCiteprocPool();
 
-            // See PMC-21297.  We've noticed that sometimes the CSL processors get into a bad state.
-            // So the code here will try up to two processors.  If the first one gives an error, then
-            // throw it away and try a second one.  If the second one gives an error, then we'll assume
-            // it's a real error, and return it to the pool.
+            // See PMC-21297.  We've noticed that sometimes the CSL
+            // processors get into a bad state. So the code here will try
+            // up to two processors.  If the first one gives an error, then
+            // throw it away and try a second one.  If the second one gives
+            // an error, then we'll assume it's a real error, and return it
+            // to the pool.
             for (int cpNum = 0; cpNum < 2; cpNum++) {
                 CitationProcessor cp = cpPool.getCiteproc(style);
                 boolean success = true;
@@ -680,21 +694,14 @@ public class Request {
                     bibl = cp.makeBibliography(idList, "html");
                 }
                 catch (RuntimeException e) {
-                    log.error("Got a RuntimeException from citation processor: " + e.getStackTrace());
-                    // For runtime exceptions, if this is our first attempt, then we'll assume there's
-                    // something wrong with the processor, so don't return it to the pool.
+                    log.error(
+                        "Got a RuntimeException from citation processor: " +
+                        e.getStackTrace());
+                    // For runtime exceptions, if this is our first attempt,
+                    // then we'll assume there's something wrong with the
+                    // processor, so don't return it to the pool.
                     success = false;
                     throw e;
-                }
-                finally {
-                    //System.out.println("  Return citation processor to the pool?  " + returnCp);
-                    if (cpNum == 1 || success) {
-                        //cpPool.putCiteproc(cp);  // return it to the pool, when done
-                    }
-                    else {
-                        log.error("Discarding CitationProcessor");
-                        //cpPool.discardCiteproc(cp);
-                    }
                 }
             }
 
@@ -703,14 +710,15 @@ public class Request {
             String entries[] = bibl.getEntries();
 
 
-            // The array of ids that we will be outputting -- all the ones that returned
-            // good data
+            // The array of ids that we will be outputting -- all the ones
+            // that returned good data
             List<RequestId> goodIds = new ArrayList<RequestId>();
             int numRequestIds = idList.size();
             for (int i = 0; i < numRequestIds; ++i) {
                 RequestId requestId = idList.get(i);
                 //IdGlob idg = requestId.getIdGlob();
-                if (requestId != null && requestId.isGood()) goodIds.add(requestId);
+                if (requestId != null && requestId.isGood())
+                    goodIds.add(requestId);
             }
 
             int numGoodIds = goodIds.size();
@@ -729,8 +737,8 @@ public class Request {
                     doc = getDocumentBuilder().parse(inputSource);
                 }
                 catch (SAXException e) {
-                    throw new IOException(
-                        "Problem interpreting citeproc-generated bibliography entry: " +
+                    throw new IOException("Problem interpreting " +
+                        "citeproc-generated bibliography entry: " +
                         e.getMessage()
                     );
                 }
@@ -742,13 +750,15 @@ public class Request {
                     entryDiv.setAttribute("data-resolved-id", aiid.getCurie());
                 }
 
-                // Remove the <div class='csl-left-margin'>, if it exists (see PMC-21029)
+                // Remove the <div class='csl-left-margin'>, if it exists
+                // (see PMC-21029)
                 NodeList divKids = entryDiv.getElementsByTagName("div");
                 int numKids = divKids.getLength();
                 for (int i = 0; i < numKids; ++i) {
                     Node kid = divKids.item(i);
                     if (kid.getNodeType() == Node.ELEMENT_NODE &&
-                        ((Element) kid).getAttribute("class").equals("csl-left-margin"))
+                        ((Element) kid).getAttribute("class").equals(
+                                "csl-left-margin"))
                     {
                         entryDiv.removeChild(kid);
                         break;  // there can be only one.
@@ -759,10 +769,6 @@ public class Request {
                 entriesDiv.appendChild(entriesDoc.importNode(entryDiv, true));
             }
         }
-        // FIXME:  I think we need to reimplement this:
-        //if (idList.size() != idList.numGood()) {
-        //    entriesDiv.setAttribute("data-not-found", StringUtils.join(idList.getBadCuries(), ""));
-        //}
         String s = serializeXml(entriesDoc, true);
 
         response.setContentType("text/html;charset=UTF-8");
@@ -785,22 +791,24 @@ public class Request {
     }
 
     /**
-     * This helper function gets a PrintWriter to write the response to the output.  If it fails,
-     * from an IOException, it prints a message to the log, and page will remain null.
+     * This helper function gets a PrintWriter to write the response to the
+     * output. If it fails, from an IOException, it prints a message to the
+     * log, and page will remain null.
      */
     private void initPage() {
         try {
             page = response.getWriter();
         }
         catch (IOException e) {
-            log.error("Got IOException while trying to initialize HTTP response page: " + e.getMessage());
+            log.error("Got IOException while trying to initialize HTTP " +
+                "response page: " + e.getMessage());
             page = null;
         }
     }
 
     /**
-     * At most one DocumentBuilder will be created per request.  Use this function to
-     * create/access it.
+     * At most one DocumentBuilder will be created per request.  Use this
+     * function to create/access it.
      */
     private DocumentBuilder getDocumentBuilder()
         throws IOException
@@ -810,7 +818,8 @@ public class Request {
                 documentBuilder = App.newDocumentBuilder();
             }
             catch (ParserConfigurationException e) {
-                throw new IOException("Problem creating a Saxon DocumentBuilder: " + e);
+                throw new IOException(
+                    "Problem creating a Saxon DocumentBuilder: " + e);
             }
         }
         return documentBuilder;

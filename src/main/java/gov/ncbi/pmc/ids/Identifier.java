@@ -10,9 +10,10 @@ public class Identifier {
     private final String type;
     private final String value;
 
-    // Here we specify the regexp patterns that will be used to match IDs to their type
-    // The order is important:  if determining the type of an unknown id (getIdType()), then these
-    // regexps are attempted in order, and first match wins.
+    // Here we specify the regexp patterns that will be used to match IDs
+    // to their type The order is important:  if determining the type of an
+    // unknown id (getIdType()), then these regexps are attempted in order,
+    // and first match wins.
     protected static String[][] idTypePatterns = {
         { "pmid", "^\\d+$" },
         { "pmcid", "^([Pp][Mm][Cc])?\\d+(\\.\\d+)?$" },
@@ -33,8 +34,8 @@ public class Identifier {
     }
 
     /**
-     * This method checks the id string to see what type it is, by attempting to match it
-     * against the regular expressions listed above.  It throws
+     * This method checks the id string to see what type it is, by attempting
+     * to match it against the regular expressions listed above.  It throws
      * an exception if it can't find a match.
      */
     public static String matchIdType(String idStr)
@@ -55,7 +56,8 @@ public class Identifier {
     public static boolean idTypeMatches(String idStr, String idType) {
         for (int idtn = 0; idtn < idTypePatterns.length; ++idtn) {
             String[] idTypePattern = idTypePatterns[idtn];
-            if (idTypePattern[0].equals(idType) && idStr.matches(idTypePattern[1])) {
+            if (idTypePattern[0].equals(idType) &&
+                idStr.matches(idTypePattern[1])) {
                 return true;
             }
         }
@@ -63,16 +65,19 @@ public class Identifier {
     }
 
     /**
-     * Create a new Identifier object.  This validates and canonicalizes the value given.
+     * Create a new Identifier object.  This validates and canonicalizes
+     * the value given.
      */
     public Identifier(String type, String value)
         throws BadParamException
     {
         if (!idTypeValid(type)) {
-            throw new BadParamException("Id type '" + type + "' not recognized");
+            throw new BadParamException("Id type '" + type +
+                "' not recognized");
         }
         if (!idTypeMatches(value, type)) {
-            throw new BadParamException("Id: '" + value + "' doesn't look like a valid id of type '" + type + "'");
+            throw new BadParamException("Id: '" + value +
+                "' doesn't look like a valid id of type '" + type + "'");
         }
         String cvalue = null;
         if (type.equals("pmcid")) {
@@ -92,7 +97,6 @@ public class Identifier {
 
         this.type = type;
         this.value = cvalue;
-        //System.out.println("Creating new Identifier orig. value = '" + value + ", ', cvalue = '" + cvalue + "'");
     }
 
     public String getType() {
@@ -103,7 +107,6 @@ public class Identifier {
     }
 
     public String getCurie() {
-        // FIXME:  this should use a colon, not a hyphen.
         return type + ":" + value;
     }
 

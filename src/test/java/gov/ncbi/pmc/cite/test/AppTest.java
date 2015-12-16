@@ -47,8 +47,6 @@ public class AppTest
      */
     public void testApp()
     {
-        System.out.println("======================> testApp");
-
         assertNotNull("ID resolver should not be null", App.getIdResolver());
         assertNotNull("Mapper should not be null", App.getMapper());
         assertNotNull("Item source should not be null", App.getItemSource());

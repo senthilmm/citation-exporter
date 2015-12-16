@@ -6,16 +6,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class holds information about a list of identifiers, that typically comes from a client, possibly
- * in a messy state.  It preserves the order of the IDs, and for each one, instantiates an IdGlob object,
- * that holds all the data associated with it.
+ * This class holds information about a list of identifiers, that typically
+ * comes from a client, possibly in a messy state.  It preserves the order of
+ * the IDs, and for each one, instantiates an IdGlob object, that holds all
+ * the data associated with it.
  */
 
 public class RequestIdList {
     private ArrayList<RequestId> requestIds;
 
-    // This is used to look up the RequestId objects by the (canonicalized) requested value. It uses the
-    // original ID CURIE (in canonical form) as the key
+    // This is used to look up the RequestId objects by the (canonicalized)
+    // requested value. It uses the original ID CURIE (in canonical form) as
+    // the key
     private Map<String, Integer> idMap;
 
     /**
@@ -23,14 +25,12 @@ public class RequestIdList {
      */
     public RequestIdList() {
         requestIds = new ArrayList<RequestId>();
-        //idGlobs = new ArrayList<IdGlob>();
         idMap = new HashMap<String, Integer>();
     }
 
     public void add(RequestId requestId) {
         idMap.put(requestId.getCanonical().getCurie(), size());
         requestIds.add(requestId);
-        //idGlobs.add(idGlob);
     }
 
     /**
@@ -60,11 +60,9 @@ public class RequestIdList {
      * Count the number of IdGlobs that have Identifiers of a particular type
      */
     public int numHasType(String t) {
-        //System.out.println("------------- numHasType(" + t + ")");
         int size = size();
         int num = 0;
         for (int i = 0; i < size; ++i) {
-            //System.out.println("  checking '" + get(i) + "'");
             RequestId rid = get(i);
             IdGlob idg = rid.getIdGlob();
             if (idg != null && idg.hasType(t)) num++;

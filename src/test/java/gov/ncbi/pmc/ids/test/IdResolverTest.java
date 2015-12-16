@@ -35,6 +35,7 @@ public class IdResolverTest
     @Override
     protected void setUp() {
         System.setProperty("log", "testlog");
+        System.setProperty("log_level", "DEBUG");
     }
 
     /**
@@ -253,14 +254,14 @@ public class IdResolverTest
     }
 
     // Helper functions
-    private RequestId buildRequestId(String origType, String origString)
+    public static RequestId buildRequestId(String origType, String origString)
         throws BadParamException
     {
         Identifier origId = new Identifier(origType, origString);
         return new RequestId(origString, origId);
     }
 
-    private IdGlob buildIdGlob(String[] tv)
+    public static IdGlob buildIdGlob(String[] tv)
         throws BadParamException
     {
         IdGlob idg = new IdGlob();

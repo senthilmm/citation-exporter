@@ -56,7 +56,6 @@ public class TransformTest
      * Test the transformations
      */
     public void testTransforms() {
-        System.out.println("======================> testTransforms");
         ItemSource itemSource = App.getItemSource();
 
         Document nxml_31 = null;

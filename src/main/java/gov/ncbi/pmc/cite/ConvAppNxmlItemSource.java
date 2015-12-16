@@ -20,8 +20,10 @@ public class ConvAppNxmlItemSource  extends ItemSource {
     {
         super();
         convAppUrl = new URL(System.getProperty("item_source_loc"));
-        if (convAppUrl == null) throw new IOException("Need a value for the item_source_loc system property");
-        log.info("Item source location (nxml converter app URL) = '" + convAppUrl + "'");
+        if (convAppUrl == null) throw new IOException(
+            "Need a value for the item_source_loc system property");
+        log.info("Item source location (nxml converter app URL) = '" +
+            convAppUrl + "'");
     }
 
     @Override
@@ -29,23 +31,26 @@ public class ConvAppNxmlItemSource  extends ItemSource {
         throws BadParamException, NotFoundException, IOException
     {
         Identifier id = requestId.getIdByType("aiid");
-        if (id == null) throw new BadParamException("No id of type aiid in " + requestId);
+        if (id == null)
+            throw new BadParamException("No id of type aiid in " + requestId);
 
         URL nxmlUrl = new URL(convAppUrl, id.getValue());
         log.debug("Reading NXML from " + nxmlUrl);
         Document nxml = null;
 
-        // For debugging, added some code that strips off the doctype decl (not used now)
+        // For debugging, added some code that strips off the doctype decl
+        // (not used now)
         boolean stripDoctypeDecl = false;
         try {
             if (stripDoctypeDecl) {
-                log.debug("Reading NXML as string, to remove doctype declaration");
+                log.debug("Reading NXML as string, to remove doctype decl");
                 String nxmlString = IOUtils.toString(nxmlUrl.openStream());
                 String head = nxmlString.substring(0, 1000);
-                head = Pattern.compile(".*?\\<\\!DOCTYPE.*?\\>", Pattern.DOTALL).matcher(head).replaceFirst("");
+                head = Pattern.compile(".*?\\<\\!DOCTYPE.*?\\>",
+                    Pattern.DOTALL).matcher(head).replaceFirst("");
                 nxmlString = head + nxmlString.substring(1000);
-                //System.out.println("\n======================= nxmlString = '" + nxmlString.substring(0, 200) + "...'\n\n");
-                InputStream nxmlStringStream = IOUtils.toInputStream(nxmlString, "UTF-8");
+                InputStream nxmlStringStream =
+                    IOUtils.toInputStream(nxmlString, "UTF-8");
                 nxml = App.newDocumentBuilder().parse(nxmlStringStream);
             }
             else {

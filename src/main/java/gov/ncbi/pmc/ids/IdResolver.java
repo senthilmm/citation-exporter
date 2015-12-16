@@ -21,12 +21,12 @@ import gov.ncbi.pmc.cite.ServiceException;
 
 /**
  * This class resolves IDs entered by the user, using the PMC ID Converter
- * API (http://www.ncbi.nlm.nih.gov/pmc/tools/id-converter-api/).  This allows the user to
- * give us IDs in any number of forms, and we can look up the data by one of either
- * aiid (article instance id) or (not implemented yet) pmid.
+ * API (http://www.ncbi.nlm.nih.gov/pmc/tools/id-converter-api/).  This allows
+ * the user to give us IDs in any number of forms, and we can look up the data
+ * by one of either aiid (article instance id) or (not implemented yet) pmid.
  *
- * The central method here is resolveIds(), which returns an RequestIdList object, which
- * is basically just a list of IdGlobs.
+ * The central method here is resolveIds(), which returns an RequestIdList
+ * object, which is basically just a list of IdGlobs.
  *
  * It calls the PMC ID converter backend if it gets any type of ID other than
  * aiid or pmid.  It can be configured to cache those results.
@@ -34,8 +34,9 @@ import gov.ncbi.pmc.cite.ServiceException;
 
 public class IdResolver {
     /**
-     * If caching is enabled, the results returned from the external ID resolver service are
-     * cached here.  The keys of this are all of the known CURIEs that we see.
+     * If caching is enabled, the results returned from the external ID resolver
+     * service are cached here.  The keys of this are all of the known CURIEs
+     * that we see.
      */
     KittyCache<String, IdGlob> idGlobCache;
 
@@ -50,7 +51,8 @@ public class IdResolver {
     /// Controlled by system property id_converter_params
     private String idConverterParams;
 
-    /// Base URL to use for the ID converter.  Combination of idConverterUrl and idConverterParams
+    /// Base URL to use for the ID converter.  Combination of idConverterUrl
+    /// and idConverterParams
     private String idConverterBase;
 
     private Logger log = LoggerFactory.getLogger(IdResolver.class);
@@ -60,31 +62,36 @@ public class IdResolver {
         String cacheIdsProp = System.getProperty("cache_ids");
         if (cacheIdsProp != null ? Boolean.parseBoolean(cacheIdsProp) : false) {
             String idCacheTtlProp = System.getProperty("id_cache_ttl");
-            idCacheTtl = idCacheTtlProp != null ? Integer.parseInt(idCacheTtlProp): 86400;
+            idCacheTtl = idCacheTtlProp != null ?
+                    Integer.parseInt(idCacheTtlProp): 86400;
 
             // Create a new cache
             int idCacheSize = 50000;
-            log.debug("Instantiating idGlobCache, size = " + idCacheSize + ", time-to-live = " + idCacheTtl);
-            //idCache = new KittyCache<String, Identifier>(50000);
+            log.debug("Instantiating idGlobCache, size = " + idCacheSize +
+                ", time-to-live = " + idCacheTtl);
             idGlobCache = new KittyCache<String, IdGlob>(50000);
         }
 
         String idConverterUrlProp = System.getProperty("id_converter_url");
         idConverterUrl = idConverterUrlProp != null ? idConverterUrlProp :
             "http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/";
-        String idConverterParamsProp = System.getProperty("id_converter_params");
-        idConverterParams = idConverterParamsProp != null ? idConverterParamsProp :
-            "showaiid=yes&format=json&tool=ctxp&email=pubmedcentral@ncbi.nlm.nih.gov";
+        String idConverterParamsProp =
+                System.getProperty("id_converter_params");
+        idConverterParams = idConverterParamsProp != null ?
+            idConverterParamsProp :
+            "showaiid=yes&format=json&tool=ctxp&" +
+            "email=pubmedcentral@ncbi.nlm.nih.gov";
 
         idConverterBase = idConverterUrl + "?" + idConverterParams + "&";
     }
 
 
-
     /**
-     * Resolves a comma-delimited list of IDs into a list of aiids or pmids.
+     * Resolves a comma-delimited list of IDs into a RequestIdList, that will
+     * include the identifiers of the "wanted" types (by default, aiids).
      *
-     * @param idStr - comma-delimited list of IDs, from the `ids` query string param.
+     * @param idStr - comma-delimited list of IDs, from the `ids` query string
+     *   param.
      * @return an IdSet object, whose idType value is either "pmid" or "aiid".
      */
     public RequestIdList resolveIds(String idStr)
@@ -96,32 +103,44 @@ public class IdResolver {
     public RequestIdList resolveIds(String idStr, String idType)
             throws BadParamException, ServiceException, NotFoundException
     {
-        return resolveIds(idStr, idType, null);
+        return resolveIds(idStr, idType, "aiid");
     }
+
+    public RequestIdList resolveIds(String idStr, String idType,
+                                    String wantType)
+            throws BadParamException, ServiceException, NotFoundException
+    {
+        return resolveIds(idStr, idType, new String[] {wantType});
+    }
+
 
     /**
      * Resolves a comma-delimited list of IDs into a ResolvedIdList.
      *
-     * @param idStr - comma-delimited list of IDs, from the `ids` query string param.
-     * @param idType - optional ID type, from the `idtype` query-string parameter.  If not null, it
-     *   must be "pmcid", "pmid", "mid", "doi" or "aiid".  If it is null, then we try to figure out
-     *   the type from the pattern of the first id in the list.
-     * @return a ResolvedIdList object.  Not all of the items in that list are necessarily resolved.
+     * @param idStr - comma-delimited list of IDs, from the `ids` query string
+     *   param.
+     * @param idType - optional ID type, from the `idtype` query-string
+     *   parameter. If not null, it must be "pmcid", "pmid", "mid", "doi" or
+     *   "aiid". If it is null, then we try to figure out the type from the
+     *   pattern of the first id in the list.
+     * @return a ResolvedIdList object.  Not all of the items in that list are
+     *   necessarily resolved.
      */
-    public RequestIdList resolveIds(String idStr, String idType, String[] wantTypes)
+    public RequestIdList resolveIds(String idStr, String idType,
+                                    String[] wantTypes)
         throws BadParamException, ServiceException, NotFoundException
     {
         String[] originalIdsArray = idStr.split(",");
         RequestIdList idList = new RequestIdList();
 
-        // If idType wasn't specified, then we infer it from the form of the first id in the list
+        // If idType wasn't specified, then we infer it from the form of the
+        // first id in the list
         if (idType == null) {
             idType = Identifier.matchIdType(originalIdsArray[0]);
         }
-        //System.out.println("============ resolveIds: idType = " + idType);
 
-        // Canonicalize every ID in the list.  If it doesn't match the expected pattern,
-        // throw an exception.
+        // Canonicalize every ID in the list.  If it doesn't match the expected
+        // pattern, throw an exception.
         for (int i = 0; i < originalIdsArray.length; ++i) {
             String oid = originalIdsArray[i];
             Identifier cid = new Identifier(idType, oid);
@@ -149,20 +168,15 @@ public class IdResolver {
             for (int j = 0; wantTypes != null && j < wantTypes.length; ++j) {
                 if (idType.equals(wantTypes[j])) isWanted = true;
             }
-            //if (!idType.equals("pmid") && !idType.equals("aiid")) {
             if (!isWanted) {
                 idsToResolve.add(requestId);
             }
-
-            //idsToResolve.add(requestId);
         }
-        //System.out.println("=============> idsToResolve.size() = " + idsToResolve.size());
-
 
         // If needed, call the ID resolver.
         if (idsToResolve.size() > 0) {
-            // Create the URL.  If this is malformed, it must be because of bad parameter values, therefore
-            // a bad request (right?)
+            // Create the URL.  If this is malformed, it must be because of
+            // bad parameter values, therefore a bad request (right?)
             String idString = "";
             for (int i = 0; i < idsToResolve.size(); ++i) {
                 if (i != 0) idString += ",";
@@ -170,11 +184,13 @@ public class IdResolver {
             }
             URL url = null;
             try {
-                url = new URL(idConverterBase + "idtype=" + idType + "&ids=" + idString);
+                url = new URL(idConverterBase + "idtype=" + idType + "&ids=" +
+                              idString);
             }
             catch (MalformedURLException e) {
-                throw new BadParamException("Parameters must have a problem; got malformed URL for upstream service '" +
-                    idConverterBase + "'");
+                throw new BadParamException(
+                    "Parameters must have a problem; got malformed URL for " +
+                    "upstream service '" + idConverterBase + "'");
             }
 
             log.debug("Invoking '" + url + "' to resolve ids");
@@ -183,24 +199,24 @@ public class IdResolver {
                 idconvResponse = (ObjectNode) mapper.readTree(url);
             }
             catch (Exception e) {    // JsonProcessingException or IOException
-                throw new ServiceException("Error processing service request to resolve IDs from '" +
+                throw new ServiceException(
+                    "Error processing service request to resolve IDs from '" +
                     url + "'");
             }
 
             String status = idconvResponse.get("status").asText();
             if (!status.equals("ok"))
-                throw new ServiceException("Problem attempting to resolve ids from '" + url + "'");
+                throw new ServiceException(
+                    "Problem attempting to resolve ids from '" + url + "'");
 
-            // In parsing the response, we'll create IdGlob objects as we go. We have to then match them
-            // back to the idList:  if the CURIE corresponding
-            // to the original id type matches something in the idList, then replace the idList value with this
-            // new (more complete, presumably) idGlob.
-            //System.out.println("parsing the response");
+            // In parsing the response, we'll create IdGlob objects as we go. We
+            // have to then match them back to the idList:  if the CURIE
+            // corresponding to the original id type matches something in the
+            // idList, then replace the idList value with this new (more
+            // complete, presumably) idGlob.
             ArrayNode records = (ArrayNode) idconvResponse.get("records");
             for (int rn = 0; rn < records.size(); ++rn) {
-                //System.out.println("Iterating over a JSON record");
                 ObjectNode record = (ObjectNode) records.get(rn);
-                //System.out.println("  about to call globbifyRecord()");
                 IdGlob parent = globbifyRecord(record, idType, idList);
 
                 if (parent != null) {
@@ -209,8 +225,10 @@ public class IdResolver {
                     if (versions != null) {
                         for (int vn = 0; vn < versions.size(); ++vn) {
                             ObjectNode version = (ObjectNode) versions.get(vn);
-                            IdGlob versionGlob = globbifyRecord(version, idType, idList);
-                            if (versionGlob != null) parent.addVersion(versionGlob);
+                            IdGlob versionGlob =
+                                globbifyRecord(version, idType, idList);
+                            if (versionGlob != null)
+                                parent.addVersion(versionGlob);
                         }
                     }
                 }
@@ -221,20 +239,22 @@ public class IdResolver {
     }
 
     /**
-     * Helper function to create an IdGlob object out of a single JSON record from the id converter.
-     * Once it does that, it matches it to the requested ID in the idList, and inserts this new
-     * object.
+     * Helper function to create an IdGlob object out of a single JSON record
+     * from the id converter. Once it does that, it matches it to the requested
+     * ID in the idList, and inserts this new object.
      */
-    private IdGlob globbifyRecord(ObjectNode record, String fromIdType, RequestIdList idList) {
+    private IdGlob globbifyRecord(ObjectNode record, String fromIdType,
+                                  RequestIdList idList)
+    {
       synchronized(this) {
-        //System.out.println("  In globbifyRecord");
 
         JsonNode status = record.get("status");
         if (status != null && status.asText() != "success") return null;
 
         IdGlob newGlob = new IdGlob();
 
-        // Iterate over the other fields in the response record, and add Identifiers to the glob
+        // Iterate over the other fields in the response record, and add
+        // Identifiers to the glob
         Iterator<String> i = record.fieldNames();
         while (i.hasNext()) {
             String key = i.next();
@@ -249,32 +269,31 @@ public class IdResolver {
                 try {
                     newId = new Identifier(key, record.get(key).asText());
                 }
-                catch (BadParamException e) {  // this will happen if the JSON has a field we don't recognize
-                    System.out.println("Unrecognized field in ID converter JSON response: " + record.get(key).asText());
+                catch (BadParamException e) {
+                    // If the JSON has a field we don't recognize
+                    System.out.println(
+                        "Unrecognized field in ID converter JSON response: " +
+                        record.get(key).asText());
                 }
 
                 if (newId != null) {
                     newGlob.addId(newId);
-                    if (idGlobCache != null) idGlobCache.put(newId.getCurie(), newGlob, idCacheTtl);
+                    if (idGlobCache != null)
+                        idGlobCache.put(newId.getCurie(), newGlob, idCacheTtl);
                 }
             }
         }
 
-        // If this new glob looks like one of the ones in the requested list, then
-        // replace the value in the idList with this new, improved one
+        // If this new glob looks like one of the ones in the requested list,
+        // then replace the value in the idList with this new, improved one
         Identifier fromId = newGlob.getIdByType(fromIdType);
         if (fromId != null) {
-            //newGlob.setOriginalId(fromId);
             int idListIndex = idList.lookup(fromId);
-            //System.out.println("  idListIndex == " + idListIndex);
             if (idListIndex != -1) {
-                //System.out.println("  replacing index " + idListIndex + " value in idList with this new glob");
                 idList.get(idListIndex).setIdGlob(newGlob);
-                //idList.set(idListIndex, newGlob);
             }
         }
 
-        //System.out.println("  globbifyRecord, returning " + newGlob);
         return newGlob;
       }
     }

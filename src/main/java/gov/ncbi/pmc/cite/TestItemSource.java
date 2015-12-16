@@ -20,21 +20,22 @@ import gov.ncbi.pmc.ids.RequestId;
 /**
  * This implementation of the ItemSource produces fake item data for testing.
  * This class uses test files that should be stored in webapp/test.
- * 
+ *
  * There are two types of methods here:
- * 
- * - `fetch` methods are particular to this test class. The first look to see if the 
- *   file exists in the test directory; and if so, return that. If not, they throw an 
- *   exception.
- *   
- * - the `retrieve` methods override the ones in ItemSource. Each of these first calls
- *   the corresponding fetch method to get the file from the test directory. Failing that,
- *   they call the default retrieve method, which converts the upstream format.
+ *
+ * - `fetch` methods are particular to this test class. The first look to see
+ *   if the file exists in the test directory; and if so, return that. If not,
+ *   they throw an exception.
+ *
+ * - the `retrieve` methods override the ones in ItemSource. Each of these
+ *   first calls the corresponding fetch method to get the file from the test
+ *   directory. Failing that, they call the default retrieve method, which
+ *   converts the upstream format.
  */
 
 public class TestItemSource extends ItemSource {
     private URL base_url;
-    private Logger log = LoggerFactory.getLogger(ItemSource.class);
+    private Logger log = LoggerFactory.getLogger(TestItemSource.class);
 
     public TestItemSource(URL base_url) throws Exception {
         super();
@@ -53,24 +54,26 @@ public class TestItemSource extends ItemSource {
     }
 
     /**
-     * Get the NXML representation of an item. This assumes that it exists as an .nxml file in the
-     * test directory.
+     * Get the NXML representation of an item. This assumes that it exists as
+     * an .nxml file in the test directory.
      * @throws BadParamException - if idType or id are malformed
      * @throws IOException - if something bad happens reading the XML
      */
     public Document fetchItemNxml(RequestId requestId)
         throws BadParamException, NotFoundException, IOException
     {
-        // FIXME:  We could change this so that it checks every type that's stored in the
-        // requestId, but right now it only looks for aiids.
+        // FIXME:  We could change this so that it checks every type that's
+        // stored in the requestId, but right now it only looks for aiids.
         Identifier id = requestId.getIdByType("aiid");
 
         URL nxmlUrl = null;
         try {
-            nxmlUrl = new URL(base_url, id.getType() + "/" + id.getValue() + ".nxml");
+            nxmlUrl = new URL(base_url, id.getType() + "/" + id.getValue() +
+                              ".nxml");
         }
         catch (MalformedURLException e) {
-            throw new BadParamException("Problem forming URL for test NXML resource: '" +
+            throw new BadParamException(
+                "Problem forming URL for test NXML resource: '" +
                 nxmlUrl + "'; exception was: " + e.getMessage());
         }
 
@@ -92,9 +95,9 @@ public class TestItemSource extends ItemSource {
     }
 
     /**
-     * Get the PubOne representation. If the .pub1 file exists in the
-     * test directory, return that. Otherwise, fetch it the normal way, by converting from
-     * NXML.
+     * Get the PubOne representation. If the .pub1 file exists in the test
+     * directory, return that. Otherwise, fetch it the normal way, by
+     * converting from NXML.
      */
     @Override
     public Document retrieveItemPubOne(RequestId requestId)
@@ -109,14 +112,14 @@ public class TestItemSource extends ItemSource {
     }
 
     /**
-     * Get the PubOne representation of an item. This assumes that it exists as a .pub1 file in the
-     * test directory.
+     * Get the PubOne representation of an item. This assumes that it exists
+     * as a .pub1 file in the test directory.
      */
     public Document fetchItemPubOne(RequestId requestId)
         throws BadParamException, NotFoundException, IOException
     {
-        // FIXME:  We could change this so that it checks every type that's stored in the
-        // requestId, but right now it only looks for aiids.
+        // FIXME:  We could change this so that it checks every type that's
+        // stored in the requestId, but right now it only looks for aiids.
         Identifier id = requestId.getIdByType("aiid");
 
         URL url = null;
@@ -124,7 +127,8 @@ public class TestItemSource extends ItemSource {
             url = new URL(base_url, id.getType() + "/" + id.getValue() + ".pub1");
         }
         catch (MalformedURLException e) {
-            throw new BadParamException("Problem forming URL for test PubOne resource: '" +
+            throw new BadParamException(
+                "Problem forming URL for test PubOne resource: '" +
                 url + "'; exception was: " + e.getMessage());
         }
         log.debug("Trying to read PubOne from " + url);
@@ -139,7 +143,7 @@ public class TestItemSource extends ItemSource {
             throw new IOException(e);
         }
         if (doc == null) {
-        	log.debug("Failed to read PubOne file");
+            log.debug("Failed to read PubOne file");
             throw new NotFoundException("Failed to read PubOne from " + url);
         }
         return doc;
@@ -147,9 +151,9 @@ public class TestItemSource extends ItemSource {
 
 
     /**
-     * Get the citeproc-json representation of an item.  If the .json file exists in the
-     * test directory, return that.  Otherwise, fetch it the normal way, by converting from
-     * PubOne.
+     * Get the citeproc-json representation of an item.  If the .json file
+     * exists in the test directory, return that.  Otherwise, fetch it the
+     * normal way, by converting from PubOne.
      */
     @Override
     public JsonNode retrieveItemJson(RequestId requestId)
@@ -164,14 +168,14 @@ public class TestItemSource extends ItemSource {
     }
 
     /**
-     * Get the citeproc-json representation.  This assumes that it exists as a .json file in the
-     * test directory.
+     * Get the citeproc-json representation.  This assumes that it exists as
+     * a .json file in the test directory.
      */
     protected JsonNode fetchItemJson(RequestId requestId)
             throws IOException
     {
-        // FIXME:  We could change this so that it checks every type that's stored in the
-        // requestId, but right now it only looks for aiids.
+        // FIXME:  We could change this so that it checks every type that's
+        // stored in the requestId, but right now it only looks for aiids.
         Identifier id = requestId.getIdByType("aiid");
 
         String idType = id.getType();
@@ -182,16 +186,17 @@ public class TestItemSource extends ItemSource {
             return json;
         }
         catch (Exception e) {
-        	log.debug("Failed to read JSON file");
-        	throw new IOException(e);
+            log.debug("Failed to read JSON file");
+            throw new IOException(e);
         }
     }
 
 
     /**
-     * Reads a file from the test directory as a String.  Not used now, but keeping this
-     * around in case we need it.
+     * Reads a file from the test directory as a String.  Not used now, but
+     * keeping this around in case we need it.
      */
+    @SuppressWarnings("unused")
     private String readTestFile(String filename)
         throws IOException
     {

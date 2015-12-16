@@ -49,13 +49,11 @@ public class CitationProcessor {
         this.style = style;
         this.itemSource = itemSource;
         itemProvider = new ItemProvider();
-        // FIXME:  right now we're assuming that the reason this fails is because the style is
-        // not found, but it might be something else.
         try {
             csl = new CSL(itemProvider, style);
         }
         catch (IOException e) {
-            throw new NotFoundException("Style '" + style + "' not found");
+            throw new NotFoundException("Style '" + style + "' not found", e);
         }
     }
 
@@ -64,7 +62,6 @@ public class CitationProcessor {
     }
 
     /**
-     *
      * @param idList
      * @param format
      * @throws IOException - for any number of things that could go wrong
@@ -104,9 +101,9 @@ public class CitationProcessor {
 
         // Keep track of whether or not we find at least one good result
         boolean foundOneGood = false;
+        Exception e = null;
         for (int i = 0; i < numIds; ++i) {
             RequestId requestId = idList.get(i);
-            //IdGlob idg = requestId.getIdGlob();
             Identifier id = requestId.getIdByType("aiid");
             if (id == null) continue;
             String curie = id.getCurie();
@@ -121,15 +118,22 @@ public class CitationProcessor {
             try {
                 jsonNode = itemSource.retrieveItemJson(requestId);
             }
-            catch (CiteException e) { }
+            catch (IOException ioe) {
+                log.info("Got IOException attempting to get JSON for " +
+                    requestId + ": " + ioe);
+                e = ioe;
+            }
+            catch (CiteException ce) {
+                e = ce;
+            }
             if (jsonNode != null) {
                 String jsonString = null;
                 try {
                     jsonString = objectMapper.writeValueAsString(jsonNode);
                 }
-                catch (JsonProcessingException e) {
+                catch (JsonProcessingException jpe) {
                     // An error in Jackson's serialization of known-good json data
-                    throw new IOException(e);
+                    throw new IOException(jpe);
                 }
                 JsonLexer jsonLexer = new JsonLexer(new StringReader(jsonString));
                 JsonParser jsonParser = new JsonParser(jsonLexer);
@@ -148,7 +152,9 @@ public class CitationProcessor {
         // If the total number of good CSL items we've found is zero, throw an exception
         //log.debug("Number of good items found " + idList.numGood());
         if (!foundOneGood) {
-            throw new NotFoundException("Couldn't retrieve/create any good CSL items for this ID list");
+            String msg = "Couldn't retrieve/create any good CSL items for this ID list";
+            if (e == null) throw new NotFoundException(msg);
+            else throw new NotFoundException(msg, e);
         }
     }
 

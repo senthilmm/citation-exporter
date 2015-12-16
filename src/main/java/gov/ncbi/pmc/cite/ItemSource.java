@@ -21,13 +21,13 @@ import gov.ncbi.pmc.ids.Identifier;
 import gov.ncbi.pmc.ids.RequestId;
 
 /**
- * This fetches item data in either PubOne or citeproc-json format, given an IdSet.
- * One of these is instantiated per servlet.
+ * This fetches item data in either PubOne or citeproc-json format, given an
+ * IdSet. One of these is instantiated per servlet.
  */
 public abstract class ItemSource {
     protected Logger log;
-    // Implement a small-lightweight cache for the retrieved JSON items, to support requests
-    // for multiple styles of the same id (for example)
+    // Implement a small-lightweight cache for the retrieved JSON items, to
+    // support requests for multiple styles of the same id (for example)
     private KittyCache<String, JsonNode> jsonCache;
     private static final int jsonCacheSize = 100;
     private static final int jsonCacheTtl = 10;
@@ -45,8 +45,8 @@ public abstract class ItemSource {
         throws BadParamException, NotFoundException, IOException;
 
     /**
-     * Get the PubOne XML, given an ID.  The default implementation of this produces the PubOne by
-     * transforming the NXML.
+     * Get the PubOne XML, given an ID.  The default implementation of
+     * this produces the PubOne by transforming the NXML.
      *
      * @throws IOException - if something goes wrong with the transformation
      */
@@ -65,10 +65,12 @@ public abstract class ItemSource {
     }
 
     /**
-     * Get the item as a json object, as defined by citeproc-json.  This generates the JSON from the PubOne
-     * format, and then modifies the results slightly, adding the id field.
+     * Get the item as a json object, as defined by citeproc-json. This
+     * generates the JSON from the PubOne format, and then modifies the
+     * results slightly, adding the id field.
      *
-     * @throws IOException - if there's some problem retrieving the PubOne or transforming it
+     * @throws IOException - if there's some problem retrieving the PubOne or
+     *   transforming it
      */
     public JsonNode retrieveItemJson(RequestId requestId)
         throws BadParamException, NotFoundException, IOException

@@ -41,10 +41,10 @@ public class ItemProvider implements ItemDataProvider
         return result;
     }
 
-    // FIXME:  What is this used for?
+    // FIXME: We're required to implement this method of the ItemDataProvider,
+    // but I don't know what it is for.
     public String[] getIds() {
         String ids[] = { "PMC3362639" };
         return ids;
     }
-
 }
