@@ -13,7 +13,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class is used to override the default URIResolver for Saxon, when it
- * reads in an XSLT.
+ * reads in an XSLT. This is needed to set the base URL of the XSLT that is
+ * being used in the transformation.
  */
 public class CiteUriResolver implements URIResolver {
     private URL newBase;

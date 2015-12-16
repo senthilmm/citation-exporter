@@ -34,7 +34,7 @@ public class AppTest
     @Override
     protected void setUp() {
         try {
-            CommonSetup.setUp();
+            TestSetup.setProperties();
         }
         catch (Exception e) {
             fail("Exception while instantiating App: " + e);

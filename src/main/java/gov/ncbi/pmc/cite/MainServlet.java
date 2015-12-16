@@ -57,7 +57,8 @@ public class MainServlet extends HttpServlet
      * should all be moved there.
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response)
         throws InvalidPropertiesFormatException, ServletException, IOException
     {
         logRequestHeaders(request);
@@ -95,9 +96,11 @@ public class MainServlet extends HttpServlet
     }
 
     /**
-     * Echo test - for performance testing, this does nothing but echo back 1000 bytes.
+     * Echo test - for performance testing, this does nothing but echo back
+     * 1000 bytes.
      */
-    public void doEchoTest(HttpServletRequest request, HttpServletResponse response)
+    public void doEchoTest(HttpServletRequest request,
+                           HttpServletResponse response)
         throws IOException
     {
         response.setContentType("text/plain;charset=UTF-8");
@@ -147,7 +150,8 @@ public class MainServlet extends HttpServlet
         }
         rw.println("System properties:");
         Properties props = System.getProperties();
-        Enumeration<String> propNames = (Enumeration<String>) props.propertyNames();
+        Enumeration<String> propNames =
+            (Enumeration<String>) props.propertyNames();
         while (propNames.hasMoreElements()) {
             String pn = propNames.nextElement();
             rw.println("  '" + pn + "': '" + props.getProperty(pn));
@@ -185,7 +189,8 @@ public class MainServlet extends HttpServlet
     /**
      * Set CORS headers
      */
-    private void setCorsHeaders(HttpServletRequest request, HttpServletResponse response) {
+    private void setCorsHeaders(HttpServletRequest request,
+                                HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Credentials", "true");
         String origin = request.getHeader("Origin");
         if (origin == null) origin = "*";
@@ -193,7 +198,8 @@ public class MainServlet extends HttpServlet
         response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
         String acrh = request.getHeader("Access-Control-Request-Headers");
         if (acrh == null) acrh = "*";
-        if (acrh != null) response.setHeader("Access-Control-Allow-Headers", acrh);
+        if (acrh != null)
+            response.setHeader("Access-Control-Allow-Headers", acrh);
     }
 
     /**
@@ -222,9 +228,10 @@ public class MainServlet extends HttpServlet
         String hrefBase = "/" + r.getScriptPath() + "?";
 
         // Read the samples json file
-        URL samplesUrl = getClass().getClassLoader().getResource("samples/test-cases.json");
+        URL samplesUrl = getClass().getClassLoader()
+            .getResource("samples/samples.json");
         ObjectNode samples = (ObjectNode) App.getMapper().readTree(samplesUrl);
-        ArrayNode testCases = (ArrayNode) samples.get("test-cases");
+        ArrayNode testCases = (ArrayNode) samples.get("samples");
         Iterator<JsonNode> i = testCases.elements();
         while (i.hasNext()) {
             ObjectNode testCase = (ObjectNode) i.next();
@@ -240,66 +247,77 @@ public class MainServlet extends HttpServlet
             }
             String idField;
             if (idtype.equals("pmid")) {
-                idField = link("http://www.ncbi.nlm.nih.gov/pubmed/" + id, idtype + ":" + id);
+                idField = link("http://www.ncbi.nlm.nih.gov/pubmed/" + id,
+                               idtype + ":" + id);
             }
             else {
-                idField = link("http://www.ncbi.nlm.nih.gov/pmc/articles/" + id + "/", id);
+                idField = link("http://www.ncbi.nlm.nih.gov/pmc/articles/" +
+                               id + "/", id);
             }
             rw.println(tr(
                 td(description) +
                 td(idField) +
-                //td(link(hrefBase + qs(qsParams, "report=nxml"), "NXML")) +      <-- not official
+                //td(link(hrefBase + qs(qsParams, "report=nxml"), "NXML")) +
                 td(link(hrefBase + qs(qsParams, "report=pub-one"), "PubOne")) +
                 td(link(hrefBase + qs(qsParams, "report=ris"), "RIS")) +
                 td(link(hrefBase + qs(qsParams, "report=nbib"), "NBIB")) +
                 td(link(hrefBase + qs(qsParams, "report=citeproc"), "JSON")) +
-                td(link(hrefBase + qs(qsParams, "style=american-medical-association"), "AMA")) +
-                td(link(hrefBase + qs(qsParams, "style=modern-language-association"), "MLA")) +
-                td(link(hrefBase + qs(qsParams, "style=apa"), "APA")) +
-                td(link(hrefBase + qs(qsParams, "style=chicago-author-date"), "Chicago")) +
                 td(link(hrefBase + qs(qsParams,
-                    "styles=american-medical-association,modern-language-association,apa,chicago-author-date"),
+                    "style=american-medical-association"), "AMA")) +
+                td(link(hrefBase + qs(qsParams,
+                    "style=modern-language-association"), "MLA")) +
+                td(link(hrefBase + qs(qsParams, "style=apa"), "APA")) +
+                td(link(hrefBase +
+                    qs(qsParams, "style=chicago-author-date"), "Chicago")) +
+                td(link(hrefBase + qs(qsParams,
+                    "styles=american-medical-association," +
+                    "modern-language-association,apa,chicago-author-date"),
                     "combined"))
             ));
         }
 
         rw.println("</table></body></html>");
         return;
-
     }
+
     public String td(String v) {
         return "<td>" + v + "</td>";
     }
+
     public String th(String v) {
         return "<th>" + v + "</th>";
     }
+
     public String tr(String v) {
         return "<tr>" + v + "</tr>";
     }
+
     public String qs(String... params) {
         return StringUtils.join(params, "&amp;");
     }
+
     public String qs(List<String> params) {
         return StringUtils.join(params.toArray(), "&amp;");
     }
+
     public String qs(List<String> initParams, String moreParams) {
         List<String> params = new ArrayList<String>(initParams);
         params.add(moreParams);
         return StringUtils.join(params.toArray(), "&amp;");
     }
+
     public String link(String href, String content) {
         return "<a href='" + href + "'>" + content + "</a>";
     }
 
 
-
-
     /**
-     * Respond to HTTP OPTIONS requests, with CORS headers.  See
+     * Respond to HTTP OPTIONS requests, with CORS headers. See
      * https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS#Preflighted_requests
      */
     @Override
-    protected void doOptions(HttpServletRequest request, HttpServletResponse response)
+    protected void doOptions(HttpServletRequest request,
+                             HttpServletResponse response)
         throws ServletException, IOException
     {
         logRequestHeaders(request);
@@ -308,5 +326,4 @@ public class MainServlet extends HttpServlet
         response.setCharacterEncoding("UTF-8");
         response.setStatus(200);
     }
-
 }

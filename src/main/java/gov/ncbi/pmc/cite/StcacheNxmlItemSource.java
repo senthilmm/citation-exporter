@@ -24,8 +24,10 @@ public class StcacheNxmlItemSource extends ItemSource {
     {
         super(app);
         nxmlImage = System.getProperty("item_source_loc");
-        if (nxmlImage == null) throw new IOException("Need a value for the item_source_loc system property");
-        log.info("Item source location (nxml stcache image) = '" + nxmlImage + "'");
+        if (nxmlImage == null) throw new IOException(
+                "Need a value for the item_source_loc system property");
+        log.info("Item source location (nxml stcache image) = '" + nxmlImage +
+                 "'");
         nxmlStcache = new Nxml(nxmlImage);
     }
 
@@ -36,11 +38,13 @@ public class StcacheNxmlItemSource extends ItemSource {
         try {
             Identifier id = requestId.getIdByType("aiid");
             if (id == null) {
-                throw new IOException("I only know how to get PMC article instances right now");
+                throw new IOException("I only know how to get PMC article " +
+                    "instances right now");
             }
             byte[] nxmlBytes = null;
             nxmlBytes = nxmlStcache.getByAiid(Integer.parseInt(id.getValue()));
-            return app.newDocumentBuilder().parse(new ByteArrayInputStream(nxmlBytes));
+            return app.newDocumentBuilder().parse(
+                new ByteArrayInputStream(nxmlBytes));
         }
         catch (Exception e) {
             throw new IOException(e);

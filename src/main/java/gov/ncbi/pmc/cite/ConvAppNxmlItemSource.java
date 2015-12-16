@@ -11,7 +11,11 @@ import org.w3c.dom.Document;
 import gov.ncbi.pmc.ids.Identifier;
 import gov.ncbi.pmc.ids.RequestId;
 
-
+/**
+ * This item sources uses the PMC NXML converter app (internal to NCBI),
+ * which provides (as the name implies) NXML of the article, which is then
+ * converted into PubOne on the fly.
+ */
 
 public class ConvAppNxmlItemSource  extends ItemSource {
     private URL convAppUrl;

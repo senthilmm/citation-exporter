@@ -124,7 +124,8 @@ public class TestItemSource extends ItemSource {
 
         URL url = null;
         try {
-            url = new URL(base_url, id.getType() + "/" + id.getValue() + ".pub1");
+            url = new URL(base_url, id.getType() + "/" + id.getValue() +
+                ".pub1");
         }
         catch (MalformedURLException e) {
             throw new BadParamException(
@@ -203,7 +204,8 @@ public class TestItemSource extends ItemSource {
         URL test_url = new URL(base_url, filename);
 
         InputStream test_is = test_url.openStream();
-        if (test_is == null) throw new IOException("Problem reading test data!");
+        if (test_is == null)
+            throw new IOException("Problem reading test data!");
         StringWriter test_writer = new StringWriter();
         IOUtils.copy(test_is, test_writer, "utf-8");
         return test_writer.toString();

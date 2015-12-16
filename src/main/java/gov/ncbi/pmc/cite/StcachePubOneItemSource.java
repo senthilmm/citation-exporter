@@ -21,26 +21,32 @@ import org.xml.sax.InputSource;
 public class StcachePubOneItemSource extends ItemSource {
     private String pubOneImage;
     private Pmfu pubOneStcache;
-    // This class has its own DocumentBuilderFactory, because it uses some non-default settings
+    // This class has its own DocumentBuilderFactory, because it uses some
+    // non-default settings
     private DocumentBuilderFactory dbf;
 
     public StcachePubOneItemSource() throws Exception
     {
         super(app);
         pubOneImage = System.getProperty("item_source_loc");
-        if (pubOneImage == null) throw new IOException("Need a value for the item_source_loc system property");
-        log.info("Item source location (pub-one stcache image) = '" + pubOneImage + "'");
+        if (pubOneImage == null) throw new IOException(
+            "Need a value for the item_source_loc system property");
+        log.info("Item source location (pub-one stcache image) = '" +
+            pubOneImage + "'");
         pubOneStcache = new Pmfu(pubOneImage);
 
         dbf = DocumentBuilderFactory.newInstance();
-        dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+        dbf.setFeature(
+            "http://apache.org/xml/features/nonvalidating/load-external-dtd",
+            false);
     }
 
     @Override
     public Document retrieveItemNxml(RequestId requestId)
         throws IOException
     {
-        throw new IOException("Using PubOne data source; can't retrieve NXML data");
+        throw new IOException(
+            "Using PubOne data source; can't retrieve NXML data");
     }
 
     public String byteToHex2(byte b) {
@@ -70,7 +76,8 @@ public class StcachePubOneItemSource extends ItemSource {
         }
 
         if (pubOneBytes == null) {
-            throw new NotFoundException("Unable to retrieve PubOne data for " + id);
+            throw new NotFoundException(
+                "Unable to retrieve PubOne data for " + id);
         }
         String resultStr;
         try {

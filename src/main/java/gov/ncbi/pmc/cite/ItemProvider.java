@@ -8,8 +8,8 @@ import de.undercouch.citeproc.csl.CSLItemData;
 
 public class ItemProvider implements ItemDataProvider
 {
-    // Stores CSLItemData objects between the time that they are prefetched and the time that they
-    // are used by the citeproc-js code.
+    // Stores CSLItemData objects between the time that they are prefetched and
+    // the time that they are used by the citeproc-js code.
     protected Map<String, CSLItemData> cslItemCache;
 
     public ItemProvider() {
@@ -30,14 +30,14 @@ public class ItemProvider implements ItemDataProvider
     }
 
     /**
-     * Retrieve a CSLItemData object, given an id.  This is invoked by the citeproc-js code
-     * running inside Rhino.
-     * @return the CSLItemData object corresponding to this id, or null if not found.
+     * Retrieve a CSLItemData object, given an id.  This is invoked by the
+     * citeproc-js code running inside Rhino.
+     * @return the CSLItemData object corresponding to this id, or null if not
+     *   found.
      */
     public CSLItemData retrieveItem(String tid)
     {
         CSLItemData result = cslItemCache.get(tid);
-        //System.out.println("retrieveItem, typeAndId = " + tid + ", found '" + result + "'");
         return result;
     }
 

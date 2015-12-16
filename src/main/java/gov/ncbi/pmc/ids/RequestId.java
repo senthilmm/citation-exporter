@@ -1,5 +1,7 @@
 package gov.ncbi.pmc.ids;
 
+import gov.ncbi.pmc.cite.BadParamException;
+
 /**
  * This stores information about a particular ID as requested by the user.
  *
@@ -20,6 +22,29 @@ public class RequestId {
     // When this ID gets resolved, this points to this IdGlob
     private IdGlob idGlob;
 
+    /// Constructor, default id type is "aiid".
+    public RequestId(String value)
+        throws BadParamException
+    {
+        this("aiid", value);
+    }
+
+    /// Constructor
+    public RequestId(String type, String value)
+        throws BadParamException
+    {
+        this(new Identifier(type, value));
+    }
+
+    /// Constructor
+    public RequestId(Identifier canonical) {
+        this(canonical.getValue(), canonical);
+    }
+
+    /**
+     *  Most general constructor, when the original value used to create the
+     * Identifier doesn't necessarily match the canonical value.
+     */
     public RequestId(String originalValue, Identifier canonical) {
         this.originalValue = originalValue;
         this.canonical = canonical;

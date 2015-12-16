@@ -17,8 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ncbi.pmc.ids.IdResolver;
 
 /**
- * Container for some singleton-type objects that are instantiated and shared, regardless
- * of the context we're running in (i.e. webapp vs. unit test).
+ * Container for some singleton-type objects that are instantiated and shared,
+ * regardless of the context we're running in (i.e. webapp vs. unit test).
  */
 public class App {
     public static final String apiVersion = "v1";
@@ -33,7 +33,6 @@ public class App {
     private static DocumentBuilderFactory dbf;
     private static CatalogResolver catalogResolver;
     private static CiteprocPool citeprocPool;
-
 
 
     public static void init() throws Exception {

@@ -208,7 +208,8 @@ public class Request {
      * part) has only one segment, and its value matches that given.
      */
     public boolean pathEquals(String expectSeg) {
-        return resourcePath.size() == 1 && resourcePath.get(0).equals(expectSeg);
+        return resourcePath.size() == 1 &&
+               resourcePath.get(0).equals(expectSeg);
     }
 
     /**
@@ -385,8 +386,8 @@ public class Request {
                             setSearchAttribute(recordElem, "request-id",
                                 rid.getCurie());
 
-                            // If that's different from the aiid, then add another
-                            // attribute, `s:resolved-id`
+                            // If that's different from the aiid, then add
+                            // another attribute, `s:resolved-id`
                             if (!rid.equals(aiid)) {
                                 setSearchAttribute(recordElem, "resolved-id",
                                     aiid.getCurie());
@@ -540,7 +541,8 @@ public class Request {
                 throw new BadParamException("ID was not properly resolved");
 
             Identifier id = requestId.getIdByType("pmcid");
-            String outFilename = id.getType() + "-" + id.getValue() + "." + report;
+            String outFilename = id.getType() + "-" + id.getValue() + "." +
+                report;
             contentDispHeader = "attachment; filename=" + outFilename;
             Document d = itemSource.retrieveItemPubOne(requestId);
             result = (String) transformEngine.doTransform(d, transformName);

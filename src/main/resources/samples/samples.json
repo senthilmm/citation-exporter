@@ -1,5 +1,5 @@
 {
-  "test-cases": [
+  "samples": [
     {
       "description": "Sample article",
       "notes": "NXML, PubOne, and JSON all available in the samples directory",

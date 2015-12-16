@@ -1,5 +1,27 @@
-{
-  "test-cases": [
+/*
+  [The test code enables Jackson's ALLOW_COMMENTS feature, so comments are
+  allowed in this json file.]
+
+  The values that make up a test case:
+
+  - description: required
+  - id: required; string value of the ID
+  - idtype: optional, default is "aiid"; ID type
+  - in-report: required: report/format of the input for this test case
+  - transform: required: must match a value in main/resources/xslt/transforms.json
+  - out-report: required: expected output report/format
+*/
+
+[
+  {
+    "description": "NXML to PubOne",
+    "id": "31",
+    "inreport": "nxml",
+    "transform": "identity",
+    "outreport": "pub-one"
+  }
+
+  /*
     {
       "description": "styled citation, default style modern-language-association",
       "ids": "1",
@@ -38,9 +60,6 @@
       "description": "styled citation, pmid (article is PMC3352855)",
       "ids": "22615544"
     },
-
-
-
     {
       "description": "multiple styled citations",
       "ids": "1,2",
@@ -54,7 +73,7 @@
     {
       "description": "multiple styled citations, pmcids, ieee style",
       "ids": "PMC3352855,PMC3362639",
-      "styles: "ieee"
+      "styles": "ieee"
     },
     {
       "description": "styled citations, single id, multiple styles",
@@ -96,8 +115,6 @@
       "description": "ris format, multiple ids",
       "ids": "PMC3352855,PMC3362639",
       "outputformat": "ris"
-    },
-
+    } */
   ]
-}
 

@@ -93,7 +93,8 @@ public abstract class ItemSource {
         String nowAsISO = df.format(new Date());
         params.put("accessed", nowAsISO);
 
-        String jsonStr = (String) App.doTransform(pub_one, "pub-one2json", params);
+        String jsonStr =
+            (String) App.doTransform(pub_one, "pub-one2json", params);
         ObjectNode json = (ObjectNode) App.getMapper().readTree(jsonStr);
         json.put("id", curie);
         jsonCache.put(curie, json, jsonCacheTtl);

@@ -122,7 +122,8 @@ public class WebServer
         // in that it doesn't care if one of the contained Handlers throws an
         // exception or returns a bad status.
         HandlerCollection handlerCollection = new HandlerCollection();
-        handlerCollection.setHandlers(new Handler[] { contexts, requestLogHandler });
+        handlerCollection.setHandlers(
+            new Handler[] { contexts, requestLogHandler });
         server.setHandler(handlerCollection);
 
         // Create the temp directory if it doesn't exist yet

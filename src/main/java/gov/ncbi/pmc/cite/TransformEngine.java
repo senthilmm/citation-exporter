@@ -51,16 +51,13 @@ public class TransformEngine {
 
         // We need our own URI resolver to find imported stylesheets
         transformerFactory.setURIResolver(new CiteUriResolver(xsltBaseUrl));
-
-
         stylesheets = new HashMap<String, PreparedStylesheet>();
-
         loadTransforms();
     }
 
     /**
-     * Load the transforms.json file, which tells us what conversions are possible,
-     * and the output formats of each.
+     * Load the transforms.json file, which tells us what conversions are
+     * possible, and the output formats of each.
      */
     private void loadTransforms()
         throws IOException
@@ -71,7 +68,8 @@ public class TransformEngine {
         List<TransformDescriptor> transformsList;
         try {
             transformsList =
-                m.readValue(transformsUrl.openStream(), new TypeReference<List<TransformDescriptor>>() {});
+                m.readValue(transformsUrl.openStream(),
+                        new TypeReference<List<TransformDescriptor>>() {});
         }
         catch (JsonProcessingException e) {
             throw new IOException("Problem reading transforms.json: " + e);
@@ -84,11 +82,11 @@ public class TransformEngine {
     }
 
     /**
-     * Transform an XML document according to the indicated transformation.  The type of the
-     * return value will depend on the `report` of the transformation, as specified in
-     * the transforms.json config file.
-     *   application/xml - org.w3c.dom.Document
-     *   anything else - String
+     * Transform an XML document according to the indicated transformation.
+     * The type of the return value will depend on the `report` of the
+     * transformation, as specified in the transforms.json config file:
+     * - application/xml - org.w3c.dom.Document
+     * - anything else - String
      */
     public Object doTransform(Document src, String transform)
         throws IOException
@@ -97,19 +95,21 @@ public class TransformEngine {
     }
 
     /**
-     * Transform an XML document according to the indicated transformation.  The type of the
-     * return value will depend on the `report` of the transformation, as specified in
-     * the transforms.json config file.
-     *   application/xml - org.w3c.dom.Document
-     *   anything else - String
+     * Transform an XML document according to the indicated transformation.
+     * The type of the return value will depend on the `report` of the
+     * transformation, as specified in the transforms.json config file:
+     * - application/xml - org.w3c.dom.Document
+     * - anything else - String
      */
-    public Object doTransform(Document src, String transform, Map<String, String> params)
+    public Object doTransform(Document src, String transform,
+                              Map<String, String> params)
         throws IOException
     {
         try {
             TransformDescriptor td = transforms.get(transform);
             if (td == null) {
-                throw new IOException("No transform defined for '" + transform + "'");
+                throw new IOException("No transform defined for '" +
+                    transform + "'");
             }
             PreparedStylesheet xslt = getStylesheet(td);
             Controller controller = (Controller) xslt.newTransformer();
@@ -151,14 +151,17 @@ public class TransformEngine {
             try {
                 URLConnection xsltUrlConn = xsltUrl.openConnection();
                 InputStream xsltInputStream = xsltUrlConn.getInputStream();
-                // This throws FileNotFoundException if the file (at a 'file:' URL) doesn't exist
+                // This throws FileNotFoundException if the file (at a 'file:'
+                // URL) doesn't exist
                 xsltSource = new StreamSource(xsltInputStream);
             }
             catch (Exception e) {
-                throw new IOException("Exception opening xslt StreamSource: " + e);
+                throw new IOException(
+                        "Exception opening xslt StreamSource: " + e);
             }
             try {
-                ps = (PreparedStylesheet) transformerFactory.newTemplates(xsltSource);
+                ps = (PreparedStylesheet)
+                        transformerFactory.newTemplates(xsltSource);
             }
             catch (TransformerConfigurationException e) {
                 throw new IOException("Unable to compile xslt: " + e);
