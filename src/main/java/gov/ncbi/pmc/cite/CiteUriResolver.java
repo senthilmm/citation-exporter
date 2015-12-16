@@ -12,7 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is used to override the default URIResolver for Saxon, when it reads in an XSLT.
+ * This class is used to override the default URIResolver for Saxon, when it
+ * reads in an XSLT.
  */
 public class CiteUriResolver implements URIResolver {
     private URL newBase;
