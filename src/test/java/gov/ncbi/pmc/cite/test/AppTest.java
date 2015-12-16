@@ -1,52 +1,32 @@
 package gov.ncbi.pmc.cite.test;
 
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestName;
+import org.slf4j.Logger;
+
 import gov.ncbi.pmc.cite.App;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest
-    extends TestCase
-{
+public class AppTest {
+    protected App app;
+    private Logger log;
+
+    @Rule
+    public TestName name = new TestName();
+
     /**
-     * Create the test case
-     * @param testName name of the test case
+     * App unit test -- very simple.
      */
-    public AppTest( String testName )
+    @Test
+    public void testApp() throws Exception
     {
-        super( testName );
-    }
+        log = TestSetup.setup(name);
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
-
-    /**
-     * Set up the testing environment
-     */
-    @Override
-    protected void setUp() {
-        try {
-            TestSetup.setProperties();
-        }
-        catch (Exception e) {
-            fail("Exception while instantiating App: " + e);
-        }
-    }
-
-
-    /**
-     * Rigorous Test :-)
-     */
-    public void testApp()
-    {
         assertNotNull("ID resolver should not be null", App.getIdResolver());
         assertNotNull("Mapper should not be null", App.getMapper());
         assertNotNull("Item source should not be null", App.getItemSource());
