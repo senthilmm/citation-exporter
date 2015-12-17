@@ -307,15 +307,19 @@
         </executions>
       </plugin>
 
-      <!-- Generate Javadocs -->
+      <!-- 
+        Generate Javadocs. Note that the javadoc plugin is already
+        enabled, by default, in the super pom. This section is only
+        here to bind javadoc generation to the `prepare-package`
+        phase; so that it will be generated when you enter, for example,
+        `mvn package`.
+        FIXME: it still doesn't include the javadocs in the uber jar,
+        however.
+      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.10.3</version>
-        <configuration>
-          <reportOutputDirectory>snorky</reportOutputDirectory>
-          <destDir>.</destDir>
-        </configuration>
         <executions>
           <execution>
             <id>ctxp-javadocs</id>
