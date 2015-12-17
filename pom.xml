@@ -231,11 +231,10 @@
         </configuration>
       </plugin>
 
-
       <!--
-        Declare other directories and resources that should be
-        copied into the final jar package.  Note that src/main/resources/* are copied automatically,
-        but we have to explicitly specify src/main/webapp.
+        Declare other directories and resources that should be copied into the
+        final jar package.  Note that src/main/resources/* are copied
+        automatically, but we have to explicitly specify src/main/webapp.
       -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -255,7 +254,8 @@
                   <targetPath></targetPath>
                 </resource>
                 <!--
-                  If these exist, then use them instead of the org.citationstyles jar files
+                  If these exist, then use them instead of the
+                  org.citationstyles jar files
                 -->
                 <resource>
                   <directory>styles</directory>
@@ -293,13 +293,36 @@
                   </excludes>
                 </filter>
               </filters>
-              <!-- Set the main class that will be the application entry point, in the executable jar -->
+              <!--
+                Set the main class that will be the application entry point,
+                in the executable jar
+              -->
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>gov.ncbi.pmc.cite.WebServer</mainClass>
                 </transformer>
               </transformers>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Generate Javadocs -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+        <configuration>
+          <reportOutputDirectory>snorky</reportOutputDirectory>
+          <destDir>.</destDir>
+        </configuration>
+        <executions>
+          <execution>
+            <id>ctxp-javadocs</id>
+            <goals>
+              <goal>javadoc</goal>
+            </goals>
+            <phase>prepare-package</phase>
           </execution>
         </executions>
       </plugin>

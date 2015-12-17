@@ -14,8 +14,8 @@ public class TestSetup {
 
     public static void setProperties()
     {
-        System.setProperty("log", "testlog");
-        System.setProperty("log_level", "DEBUG");
+        setDefaultSystemProperty("log", "testlog");
+        setDefaultSystemProperty("log_level", "DEBUG");
     }
 
     /**
@@ -43,4 +43,16 @@ public class TestSetup {
         App.init();
         return log;
     }
+
+    /**
+     * Helper function - this sets the system property to its default, only if
+     * it wasn't already set.
+     */
+    public static void setDefaultSystemProperty(String name, String def) {
+        String p = System.getProperty(name);
+        if (p == null) {
+            System.setProperty(name, def);
+        }
+    }
+
 }
