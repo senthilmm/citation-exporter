@@ -4,9 +4,11 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.StringWriter;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -22,6 +24,9 @@ import org.w3c.dom.Document;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.helger.commons.xml.serialize.read.DOMInputStreamProvider;
+import com.helger.schematron.ISchematronResource;
+import com.helger.schematron.pure.SchematronResourcePure;
 
 import gov.ncbi.pmc.cite.App;
 import gov.ncbi.pmc.cite.ItemSource;
@@ -98,8 +103,47 @@ public class TransformTest {
             Object result = engine.doTransform(srcDoc, transform);
             log.trace("Transform result:");
             log.trace(serializeXml((Document) result));
+            System.out.println("======================= wee");
 
+            String s =
+                    "<sch:schema xmlns:sch='http://purl.oclc.org/dsdl/schematron' xml:lang='de'>\n" +
+                            "  <sch:title>Example of Multi-Lingual Schema</sch:title>\n" +
+                            "  <sch:pattern>\n" +
+                            "    <sch:rule context='dog'>\n" +
+                            "      <sch:assert test='bone' diagnostics='d1 d2'> A dog should have a bone.</sch:assert>\n" +
+                            "    </sch:rule>\n" +
+                            "  </sch:pattern>\n" +
+                            "  <sch:diagnostics>\n" +
+                            "    <sch:diagnostic id='d1' xml:lang='en'> A dog should have a bone.</sch:diagnostic>\n" +
+                            "    <sch:diagnostic id='d2' xml:lang='de'> Das  Hund muss ein Bein haben.</sch:diagnostic>\n" +
+                            "  </sch:diagnostics>\n" +
+                            "</sch:schema>\n";
+            validateXml(s, (Document) result);
         }
+    }
+
+
+
+    /**
+     * Test whether an XML file conforms to a given Schematron
+     * @param sstr
+     * @param xml
+     * @return
+     * @throws IllegalArgumentException
+     */
+    public static boolean validateXml(
+            @Nonnull final String sstr,
+            @Nonnull final Document xml)
+        throws Exception
+    {
+        System.out.println("======================= woo");
+        final ISchematronResource schematron =
+            SchematronResourcePure.fromString(sstr,
+                Charset.forName("utf-8"));
+        if (!schematron.isValidSchematron())
+            throw new IllegalArgumentException("Invalid Schematron!");
+        return schematron.getSchematronValidity(
+            new DOMInputStreamProvider(xml)).isValid();
     }
 
     public String serializeXml(Document doc)    {

@@ -112,7 +112,7 @@ public class TransformEngine {
                     transform + "'");
             }
             PreparedStylesheet xslt = getStylesheet(td);
-            Controller controller = (Controller) xslt.newTransformer();
+            Controller controller = xslt.newController();
             if (params != null) {
                 for (String key : params.keySet()) {
                     controller.setParameter(key, params.get(key));
