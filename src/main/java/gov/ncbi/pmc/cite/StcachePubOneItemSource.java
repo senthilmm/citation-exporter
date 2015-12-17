@@ -27,7 +27,7 @@ public class StcachePubOneItemSource extends ItemSource {
 
     public StcachePubOneItemSource() throws Exception
     {
-        super(app);
+        super();
         pubOneImage = System.getProperty("item_source_loc");
         if (pubOneImage == null) throw new IOException(
             "Need a value for the item_source_loc system property");

@@ -22,7 +22,7 @@ public class StcacheNxmlItemSource extends ItemSource {
 
     public StcacheNxmlItemSource() throws Exception
     {
-        super(app);
+        super();
         nxmlImage = System.getProperty("item_source_loc");
         if (nxmlImage == null) throw new IOException(
                 "Need a value for the item_source_loc system property");
@@ -43,7 +43,7 @@ public class StcacheNxmlItemSource extends ItemSource {
             }
             byte[] nxmlBytes = null;
             nxmlBytes = nxmlStcache.getByAiid(Integer.parseInt(id.getValue()));
-            return app.newDocumentBuilder().parse(
+            return App.newDocumentBuilder().parse(
                 new ByteArrayInputStream(nxmlBytes));
         }
         catch (Exception e) {

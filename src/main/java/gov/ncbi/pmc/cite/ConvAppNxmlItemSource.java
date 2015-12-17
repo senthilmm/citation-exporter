@@ -15,11 +15,18 @@ import gov.ncbi.pmc.ids.RequestId;
  * This item sources uses the PMC NXML converter app (internal to NCBI),
  * which provides (as the name implies) NXML of the article, which is then
  * converted into PubOne on the fly.
+ *
+ * @author maloneyc
+ * @version $Id: $Id
  */
-
 public class ConvAppNxmlItemSource  extends ItemSource {
     private URL convAppUrl;
 
+    /**
+     * <p>Constructor for ConvAppNxmlItemSource.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     public ConvAppNxmlItemSource() throws Exception
     {
         super();
@@ -30,6 +37,7 @@ public class ConvAppNxmlItemSource  extends ItemSource {
             convAppUrl + "'");
     }
 
+    /** {@inheritDoc} */
     @Override
     public Document retrieveItemNxml(RequestId requestId)
         throws BadParamException, NotFoundException, IOException
