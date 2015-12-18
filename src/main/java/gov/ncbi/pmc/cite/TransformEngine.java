@@ -39,20 +39,13 @@ import net.sf.saxon.s9api.XsltTransformer;
  * these for the servlet, shared among all the Requests.
  */
 public class TransformEngine {
-    URL xsltBaseUrl;
     Map<String, Transform> transforms;
-
-
     Processor proc;
-    XsltCompiler comp;
-
-
 
     public TransformEngine(URL xsltBaseUrl, ObjectMapper mapper)
         throws IOException, SaxonApiException
     {
-        this.xsltBaseUrl = xsltBaseUrl;
-        loadTransforms();
+        loadTransforms(xsltBaseUrl);
     }
 
     /**
@@ -60,7 +53,7 @@ public class TransformEngine {
      * for each one specified.
      * @throws SaxonApiException
      */
-    private void loadTransforms()
+    private void loadTransforms(URL xsltBaseUrl)
         throws IOException, SaxonApiException
     {
         // Read in the transforms.json file into a List of TransformDescriptors
@@ -78,7 +71,7 @@ public class TransformEngine {
 
         // Initialize some Saxon stuff
         proc = new Processor(false);
-        comp = proc.newXsltCompiler();
+        XsltCompiler comp = proc.newXsltCompiler();
         comp.setURIResolver(new CiteUriResolver(xsltBaseUrl));
 
         // For each transform in the list, instantiate the Saxon
@@ -93,7 +86,7 @@ public class TransformEngine {
             URLConnection xsltUrlConn = xsltUrl.openConnection();
             InputStream xsltInputStream = xsltUrlConn.getInputStream();
             Source xsltSource = new StreamSource(xsltInputStream);
-            td.xsltExecutable = comp.compile(xsltSource);
+            td.setXsltExecutable(comp.compile(xsltSource));
         }
     }
 
@@ -127,7 +120,7 @@ public class TransformEngine {
                 throw new IOException("No transform defined for '" +
                     transform + "'");
             }
-            XsltTransformer t = td.xsltExecutable.load();
+            XsltTransformer t = td.getXsltTransformer();
 
             // The document that is to be input to the transform
             DOMSource domSource= new DOMSource(src);
