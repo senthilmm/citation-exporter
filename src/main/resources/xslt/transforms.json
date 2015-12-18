@@ -4,6 +4,18 @@
     "report": "application/xml"
   },
   {
+    "name": "string-value",
+    "report": "text/plain"
+  },
+  {
+    "name": "test-params",
+    "report": "text/plain"
+  },
+  {
+    "name": "test-resolver",
+    "report": "application/xml"
+  },
+  {
     "name": "nxml2json",
     "report": "application/json"
   },

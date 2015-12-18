@@ -15,7 +15,7 @@ public class TestSetup {
     public static void setProperties()
     {
         setDefaultSystemProperty("log", "testlog");
-        setDefaultSystemProperty("log_level", "DEBUG");
+        setDefaultSystemProperty("log_level", "TRACE");
     }
 
     /**

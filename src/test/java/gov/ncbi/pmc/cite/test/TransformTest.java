@@ -1,14 +1,18 @@
 package gov.ncbi.pmc.cite.test;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
+import java.io.StringReader;
 import java.io.StringWriter;
-import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -20,10 +24,9 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 import org.slf4j.Logger;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.helger.commons.xml.serialize.read.DOMInputStreamProvider;
 import com.helger.schematron.ISchematronResource;
 import com.helger.schematron.pure.SchematronResourcePure;
@@ -42,10 +45,10 @@ public class TransformTest {
     public TestName name = new TestName();
 
     /**
-     * Test the transformations
+     * Test simply retrieving an NXML.
      */
     @Test
-    public void testTransforms() throws Exception
+    public void testGetNxml() throws Exception
     {
         log = TestSetup.setup(name);
         ItemSource itemSource = App.getItemSource();
@@ -57,8 +60,112 @@ public class TransformTest {
     }
 
     /**
-     * Run all the test cases
+     * Test the identity transform.
      */
+    @Test
+    public void testIdentityTransform() throws Exception
+    {
+        log = TestSetup.setup(name);
+        Document in, out;
+        TransformEngine engine = App.getTransformEngine();
+
+        in = xmlFromString("<foo/>");
+        out = (Document) engine.doTransform(in, "identity");
+        log.trace("Output XML:\n" + serializeXml(out));
+        assertEquals("foo", out.getDocumentElement().getTagName());
+
+        in = xmlFromString(
+            "<splits>\n" +
+            "  <fleegle plays='guitar'/>\n" +
+            "  <bingo plays='drums'/>\n" +
+            "</splits>\n");
+        out = (Document) engine.doTransform(in, "identity");
+        log.trace("Output XML:\n" + serializeXml(out));
+        Element outRoot = out.getDocumentElement();
+        assertEquals("splits", outRoot.getTagName());
+        // child nodes including whitespace text nodes
+        assertEquals(5, outRoot.getChildNodes().getLength());
+    }
+
+    /**
+     * Test the string-value transform.
+     */
+    @Test
+    public void testStringValueTransform() throws Exception
+    {
+        log = TestSetup.setup(name);
+        Document in;
+        String out;
+        TransformEngine engine = App.getTransformEngine();
+
+        in = xmlFromString("<foo>bar</foo>");
+        out = (String) engine.doTransform(in, "string-value");
+        log.trace("Output String:\n" + out);
+        assertThat(out, containsString("bar"));
+
+        in = xmlFromString(
+            "<splits>\n" +
+            "  <split><name>fleegle</name>: <plays>guitar</plays></split>\n" +
+            "  <split><name>bingo</name>: <plays>drums</plays></split>\n" +
+            "</splits>\n");
+        out = (String) engine.doTransform(in, "string-value");
+        assertThat(out, containsString("fleegle: guitar"));
+        log.trace("Output String:\n" + out);
+    }
+
+    /**
+     * Test transform with parameters.
+     */
+    @Test
+    public void testParams() throws Exception
+    {
+        log = TestSetup.setup(name);
+        Document in;
+        Map<String, String> params = new HashMap<String, String>();
+        String out;
+        String expect;
+        TransformEngine engine = App.getTransformEngine();
+
+        in = xmlFromString("<foo/>");
+
+        // With no params, we should see the default value
+        out = (String) engine.doTransform(in, "test-params");
+        log.trace("Output String:\n" + out);
+        expect = "default param1 value";
+        assertThat(out, containsString(expect));
+
+        // Empty params map should work the same way
+        out = (String) engine.doTransform(in, "test-params", params);
+        log.trace("Output String:\n" + out);
+        assertThat(out, containsString(expect));
+
+        // Now, pass in a real param
+        expect = "Zombo and Wumbus rock!";
+        params.put("param1", expect);
+        out = (String) engine.doTransform(in, "test-params", params);
+        log.trace("Output String:\n" + out);
+        assertThat(out, containsString(expect));
+    }
+
+    /**
+     * Test that transforms with our custom URI resolver work.
+     */
+    @Test
+    public void testTransformWithResolver() throws Exception
+    {
+        log = TestSetup.setup(name);
+        Document in, out;
+        TransformEngine engine = App.getTransformEngine();
+
+        in = xmlFromString("<foo/>");
+        out = (Document) engine.doTransform(in, "test-resolver");
+        log.trace("Output XML:\n" + serializeXml(out));
+        assertEquals("foo", out.getDocumentElement().getTagName());
+    }
+
+
+    /**
+     * Run all the test cases
     @Test
     public void testCases() throws Exception
     {
@@ -122,6 +229,7 @@ public class TransformTest {
         }
     }
 
+     */
 
 
     /**
@@ -146,7 +254,12 @@ public class TransformTest {
             new DOMInputStreamProvider(xml)).isValid();
     }
 
-    public String serializeXml(Document doc)    {
+    /**
+     * Helper function to serialize XML for logging results.
+     * @param doc
+     * @return
+     */
+    public static String serializeXml(Document doc)    {
         try
         {
            DOMSource domSource = new DOMSource(doc);
@@ -164,5 +277,21 @@ public class TransformTest {
            return null;
         }
     }
+
+    /**
+     * Helper function to create a JAXP Document object from a string of xml.
+     * @param s
+     * @return JAXP Document object
+     * @throws Exception
+     */
+    public static Document xmlFromString(String s) throws Exception
+    {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        InputSource is = new InputSource(new StringReader(s));
+        return db.parse(is);
+    }
+
+
 }
 
