@@ -30,7 +30,6 @@ import net.sf.saxon.s9api.Serializer;
 import net.sf.saxon.s9api.XdmAtomicValue;
 import net.sf.saxon.s9api.XdmNode;
 import net.sf.saxon.s9api.XsltCompiler;
-import net.sf.saxon.s9api.XsltExecutable;
 import net.sf.saxon.s9api.XsltTransformer;
 
 
@@ -42,18 +41,12 @@ public class TransformEngine {
     Map<String, Transform> transforms;
     Processor proc;
 
-    public TransformEngine(URL xsltBaseUrl, ObjectMapper mapper)
-        throws IOException, SaxonApiException
-    {
-        loadTransforms(xsltBaseUrl);
-    }
-
     /**
      * Load the transforms.json file, and instantiate Saxon an XsltExecutable
      * for each one specified.
      * @throws SaxonApiException
      */
-    private void loadTransforms(URL xsltBaseUrl)
+    public TransformEngine(URL xsltBaseUrl, ObjectMapper mapper)
         throws IOException, SaxonApiException
     {
         // Read in the transforms.json file into a List of TransformDescriptors
@@ -70,7 +63,7 @@ public class TransformEngine {
         }
 
         // Initialize some Saxon stuff
-        proc = new Processor(false);
+        proc = App.getSaxonProcessor();
         XsltCompiler comp = proc.newXsltCompiler();
         comp.setURIResolver(new CiteUriResolver(xsltBaseUrl));
 

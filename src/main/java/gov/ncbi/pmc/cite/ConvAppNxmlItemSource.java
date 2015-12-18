@@ -50,26 +50,10 @@ public class ConvAppNxmlItemSource  extends ItemSource {
         log.debug("Reading NXML from " + nxmlUrl);
         Document nxml = null;
 
-        // For debugging, added some code that strips off the doctype decl
-        // (not used now)
-        boolean stripDoctypeDecl = false;
         try {
-            if (stripDoctypeDecl) {
-                log.debug("Reading NXML as string, to remove doctype decl");
-                String nxmlString = IOUtils.toString(nxmlUrl.openStream());
-                String head = nxmlString.substring(0, 1000);
-                head = Pattern.compile(".*?\\<\\!DOCTYPE.*?\\>",
-                    Pattern.DOTALL).matcher(head).replaceFirst("");
-                nxmlString = head + nxmlString.substring(1000);
-                InputStream nxmlStringStream =
-                    IOUtils.toInputStream(nxmlString, "UTF-8");
-                nxml = App.newDocumentBuilder().parse(nxmlStringStream);
-            }
-            else {
-                nxml = App.newDocumentBuilder().parse(
-                    nxmlUrl.openStream()
-                );
-            }
+            nxml = App.newDocumentBuilder().parse(
+                nxmlUrl.openStream()
+            );
         }
         catch (Exception e) {
             throw new IOException(e);
