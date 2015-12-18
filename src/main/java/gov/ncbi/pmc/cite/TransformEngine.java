@@ -13,8 +13,6 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
@@ -24,12 +22,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.sf.saxon.Configuration;
-import net.sf.saxon.PreparedStylesheet;
-import net.sf.saxon.TransformerFactoryImpl;
 import net.sf.saxon.s9api.DOMDestination;
 import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.QName;
+import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.Serializer;
 import net.sf.saxon.s9api.XdmAtomicValue;
 import net.sf.saxon.s9api.XdmNode;
@@ -44,38 +40,60 @@ import net.sf.saxon.s9api.XsltTransformer;
  */
 public class TransformEngine {
     URL xsltBaseUrl;
-    Map<String, TransformDescriptor> transforms;
+    Map<String, Transform> transforms;
+
+
+    Processor proc;
+    XsltCompiler comp;
+
+
 
     public TransformEngine(URL xsltBaseUrl, ObjectMapper mapper)
-        throws IOException
+        throws IOException, SaxonApiException
     {
         this.xsltBaseUrl = xsltBaseUrl;
         loadTransforms();
     }
 
     /**
-     * Load the transforms.json file, which tells us what conversions are
-     * possible, and the output formats of each.
+     * Load the transforms.json file, and instantiate Saxon an XsltExecutable
+     * for each one specified.
+     * @throws SaxonApiException
      */
     private void loadTransforms()
-        throws IOException
+        throws IOException, SaxonApiException
     {
+        // Read in the transforms.json file into a List of TransformDescriptors
         URL transformsUrl = new URL(xsltBaseUrl, "transforms.json");
         ObjectMapper m = new ObjectMapper();
-
-        List<TransformDescriptor> transformsList;
+        List<Transform> transformsList;
         try {
             transformsList =
                 m.readValue(transformsUrl.openStream(),
-                        new TypeReference<List<TransformDescriptor>>() {});
+                        new TypeReference<List<Transform>>() {});
         }
         catch (JsonProcessingException e) {
             throw new IOException("Problem reading transforms.json: " + e);
         }
-        // Convert the List to a HashMap
-        transforms = new HashMap<String, TransformDescriptor>();
-        for (TransformDescriptor td: transformsList) {
-            transforms.put(td.name, td);
+
+        // Initialize some Saxon stuff
+        proc = new Processor(false);
+        comp = proc.newXsltCompiler();
+        comp.setURIResolver(new CiteUriResolver(xsltBaseUrl));
+
+        // For each transform in the list, instantiate the Saxon
+        // XsltExecutable object.
+        transforms = new HashMap<String, Transform>();
+        for (Transform td: transformsList) {
+            String name = td.name;
+            transforms.put(name, td);
+
+            // Read and compile an XSLT stylesheet
+            URL xsltUrl = new URL(xsltBaseUrl, name + ".xsl");
+            URLConnection xsltUrlConn = xsltUrl.openConnection();
+            InputStream xsltInputStream = xsltUrlConn.getInputStream();
+            Source xsltSource = new StreamSource(xsltInputStream);
+            td.xsltExecutable = comp.compile(xsltSource);
         }
     }
 
@@ -104,26 +122,12 @@ public class TransformEngine {
         throws IOException
     {
         try {
-            Processor proc = new Processor(false);
-            XsltCompiler comp = proc.newXsltCompiler();
-            comp.setURIResolver(new CiteUriResolver(xsltBaseUrl));
-            TransformDescriptor td = transforms.get(transform);
+            Transform td = transforms.get(transform);
             if (td == null) {
                 throw new IOException("No transform defined for '" +
                     transform + "'");
             }
-            String tname = td.name;
-
-            // Read and prepare an XSLT stylesheet
-            URL xsltUrl = new URL(xsltBaseUrl, tname + ".xsl");
-            URLConnection xsltUrlConn = xsltUrl.openConnection();
-            InputStream xsltInputStream = xsltUrlConn.getInputStream();
-            // This throws FileNotFoundException if the file (at a 'file:'
-            // URL) doesn't exist
-            Source xsltSource = new StreamSource(xsltInputStream);
-
-            XsltExecutable exp = comp.compile(xsltSource);
-            XsltTransformer t = exp.load();
+            XsltTransformer t = td.xsltExecutable.load();
 
             // The document that is to be input to the transform
             DOMSource domSource= new DOMSource(src);
