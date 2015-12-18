@@ -10,7 +10,6 @@ import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +18,8 @@ import com.spaceprogram.kittycache.KittyCache;
 
 import gov.ncbi.pmc.ids.Identifier;
 import gov.ncbi.pmc.ids.RequestId;
+import net.sf.saxon.s9api.SaxonApiException;
+import net.sf.saxon.s9api.XdmNode;
 
 /**
  * This fetches item data in either PubOne or citeproc-json format, given an
@@ -41,8 +42,9 @@ public abstract class ItemSource {
     /**
      * Get the NXML for a given ID.
      */
-    public abstract Document retrieveItemNxml(RequestId requestId)
-        throws BadParamException, NotFoundException, IOException;
+    public abstract XdmNode retrieveItemNxml(RequestId requestId)
+        throws BadParamException, NotFoundException, IOException,
+            SaxonApiException;
 
     /**
      * Get the PubOne XML, given an ID.  The default implementation of
@@ -50,10 +52,11 @@ public abstract class ItemSource {
      *
      * @throws IOException - if something goes wrong with the transformation
      */
-    public Document retrieveItemPubOne(RequestId requestId)
-        throws BadParamException, NotFoundException, IOException
+    public XdmNode retrieveItemPubOne(RequestId requestId)
+        throws BadParamException, NotFoundException, IOException,
+            SaxonApiException
     {
-        Document nxml = retrieveItemNxml(requestId);
+        XdmNode nxml = retrieveItemNxml(requestId);
         // Prepare id parameters that get passed to the xslt
         Map<String, String> params = new HashMap<String, String>();
         Identifier pmid = requestId.getIdByType("pmid");
@@ -61,7 +64,7 @@ public abstract class ItemSource {
         Identifier pmcid = requestId.getIdByType("pmcid");
         if (pmcid != null) params.put("pmcid", pmcid.getValue());
 
-        return (Document) App.doTransform(nxml, "pub-one", params);
+        return (XdmNode) App.doTransform(nxml, "pub-one", params);
     }
 
     /**
@@ -73,7 +76,8 @@ public abstract class ItemSource {
      *   transforming it
      */
     public JsonNode retrieveItemJson(RequestId requestId)
-        throws BadParamException, NotFoundException, IOException
+        throws BadParamException, NotFoundException, IOException,
+            SaxonApiException
     {
         String curie = requestId.getIdByType("aiid").getCurie();
         JsonNode cached = jsonCache.get(curie);
@@ -83,7 +87,7 @@ public abstract class ItemSource {
         }
         log.debug("JSON for " + curie + ": kitty-cache miss");
 
-        Document pub_one = retrieveItemPubOne(requestId);
+        XdmNode pub_one = retrieveItemPubOne(requestId);
 
         // Add accessed as a param
         Map<String, String> params = new HashMap<String, String>();

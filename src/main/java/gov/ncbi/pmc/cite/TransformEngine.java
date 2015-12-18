@@ -13,7 +13,6 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
@@ -90,7 +89,7 @@ public class TransformEngine {
      * - application/xml - org.w3c.dom.Document
      * - anything else - String
      */
-    public Object doTransform(Document src, String transform)
+    public Object doTransform(XdmNode src, String transform)
         throws IOException
     {
         return doTransform(src, transform, null);
@@ -103,7 +102,7 @@ public class TransformEngine {
      * - application/xml - org.w3c.dom.Document
      * - anything else - String
      */
-    public Object doTransform(Document src, String transform,
+    public Object doTransform(XdmNode src, String transform,
                               Map<String, String> params)
         throws IOException
     {
@@ -116,9 +115,9 @@ public class TransformEngine {
             XsltTransformer t = td.getXsltTransformer();
 
             // The document that is to be input to the transform
-            DOMSource domSource= new DOMSource(src);
-            XdmNode xdmSource = proc.newDocumentBuilder().build(domSource);
-            t.setInitialContextNode(xdmSource);
+            //DOMSource domSource= new DOMSource(src);
+            //XdmNode xdmSource = proc.newDocumentBuilder().build(domSource);
+            t.setInitialContextNode(src);
 
             if (params != null) {
                 for (String key : params.keySet()) {

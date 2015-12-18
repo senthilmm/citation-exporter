@@ -41,6 +41,8 @@ import de.undercouch.citeproc.output.Bibliography;
 import gov.ncbi.pmc.ids.Identifier;
 import gov.ncbi.pmc.ids.RequestId;
 import gov.ncbi.pmc.ids.RequestIdList;
+import net.sf.saxon.s9api.SaxonApiException;
+import net.sf.saxon.s9api.XdmNode;
 
 /**
  * Stores information about, and handles, a single request.
@@ -331,6 +333,11 @@ public class Request {
             errorResponse(e.getMessage(), 500);
             return;
         }
+        catch (SaxonApiException e) {
+            log.error("SaxonApiException", e);
+            errorResponse(e.getMessage(), 500);
+            return;
+        }
         catch (BadParamException e) {
             log.error("BadParamException", e);
             errorResponse(e.getMessage(), 400);
@@ -347,7 +354,8 @@ public class Request {
      * Respond to the client with a PubOne document.
      */
     private void pubOneXml()
-        throws NotFoundException, BadParamException, IOException
+        throws NotFoundException, BadParamException, IOException,
+            SaxonApiException
     {
         ItemSource itemSource = App.getItemSource();
 
@@ -357,7 +365,7 @@ public class Request {
         String pubOneString;  // response goes here
         if (numIds == 1) {
             RequestId requestId = idList.get(0);
-            Document d = itemSource.retrieveItemPubOne(requestId);
+            XdmNode d = itemSource.retrieveItemPubOne(requestId);
             pubOneString = serializeXml(d);
         }
         else {
@@ -377,7 +385,7 @@ public class Request {
                     if (aiid != null) {
                         try {
                             // Retrieve the PubOne record XML
-                            Document record =
+                            XdmNode record =
                                 itemSource.retrieveItemPubOne(requestId);
 
                             // Add an `s:request-id` attribute with the original
@@ -435,18 +443,20 @@ public class Request {
     }
 
     /**
-     * Respond to the client with an NXML document.  This is only available
+     * Respond to the client with an NXML document. This is only available
      * for some of the item sources, and is not an official part of the
      * api/service.
+     * @throws SaxonApiException
      */
     private void nXml()
-        throws BadParamException, NotFoundException, IOException
+        throws BadParamException, NotFoundException, IOException,
+            SaxonApiException
     {
         ItemSource itemSource = App.getItemSource();
         //String idType = idSet.getType();
         int numIds = idList.size();
 
-        Document d = null;
+        XdmNode d = null;
         if (numIds == 1) {
             RequestId requestId = idList.get(0);
             //IdGlob idg = requestId.getIdGlob();
@@ -455,38 +465,39 @@ public class Request {
             d = itemSource.retrieveItemNxml(requestId);
         }
         else {
-            d = getDocumentBuilder().newDocument();
-            Element root = d.createElement("records");
-            d.appendChild(root);
+            // FIXME - need to convert this to s9api
+          /*
+            Document wrapper = getDocumentBuilder().newDocument();
+            Element root = wrapper.createElement("records");
+            wrapper.appendChild(root);
 
             for (int i = 0; i < numIds; ++i) {
                 RequestId requestId = idList.get(i);
-                //IdGlob idg = requestId.getIdGlob();
                 if (requestId != null) {
-                    Document record = itemSource.retrieveItemNxml(requestId);
+                    XdmNode record = itemSource.retrieveItemNxml(requestId);
                     root.appendChild(d.importNode(record.getDocumentElement(),
                          true));
                 }
             }
+          */
         }
-
-        String xmlStr = serializeXml(d);
 
         response.setContentType("application/xml;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setStatus(HttpServletResponse.SC_OK);
         initPage();
         if (page == null) return;
-        page.print(xmlStr);
-}
+        page.print(d.toString());
+    }
 
     /**
      * Utility function to serialize an XML object for output back to the
      * client.
      */
-    private static String serializeXml(Document doc, boolean omitXmlDecl)
-        throws IOException
+    private static String serializeXml(XdmNode doc, boolean omitXmlDecl)
     {
+        return doc.toString();
+      /*
         DOMSource domSource = new DOMSource(doc);
         StringWriter writer = new StringWriter();
         StreamResult result = new StreamResult(writer);
@@ -503,13 +514,13 @@ public class Request {
         }
         writer.flush();
         return writer.toString();
+      */
     }
 
     /**
      * Same as above, but omitXmlDecl defaults to false
      */
-    private static String serializeXml(Document doc)
-        throws IOException
+    private static String serializeXml(XdmNode doc)
     {
         return serializeXml(doc, false);
     }
@@ -519,7 +530,8 @@ public class Request {
      * the PubOne through an XSLT transformation.
      */
     private void transformXml(String report)
-        throws NotFoundException, BadParamException, IOException
+        throws NotFoundException, BadParamException, IOException,
+            SaxonApiException
     {
         // FIXME:  this all has to be data-driven.
         // That means:  the content-type of the output, the XSLT to use, and,
@@ -544,7 +556,7 @@ public class Request {
             String outFilename = id.getType() + "-" + id.getValue() + "." +
                 report;
             contentDispHeader = "attachment; filename=" + outFilename;
-            Document d = itemSource.retrieveItemPubOne(requestId);
+            XdmNode d = itemSource.retrieveItemPubOne(requestId);
             result = (String) transformEngine.doTransform(d, transformName);
         }
         else {
@@ -554,7 +566,7 @@ public class Request {
                 //IdGlob idg = requestId.getIdGlob();
                 if (requestId != null) {
                     if (i != 0) { result += "\n"; }
-                    Document d = itemSource.retrieveItemPubOne(requestId);
+                    XdmNode d = itemSource.retrieveItemPubOne(requestId);
                     result += (String)
                         transformEngine.doTransform(d, transformName) + "\n";
                 }

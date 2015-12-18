@@ -10,12 +10,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.xml.resolver.tools.CatalogResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gov.ncbi.pmc.ids.IdResolver;
 import net.sf.saxon.s9api.Processor;
+import net.sf.saxon.s9api.XdmNode;
 
 /**
  * Container for some singleton-type objects that are instantiated and shared,
@@ -128,7 +128,7 @@ public class App {
     /**
      * Convenience method that delegates to TransformEngine.
      */
-    public static Object doTransform(Document src, String transform)
+    public static Object doTransform(XdmNode src, String transform)
         throws IOException
     {
         return transformEngine.doTransform(src, transform);
@@ -137,7 +137,7 @@ public class App {
     /**
      * Convenience method that delegates to TransformEngine.
      */
-    public static Object doTransform(Document src, String transform,
+    public static Object doTransform(XdmNode src, String transform,
                                      Map<String, String> params)
         throws IOException
     {

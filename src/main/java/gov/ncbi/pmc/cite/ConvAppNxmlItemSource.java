@@ -1,15 +1,17 @@
 package gov.ncbi.pmc.cite;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.regex.Pattern;
 
-import org.apache.commons.io.IOUtils;
+import javax.xml.transform.stream.StreamSource;
+
 import org.w3c.dom.Document;
 
 import gov.ncbi.pmc.ids.Identifier;
 import gov.ncbi.pmc.ids.RequestId;
+import net.sf.saxon.s9api.SaxonApiException;
+import net.sf.saxon.s9api.XdmNode;
 
 /**
  * This item sources uses the PMC NXML converter app (internal to NCBI),
@@ -37,10 +39,12 @@ public class ConvAppNxmlItemSource  extends ItemSource {
             convAppUrl + "'");
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @throws SaxonApiException */
     @Override
-    public Document retrieveItemNxml(RequestId requestId)
-        throws BadParamException, NotFoundException, IOException
+    public XdmNode retrieveItemNxml(RequestId requestId)
+        throws BadParamException, NotFoundException, IOException,
+            SaxonApiException
     {
         Identifier id = requestId.getIdByType("aiid");
         if (id == null)
@@ -48,20 +52,9 @@ public class ConvAppNxmlItemSource  extends ItemSource {
 
         URL nxmlUrl = new URL(convAppUrl, id.getValue());
         log.debug("Reading NXML from " + nxmlUrl);
-        Document nxml = null;
-
-        try {
-            nxml = App.newDocumentBuilder().parse(
-                nxmlUrl.openStream()
-            );
-        }
-        catch (Exception e) {
-            throw new IOException(e);
-        }
-
-        if (nxml == null) {
-            throw new NotFoundException("Failed to read NXML from " + nxmlUrl);
-        }
+        XdmNode nxml = null;
+        nxml = App.getSaxonProcessor().newDocumentBuilder().build(
+            new StreamSource(nxmlUrl.openStream()));
 
         return nxml;
     }
