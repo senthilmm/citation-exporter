@@ -35,7 +35,7 @@ public class CitationProcessorTest
     @Test
     public void testCitationProcessor() throws Exception
     {
-        log = TestSetup.setup(name);
+        log = TestUtils.setup(name);
 
         CiteprocPool cpp = App.getCiteprocPool();
         boolean thrown;

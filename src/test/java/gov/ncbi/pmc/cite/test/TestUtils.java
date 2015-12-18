@@ -1,8 +1,17 @@
 package gov.ncbi.pmc.cite.test;
 
+import java.io.StringWriter;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.junit.rules.TestName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 
 import gov.ncbi.pmc.cite.App;
 
@@ -10,7 +19,7 @@ import gov.ncbi.pmc.cite.App;
  * This provides a single function that does setup that is shared
  * by all the tests.
  */
-public class TestSetup {
+public class TestUtils {
 
     public static void setProperties()
     {
@@ -52,6 +61,30 @@ public class TestSetup {
         String p = System.getProperty(name);
         if (p == null) {
             System.setProperty(name, def);
+        }
+    }
+
+    /**
+     * Helper function to serialize XML for logging results.
+     * @param doc
+     * @return
+     */
+    public static String serializeXml(Document doc)    {
+        try
+        {
+           DOMSource domSource = new DOMSource(doc);
+           StringWriter writer = new StringWriter();
+           StreamResult result = new StreamResult(writer);
+           TransformerFactory tf = TransformerFactory.newInstance();
+           Transformer transformer = tf.newTransformer();
+           transformer.transform(domSource, result);
+           writer.flush();
+           return writer.toString();
+        }
+        catch(TransformerException ex)
+        {
+           ex.printStackTrace();
+           return null;
         }
     }
 

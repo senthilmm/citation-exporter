@@ -18,7 +18,7 @@
     "id": "31",
     "inreport": "nxml",
     "transform": "identity",
-    "outreport": "pub-one"
+    "outreport": "nxml"
   }
 
   /*

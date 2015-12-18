@@ -25,7 +25,7 @@ public class AppTest {
     @Test
     public void testApp() throws Exception
     {
-        log = TestSetup.setup(name);
+        log = TestUtils.setup(name);
 
         assertNotNull("ID resolver should not be null", App.getIdResolver());
         assertNotNull("Mapper should not be null", App.getMapper());
