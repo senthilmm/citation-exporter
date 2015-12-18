@@ -66,6 +66,24 @@ Run unit tests as follows:
 mvn test
 ```
 
+To run just one specific set of tests:
+
+```
+mvn -Dtest=AppTest test
+```
+
+You can use wildcards; for example:
+
+```
+mvn '-Dtest=*Test' test
+```
+
+See documentation on the [Maven Surefire 
+plugin](http://maven.apache.org/surefire/maven-surefire-plugin/examples/single-test.html) 
+for more options.
+
+
+
 ### Test samples
 
 A good set of samples is listed in the application's [samples 
