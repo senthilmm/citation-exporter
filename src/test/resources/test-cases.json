@@ -7,21 +7,30 @@
   - description: required
   - id: required; string value of the ID
   - idtype: optional, default is "aiid"; ID type
-  - in-report: required: report/format of the input for this test case
+  - inreport: required: report/format of the input for this test case
   - transform: required: must match a value in main/resources/xslt/transforms.json
-  - out-report: required: expected output report/format
+  - validator: required: base name of a schematron file
 */
 
 [
   {
-    "description": "NXML to PubOne",
+    "description": "NXML identity",
     "id": "31",
     "inreport": "nxml",
     "transform": "identity",
-    "outreport": "nxml"
+    "validator": "nxml"
   }
 
   /*
+
+  {
+    "description": "NXML to PubOne",
+    "id": "31",
+    "inreport": "nxml",
+    "transform": "pub-one",
+    "validator": "nxml-to-pub1"
+  }
+
     {
       "description": "styled citation, default style modern-language-association",
       "ids": "1",

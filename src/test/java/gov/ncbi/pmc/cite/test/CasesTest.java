@@ -88,7 +88,7 @@ public class CasesTest {
             log.trace(serializeXml((Document) result));
 
             URL schematronUrl = getClass().getClassLoader()
-                .getResource(testCase.outreport + ".sch");
+                .getResource(testCase.validator + ".sch");
             assertTrue("Failed schematron validation",
                 validateXml(schematronUrl, (Document) result));
         }

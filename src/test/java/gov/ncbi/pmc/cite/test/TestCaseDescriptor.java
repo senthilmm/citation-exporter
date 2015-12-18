@@ -9,5 +9,5 @@ public class TestCaseDescriptor {
     public String id;
     public String inreport;
     public String transform;
-    public String outreport;
+    public String validator;
 }
