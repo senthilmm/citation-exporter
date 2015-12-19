@@ -19,18 +19,24 @@
     "inreport": "nxml",
     "transform": "identity",
     "validator": "nxml"
-  }
-
-  /*
-
+  },
   {
     "description": "NXML to PubOne",
     "id": "31",
     "inreport": "nxml",
     "transform": "pub-one",
-    "validator": "nxml-to-pub1"
+    "validator": "31-pub1"
+  },
+
+  {
+    "description": "PubOne to citeproc-json",
+    "id": "31",
+    "inreport": "nxml",
+    "transform": "pub-one",
+    "validator": "31-pub1"
   }
 
+/*
     {
       "description": "styled citation, default style modern-language-association",
       "ids": "1",
@@ -124,6 +130,7 @@
       "description": "ris format, multiple ids",
       "ids": "PMC3352855,PMC3362639",
       "outputformat": "ris"
-    } */
-  ]
+    }
+*/
+]
 

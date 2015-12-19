@@ -4,7 +4,6 @@ import static gov.ncbi.pmc.cite.test.TestUtils.serializeXml;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
 
@@ -80,7 +79,6 @@ public class CasesTest {
             }
             log.trace("Source document:");
             log.trace(serializeXml(srcDoc));
-
 
             // Do the transformation
             Object result = engine.doTransform(srcDoc, transform);
