@@ -13,6 +13,7 @@
 */
 
 [
+/*
   {
     "description": "NXML identity",
     "id": "31",
@@ -27,14 +28,17 @@
     "transform": "pub-one",
     "validator": "31-pub1"
   },
-
+*/
   {
     "description": "PubOne to citeproc-json",
-    "id": "31",
-    "inreport": "nxml",
-    "transform": "pub-one",
-    "validator": "31-pub1"
+    "id": "30",
+    "inreport": "pub1",
+    "transform": "pub-one2json",
+    "validator": "30-json"
   }
+
+
+
 
 /*
     {
