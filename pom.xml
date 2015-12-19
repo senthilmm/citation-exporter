@@ -151,23 +151,26 @@
 
     <!-- test-only dependencies -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-    <groupId>org.hamcrest</groupId>
+      <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-junit</artifactId>
       <version>2.0.0.0</version>
       <scope>test</scope>
+      <!--
+        Need to exclude this, because an old version is specified as a
+        dependency of junit
+       -->
+      <exclusions>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.helger</groupId>
       <artifactId>ph-schematron</artifactId>
       <version>3.0.1</version>
     </dependency>
-
 
   </dependencies>
 

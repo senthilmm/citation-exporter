@@ -1,12 +1,16 @@
 package gov.ncbi.pmc.cite.test;
 
 import static gov.ncbi.pmc.cite.test.TestUtils.serializeXml;
+import static org.hamcrest.text.MatchesPattern.matchesPattern;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 import javax.xml.parsers.DocumentBuilder;
@@ -75,55 +79,73 @@ public class CasesTest {
             String description = testCase.description;
             log.info("Running transform test '" + description + "'");
 
-            String id = testCase.id;
-            String inReport = testCase.inreport;
-            String transform = testCase.transform;
 
             // Get the input
+            String id = testCase.id;
             RequestId rid = new RequestId(id);
-            if (inReport.equals("nxml")) {
+            String informat = testCase.informat;
+            if (informat.equals("nxml")) {
                 srcDoc = itemSource.retrieveItemNxml(rid);
             }
-            else if (inReport.equals("pub1")) {
-            	srcDoc = itemSource.retrieveItemPubOne(rid);
+            else if (informat.equals("pub1")) {
+                srcDoc = itemSource.retrieveItemPubOne(rid);
             }
             else {
-            	throw new BadParamException("Bad value in test-cases for 'inreport': " + inReport);
+                throw new BadParamException("Bad value in test-cases for 'informat': " + informat);
             }
             log.trace("Source document:");
             log.trace(serializeXml(srcDoc));
 
             // Do the transformation
-            Object result = engine.doTransform(srcDoc, transform);
-            Document resultDocument = null;
+            Object result = engine.doTransform(srcDoc, testCase.transform);
             log.trace("Transform result:");
-            if (result instanceof String) {
-            	// result must be a json document
-            	String resultString = (String) result;
-            	log.trace(resultString);
 
-            	// use Jackson to convert it to an XML Document
-            	ObjectMapper jsonMapper = new ObjectMapper();
-            	JsonNode resultJson = jsonMapper.readTree(resultString);
-            	XmlMapper xmlMapper = new XmlMapper();
-            	String xmlString = xmlMapper.writeValueAsString(resultJson);
-            	log.trace("XML:\n" + xmlString);
+            // Validate the output
+            String outformat = testCase.outformat;
+            if (outformat.equals("xml")) {
+                Document resultDocument = (Document) result;
+                log.trace(serializeXml(resultDocument));
+                validateXmlTestCase(testCase, resultDocument);
+            }
+            else if (outformat.equals("json")) {
+                String resultString = (String) result;
+                log.trace(resultString);
+
+                // use Jackson to convert it to an XML Document
+                ObjectMapper jsonMapper = new ObjectMapper();
+                JsonNode resultJson = jsonMapper.readTree(resultString);
+                XmlMapper xmlMapper = new XmlMapper();
+                String xmlString = xmlMapper.writeValueAsString(resultJson);
+                log.trace("json converted to xml:\n" + xmlString);
 
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        	    DocumentBuilder builder = factory.newDocumentBuilder();
-        	    InputSource is = new InputSource(new StringReader(xmlString));
-        	    resultDocument = builder.parse(is);
-            }
-            else {
-            	resultDocument = (Document) result;
-                log.trace(serializeXml(resultDocument));
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                InputSource is = new InputSource(new StringReader(xmlString));
+                Document resultDocument = builder.parse(is);
+                validateXmlTestCase(testCase, resultDocument);
             }
 
-            URL schematronUrl = getClass().getClassLoader()
-                .getResource(testCase.validator + ".sch");
-            assertTrue("Failed schematron validation",
-                validateXml(schematronUrl, resultDocument));
+            else if (outformat.equals("text")) {
+                String resultString = (String) result;
+                log.trace(resultString);
+                testCase.expressions.forEach((String exp) -> {
+                    Pattern p = Pattern.compile("^.*" + exp + ".*$",
+                            Pattern.DOTALL);
+                    assertThat(resultString, matchesPattern(p));
+                });
+            }
         }
+    }
+
+    // Use schematron to validate xml and json
+    private void validateXmlTestCase(TestCaseDescriptor testCase,
+            Document resultDocument)
+        throws Exception
+    {
+        URL schematronUrl = getClass().getClassLoader()
+            .getResource(testCase.validator + ".sch");
+        assertTrue("Failed schematron validation",
+            validateXml(schematronUrl, resultDocument));
     }
 
     /**

@@ -7,134 +7,49 @@
   - description: required
   - id: required; string value of the ID
   - idtype: optional, default is "aiid"; ID type
-  - inreport: required: report/format of the input for this test case
+  - informat: required: report/format of the input for this test case
   - transform: required: must match a value in main/resources/xslt/transforms.json
   - validator: required: base name of a schematron file
 */
 
 [
-/*
   {
     "description": "NXML identity",
     "id": "31",
-    "inreport": "nxml",
+    "informat": "nxml",
     "transform": "identity",
+    "outformat": "xml",
     "validator": "nxml"
   },
   {
     "description": "NXML to PubOne",
     "id": "31",
-    "inreport": "nxml",
+    "informat": "nxml",
     "transform": "pub-one",
+    "outformat": "xml",
     "validator": "31-pub1"
   },
-*/
   {
     "description": "PubOne to citeproc-json",
     "id": "30",
-    "inreport": "pub1",
+    "informat": "pub1",
     "transform": "pub-one2json",
+    "outformat": "json",
     "validator": "30-json"
+  },
+
+  {
+    "description": "styled citation, default style modern-language-association",
+    "id": "30",
+    "informat": "pub1",
+    "transform": "pub-one2ris",
+    "outformat": "text",
+    "validation-expressions": [
+      "TY  - JOUR"
+    ]
   }
 
 
 
-
-/*
-    {
-      "description": "styled citation, default style modern-language-association",
-      "ids": "1",
-      "idtype": "aiid"
-    },
-    {
-      "description": "styled citation, ieee style",
-      "ids": "1",
-      "idtype": "aiid",
-      "styles": "ieee"
-    },
-    {
-      "description": "styled citation, PMCID, default style",
-      "ids": "PMC3362639"
-    },
-    {
-      "description": "styled citation, PMCID, ieee style",
-      "ids": "PMC3362639",
-      "styles": "ieee"
-    },
-
-    {
-      "description": "styled citation, specify pmcid, default style",
-      "ids": "3362639",
-      "idtype": "pmcid"
-    },
-    {
-      "description": "styled citation, doi",
-      "ids": "10.1371/journal.pmed.1001218"
-    },
-    {
-      "description": "styled citation, multiple dois (articles PMC3352855 and PMC3362639)",
-      "ids": "10.1371/journal.pmed.1001226,10.1371/journal.pmed.1001218"
-    },
-    {
-      "description": "styled citation, pmid (article is PMC3352855)",
-      "ids": "22615544"
-    },
-    {
-      "description": "multiple styled citations",
-      "ids": "1,2",
-      "idtype": "aiid"
-    },
-    {
-      "description": "more multiple styled citations",
-      "ids": "1,2,3,4,5,6,7,8,9,10,11",
-      "idtype": "aiid"
-    },
-    {
-      "description": "multiple styled citations, pmcids, ieee style",
-      "ids": "PMC3352855,PMC3362639",
-      "styles": "ieee"
-    },
-    {
-      "description": "styled citations, single id, multiple styles",
-      "ids": "PMC3362639",
-      "styles": "journal-of-medical-internet-research,ieee"
-    },
-
-    {
-      "description": "citeproc-json output",
-      "ids": "PMC3352855",
-      "outputformat": "citeproc"
-    },
-    {
-      "description": "citeproc-json format, multiple IDs",
-      "ids": "PMC3352855,PMC3362639",
-      "outputformat": "citeproc"
-    },
-    {
-      "description": "pub-one format",
-      "ids": "PMC3352855",
-      "outputformat": "pub-one"
-    },
-    {
-      "description": "nbib format",
-      "ids": "PMC3362639",
-      "outputformat": "nbib"
-    },
-    {
-      "description": "nbib format, multiple ids",
-      "ids": "PMC3352855,PMC3362639",
-      "outputformat": "nbib"
-    },
-    {
-      "description": "ris format",
-      "ids": "PMC3362639",
-      "outputformat": "ris"
-    },
-    {
-      "description": "ris format, multiple ids",
-      "ids": "PMC3352855,PMC3362639",
-      "outputformat": "ris"
-    }
-*/
 ]
 
