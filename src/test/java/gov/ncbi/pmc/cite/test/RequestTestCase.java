@@ -24,4 +24,9 @@ public class RequestTestCase {
     @JsonProperty("request-params")
     public Map<String, String> requestParams;
     public Expect expect;
+
+    @Override
+    public String toString() {
+        return description;
+    }
 }

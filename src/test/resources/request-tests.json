@@ -240,5 +240,19 @@
       "patterns": [
       ]
     }
+  },
+
+  // Test some error conditions
+  {
+    "description": "bad style name",
+    "request-params": {
+      "ids": "PMC3362639",
+      "styles": "fleegle"
+    },
+    "expect": {
+      "status": 404,
+      "content-type": "text/plain;charset=UTF-8"
+    }
   }
+
 ]

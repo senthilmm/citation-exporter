@@ -19,4 +19,9 @@ public class TransformTestCase {
     public String validator = null;
     @JsonProperty("validation-expressions")
     public List<String> expressions = null;
+
+    @Override
+    public String toString() {
+        return description;
+    }
 }

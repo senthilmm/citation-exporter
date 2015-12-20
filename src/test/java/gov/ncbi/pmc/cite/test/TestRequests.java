@@ -2,11 +2,15 @@ package gov.ncbi.pmc.cite.test;
 
 import static org.hamcrest.text.MatchesPattern.matchesPattern;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -18,6 +22,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -32,9 +39,11 @@ import gov.ncbi.pmc.cite.Request;
  * HttpServletResponse objects. It reads test cases from request-tests.json
  * into a list of RequestTestCase objects.
  */
+@RunWith(value = Parameterized.class)
 public class TestRequests {
     protected App app;
     private Logger log;
+    private RequestTestCase testCase;
 
     @Rule
     public TestName name = new TestName();
@@ -45,28 +54,26 @@ public class TestRequests {
         log = Utils.setup(name);
     }
 
-    /**
-     * Test the request object. This is a simple manual test using Mockito,
-     * to show how it works.
-     */
-    @Test
-    public void testRequestSimple() throws Exception
+    // Parameter passed in via this constructor
+    public TestRequests(RequestTestCase _testCase) {
+        testCase = _testCase;
+    }
+
+    // This generates the parameters
+    @Parameters(name= "{index}: TestRequest: {0}")
+    public static Collection<RequestTestCase> cases()
+        throws Exception
     {
-        HttpServletRequest req = mock(HttpServletRequest.class);
-        HttpServletResponse resp = mock(HttpServletResponse.class);
+        // Read the request-tests.json file
+        ObjectMapper mapper = new ObjectMapper()
+            .configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+        URL testCasesUrl = TestRequests.class.getClassLoader()
+            .getResource("request-tests.json");
+        List<RequestTestCase> testCaseList =
+            mapper.readValue(testCasesUrl.openStream(),
+                new TypeReference<List<RequestTestCase>>() {});
 
-        when(req.getParameter("id")).thenReturn("30");
-        when(req.getParameter("idtype")).thenReturn("aiid");
-
-        StringWriter page = new StringWriter();
-        when(resp.getWriter()).thenReturn(new PrintWriter(page));
-
-        Request r = new Request(req, resp);
-        r.doGet();
-        verify(resp).setContentType(eq("text/html;charset=UTF-8"));
-        verify(resp).setCharacterEncoding(eq("UTF-8"));
-        verify(resp).setStatus(eq(200));
-        assertThat(page.toString(), matchesPattern(".*aiid:30.*"));
+        return testCaseList;
     }
 
     /**
@@ -75,51 +82,36 @@ public class TestRequests {
     @Test
     public void testRequestTestCases() throws Exception
     {
-        // Read the transform-tests.json file
-        ObjectMapper mapper = new ObjectMapper()
-            .configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-        URL testCasesUrl = getClass().getClassLoader()
-            .getResource("request-tests.json");
-        List<RequestTestCase> testCaseList =
-            mapper.readValue(testCasesUrl.openStream(),
-                new TypeReference<List<RequestTestCase>>() {});
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
 
-        for (RequestTestCase testCase: testCaseList) {
-            HttpServletRequest req = mock(HttpServletRequest.class);
-            HttpServletResponse resp = mock(HttpServletResponse.class);
+        // Set the values that the mock request object will
+        // return for the query-string parameters
+        for (Map.Entry<String, String> param :
+             testCase.requestParams.entrySet())
+        {
+            when(req.getParameter(param.getKey()))
+              .thenReturn(param.getValue());
+        }
 
-            // Set the values that the mock request object will
-            // return for the query-string parameters
-            for (Map.Entry<String, String> param :
-                 testCase.requestParams.entrySet())
-            {
-                when(req.getParameter(param.getKey()))
-                  .thenReturn(param.getValue());
-            }
+        // Create a StringWriter to hold the response content
+        StringWriter page = new StringWriter();
+        when(resp.getWriter()).thenReturn(new PrintWriter(page));
 
-            // Create a StringWriter to hold the response content
-            StringWriter page = new StringWriter();
-            when(resp.getWriter()).thenReturn(new PrintWriter(page));
+        // This is what we are testing
+        Request r = new Request(req, resp);
+        r.doGet();
 
-            // This is what we are testing
-            Request r = new Request(req, resp);
-            r.doGet();
-
-            // Verify the results
-            // FIXME: I'd like to figure out how to customize the mockito
-            // failure messages. Until I do, this log message will have to
-            // suffice
-            log.info("Verifying request '" + testCase.description + "'");
-            RequestTestCase.Expect expect = testCase.expect;
-            verify(resp).setStatus(eq(expect.status));
-            verify(resp).setContentType(eq(expect.contentType));
-            verify(resp).setCharacterEncoding(eq(expect.characterEncoding));
-            String content = page.toString();
-            for (String pattern : expect.patterns) {
-                Pattern p = Pattern.compile("^.*" + pattern + ".*$",
-                        Pattern.DOTALL);
-                assertThat(content, matchesPattern(p));
-            }
+        // Verify the results
+        RequestTestCase.Expect expect = testCase.expect;
+        verify(resp).setStatus(eq(expect.status));
+        verify(resp).setContentType(eq(expect.contentType));
+        verify(resp).setCharacterEncoding(eq(expect.characterEncoding));
+        String content = page.toString();
+        for (String pattern : expect.patterns) {
+            Pattern p = Pattern.compile("^.*" + pattern + ".*$",
+                    Pattern.DOTALL);
+            assertThat(content, matchesPattern(p));
         }
     }
 }
