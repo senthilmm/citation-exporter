@@ -8,20 +8,13 @@
   The values that make up a request test case are as follows.
 
   - description
-  - request-params - object that holds the parameters to set (all optional):
-      - id
-      - ids - synonym for id
-      - idtype
-      - report
-      - format
-      - style
-      - styles - synonym for style
+  - request-params - object that holds the query parameters to set
   - expect - object that holds expected results (all optional):
       - status - an int; defaults to 200
       - content-type - defaults to "text/html;charset=UTF-8"
       - character-encoding - defaults to "UTF-8"
       - patterns - array of strings, each is a regexp that should match the
-        content
+            content
 */
 
 [
@@ -46,6 +39,7 @@
     },
     "expect": {
       "patterns": [
+        "<div class=\"csl-entry\" data-id=\"aiid:1\" data-style=\"ieee\">"
       ]
     }
   },
@@ -56,6 +50,8 @@
     },
     "expect": {
       "patterns": [
+        "data-id=\"pmcid:PMC3362639\"",
+        "data-style=\"modern-language-association\""
       ]
     }
   },
@@ -64,10 +60,6 @@
     "request-params": {
       "ids": "PMC3362639",
       "styles": "ieee"
-    },
-    "expect": {
-      "patterns": [
-      ]
     }
   },
   {
@@ -75,20 +67,12 @@
     "request-params": {
       "ids": "3362639",
       "idtype": "pmcid"
-    },
-    "expect": {
-      "patterns": [
-      ]
     }
   },
   {
     "description": "styled citation, doi",
     "request-params": {
       "ids": "10.1371/journal.pmed.1001218"
-    },
-    "expect": {
-      "patterns": [
-      ]
     }
   },
   {
@@ -98,6 +82,7 @@
     },
     "expect": {
       "patterns": [
+        "<div><div class=\"csl-entry\".*</div><div class=\"csl-entry\".*</div></div>"
       ]
     }
   },
@@ -105,10 +90,6 @@
     "description": "styled citation, pmid (article is PMC3352855)",
     "request-params": {
       "ids": "22615544"
-    },
-    "expect": {
-      "patterns": [
-      ]
     }
   },
   {
@@ -119,6 +100,7 @@
     },
     "expect": {
       "patterns": [
+        "<div><div class=\"csl-entry\".*</div><div class=\"csl-entry\".*</div></div>"
       ]
     }
   },
@@ -127,10 +109,6 @@
     "request-params": {
       "ids": "1,2,3,4,5,6,7,8,9,10,11",
       "idtype": "aiid"
-    },
-    "expect": {
-      "patterns": [
-      ]
     }
   },
   {
@@ -138,10 +116,6 @@
     "request-params": {
       "ids": "PMC3352855,PMC3362639",
       "styles": "ieee"
-    },
-    "expect": {
-      "patterns": [
-      ]
     }
   },
   {
@@ -152,6 +126,7 @@
     },
     "expect": {
       "patterns": [
+        "<div><div class=\"csl-entry\" data-id=\"pmcid:PMC3362639\".*</div><div class=\"csl-entry\".*</div></div>"
       ]
     }
   },
@@ -163,9 +138,7 @@
       "format": "json"
     },
     "expect": {
-      "content-type": "application/json;charset=UTF-8",
-      "patterns": [
-      ]
+      "content-type": "application/json;charset=UTF-8"
     }
   },
   {
@@ -178,6 +151,7 @@
     "expect": {
       "content-type": "application/json;charset=UTF-8",
       "patterns": [
+        "[{\"source\":\"PMC\".*\"type\":\"article-journal\"}, {\"source\":\"PMC\".*journal\"}]"
       ]
     }
   },
@@ -188,9 +162,7 @@
       "report": "pub-one"
     },
     "expect": {
-      "content-type": "application/xml;charset=UTF-8",
-      "patterns": [
-      ]
+      "content-type": "application/xml;charset=UTF-8"
     }
   },
   {
@@ -200,9 +172,7 @@
       "report": "nbib"
     },
     "expect": {
-      "content-type": "application/nbib;charset=UTF-8",
-      "patterns": [
-      ]
+      "content-type": "application/nbib;charset=UTF-8"
     }
   },
   {
@@ -214,6 +184,7 @@
     "expect": {
       "content-type": "application/nbib;charset=UTF-8",
       "patterns": [
+        "LA  - eng\\nAID - PMEDICINE-D-12-00386 \\[pii\\].*pmed\\.1001218\\.\\n\\nLA  - eng\\nAID - PMEDICINE-D-12-01099 \\[pii\\]"
       ]
     }
   },
@@ -224,9 +195,7 @@
       "report": "ris"
     },
     "expect": {
-      "content-type": "application/x-research-info-systems;charset=UTF-8",
-      "patterns": [
-      ]
+      "content-type": "application/x-research-info-systems;charset=UTF-8"
     }
   },
   {
@@ -236,13 +205,21 @@
       "report": "ris"
     },
     "expect": {
-      "content-type": "application/x-research-info-systems;charset=UTF-8",
-      "patterns": [
-      ]
+      "content-type": "application/x-research-info-systems;charset=UTF-8"
     }
   },
 
   // Test some error conditions
+  {
+    "description": "no params",
+    "expect": {
+      "status": 400,
+      "content-type": "text/plain;charset=UTF-8",
+      "patterns": [
+        "Need to specify at least one ID"
+      ]
+    }
+  },
   {
     "description": "bad style name",
     "request-params": {

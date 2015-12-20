@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.xml.parsers.DocumentBuilder;
@@ -46,6 +47,13 @@ import gov.ncbi.pmc.ids.RequestId;
  * Data-driven schematron and regular-expression matching tests of the
  * XSLT transforms. The data for these is read from transform-tests.json
  * into a List of TransformTestCase objects.
+ *
+ * You can use the `test_cases` system property to select which tests to run:
+ * - If omitted, or empty, all tests are run
+ * - Otherwise, it's matched against the description, as a regular expression
+ *
+ * So, to test all the cases that have "PubOne" in the description, set:
+ * -Dtest_cases=PubOne
  */
 @RunWith(value = Parameterized.class)
 public class TestTransforms {
@@ -53,6 +61,8 @@ public class TestTransforms {
     @SuppressWarnings("unused")
     private Logger log;
     private TransformTestCase testCase;
+    private static String selected_test_cases =
+            System.getProperty("test_cases");
 
     @Rule
     public TestName name = new TestName();
@@ -82,7 +92,14 @@ public class TestTransforms {
         List<TransformTestCase> testCaseList =
             mapper.readValue(testCasesUrl.openStream(),
                 new TypeReference<List<TransformTestCase>>() {});
-        return testCaseList;
+
+        // Filter the test based on the test_case system property
+        return testCaseList.stream()
+            .filter(p ->
+                selected_test_cases == null ||
+                selected_test_cases.equals("") ||
+                p.description.matches("(.*)" + selected_test_cases + "(.*)")
+            ).collect(Collectors.toList());
     }
 
     /**

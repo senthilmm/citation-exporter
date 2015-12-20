@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,6 +39,13 @@ import gov.ncbi.pmc.cite.Request;
  * Unit test for Requests. This uses Mockito to mock HttpServletRequest and
  * HttpServletResponse objects. It reads test cases from request-tests.json
  * into a list of RequestTestCase objects.
+ *
+ * You can use the `test_cases` system property to select which tests to run:
+ * - If omitted, or empty, all tests are run
+ * - Otherwise, it's matched against the description, as a regular expression
+ *
+ * So, to test all the cases that have "style" in the description, set:
+ * -Dtest_cases=style
  */
 @RunWith(value = Parameterized.class)
 public class TestRequests {
@@ -45,6 +53,8 @@ public class TestRequests {
     @SuppressWarnings("unused")
     private Logger log;
     private RequestTestCase testCase;
+    private static String selected_test_cases =
+        System.getProperty("test_cases");
 
     @Rule
     public TestName name = new TestName();
@@ -74,7 +84,14 @@ public class TestRequests {
         List<RequestTestCase> testCaseList =
             mapper.readValue(testCasesUrl.openStream(),
                 new TypeReference<List<RequestTestCase>>() {});
-        return testCaseList;
+
+        // Filter the test based on the test_case system property
+        return testCaseList.stream()
+            .filter(p ->
+                selected_test_cases == null ||
+                selected_test_cases.equals("") ||
+                p.description.matches("(.*)" + selected_test_cases + "(.*)")
+            ).collect(Collectors.toList());
     }
 
     /**

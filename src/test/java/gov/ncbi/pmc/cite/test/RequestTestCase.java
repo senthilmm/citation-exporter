@@ -1,6 +1,7 @@
 package gov.ncbi.pmc.cite.test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +23,9 @@ public class RequestTestCase {
 
     public String description;
     @JsonProperty("request-params")
-    public Map<String, String> requestParams;
-    public Expect expect;
+    public Map<String, String> requestParams =
+        new HashMap<String, String>();
+    public Expect expect = new Expect();
 
     @Override
     public String toString() {
