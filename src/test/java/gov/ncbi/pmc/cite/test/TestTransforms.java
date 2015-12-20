@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -15,9 +16,13 @@ import javax.annotation.Nonnull;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.slf4j.Logger;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -42,96 +47,110 @@ import gov.ncbi.pmc.ids.RequestId;
  * XSLT transforms. The data for these is read from transform-tests.json
  * into a List of TransformTestCase objects.
  */
+@RunWith(value = Parameterized.class)
 public class TestTransforms {
     protected App app;
+    @SuppressWarnings("unused")
     private Logger log;
+    private TransformTestCase testCase;
 
     @Rule
     public TestName name = new TestName();
 
-    /**
-     * Run all the test cases
-     */
-    @Test
-    public void testCases() throws Exception
+    @Before
+    public void setup()  throws Exception
     {
         log = Utils.setup(name);
+    }
 
+    // Parameter passed in via this constructor
+    public TestTransforms(TransformTestCase _testCase) {
+        testCase = _testCase;
+    }
+
+    // This generates the parameters; reading them from
+    // the JSON file
+    @Parameters(name= "{index}: TestRequest: {0}")
+    public static Collection<TransformTestCase> cases()
+        throws Exception
+    {
         // Read the transform-tests.json file
         ObjectMapper mapper = new ObjectMapper()
             .configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-        URL testCasesUrl = getClass().getClassLoader()
+        URL testCasesUrl = TestTransforms.class.getClassLoader()
             .getResource("transform-tests.json");
         List<TransformTestCase> testCaseList =
             mapper.readValue(testCasesUrl.openStream(),
                 new TypeReference<List<TransformTestCase>>() {});
+        return testCaseList;
+    }
 
+    /**
+     * Test one test case from the JSON file
+     */
+    @Test
+    public void testCases() throws Exception
+    {
         ItemSource itemSource = App.getItemSource();
         TransformEngine engine = App.getTransformEngine();
         Document srcDoc = null;
 
-        log.info("Number of test cases: " + testCaseList.size());
+        String description = testCase.description;
+        log.info("Running transform test '" + description + "'");
 
-        Iterator<TransformTestCase> i = testCaseList.iterator();
-        while (i.hasNext()) {
-            TransformTestCase testCase = i.next();
-            String description = testCase.description;
-            log.info("Running transform test '" + description + "'");
+        // Get the input
+        String id = testCase.id;
+        RequestId rid = new RequestId(id);
+        String informat = testCase.inFormat;
+        if (informat.equals("nxml")) {
+            srcDoc = itemSource.retrieveItemNxml(rid);
+        }
+        else if (informat.equals("pub1")) {
+            srcDoc = itemSource.retrieveItemPubOne(rid);
+        }
+        else {
+            throw new BadParamException("Bad value in test-cases for 'informat': " + informat);
+        }
+        log.trace("Source document:");
+        log.trace(serializeXml(srcDoc));
 
-            // Get the input
-            String id = testCase.id;
-            RequestId rid = new RequestId(id);
-            String informat = testCase.inFormat;
-            if (informat.equals("nxml")) {
-                srcDoc = itemSource.retrieveItemNxml(rid);
-            }
-            else if (informat.equals("pub1")) {
-                srcDoc = itemSource.retrieveItemPubOne(rid);
-            }
-            else {
-                throw new BadParamException("Bad value in test-cases for 'informat': " + informat);
-            }
-            log.trace("Source document:");
-            log.trace(serializeXml(srcDoc));
+        // Do the transformation
+        Object result = engine.doTransform(srcDoc, testCase.transform);
+        log.trace("Transform result:");
 
-            // Do the transformation
-            Object result = engine.doTransform(srcDoc, testCase.transform);
-            log.trace("Transform result:");
+        // Validate the output
+        String outformat = testCase.outFormat;
+        if (outformat.equals("xml")) {
+            Document resultDocument = (Document) result;
+            log.trace(serializeXml(resultDocument));
+            validateXmlTestCase(testCase, resultDocument);
+        }
+        else if (outformat.equals("json")) {
+            String resultString = (String) result;
+            log.trace(resultString);
 
-            // Validate the output
-            String outformat = testCase.outFormat;
-            if (outformat.equals("xml")) {
-                Document resultDocument = (Document) result;
-                log.trace(serializeXml(resultDocument));
-                validateXmlTestCase(testCase, resultDocument);
-            }
-            else if (outformat.equals("json")) {
-                String resultString = (String) result;
-                log.trace(resultString);
+            // use Jackson to convert it to an XML Document
+            ObjectMapper jsonMapper = new ObjectMapper();
+            JsonNode resultJson = jsonMapper.readTree(resultString);
+            XmlMapper xmlMapper = new XmlMapper();
+            String xmlString = xmlMapper.writeValueAsString(resultJson);
+            log.trace("json converted to xml:\n" + xmlString);
 
-                // use Jackson to convert it to an XML Document
-                ObjectMapper jsonMapper = new ObjectMapper();
-                JsonNode resultJson = jsonMapper.readTree(resultString);
-                XmlMapper xmlMapper = new XmlMapper();
-                String xmlString = xmlMapper.writeValueAsString(resultJson);
-                log.trace("json converted to xml:\n" + xmlString);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            InputSource is = new InputSource(new StringReader(xmlString));
+            Document resultDocument = builder.parse(is);
+            validateXmlTestCase(testCase, resultDocument);
+        }
 
-                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder builder = factory.newDocumentBuilder();
-                InputSource is = new InputSource(new StringReader(xmlString));
-                Document resultDocument = builder.parse(is);
-                validateXmlTestCase(testCase, resultDocument);
-            }
-
-            else if (outformat.equals("text")) {
-                String resultString = (String) result;
-                log.trace(resultString);
-                testCase.expressions.forEach((String exp) -> {
-                    Pattern p = Pattern.compile("^.*" + exp + ".*$",
-                            Pattern.DOTALL);
-                    assertThat(resultString, matchesPattern(p));
-                });
-            }
+        else if (outformat.equals("text")) {
+            String resultString = (String) result;
+            log.trace(resultString);
+            testCase.expressions.forEach((String exp) -> {
+                Pattern p = Pattern.compile("^.*" + exp + ".*$",
+                        Pattern.DOTALL);
+                assertThat(resultString, matchesPattern(p));
+            });
         }
     }
 

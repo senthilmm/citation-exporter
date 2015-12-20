@@ -42,6 +42,7 @@ import gov.ncbi.pmc.cite.Request;
 @RunWith(value = Parameterized.class)
 public class TestRequests {
     protected App app;
+    @SuppressWarnings("unused")
     private Logger log;
     private RequestTestCase testCase;
 
@@ -59,7 +60,8 @@ public class TestRequests {
         testCase = _testCase;
     }
 
-    // This generates the parameters
+    // This generates the parameters; reading them from
+    // the JSON file
     @Parameters(name= "{index}: TestRequest: {0}")
     public static Collection<RequestTestCase> cases()
         throws Exception
@@ -72,12 +74,11 @@ public class TestRequests {
         List<RequestTestCase> testCaseList =
             mapper.readValue(testCasesUrl.openStream(),
                 new TypeReference<List<RequestTestCase>>() {});
-
         return testCaseList;
     }
 
     /**
-     * Data-driven request tests; uses request-cases.json.
+     * Test one test case from the JSON file
      */
     @Test
     public void testRequestTestCases() throws Exception
