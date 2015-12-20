@@ -173,7 +173,6 @@ public class Request {
         int numSegs = cafPath.size() - contextPath.size() - origPath.size();
         if (numSegs > 0) reverseProxyPath.addAll(cafPath.subList(0, numSegs));
 
-
         // Remove (our) version number, if it is the first path segment
         resourcePath = new LinkedList<String>();
         if (origPath.size() >= 1 && origPath.get(0).equals(App.apiVersion)) {
