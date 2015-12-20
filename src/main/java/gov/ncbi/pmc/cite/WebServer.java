@@ -92,6 +92,7 @@ public class WebServer
             new XmlConfiguration(server_xml.getInputStream());
         server = (Server) configuration.configure();
 
+        @SuppressWarnings("unused")
         Enumeration<String> attrNames = server.getAttributeNames();
 
         // Set up the Handler that will deal with http requests.  The

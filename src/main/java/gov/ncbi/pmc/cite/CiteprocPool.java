@@ -15,7 +15,8 @@ import org.slf4j.LoggerFactory;
  * CitationProcessors.
  */
 public class CiteprocPool {
-    private Logger log = LoggerFactory.getLogger(Request.class);
+    @SuppressWarnings("unused")
+    private Logger log = LoggerFactory.getLogger(CiteprocPool.class);
     private ItemSource itemSource;
 
     /**

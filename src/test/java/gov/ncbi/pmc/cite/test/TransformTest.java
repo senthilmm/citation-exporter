@@ -154,9 +154,6 @@ public class TransformTest {
 
     /**
      * Helper function to create a JAXP Document object from a string of xml.
-     * @param s
-     * @return JAXP Document object
-     * @throws Exception
      */
     public static Document xmlFromString(String s) throws Exception
     {

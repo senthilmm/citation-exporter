@@ -66,8 +66,6 @@ public class TestUtils {
 
     /**
      * Helper function to serialize XML for logging results.
-     * @param doc
-     * @return
      */
     public static String serializeXml(Document doc)    {
         try
@@ -87,5 +85,4 @@ public class TestUtils {
            return null;
         }
     }
-
 }

@@ -8,14 +8,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Stores information about a single test case, as read from the
  * test-cases.json file.
  */
-public class TestCaseDescriptor {
+public class TestCase {
     public String description;
     public String id;
-    public String informat;
+    @JsonProperty("in-format")
+    public String inFormat;
     public String transform;
-    public String outformat;
+    @JsonProperty("out-format")
+    public String outFormat;
     public String validator = null;
-
     @JsonProperty("validation-expressions")
     public List<String> expressions = null;
 }

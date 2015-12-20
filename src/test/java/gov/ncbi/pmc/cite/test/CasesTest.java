@@ -9,7 +9,6 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
@@ -48,7 +47,6 @@ public class CasesTest {
     @Rule
     public TestName name = new TestName();
 
-
     /**
      * Run all the test cases
      */
@@ -62,9 +60,9 @@ public class CasesTest {
             .configure(JsonParser.Feature.ALLOW_COMMENTS, true);
         URL testCasesUrl = getClass().getClassLoader()
             .getResource("test-cases.json");
-        List<TestCaseDescriptor> testCaseList =
+        List<TestCase> testCaseList =
             mapper.readValue(testCasesUrl.openStream(),
-                new TypeReference<List<TestCaseDescriptor>>() {});
+                new TypeReference<List<TestCase>>() {});
 
         ItemSource itemSource = App.getItemSource();
         TransformEngine engine = App.getTransformEngine();
@@ -73,9 +71,9 @@ public class CasesTest {
 
         log.info("Number of test cases: " + testCaseList.size());
 
-        Iterator<TestCaseDescriptor> i = testCaseList.iterator();
+        Iterator<TestCase> i = testCaseList.iterator();
         while (i.hasNext()) {
-            TestCaseDescriptor testCase = i.next();
+            TestCase testCase = i.next();
             String description = testCase.description;
             log.info("Running transform test '" + description + "'");
 
@@ -83,7 +81,7 @@ public class CasesTest {
             // Get the input
             String id = testCase.id;
             RequestId rid = new RequestId(id);
-            String informat = testCase.informat;
+            String informat = testCase.inFormat;
             if (informat.equals("nxml")) {
                 srcDoc = itemSource.retrieveItemNxml(rid);
             }
@@ -101,7 +99,7 @@ public class CasesTest {
             log.trace("Transform result:");
 
             // Validate the output
-            String outformat = testCase.outformat;
+            String outformat = testCase.outFormat;
             if (outformat.equals("xml")) {
                 Document resultDocument = (Document) result;
                 log.trace(serializeXml(resultDocument));
@@ -138,7 +136,7 @@ public class CasesTest {
     }
 
     // Use schematron to validate xml and json
-    private void validateXmlTestCase(TestCaseDescriptor testCase,
+    private void validateXmlTestCase(TestCase testCase,
             Document resultDocument)
         throws Exception
     {
@@ -150,10 +148,6 @@ public class CasesTest {
 
     /**
      * Test whether an XML file conforms to a given Schematron
-     * @param sstr
-     * @param xml
-     * @return
-     * @throws IllegalArgumentException
      */
     static boolean validateXml(
             @Nonnull final URL schematronUrl,
@@ -167,6 +161,4 @@ public class CasesTest {
         return s.getSchematronValidity(
             new DOMInputStreamProvider(xml)).isValid();
     }
-
-
 }

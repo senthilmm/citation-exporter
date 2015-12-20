@@ -24,6 +24,7 @@ import gov.ncbi.pmc.ids.RequestIdList;
 public class CitationProcessorTest
 {
     protected App app;
+    @SuppressWarnings("unused")
     private Logger log;
 
     @Rule

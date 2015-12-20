@@ -5,21 +5,21 @@ import gov.ncbi.pmc.cite.BadParamException;
 /**
  * This stores information about a particular ID as requested by the user.
  *
- * Implementation note:  I thought about having this extend IdGlob, rather than contain an
- * instance, but it won't work.  The IdGlobs are cached, and once created, need to be independent
- * of any given request.
+ * Implementation note:  I thought about having this extend IdGlob, rather than
+ * contain an instance, but it won't work.  The IdGlobs are cached, and once
+ * created, need to be independent of any given request.
  */
 public class RequestId {
     // The original value, as entered by the user
     private String originalValue;
 
     /**
-     * The type and the canonicalized value (after changes in case, adding default prefix, etc.)
-     * are both stored in the Identifier object
+     * The type and the canonicalized value (after changes in case, adding
+     * default prefix, etc.) are both stored in the Identifier object.
      */
     private Identifier canonical;
 
-    // When this ID gets resolved, this points to this IdGlob
+    /// When this ID gets resolved, this points to this IdGlob
     private IdGlob idGlob;
 
     /// Constructor, default id type is "aiid".
@@ -79,6 +79,18 @@ public class RequestId {
         return idGlob.getIdByType(type);
     }
 
+    /**
+     * This function is similar, but allows you to provide a list of types. If
+     * there is no Identifier of the first type, then it tries the second type,
+     * until one is found; or returns null.
+     */
+    public Identifier getIdByTypes(String[] types) {
+        Identifier id;
+        for (String t : types) {
+            if ((id = getIdByType(t)) != null) return id;
+        }
+        return null;
+    }
 
     public void setGood(boolean good) {
         idGlob.setGood(good);
@@ -91,7 +103,6 @@ public class RequestId {
     public boolean isVersioned() {
         return idGlob.isVersioned();
     }
-
 
     /**
      * Used by the IdResolver during resolution.

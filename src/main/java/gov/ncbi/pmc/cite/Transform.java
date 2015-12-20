@@ -20,12 +20,12 @@ public class Transform {
     // But, according to the Saxon documentation, XsltTransforms are not, so
     // we'll use a ThreadLocal.
     private ThreadLocal<XsltTransformer> xsltTransformers =
-            new ThreadLocal<XsltTransformer>() {
-                @Override
-                protected XsltTransformer initialValue() {
-                    return xsltExecutable.load();
-                }
-            };
+        new ThreadLocal<XsltTransformer>() {
+            @Override
+            protected XsltTransformer initialValue() {
+                return xsltExecutable.load();
+            }
+        };
 
     /**
      * @return the xsltExecutable

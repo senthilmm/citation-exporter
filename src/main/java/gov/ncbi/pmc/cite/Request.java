@@ -192,7 +192,6 @@ public class Request {
         return pathSegsToString(scriptPath);
     }
 
-
     public String getOrigPath() {
         return pathSegsToString(origPath);
     }
@@ -203,6 +202,7 @@ public class Request {
     public boolean pathEmpty() {
         return resourcePath.size() == 0;
     }
+
     /**
      * Returns true if the path in the request (after any context and version
      * part) has only one segment, and its value matches that given.
@@ -230,7 +230,6 @@ public class Request {
         }
         return eq;
     }
-
 
     /**
      * Process a GET request.
@@ -478,7 +477,7 @@ public class Request {
         initPage();
         if (page == null) return;
         page.print(xmlStr);
-}
+    }
 
     /**
      * Utility function to serialize an XML object for output back to the
@@ -536,11 +535,10 @@ public class Request {
         String result = "";
         if (numIds == 1) {
             RequestId requestId = idList.get(0);
-            //IdGlob idg = requestId.getIdGlob();
             if (requestId == null)
                 throw new BadParamException("ID was not properly resolved");
-
-            Identifier id = requestId.getIdByType("pmcid");
+            Identifier id = requestId.getIdByTypes(
+                new String[]{"pmcid", "aiid"});
             String outFilename = id.getType() + "-" + id.getValue() + "." +
                 report;
             contentDispHeader = "attachment; filename=" + outFilename;
@@ -551,7 +549,6 @@ public class Request {
             contentDispHeader = "attachment; filename=results." + report;
             for (int i = 0; i < numIds; ++i) {
                 RequestId requestId = idList.get(i);
-                //IdGlob idg = requestId.getIdGlob();
                 if (requestId != null) {
                     if (i != 0) { result += "\n"; }
                     Document d = itemSource.retrieveItemPubOne(requestId);
@@ -640,7 +637,7 @@ public class Request {
         initPage();
         if (page == null) return;
         page.print(jsonString);
-}
+    }
 
     /**
      * Respond to the client with a list of styled citations.
@@ -691,7 +688,6 @@ public class Request {
             // to the pool.
             for (int cpNum = 0; cpNum < 2; cpNum++) {
                 CitationProcessor cp = cpPool.getCiteproc(style);
-                boolean success = true;
                 try {
                     bibl = cp.makeBibliography(idList, "html");
                 }
@@ -702,7 +698,6 @@ public class Request {
                     // For runtime exceptions, if this is our first attempt,
                     // then we'll assume there's something wrong with the
                     // processor, so don't return it to the pool.
-                    success = false;
                     throw e;
                 }
             }

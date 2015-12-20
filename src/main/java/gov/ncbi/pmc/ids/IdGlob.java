@@ -16,7 +16,6 @@ import java.util.Map;
  *   ID "PMC3159421.1". Every versioned glob will have a reference to its
  *   parent non-versioned glob
  */
-
 public class IdGlob {
     // This is purely for bookkeeping by the application, so that it can keep
     // track of whether or not good data was retrieved for this particular

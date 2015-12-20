@@ -17,7 +17,6 @@ import org.xml.sax.InputSource;
 /**
  * Implementation of ItemSource that gets data from a single stcache.
  */
-
 public class StcachePubOneItemSource extends ItemSource {
     private String pubOneImage;
     private Pmfu pubOneStcache;
@@ -55,8 +54,6 @@ public class StcachePubOneItemSource extends ItemSource {
         return hs.length() < 2 ? "0" + hs : hs;
     }
 
-    /**
-     */
     @Override
     public Document retrieveItemPubOne(RequestId requestId)
         throws NotFoundException, IOException

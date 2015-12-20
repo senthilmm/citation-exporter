@@ -31,7 +31,6 @@ import gov.ncbi.pmc.cite.ServiceException;
  * It calls the PMC ID converter backend if it gets any type of ID other than
  * aiid or pmid.  It can be configured to cache those results.
  */
-
 public class IdResolver {
     /**
      * If caching is enabled, the results returned from the external ID resolver
@@ -112,7 +111,6 @@ public class IdResolver {
     {
         return resolveIds(idStr, idType, new String[] {wantType});
     }
-
 
     /**
      * Resolves a comma-delimited list of IDs into a ResolvedIdList.
@@ -297,5 +295,4 @@ public class IdResolver {
         return newGlob;
       }
     }
-
 }
