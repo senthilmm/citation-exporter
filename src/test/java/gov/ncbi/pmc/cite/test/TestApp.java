@@ -11,7 +11,7 @@ import gov.ncbi.pmc.cite.App;
 /**
  * Unit test for simple App.
  */
-public class AppTest {
+public class TestApp {
     protected App app;
 
     @Rule
@@ -23,7 +23,7 @@ public class AppTest {
     @Test
     public void testApp() throws Exception
     {
-        TestUtils.setup(name);
+        Utils.setup(name);
 
         assertNotNull("ID resolver should not be null", App.getIdResolver());
         assertNotNull("Mapper should not be null", App.getMapper());

@@ -5,10 +5,10 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Stores information about a single test case, as read from the
- * test-cases.json file.
+ * Stores information about a single transform test case, as read from the
+ * transform-tests.json file.
  */
-public class TestCase {
+public class TransformTestCase {
     public String description;
     public String id;
     @JsonProperty("in-format")

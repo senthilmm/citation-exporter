@@ -19,7 +19,7 @@ import gov.ncbi.pmc.cite.App;
  * This provides a single function that does setup that is shared
  * by all the tests.
  */
-public class TestUtils {
+public class Utils {
 
     public static void setProperties()
     {

@@ -21,7 +21,7 @@ import gov.ncbi.pmc.ids.RequestIdList;
 /**
  * Unit test for CitationProcessor.
  */
-public class CitationProcessorTest
+public class TestCitationProcessor
 {
     protected App app;
     @SuppressWarnings("unused")
@@ -36,7 +36,7 @@ public class CitationProcessorTest
     @Test
     public void testCitationProcessor() throws Exception
     {
-        log = TestUtils.setup(name);
+        log = Utils.setup(name);
 
         CiteprocPool cpp = App.getCiteprocPool();
         boolean thrown;

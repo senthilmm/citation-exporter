@@ -1,6 +1,6 @@
 package gov.ncbi.pmc.cite.test;
 
-import static gov.ncbi.pmc.cite.test.TestUtils.serializeXml;
+import static gov.ncbi.pmc.cite.test.Utils.serializeXml;
 import static org.hamcrest.text.MatchesPattern.matchesPattern;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -38,9 +38,11 @@ import gov.ncbi.pmc.cite.TransformEngine;
 import gov.ncbi.pmc.ids.RequestId;
 
 /**
- * Test the "cases" defined in test-cases.json
+ * Data-driven schematron and regular-expression matching tests of the
+ * XSLT transforms. The data for these is read from transform-tests.json
+ * into a List of TransformTestCase objects.
  */
-public class CasesTest {
+public class TestTransforms {
     protected App app;
     private Logger log;
 
@@ -53,30 +55,28 @@ public class CasesTest {
     @Test
     public void testCases() throws Exception
     {
-        log = TestUtils.setup(name);
+        log = Utils.setup(name);
 
-        // Read the test-cases json file
+        // Read the transform-tests.json file
         ObjectMapper mapper = new ObjectMapper()
             .configure(JsonParser.Feature.ALLOW_COMMENTS, true);
         URL testCasesUrl = getClass().getClassLoader()
-            .getResource("test-cases.json");
-        List<TestCase> testCaseList =
+            .getResource("transform-tests.json");
+        List<TransformTestCase> testCaseList =
             mapper.readValue(testCasesUrl.openStream(),
-                new TypeReference<List<TestCase>>() {});
+                new TypeReference<List<TransformTestCase>>() {});
 
         ItemSource itemSource = App.getItemSource();
         TransformEngine engine = App.getTransformEngine();
         Document srcDoc = null;
 
-
         log.info("Number of test cases: " + testCaseList.size());
 
-        Iterator<TestCase> i = testCaseList.iterator();
+        Iterator<TransformTestCase> i = testCaseList.iterator();
         while (i.hasNext()) {
-            TestCase testCase = i.next();
+            TransformTestCase testCase = i.next();
             String description = testCase.description;
             log.info("Running transform test '" + description + "'");
-
 
             // Get the input
             String id = testCase.id;
@@ -136,7 +136,7 @@ public class CasesTest {
     }
 
     // Use schematron to validate xml and json
-    private void validateXmlTestCase(TestCase testCase,
+    private void validateXmlTestCase(TransformTestCase testCase,
             Document resultDocument)
         throws Exception
     {

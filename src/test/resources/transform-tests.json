@@ -2,7 +2,10 @@
   [The test code enables Jackson's ALLOW_COMMENTS feature, so comments are
   allowed in this json file.]
 
-  The values that make up a test case:
+  This JSON file describes tests that are performed by the TestTransforms
+  class. This file is read in as a List of TransformTestCase objects.
+
+  The values that make up a transform test case:
 
   - description: required
   - id: required; string value of the ID

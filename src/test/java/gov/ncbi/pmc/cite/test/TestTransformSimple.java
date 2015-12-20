@@ -1,6 +1,6 @@
 package gov.ncbi.pmc.cite.test;
 
-import static gov.ncbi.pmc.cite.test.TestUtils.serializeXml;
+import static gov.ncbi.pmc.cite.test.Utils.serializeXml;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -26,7 +26,14 @@ import gov.ncbi.pmc.cite.TransformEngine;
 import gov.ncbi.pmc.ids.Identifier;
 import gov.ncbi.pmc.ids.RequestId;
 
-public class TransformTest {
+/**
+ * This does some simple, manual unit tests of the code that drives the
+ * XSLT transforms.
+ *
+ * Data-driven schematron and regular-expression matching tests are done in
+ * TransformTest.java.
+ */
+public class TestTransformSimple {
     protected App app;
     private Logger log;
 
@@ -39,7 +46,7 @@ public class TransformTest {
     @Test
     public void testGetNxml() throws Exception
     {
-        log = TestUtils.setup(name);
+        log = Utils.setup(name);
         ItemSource itemSource = App.getItemSource();
 
         Document nxml_31 = null;
@@ -54,7 +61,7 @@ public class TransformTest {
     @Test
     public void testIdentityTransform() throws Exception
     {
-        log = TestUtils.setup(name);
+        log = Utils.setup(name);
         Document in, out;
         TransformEngine engine = App.getTransformEngine();
 
@@ -82,7 +89,7 @@ public class TransformTest {
     @Test
     public void testStringValueTransform() throws Exception
     {
-        log = TestUtils.setup(name);
+        log = Utils.setup(name);
         Document in;
         String out;
         TransformEngine engine = App.getTransformEngine();
@@ -108,7 +115,7 @@ public class TransformTest {
     @Test
     public void testParams() throws Exception
     {
-        log = TestUtils.setup(name);
+        log = Utils.setup(name);
         Document in;
         Map<String, String> params = new HashMap<String, String>();
         String out;
@@ -142,7 +149,7 @@ public class TransformTest {
     @Test
     public void testTransformWithResolver() throws Exception
     {
-        log = TestUtils.setup(name);
+        log = Utils.setup(name);
         Document in, out;
         TransformEngine engine = App.getTransformEngine();
 
@@ -162,7 +169,5 @@ public class TransformTest {
         InputSource is = new InputSource(new StringReader(s));
         return db.parse(is);
     }
-
-
 }
 
