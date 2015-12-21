@@ -83,11 +83,59 @@ plugin](http://maven.apache.org/surefire/maven-surefire-plugin/examples/single-t
 for more options.
 
 
-
 ### Test samples
 
 A good set of samples is listed in the application's [samples
 page](http://www.ncbi.nlm.nih.gov/pmc/utils/ctxp/samples).
+
+
+### Data-driven validation unit tests
+
+Among the unit tests that `mvn test` will run are two sets that use data files
+to verify the output of transformations, and the responses to requests:
+TestTransforms.java and TestRequests.java.
+
+***TestTransforms.java***
+
+This provides data-driven schematron and regular-expression matching tests 
+of the XSLT transforms. The individual test cases are defined in the 
+src/test/resources/transform-tests.json file, which is read into a List of 
+TransformTestCase objects.
+
+You can use the `test_cases` system property to select which specific test 
+case to run:
+
+- If omitted, or empty, all tests are run
+- Otherwise, it's matched against the description, as a regular expression
+
+So, for example, to test all the cases that have "PubOne" in the description, 
+run:
+
+```
+mvn -Dtest=TestTransforms -Dtest_cases=PubOne test
+```
+
+The format of the transform-tests.json file is defined in comments there.
+
+When checking XML output, Schematron files are used, that are also in 
+the src/test/resources directory.
+
+***TestRequests.java***
+
+This provides unit tests for the Request class, which handles HTTP requests. 
+It uses Mockito to mock HttpServletRequest and HttpServletResponse objects. 
+It reads test cases from src/test/resources/request-tests.json into a List 
+of RequestTestCase objects.
+
+As with TestTransforms, you can use the `test_cases` system property to 
+select which tests to run.
+
+For example, to test all the cases that have "style" in the description, 
+run:
+
+```
+mvn -Dtest=TestTransforms -Dtest_cases=style test
+```
 
 
 ### Performance tests
