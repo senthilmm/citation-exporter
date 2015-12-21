@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * Implementation of ItemSource that gets data from the stcache.
  */
-
 public class StcacheNxmlItemSource extends ItemSource {
     private String nxmlImage;
     private Nxml nxmlStcache;
@@ -50,5 +49,4 @@ public class StcacheNxmlItemSource extends ItemSource {
             throw new IOException(e);
         }
     }
-
 }

@@ -150,7 +150,6 @@ public class TestItemSource extends ItemSource {
         return doc;
     }
 
-
     /**
      * Get the citeproc-json representation of an item.  If the .json file
      * exists in the test directory, return that.  Otherwise, fetch it the
@@ -191,7 +190,6 @@ public class TestItemSource extends ItemSource {
             throw new IOException(e);
         }
     }
-
 
     /**
      * Reads a file from the test directory as a String.  Not used now, but

@@ -1,0 +1,322 @@
+<!-- ArticleInstanceId : 4682287, Path: jbt/olf-9999/olf/preload/nxml/, Name : jbt.16-2701-002-jbt.16-2701-002.nxml -->
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Archiving and Interchange DTD v1.1d3 20150301//EN" "JATS-archivearticle1.dtd">
+<article xmlns:ali="http://www.niso.org/schemas/ali/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:mml="http://www.w3.org/1998/Math/MathML" article-type="research-article">
+  <?OLF?>
+  <?DTDIdentifier.IdentifierValue -//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.0 20120330//EN?>
+  <?DTDIdentifier.IdentifierType public?>
+  <?SourceDTD.DTDName JATS-journalpublishing1.dtd?>
+  <?SourceDTD.Version 1.0?>
+  <?ConverterInfo.XSLTName jp2nlmx2.xsl?>
+  <?ConverterInfo.Version 2?>
+  <front>
+    <journal-meta>
+      <journal-id journal-id-type="nlm-ta">J Biomol Tech</journal-id>
+      <journal-id journal-id-type="iso-abbrev">J Biomol Tech</journal-id>
+      <journal-id journal-id-type="hwp">jbt</journal-id>
+      <journal-id journal-id-type="pmc">jbt</journal-id>
+      <journal-id journal-id-type="publisher-id">J Biomol Tech</journal-id>
+      <journal-title-group>
+        <journal-title>Journal of Biomolecular Techniques : JBT</journal-title>
+      </journal-title-group>
+      <issn pub-type="ppub">1524-0215</issn>
+      <issn pub-type="epub">1943-4731</issn>
+      <publisher>
+        <publisher-name>Association of Biomolecular Resource Facilities</publisher-name>
+        <publisher-loc>Bethesda, MD, USA</publisher-loc>
+      </publisher>
+    </journal-meta>
+    <article-meta>
+      <article-id pub-id-type="publisher-id">JBT_2016-2701-002</article-id>
+      <article-id pub-id-type="doi">10.7171/jbt.16-2701-002</article-id>
+      <article-categories>
+        <subj-group subj-group-type="heading">
+          <subject>Article</subject>
+        </subj-group>
+      </article-categories>
+      <title-group>
+        <article-title>Operational Changes in a Shared Resource Laboratory with the Use of a Product Lifecycle Management Approach: A Case Study</article-title>
+      </title-group>
+      <contrib-group>
+        <contrib contrib-type="author" corresp="yes">
+          <name>
+            <surname>Hexley</surname>
+            <given-names>Philip</given-names>
+          </name>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Smith</surname>
+            <given-names>Victoria</given-names>
+          </name>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Wall</surname>
+            <given-names>Samantha</given-names>
+          </name>
+        </contrib>
+        <aff id="aff1">Office of the Vice Chancellor for Research, University of Nebraska Medical Center, Omaha, Nebraska 68198-5816, USA</aff>
+      </contrib-group>
+      <author-notes>
+        <corresp id="cor1">A<sc>ddress correspondence to</sc>: Philip Hexley, Flow Cytometry Research Facility, UNMC, 1056 Durham Research Center, 985816 Nebraska Medical Center, Omaha, NE 68198-5816, USA (Phone: 402-559-6299; Fax: 402-559-8445; E-mail: <email>phil.hexley@unmc.edu</email>).</corresp>
+      </author-notes>
+      <pub-date pub-type="epub">
+        <day>16</day>
+        <month>12</month>
+        <year>2015</year>
+      </pub-date>
+      <pub-date pub-type="ppub">
+        <month>4</month>
+        <year>2016</year>
+      </pub-date>
+      <elocation-id>jbt.16-2701-002</elocation-id>
+      <permissions>
+        <copyright-statement>&#x000a9; Federation of American Societies for Experimental Biology</copyright-statement>
+        <copyright-year>2016</copyright-year>
+        <copyright-holder>Association of Biomolecular Resource Facilities</copyright-holder>
+      </permissions>
+      <self-uri xlink:title="pdf" xlink:href="jbt.16-2701-002-jbt.16-2701-002.pdf"/>
+      <abstract>
+        <p>Shared Resource Laboratories (SRLs) provide investigators access to necessary scientific and resource expertise to leverage complex technologies fully for advancing high-quality biomedical research in a cost-effective manner. At the University of Nebraska Medical Center, the Flow Cytometry Research Facility (FCRF) offered access to exceptional technology, but the methods of operation were outdated and unsustainable. Whereas technology has advanced and the institute has expanded, the operations at the facility remained unchanged for 35 yr. To rectify this, at the end of 2013, we took a product lifecycle management approach to affect large operational changes and align the services offered with the SRL goal of education, as well as to provide service to researchers. These disruptive operational changes took over 10 mo to complete and allowed for independent end-user acquisition of flow cytometry data. The results have been monitored for the past 12 mo. The operational changes have had a positive impact on the quality of research, increased investigator-facility interaction, reduced stress of facility staff, and increased overall use of the resources. This product lifecycle management approach to facility operations allowed us to conceive of, design, implement, and monitor effectively the changes at the FCRF. This approach should be considered by SRL management when faced with the need for operationally disruptive measures.</p>
+      </abstract>
+      <kwd-group>
+        <kwd>change management</kwd>
+        <kwd>strategy</kwd>
+        <kwd>project management</kwd>
+      </kwd-group>
+      <counts>
+        <page-count count="7"/>
+      </counts>
+      <custom-meta-group>
+        <custom-meta>
+          <meta-name> DJS Export </meta-name>
+          <meta-value>v1</meta-value>
+        </custom-meta>
+      </custom-meta-group>
+    </article-meta>
+  </front>
+  <body>
+    <sec sec-type="intro" id="s1">
+      <title>INTRODUCTION</title>
+      <p>The roots of the Flow Cytometry Research Facility (FCRF) at University of Nebraska Medical Center (UNMC) reach back to 1980 when 1 research technician became the sole operator for a new technology located in an individual investigator&#x02019;s laboratory. At that time, flow cytometry technology was very complicated and offered researchers new, powerful analysis techniques that were not common practice. As with many novel and complicated technologies, the technician became the resident expert within the laboratory, as well as the point of contact for the few collaborating investigators. As demand for flow cytometry technology increased at the institute, the resident expert secured cytometry technology independent of an individual investigator&#x02019;s laboratory and created a core service. Over the following 25 yr, the core updated and increased the technology offered from 1 flow cytometer to 9 and increased access to the technology, from serving 1 to 3 laboratories in the mid-1980s to &#x0003e;85 independent laboratories in 2010. In financial yr 2010 (July 1, 2009&#x02013;June 30, 2010), the total use of service at the facility was &#x0003e;5000 h. Core personnel and management structure grew, along with the increased use, and by 2004, the staff included 3 full-time employees (FTEs): a core staff member reporting to the core manager and the manager reporting to the core director.</p>
+      <p>As flow cytometry technology became easier to operate but increasingly complex in capabilities, <italic>e.g.</italic>, more lasers, increased dimensions acquired, and greater reagent availability, the need for interaction and collaboration to use this technology effectively grew. To highlight this development in core facilities, Moore and Roederer<xref rid="B1" ref-type="bibr">
+          <sup>1</sup>
+        </xref> published best practices for Shared Resource Laboratories (SRLs), focusing on flow cytometry technology. The authors outline key performance aspects crucial to operating an effective SRL. These include the following: a highly qualified and active core director; knowledgeable and service-oriented staff; high-quality, cost-effective service; education as part of the SRL mission; and maintenance of high-quality, state-of-the-art instrumentation, an active research and development program, a knowledgeable and involved scientific advisory board, high-quality space, fiscally sound budget, and shared institutional responsibilities. The focal point is that SRLs no longer simply provide a service but are key partners for biomedical research laboratories in effective flow cytometry experiments. The aforementioned characteristics are indicators of how SRLs can achieve this partner status.
+      </p>
+      <p>Many SRLs have education as a fundamental practice, where they teach end users the basic concepts of the technology and applications and train individuals to operate instrumentation. This is an effective use of core instrumentation and resource scientist expertise (we differentiate a resource scientist from a research technologist, where a resource scientist is highly skilled in a technology-focused and service-oriented position, such as a flow cytometry SRL). These fundamental SRL performance aspects provide a roadmap for SRLs to tweak operations and align themselves with standard best practices.</p>
+      <p>At the FCRF, there were compounding problems. First, the manner in which the service was offered had not been updated since the mid-1980s. Through a concierge interface, end users would deliver samples to the core, fill in an information sheet denoting the experimental essentials (including fluorescent reagents used and sample type), and expect core staff to acquire and analyze the data autonomously. There was little-to-no interaction on the biology and minimal follow-up on the experiment or analyses. Second, education was not a part of the mission at the FCRF; end users of this core deemed flow cytometry to be fee for service with minimal interaction. Finally, with increasing FCRF work hours putting strain on operations, there were personnel losses: the core manager moved to a new position outside of the FCRF, and the director was retiring. By 2013, this left 1 core personnel to operate 9 instruments, acquiring and analyzing data for &#x0003e;85 independent laboratories. Data quality was decreasing, complaints to the Office of the Vice Chancellor for Research (VCR) about core operations at the FCRF were becoming more frequent, and use appeared to have exceeded capacity for 1 individual and 9 instruments. In October 2013, a new strategic direction was deemed necessary to tackle 2 key gaps in operation at the FCRF: 1) support UNMC faculty needs that were not being met by the facility, and 2) modify facility operations to increase staff recruitment potential, investigator interaction, and use.</p>
+      <p>To achieve this necessary change, we adapted concepts from a product lifecycle management approach. Product lifecycle management is a concept from manufacturing and commonly applied in information technology. Stark<xref rid="B2" ref-type="bibr">
+          <sup>2</sup>
+        </xref> defines product lifecycle management as an effective way that a product can be overseen from initial ideas to retirement, the objective being to increase the value of current and future products for the customer and shareholders. The 5 phases of product lifecycle management are the following: 1) idea, 2) definition, 3) realization, 4) maintenance, and 5) disposal. The product that we define here is not a material article but a process for SRLs to become key partners for biomedical research. The goal of a product management lifecycle approach was identical to that of the SRL: increase the value of the current SRL for customers and stakeholders and continue developing this in the future. We modified the phases of the conventional product lifecycle management approach to achieve the shared goals and to address the different type of product, and we had no intention of disposing of or retiring the SRL. From this, 4 phases were defined: 1) conception, 2) design, 3) implementation, and 4) continued management.
+      </p>
+      <p>For phase 1, what we wanted to achieve had to be identified. Once this was identified, we started phase 2, the design&#x02014;developing the plan for achieving this change in operation. We took a top-down approach, focusing on functional requirements of the core, and this guided how we would achieve the end goal. Phase 3&#x02014;implementation&#x02014;is where the plan was put into action. Finally, phase 4&#x02014;continued management&#x02014;was where we monitored the response to the change and took corrective steps to fulfill the needs of the SRL to the institution.</p>
+      <p>A multifaceted approach (including literature review, personal communication, assessing peer institutions, and surveying the end user needs locally at UNMC) was taken to determine what the end goal would be. The benefits of independent end-user acquisition of flow cytometry data are well defined<xref rid="B1" ref-type="bibr">
+          <sup>1</sup>
+        </xref> and appeared to be appropriate to implement at the FCRF. The updating of the structure of services to allow for this independent acquisition was approached in Phases 2&#x02013;4 of this product lifecycle management.
+      </p>
+      <p>Furthermore, a new director was hired at the end of 2013, and a new resource scientist was hired in mid-2014, reinstating a 3.0 FTE SRL. The additional personnel proved necessary for updating the structure of services at the FCRF and for allowing the time to interact and educate the end users.</p>
+    </sec>
+    <sec sec-type="materials|methods" id="s2">
+      <title>MATERIALS AND METHODS</title>
+      <sec id="s3">
+        <title>Phase 1: Conception (5 mo)</title>
+        <p>End users were approached to discuss the structure of services at FCRF, and responses were documented. This allowed us to determine the different expectations of the FCRF from a wide user base. The advisory committee, in itself representative of the user base, was consulted on the expectations and presented with the idea of change at a committee meeting. Peer institutions were contacted and operations assessed to identify the current practices in successful SRLs. From this market research, it was determined that independent acquisition of flow cytometry data by the end user was the goal of this change in structure of services. This would allow resource scientists at the FCRF time to discuss experimental design, support instrument optimization and acquisition, assist with analysis, and provide feedback on the experimentation. Other key questions were determined at this stage, including how many end users would we have to train and how to communicate this change effectively to the wider community of UNMC investigators. As a means to encourage independent acquisition on the instruments, independent acquisition was priced lower than assisted acquisition. The 5 mo was a necessary timeframe for this market research at the FCRF. This could have been shortened if staff levels had been 3.0 FTEs at the time of conception.</p>
+      </sec>
+      <sec id="s4">
+        <title>Phase 2: Design (3 mo)</title>
+        <p>To transition from a process where core staff acquired data to one in which end users independently acquired flow cytometry data, 4 key steps of change were identified: 1) end-user education; 2) access to instrument schedules; 3) instrument training; and 4) access to analysis software. Validation steps were deemed necessary to ensure the smooth transition of training large volumes of users. Communication streams were outlined to advertise the change effectively in structure of services at the FCRF. These validation steps would guide the development of new Standard Operating Procedures (SOPs) and policies at the FCRF, outlining how the new services would be offered and what steps would be necessary to ensure that correct procedures were followed.</p>
+        <p>A date was identified (June 2, 2014) for completion of the validation steps and transition to this new, independent acquisition process. This allowed 10 wk for the transition. Multiple methods were identified for how this change in structure of service would be communicated, including presentations, targeted emails, and personal communication. Based on the number of individual laboratories and average number of flow cytometry users within the laboratories, we determined that the maximum number of investigators that the FCRF would have to train during this transition was 250. This was the maximum number of investigators that would have to undertake the 4 steps defined above. Whereas we did not anticipate all 250 investigators needing to be trained immediately, we planned for this possibility.</p>
+        <p>Rate calculations were undertaken to determine the true cost of the services. Flow cytometry was previously charged at $38/h. Based on the new rate calculations, we set the cost for independent acquisition at $35/h and increased the cost for assisted acquisition to $55/h. A training fee of $35/h would be added for individuals who trained after the conclusion of the transitional period.</p>
+        <p>The 3 mo was a necessary timeframe for design at the initial site at UNMC. If other SRLs were to adopt this approach, successive design times could be shortened significantly.</p>
+      </sec>
+      <sec id="s5">
+        <title>Phase 3: Implementation (2.5 mo)</title>
+        <p>Throughout phase 2, validation for each of the 4 steps designed were undertaken. All FCRF personnel were involved in developing the educational content and validating analysis software access on core computers. A description of the educational content is provided in <xref ref-type="table" rid="T1">
+            <bold>Table 1</bold>
+          </xref>. Select end users, who were keen to operate the flow cytometers independently and who used the core often, were invited to validate the access to instrument schedules and pilot the instrument training. Modifications were made to these 4 steps based on feedback from respective testers. SOPs and policies for the new services were developed and documented.
+        </p>
+        <table-wrap id="T1" orientation="portrait" position="float">
+          <label>TABLE 1</label>
+          <caption>
+            <p>Outline of Educational Content, Offered Monthly in Lecture Format</p>
+          </caption>
+          <table frame="above" rules="groups">
+            <col width="16.04%" span="1"/>
+            <col width="74.77%" span="1"/>
+            <col width="9.19%" span="1"/>
+            <thead>
+              <tr>
+                <th valign="top" align="left" scope="col" rowspan="1" colspan="1">Section title</th>
+                <th valign="top" align="center" scope="col" rowspan="1" colspan="1">Content</th>
+                <th valign="top" align="center" scope="col" rowspan="1" colspan="1">Duration (min)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">What is flow cytometry?</td>
+                <td valign="top" align="left" rowspan="1" colspan="1">A basic synopsis of flow cytometry technology</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">5</td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">Applications overview</td>
+                <td valign="top" align="left" rowspan="1" colspan="1">Introduction to the wide variety of applications possible by use of flow cytometry technology</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">15</td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">Background principles</td>
+                <td valign="top" align="left" rowspan="1" colspan="1">Information on the electromagnetic spectrum, fluorescence, and fluorochromes to give context to later sections of the lecture</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">10</td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">How does it work?</td>
+                <td valign="top" align="left" rowspan="1" colspan="1">Presenting the theory and function of the fluidics, optics, and electronics of a flow cytometer; this includes delivery of single cells to the point of analysis, performing the interrogation of the cell, and processing the information to produce interpretable data</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">20</td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">The C-words of cytometry</td>
+                <td valign="top" align="left" rowspan="1" colspan="1">An overview of compensation, calibration, and controls; these are essential for good quality and reproducible data generation and interpretation</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">20</td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">Facility tour</td>
+                <td valign="top" align="left" rowspan="1" colspan="1">Provide a break from lecture format to tour the facility and show users where the equipment and staff are located; opportunity to view and interact with a demonstration unit flow cytometer, applying perspective to the lecture content presented</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">30</td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">Experimental essentials</td>
+                <td valign="top" align="left" rowspan="1" colspan="1">Discussing aspects to consider and common mistakes in flow cytometry experiments; detailed information on the following: 1) experimental design, 2) sample preparation, 3) data acquisition, and 4) data analysis</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">50</td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" scope="row" rowspan="1" colspan="1">The use of the facility</td>
+                <td valign="top" align="left" rowspan="1" colspan="1">An overview of the steps necessary for completing the independent training; a review of the facility services and associated costs; summarizing the facility policies and where further information can be found; allowing time for questions</td>
+                <td valign="top" align="center" rowspan="1" colspan="1">30</td>
+              </tr>
+            </tbody>
+          </table>
+          <table-wrap-foot>
+            <fn fn-type="other">
+              <p>Total duration is &#x0223c;3 h.</p>
+            </fn>
+          </table-wrap-foot>
+        </table-wrap>
+        <p>During these validation steps, a large communication effort was made to advertise the change in structure of services at the FCRF. June 2, 2014 was identified as the start of the 10-wk transitional phase and August 18, 2014 as when the new structure of services and the new service rates would be implemented. The communication effort included 3 short presentations, delivered once in June, once in July, and again in August. FCRF personnel discussed the change, answered questions, and tried to allay investigators&#x02019; concerns. E-mails were sent describing the changes in structure of service and cost and the key dates for when these would be implemented, as well as highlighting when presentations would occur. These e-mails were sent beginning in May to all research personnel and additionally, to all identified end users of the FCRF once per month, for 3 mo. The e-mails were staggered between all personnel and targeted end users. In addition to e-mails and seminars, FCRF staff actively approached end users as they dropped off samples to discuss the upcoming change in structure of services.</p>
+        <p>We made the stated deadlines, and by August 18, 2014, we fully implemented the new structure in services. The 10-wk timeframe was based on availability of staff for end-user training and the number of potential investigators to train. If other SRLs were to adopt this approach, successive implementation times would be dependent on those 2 factors.</p>
+      </sec>
+      <sec id="s6">
+        <title>Phase 4: Continued Management (12 mo)</title>
+        <p>From August 19, 2014 to August 31, 2015, the FCRF actively monitored the progress of the shift in services, modifying practices to offer more effectively the expertise and instrumentation to end users. An annual survey was sent out to assess the shift in services undertaken, first sent in September 2014.</p>
+      </sec>
+    </sec>
+    <sec sec-type="results" id="s7">
+      <title>RESULTS</title>
+      <p>The facility monitored attendance of the educational class, which is compulsory for end users who want to achieve independent operation. The second step was training on the Research Support System (RSS), an online, in-house-built scheduling software. The RSS allows end users to view instrument schedules and create/edit/delete appointments up to 24 h in advance of the desired appointment time. The third and final step for approval as an independent operator was the one-on-one instrument training. <xref ref-type="fig" rid="F1">
+          <bold>Figure 1</bold>
+        </xref> shows the number of end users who attended the educational class, the number who went on to take the RSS training, and the number who completed the one-on-one independent operator training (measured daily during the transition at class intervals for the following 12 mo) and how this relates to the decrease in facility staff-operated analysis over the transition and continued management period.
+      </p>
+      <fig id="F1" fig-type="figure" orientation="portrait" position="float">
+        <label>Figure 1.</label>
+        <caption>
+          <p>Chart showing change in operation over time. The RSS training and independent operators are plotted daily during the transition period (June 2&#x02013;August 18, 2014) and updated periodically, coinciding with subsequent class training for the following 12 mo. The facility staff-operated analysis was historically at 100%, and with the culture change in how end users interact at the facility, this dropped to 40% during the transition, which has persisted for the following 12 mo.</p>
+        </caption>
+        <graphic xlink:href="jbt.16-2701-002-jbt.16-2701-002_f1"/>
+      </fig>
+      <p>
+        <xref ref-type="fig" rid="F2">
+          <bold>Figure 2</bold>
+        </xref> shows year-to-year change in the total number of analysis hours used at the facility from 2010 to 2015. Use of the facility had been changing &#x000b1;5% from 1 yr to the next from 2010 to 2014. With the implementation of independent-user operation, we see a 16.5% increase in overall facility analysis use.
+      </p>
+      <fig id="F2" fig-type="figure" orientation="portrait" position="float">
+        <label>Figure 2.</label>
+        <caption>
+          <p>Year-to-year change in analysis use at the SRL. The use rate reflects actual use at the facility, which was relatively steady from 2010, with a negligible 5% shift from 1 yr to the next. Following introduction of the shift in services in August 2014, the analysis use increased 16.5%.</p>
+        </caption>
+        <graphic xlink:href="jbt.16-2701-002-jbt.16-2701-002_f2"/>
+      </fig>
+      <p>
+        <xref ref-type="fig" rid="F3">
+          <bold>Figure 3</bold>
+        </xref> presents survey responses to assess the change in structure of services offered at the FCRF. The 6 question survey was sent to all 250 potential end users. We had a 24% response rate.
+      </p>
+      <fig id="F3" fig-type="figure" orientation="portrait" position="float">
+        <label>Figure 3.</label>
+        <caption>
+          <p>Summary of survey responses.</p>
+        </caption>
+        <graphic xlink:href="jbt.16-2701-002-jbt.16-2701-002_f3"/>
+      </fig>
+    </sec>
+    <sec sec-type="discussion" id="s8">
+      <title>DISCUSSION</title>
+      <p>The knowledge of concepts from manufacturing and information technology structure and the application of them to an SRL business strategy facilitated insightful planning and implementation of major changes to the structure of services offered at the FCRF. Through this approach, the FCRF has successfully instilled a culture change in how end users interact with the facility (<xref ref-type="fig" rid="F1">Fig. 1</xref>). During the transition of Phase 3 (June 2&#x02013;August 18, 2014), the percentage of facility staff-operated analysis decreased from 100 to 40%, a substantial shift in how end users interact with the facility. For the past 12 mo, the use has remained hovering at this 40% facility staff-operated analysis level.</p>
+      <p>The number of individuals who take the independent, one-on-one training spiked in the days leading up to August 18, 2014 (end of the transition period), after which, a fee was introduced for the one-on-one training. This indicates the fact that the fee structure and the dates for implementing the shift in services were communicated effectively (many people sought to complete training before fees were introduced, and rates for assisted acquisition increased).</p>
+      <p>In the 12 mo following, there has been a steady and continual attendance for the educational class that correlates strongly with the number of individuals taking the RSS and further one-on-one instrument training (<xref ref-type="fig" rid="F1">Fig. 1</xref>). Patterns in attendance at the class will be used to identify whether additional classes are warranted; for example, when a new term starts, and there is an influx of new students. At these peak demand months, as part of Phase 4 (continued management), we may seek to increase capacity for training by offering 2 classes per month as opposed to the 1 class per month currently offered.</p>
+      <p>There is a 12% increase in revenue at the FCRF for fiscal year (FY) 2015 (data not shown), but this is positively and negatively skewed by the reduction in price for independent operation and the increase in price for assisted operation, respectively. Perhaps a better metric for evaluating the impact of the change in structure of services is to compare the year-on-year difference in use. The facility was &#x000b1;5% change in analysis use from 2010 through to 2014. With implementation of independent acquisition in August 2014, there is a 16.5% increase in FY2015 analysis use. This is a direct, immediate, and measurable positive impact from modifying the structure of services at the FCRF (<xref ref-type="fig" rid="F2">Fig. 2</xref>).</p>
+      <p>
+        <xref ref-type="fig" rid="F3">Figure 3</xref> gives an insight into how the shift in services was perceived during conception and implementation and helps us identify future needs for monitoring and increasing end-user satisfaction. It can be seen from question 1, the change in services was well communicated, with &#x0003e;98% of respondents giving a positive &#x0201c;yes&#x0201d; or &#x0201c;to some extent&#x0201d; answer. Based on communication with the other 2%, we identified alternative lines of communication that may have allowed us to capture the few individuals who did not anticipate the upcoming changes at the FCRF (<italic>e.g.</italic>, a poster on the SRL entrance door). Overall, responses to the survey questions were overwhelmingly positive, indicating that the changes to the FCRF services were well implemented and well received at UNMC.
+      </p>
+      <p>Throughout the continued management phase, there have been significant improvements in areas of concern that initiated the change in services. Based on responses from end users, the quality of research has increased, with staff being able to spend more time collaborating with researchers and discussing data analysis and interpretation. In addition to staff being named as authors on selected publications, we have documented an increase in FCRF acknowledgments in publications, from a historic cap of 32/yr to 48 FCRF acknowledgments in FY2015. At least anecdotally, facility staff morale has improved as stress and work hours have been reduced.</p>
+      <p>The 4 phases adapted from product lifecycle management were effective in the realization of what changes were necessary, for defining the steps needed to achieve these changes and identifying necessary validation steps, for delivering this change effectively to the end users at UNMC, and for monitoring and maintaining the structure of services at the FCRF. If such disruptive changes are necessary, then this adaptation of product lifecycle management has proven to be a valuable resource in SRL business and operations management.</p>
+      <p>As a result of the positive outcomes that we have seen at UNMC FCRF, we are investigating the use of this adapted product lifecycle management approach to make similar improvements at another flow cytometry SRL located at another institute. Whereas each SRL will differ in the specifics, this 4-phase approach has been demonstrated to work well for identifying improvements in value and in providing a process for SRLs to become successful partners for biomedical research. This approach should be considered by all SRL management when faced with the need for operationally disruptive measures.</p>
+      <sec id="s9">
+        <title>Product Lifecycle Management</title>
+        <p>Product lifecycle management is a strategy to resolve effectively problems of designing and introducing a new product and supporting that product throughout its lifetime. This includes technology, processes, and best practices to develop a solution to business problems. Through product lifecycle management, a business can transform products and processes to enhance performance and increase the value of the product for both customers and shareholders. Three of the lifecycle phases (idea, definition, and realization) make up the Beginning of Life. The Middle of Life includes supporting the product during use. At the end of the useful lifespan of the product comes the End of Life, where the product is retired and/or eliminated.<xref rid="B2" ref-type="bibr">
+            <sup>2</sup>
+          </xref> Different individuals can be responsible for the product during these different stages. Product lifecycle management strategies support implementing these stages by defining how people, processes, and information will be integrated.<xref rid="B3" ref-type="bibr">
+            <sup>3</sup>
+          </xref>
+        </p>
+      </sec>
+    </sec>
+  </body>
+  <back>
+    <ack>
+      <title>ACKNOWLEDGMENTS</title>
+      <p>The authors thank Paula Turpen and the VCR office at UNMC, Sherry Thornton, and Monica DeLay for insightful discussion and support during the operational changes. Furthermore, the authors thank Rob Harms and Wei An for assistance with validation steps. The authors declare no competing interests.</p>
+    </ack>
+    <ref-list>
+      <title>REFERENCES</title>
+      <ref id="B1">
+        <label>1</label>
+        <mixed-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Moore</surname>
+              <given-names>J</given-names>
+            </name>, <name>
+              <surname>Roederer</surname>
+              <given-names>M</given-names>
+            </name>
+          </person-group>
+          <article-title>The flow cytometry shared resource laboratory: best practices to assure a high-quality, cost-effective partnership with biomedical research laboratories.</article-title>
+          <source>Cytometry A</source>
+          <year>2009</year>;<volume>75</volume>:<fpage>643</fpage>&#x02013;<lpage>649</lpage>. <pub-id pub-id-type="pmid">19582865</pub-id>
+        </mixed-citation>
+      </ref>
+      <ref id="B2">
+        <label>2</label>
+        <mixed-citation publication-type="book">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Stark</surname>
+              <given-names>J</given-names>
+            </name>
+          </person-group>
+          <article-title>Product lifecycle management</article-title>. In <source>Product Lifecycle Management: 21<sup>st</sup> Century Paradigm for Product Realisation</source>, <edition>3rd ed.</edition>
+          <publisher-loc>London</publisher-loc>: <publisher-name>Springer</publisher-name>, <year>2015</year>;<fpage>1</fpage>&#x02013;<lpage>15</lpage>. 
+        </mixed-citation>
+      </ref>
+      <ref id="B3">
+        <label>3</label>
+        <mixed-citation publication-type="book">
+          <person-group person-group-type="author">
+            <collab>CIMdata</collab>
+          </person-group>
+          <source>A CIMdata Report: Product Lifecycle Management (PLM)</source>. <publisher-loc>Ann Arbor, MI</publisher-loc>: <publisher-name>CIMdata</publisher-name>, <year>2002</year>.
+        </mixed-citation>
+      </ref>
+    </ref-list>
+  </back>
+</article>
+
+

@@ -15,6 +15,7 @@ import org.w3c.dom.Document;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gov.ncbi.pmc.ids.IdResolver;
+import net.sf.saxon.s9api.Processor;
 
 /**
  * Container for some singleton-type objects that are instantiated and shared,
@@ -28,9 +29,15 @@ public class App {
     // Jackson ObjectMapper should be thread-safe, see
     // http://wiki.fasterxml.com/JacksonFAQThreadSafety
     private static ObjectMapper mapper;
+
+    // FIXME: this should go away
+    private static DocumentBuilderFactory dbf;
+    // to be replaced with
+    private static Processor saxonProcessor;
+
+
     private static ItemSource itemSource;
     private static TransformEngine transformEngine;
-    private static DocumentBuilderFactory dbf;
     private static CatalogResolver catalogResolver;
     private static CiteprocPool citeprocPool;
 
@@ -38,6 +45,7 @@ public class App {
     public static void init() throws Exception {
         idResolver = new IdResolver();
         mapper = new ObjectMapper();
+        saxonProcessor = new Processor(false);
 
         // Controlled by system property item_provider (default is "test")
         String itemSourceProp = System.getProperty("item_source");
@@ -81,26 +89,40 @@ public class App {
         return db;
     }
 
-
+    /**
+     * Get the IdResolver
+     */
     public static IdResolver getIdResolver() {
         return idResolver;
     }
 
+    /**
+     * Get the Jackson ObjectMapper
+     */
     public static ObjectMapper getMapper() {
         return mapper;
     }
 
+    /**
+     * Get the Saxon Processor, used for building XdmNode's for XML
+     * resources
+     */
+    public static Processor getSaxonProcessor() {
+        return saxonProcessor;
+    }
+
+    /**
+     * Get the ItemSource
+     */
     public static ItemSource getItemSource() {
         return itemSource;
     }
 
+    /**
+     * Get the TransformEngine
+     */
     public static TransformEngine getTransformEngine() {
         return transformEngine;
-    }
-
-    public static void setTransformEngine(TransformEngine _transformEngine)
-    {
-        transformEngine = _transformEngine;
     }
 
     /**

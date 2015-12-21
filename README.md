@@ -35,9 +35,9 @@ git checkout pmc-22661-olf
 cd ../..
 ```
 
-The service also depends on XSLT files that are, unfortunately, at the time 
-of this writing, internal to NCBI.  Please write to maloneyc@ncbi.nlm.nih.gov 
-to get a copy of these "pub-one" XSLT files.  These should then be copied 
+The service also depends on XSLT files that are, unfortunately, at the time
+of this writing, internal to NCBI.  Please write to maloneyc@ncbi.nlm.nih.gov
+to get a copy of these "pub-one" XSLT files.  These should then be copied
 into the citation-exporter/src/main/resources/xslt directory.
 
 Finally, you need to download the JATS DTDs:
@@ -66,10 +66,76 @@ Run unit tests as follows:
 mvn test
 ```
 
+To run just one specific set of tests:
+
+```
+mvn -Dtest=AppTest test
+```
+
+You can use wildcards; for example:
+
+```
+mvn '-Dtest=*Test' test
+```
+
+See documentation on the [Maven Surefire
+plugin](http://maven.apache.org/surefire/maven-surefire-plugin/examples/single-test.html)
+for more options.
+
+
 ### Test samples
 
-A good set of samples is listed in the application's [samples 
+A good set of samples is listed in the application's [samples
 page](http://www.ncbi.nlm.nih.gov/pmc/utils/ctxp/samples).
+
+
+### Data-driven validation unit tests
+
+Among the unit tests that `mvn test` will run are two sets that use data files
+to verify the output of transformations, and the responses to requests:
+TestTransforms.java and TestRequests.java.
+
+***TestTransforms.java***
+
+This provides data-driven schematron and regular-expression matching tests 
+of the XSLT transforms. The individual test cases are defined in the 
+src/test/resources/transform-tests.json file, which is read into a List of 
+TransformTestCase objects.
+
+You can use the `test_cases` system property to select which specific test 
+case to run:
+
+- If omitted, or empty, all tests are run
+- Otherwise, it's matched against the description, as a regular expression
+
+So, for example, to test all the cases that have "PubOne" in the description, 
+run:
+
+```
+mvn -Dtest=TestTransforms -Dtest_cases=PubOne test
+```
+
+The format of the transform-tests.json file is defined in comments there.
+
+When checking XML output, Schematron files are used, that are also in 
+the src/test/resources directory.
+
+***TestRequests.java***
+
+This provides unit tests for the Request class, which handles HTTP requests. 
+It uses Mockito to mock HttpServletRequest and HttpServletResponse objects. 
+It reads test cases from src/test/resources/request-tests.json into a List 
+of RequestTestCase objects.
+
+As with TestTransforms, you can use the `test_cases` system property to 
+select which tests to run.
+
+For example, to test all the cases that have "style" in the description, 
+run:
+
+```
+mvn -Dtest=TestTransforms -Dtest_cases=style test
+```
 
 
 ### Performance tests
@@ -77,7 +143,7 @@ page](http://www.ncbi.nlm.nih.gov/pmc/utils/ctxp/samples).
 Use the test script src/test/resources/performance-test.pl to test performance and reliability under
 load. Use `-?` to get usage help.
 
-On a development deployment (one that uses item_source="test") then you need 
+On a development deployment (one that uses item_source="test") then you need
 to make sure that you only use a fixed set of IDs, that correspond to the
 available test files in src/main/resources/samples.
 
@@ -96,7 +162,7 @@ cd src/test/resources
 ```
 
 Because there exists the PubOne-format file src/main/resources/samples/aiid/3352855.pub1,
-the service will be able to generate all of the responses in the requested formats. 
+the service will be able to generate all of the responses in the requested formats.
 
 
 ## Running as executable jar with embedded Jetty
@@ -122,12 +188,12 @@ Here are some of the parameters that can be used:
 
 * `cache_ids` - either "true" or "false".  Default is "false".
 * `com.sun.management.jmxremote.authenticate' - Set this to "false" to turn on
-  turn on the [JMX monitor 
+  turn on the [JMX monitor
   console](http://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html),
   without user authentication. Note that this is only suitable for a development
   environment.
 * `com.sun.management.jmxremote.port` - Set this to a port number, if you want to use
-  the [JMX monitor 
+  the [JMX monitor
   console](http://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html).
 * `id_cache_ttl` - time-to-live for each of the IDs in the ID cache, in seconds.
   Default is 86400.
@@ -141,7 +207,7 @@ Here are some of the parameters that can be used:
   Possible values are:
     * gov.ncbi.pmc.cite.StcachePubOneItemSource - requires item_source_loc to also be set
     * gov.ncbi.pmc.cite.StcacheNxmlItemSource - requires item_source_loc to also be set
-    * gov.ncbi.pmc.cite.ConvAppNxmlItemSource - Get NXML from an HTTP web service. Requires 
+    * gov.ncbi.pmc.cite.ConvAppNxmlItemSource - Get NXML from an HTTP web service. Requires
       item_source_loc to also be set
 * `item_source_loc` - When item_source is one of the Stcache options, this needs to be the full
   pathname of the stcache image file.  When item_source is ConvAppNxmlItemSource, then this should
@@ -152,7 +218,7 @@ Here are some of the parameters that can be used:
 * `log` - location of the log files.  Defaults to the *log* subdirectory of the directory
   from which the app is run.
 * `log_level` - sets the logging level for the root logger, as one of the
-  [log4j levels](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html); 
+  [log4j levels](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html);
   e.g. "DEBUG", "INFO". By default, this is `DEBUG` when running from the jetty maven plugin,
   and `INFO` when running as an "uber jar".
 * `xml.catalog.files` - used by the Apache commons CatalogResolver; this is the pathname
@@ -165,7 +231,7 @@ Here are some of the parameters that can be used:
 
 ### DTDs and XML catalog files
 
-The repository comes with an OASIS catalog file, *catalog.xml* that is used, 
+The repository comes with an OASIS catalog file, *catalog.xml* that is used,
 by default, to find DTDs. This contains:
 
 ```xml
@@ -177,11 +243,11 @@ This causes the resolver to try to resolve IDs from:
 
 * catalog-local.xml, if it exists. If you create this file, then you can override
   any definitions from other catalogs.
-* jats/catalog.xml, if it exists. This file is included in the repository, and 
+* jats/catalog.xml, if it exists. This file is included in the repository, and
   you can use the jats/get-dtds.sh script to download the corresponding DTDs from
   the JATS site.
 
-If the JATS (and other) DTDs are located somewhere else on your system, then 
+If the JATS (and other) DTDs are located somewhere else on your system, then
 there are two ways to override the default behavior.
 
 1.  Set the `xml.catalog.files` system property, to point to some other master catalog file.
@@ -189,7 +255,7 @@ there are two ways to override the default behavior.
 
         mvn test -Dxml.catalog.files=/pmc/load/catalog/linux-oxygen-pmc3-catalog.xml
 
-2.  Create a *catalog-local.xml* file in the root directory of the repo, and 
+2.  Create a *catalog-local.xml* file in the root directory of the repo, and
     override specific DTDs there.
 
 
@@ -206,7 +272,7 @@ The following two URLs are special:
 
 ### Parameters:
 
-* **id** or **ids** - List of IDs, comma-delimited. The types and expected 
+* **id** or **ids** - List of IDs, comma-delimited. The types and expected
   patterns of the values given here are the same as for
   the [PMC ID converter API](https://www.ncbi.nlm.nih.gov/pmc/tools/id-converter-api/).
   The type can either be specified explicitly with the idtype parameter, or can be inferred.
@@ -219,25 +285,25 @@ The following two URLs are special:
     * doi
 * **report** - Specifies the embedded format of the data.  Defaults to "html".
   See the table below for allowed values.
-* **format** - corresponds to the returned "content-type". Can be used as 
-  substitute for content negotiation.  Default depends on report; see the 
+* **format** - corresponds to the returned "content-type". Can be used as
+  substitute for content negotiation.  Default depends on report; see the
   table below.
-* **style** or **styles** - CSL style name, or a list of stylenames.  If 
+* **style** or **styles** - CSL style name, or a list of stylenames.  If
   just one ID is given, this can include multiple names, comma-delimited.
-  If multiple IDs are given, then this must be only one style name. In 
-  other words, you can have multiple IDs or multiple styles, but not both.  
+  If multiple IDs are given, then this must be only one style name. In
+  other words, you can have multiple IDs or multiple styles, but not both.
   Defaults to "modern-language-association".
 
 Value combinations of report and format are listed in the following table.
 
 ```
-report    format  Comments
-------    ------  --------
-html      html    Styled citations in raw HTML format. Same as citeproc-node.
-ris       ris     Machine-readable citation, in RIS format. Media type is application/x-research-info-systems.
-nbib      nbib    Machine-readable citation, in NBIB (MEDLINE) format. Media type is application/nbib.
-citeproc  json    Machine-readable citation, in citeproc-json format.
-pub-one   xml     New unified literature format.
+report           format  Comments
+------           ------  --------
+html             html    Styled citations in raw HTML format. Same as citeproc-node.
+ris              ris     Machine-readable citation, in RIS format. Media type is application/x-research-info-systems.
+nbib             nbib    Machine-readable citation, in NBIB (MEDLINE) format. Media type is application/nbib.
+citeproc         json    Machine-readable citation, in citeproc-json format.
+pub-one or pub1  xml     New unified literature format.
 ```
 
 ### Error responses
@@ -292,7 +358,7 @@ A response for a request for multiple IDs, one of which cannot be resolved (requ
 ### PubOne format responses
 
 The response for a single record in PubOne format will look something like the following
-(request "?ids=PMC3000436&report=pub-one"):
+(request "?ids=PMC3000436&report=pub1"):
 
 ```xml
 <pub-one-record xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -314,7 +380,7 @@ The response for a single record in PubOne format will look something like the f
 If more than one record is returned, they will be wrapped in an outer `<pub-one-records>` element,
 and each identified with attributes in the namespace "http://www.ncbi.nlm.nih.gov/ns/search".
 For example, a response with for two good IDs and one bad one
-(request "?ids=PMC3000436,PMC99999999,PMC3155436&report=pub-one"):
+(request "?ids=PMC3000436,PMC99999999,PMC3155436&report=pub1"):
 
 ```xml
 <pub-one-records xmlns:s="http://www.ncbi.nlm.nih.gov/ns/search"
@@ -391,7 +457,7 @@ one of TRACE, DEBUG, INFO, WARN, ERROR or FATAL.
 
 ## JMX Monitor Console
 
-To enable [JMX 
+To enable [JMX
 monitoring](http://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html),
 start the service with, for example:
 
@@ -445,16 +511,38 @@ When the value of *item_source" is "test", the citation data is mock data from t
 
 To work in Eclipse, import this project into your workspace.
 
-Turn off validation of the *jats*, *styles*, and *locales* folders 
+***Turn off validation of some subdirectories.***
+
+Turn off validation of the *jats*, *styles*, and *locales* folders
 (if present) by right-clicking on them, selecting
 "Properties", and then check "derived". This will cause all of the files
 under these directories to be excluded from validation. You might have
 to select "Project" -> "Clean" to get rid of existing errors.
 
+It might help even more, to speed up builds, to turn off all validation in the
+project. Right click on the project, then select Properties, then Validation,
+and check "Suspend all validators".
+
+***[Tomcat setup -- not working currently.]***
+
+Install Tomcat on your machine, by downloading it from
+[here](http://tomcat.apache.org/download-80.cgi) (version 8.0.30 is known to
+work) and unzip it to any
+directory of your choosing. Then, in Eclipse, select Window → Show view →
+Other → Servers. Click on the link, "No servers are available....".
+Select Tomcat, with the version to match what you installed; navigate to the
+directory you just installed to, and click "Finish".
+
 To run the application from Eclipse, right-click on the project, and select
 *Run As* -> *Run on server*.  Depending on your workspace server configuration
 *server.xml*, you should then be able to point your browser to
 http://locahost:12006/pmc-citation-service/.
+
+***Set up some file types***
+
+In Preferences → General → Content Types, select "Text", then "XML". Then
+add two new types: "*.nxml" (JATS PMC NXML format) and "*.sch" (Schematron
+files).
 
 
 
@@ -463,14 +551,14 @@ http://locahost:12006/pmc-citation-service/.
 
 There are two ways to run the server under Jetty:
 
-* Using the [Jetty Maven 
+* Using the [Jetty Maven
   plugin](http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html),
   with `mvn jetty:run`. This is useful for development.
-* As an executable "uber jar", created using the [Apache Maven Shade 
+* As an executable "uber jar", created using the [Apache Maven Shade
   plugin](http://maven.apache.org/plugins/maven-shade-plugin/), with
   `mvn package; java -jar target/pmc-citation-exporter...jar`.
 
-Some options are set in the pom.xml to cause this to scan for changes to source files, and to 
+Some options are set in the pom.xml to cause this to scan for changes to source files, and to
 automatically redeploy whenever any are detected. Also, in the pom file, some default
 values are given for System properties that are used to configure the app.
 
@@ -542,7 +630,7 @@ all of the dependencies, including Jetty itself.
 This is controlled by the [Apache Maven Shade plugin](http://maven.apache.org/plugins/maven-shade-plugin/),
 which is configured by a \<plugin> section of the pom.xml.
 
-In addition, another plugin section, build-helper-maven-plugin, is required to specify 
+In addition, another plugin section, build-helper-maven-plugin, is required to specify
 additional directories to copy
 into the target jar file.
 
@@ -554,7 +642,7 @@ java -Djava.io.tmpdir=./jetty-temp-dir -jar target/pmc-citation-exporter-0.1-SNA
 
 Note that system properties must be set on the command line *before* the `-jar` option.
 
-When running this way, Jetty is configured by the src/main/webapp/jetty.xml file. 
+When running this way, Jetty is configured by the src/main/webapp/jetty.xml file.
 (Note that this is *not used* when running with `mvn jetty:run`).
 
 
@@ -631,7 +719,7 @@ It uses Saxon for XSLT tranformations.
 
 * [Javadocs](http://michel-kraemer.github.io/citeproc-java/api/latest/)
 
-See [above](#citeproc-java) for some information about how to build and 
+See [above](#citeproc-java) for some information about how to build and
 link the development version of this library, rather
 than using the released package.
 
@@ -651,15 +739,15 @@ As of 12/10/2015, we are using a fork of this, on BitBucket at
 
 **citation-style-language/styles**
 
-The GitHub repo 
+The GitHub repo
 [citation-style-languages/styles](https://github.com/citation-style-language/styles)
-that contains all of the CSL style definition files. Currently (12/10/2015) 
+that contains all of the CSL style definition files. Currently (12/10/2015)
 we're using a fork of this, at [klortho/styles](https://github.com/Klortho/styles),
-in the [pmc-22661-olf branch](https://github.com/Klortho/styles/tree/pmc-22661-olf), 
+in the [pmc-22661-olf branch](https://github.com/Klortho/styles/tree/pmc-22661-olf),
 in support of an epublication date and an indication of ahead-of-print.
 
-In order to use a development version of these, instead of the default version, 
-merely clone this repo under the citation-exporter repository clone, and build 
+In order to use a development version of these, instead of the default version,
+merely clone this repo under the citation-exporter repository clone, and build
 as usual.
 
 
@@ -686,7 +774,7 @@ We're using the Jackson library to read JSON objects:
 
 **kitty-cache**
 
-The library 
+The library
 Google code [here](https://code.google.com/p/kitty-cache/), and is also
 mirrored to GitHub, at [treeder/kitty-cache](https://github.com/treeder/kitty-cache).
 

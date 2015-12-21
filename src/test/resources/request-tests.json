@@ -1,0 +1,278 @@
+/*
+  [The test code enables Jackson's ALLOW_COMMENTS feature, so comments are
+  allowed in this json file.]
+
+  This JSON file describes tests that are performed by the TestRequests
+  class. This file is read in as a List of RequestTestCase objects.
+
+  The values that make up a request test case are as follows.
+
+  - description
+  - request-params - object that holds the query parameters to set
+  - expect - object that holds expected results (all optional):
+      - status - an int; defaults to 200
+      - content-type - defaults to "text/html;charset=UTF-8"
+      - character-encoding - defaults to "UTF-8"
+      - patterns - array of strings, each is a regexp that should match the
+            content
+*/
+
+[
+  {
+    "description": "styled citation, default style modern-language-association",
+    "request-params": {
+      "ids": "1",
+      "idtype": "aiid"
+    },
+    "expect": {
+      "patterns": [
+        "data-style=\"modern-language-association\""
+      ]
+    }
+  },
+  {
+    "description": "styled citation, ieee style",
+    "request-params": {
+      "ids": "1",
+      "idtype": "aiid",
+      "styles": "ieee"
+    },
+    "expect": {
+      "patterns": [
+        "<div class=\"csl-entry\" data-id=\"aiid:1\" data-style=\"ieee\">"
+      ]
+    }
+  },
+  {
+    "description": "styled citation, PMCID, default style",
+    "request-params": {
+      "ids": "PMC3362639"
+    },
+    "expect": {
+      "patterns": [
+        "data-id=\"pmcid:PMC3362639\"",
+        "data-style=\"modern-language-association\""
+      ]
+    }
+  },
+  {
+    "description": "styled citation, PMCID, ieee style",
+    "request-params": {
+      "ids": "PMC3362639",
+      "styles": "ieee"
+    }
+  },
+  {
+    "description": "styled citation, specify pmcid, default style",
+    "request-params": {
+      "ids": "3362639",
+      "idtype": "pmcid"
+    }
+  },
+  {
+    "description": "styled citation, doi",
+    "request-params": {
+      "ids": "10.1371/journal.pmed.1001218"
+    }
+  },
+  {
+    "description": "styled citation, multiple dois (articles PMC3352855 and PMC3362639)",
+    "request-params": {
+      "ids": "10.1371/journal.pmed.1001226,10.1371/journal.pmed.1001218"
+    },
+    "expect": {
+      "patterns": [
+        "<div><div class=\"csl-entry\".*</div><div class=\"csl-entry\".*</div></div>"
+      ]
+    }
+  },
+  {
+    "description": "styled citation, pmid (article is PMC3352855)",
+    "request-params": {
+      "ids": "22615544"
+    }
+  },
+  {
+    "description": "multiple styled citations",
+    "request-params": {
+      "ids": "1,2",
+      "idtype": "aiid"
+    },
+    "expect": {
+      "patterns": [
+        "<div><div class=\"csl-entry\".*</div><div class=\"csl-entry\".*</div></div>"
+      ]
+    }
+  },
+  {
+    "description": "more multiple styled citations",
+    "request-params": {
+      "ids": "1,2,3,4,5,6,7,8,9,10,11",
+      "idtype": "aiid"
+    }
+  },
+  {
+    "description": "multiple styled citations, pmcids, ieee style",
+    "request-params": {
+      "ids": "PMC3352855,PMC3362639",
+      "styles": "ieee"
+    }
+  },
+  {
+    "description": "styled citations, single id, multiple styles",
+    "request-params": {
+      "ids": "PMC3362639",
+      "styles": "journal-of-medical-internet-research,ieee"
+    },
+    "expect": {
+      "patterns": [
+        "<div><div class=\"csl-entry\" data-id=\"pmcid:PMC3362639\".*</div><div class=\"csl-entry\".*</div></div>"
+      ]
+    }
+  },
+  {
+    "description": "citeproc-json output",
+    "request-params": {
+      "ids": "PMC3352855",
+      "report": "citeproc",
+      "format": "json"
+    },
+    "expect": {
+      "content-type": "application/json;charset=UTF-8"
+    }
+  },
+  {
+    "description": "citeproc-json format, multiple IDs",
+    "request-params": {
+      "ids": "PMC3352855,PMC3362639",
+      "report": "citeproc",
+      "format": "json"
+    },
+    "expect": {
+      "content-type": "application/json;charset=UTF-8",
+      "patterns": [
+        "[{\"source\":\"PMC\".*\"type\":\"article-journal\"}, {\"source\":\"PMC\".*journal\"}]"
+      ]
+    }
+  },
+  {
+    "description": "pub-one format",
+    "request-params": {
+      "ids": "PMC3352855",
+      "report": "pub-one"
+    },
+    "expect": {
+      "content-type": "application/xml;charset=UTF-8",
+      "patterns": [
+        "pub-one-record"
+      ]
+    }
+  },
+  {
+    "description": "pub1 as a synonym for pub-one",
+    "request-params": {
+      "ids": "PMC3352855",
+      "report": "pub1"
+    },
+    "expect": {
+      "content-type": "application/xml;charset=UTF-8",
+      "patterns": [
+        "pub-one-record"
+      ]
+    }
+  },
+  {
+    "description": "nbib format",
+    "request-params": {
+      "ids": "PMC3362639",
+      "report": "nbib"
+    },
+    "expect": {
+      "content-type": "application/nbib;charset=UTF-8"
+    }
+  },
+  {
+    "description": "nbib format, multiple ids",
+    "request-params": {
+      "ids": "PMC3352855,PMC3362639",
+      "report": "nbib"
+    },
+    "expect": {
+      "content-type": "application/nbib;charset=UTF-8",
+      "patterns": [
+        "LA  - eng\\nAID - PMEDICINE-D-12-00386 \\[pii\\].*pmed\\.1001218\\.\\n\\nLA  - eng\\nAID - PMEDICINE-D-12-01099 \\[pii\\]"
+      ]
+    }
+  },
+  {
+    "description": "ris format",
+    "request-params": {
+      "ids": "PMC3362639",
+      "report": "ris"
+    },
+    "expect": {
+      "content-type": "application/x-research-info-systems;charset=UTF-8"
+    }
+  },
+  {
+    "description": "ris format, multiple ids",
+    "request-params": {
+      "ids": "PMC3352855,PMC3362639",
+      "report": "ris"
+    },
+    "expect": {
+      "content-type": "application/x-research-info-systems;charset=UTF-8"
+    }
+  },
+
+  {
+    "description": "PMC-22661 - Online-first (OLF) articles, AMA style",
+    "request-params": {
+      "id": "4365985",
+      "idtype": "aiid",
+      "style": "american-medical-association"
+    },
+    "expect": {
+      "patterns": [
+        "Illumination \\[published online ahead of print March 19, 2015\\]"
+      ]
+    }
+  },
+  {
+    "description": "PMC-22661 - Online-first (OLF) articles, APA style",
+    "request-params": {
+      "id": "4365985",
+      "idtype": "aiid",
+      "style": "apa"
+    },
+    "expect": {
+      "patterns": [
+        "2602–001\\. Advance online publication. http://doi.org/10.7171/jbt\\.15-2602-001"
+      ]
+    }
+  },
+
+  // Test some error conditions
+  {
+    "description": "no params",
+    "expect": {
+      "status": 400,
+      "content-type": "text/plain;charset=UTF-8",
+      "patterns": [
+        "Need to specify at least one ID"
+      ]
+    }
+  },
+  {
+    "description": "bad style name",
+    "request-params": {
+      "ids": "PMC3362639",
+      "styles": "fleegle"
+    },
+    "expect": {
+      "status": 404,
+      "content-type": "text/plain;charset=UTF-8"
+    }
+  }
+
+]

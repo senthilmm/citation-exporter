@@ -22,6 +22,7 @@ public class ItemProvider implements ItemDataProvider
     public void clearCache() {
         cslItemCache = new HashMap<String, CSLItemData>();
     }
+
     /**
      * Add a prefetched item to the cache
      */
@@ -32,8 +33,6 @@ public class ItemProvider implements ItemDataProvider
     /**
      * Retrieve a CSLItemData object, given an id.  This is invoked by the
      * citeproc-js code running inside Rhino.
-     * @return the CSLItemData object corresponding to this id, or null if not
-     *   found.
      */
     public CSLItemData retrieveItem(String tid)
     {

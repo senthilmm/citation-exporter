@@ -5,16 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-import org.slf4j.Logger;
 
 import gov.ncbi.pmc.cite.App;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest {
+public class TestApp {
     protected App app;
-    private Logger log;
 
     @Rule
     public TestName name = new TestName();
@@ -25,7 +23,7 @@ public class AppTest {
     @Test
     public void testApp() throws Exception
     {
-        log = TestSetup.setup(name);
+        Utils.setup(name);
 
         assertNotNull("ID resolver should not be null", App.getIdResolver());
         assertNotNull("Mapper should not be null", App.getMapper());

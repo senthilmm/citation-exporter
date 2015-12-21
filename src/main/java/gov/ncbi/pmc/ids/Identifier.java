@@ -5,7 +5,6 @@ import gov.ncbi.pmc.cite.BadParamException;
 /**
  * This stores a canonicalized ID.
  */
-
 public class Identifier {
     private final String type;
     private final String value;

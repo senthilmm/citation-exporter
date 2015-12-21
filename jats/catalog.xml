@@ -2,7 +2,7 @@
 <!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
   "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
 
-<!-- 
+<!--
   This is the master catalog file for JATS DTDs used by citation-exporter,
   in development.
 -->
@@ -13,5 +13,6 @@
   <nextCatalog catalog="nlm-archiving-dtd-3.0/catalog.xml"/>
   <nextCatalog catalog="jats-archiving-dtd-1.0/catalog-test-jats-v1.xml"/>
   <nextCatalog catalog="jats-archiving-dtd-1.1d2/catalog-jats-v1-1d2-no-base.xml"/>
+  <nextCatalog catalog="jats-archiving-dtd-1.1d3/catalog-jats-v1-1d3-no-base.xml"/>
 
 </catalog>

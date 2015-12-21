@@ -1,39 +1,28 @@
 package gov.ncbi.pmc.ids.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import gov.ncbi.pmc.cite.BadParamException;
 import gov.ncbi.pmc.ids.IdGlob;
 import gov.ncbi.pmc.ids.IdResolver;
 import gov.ncbi.pmc.ids.Identifier;
 import gov.ncbi.pmc.ids.RequestId;
 import gov.ncbi.pmc.ids.RequestIdList;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 public class IdResolverTest
-    extends TestCase
 {
-    /**
-     * Create the test case
-     * @param testName name of the test case
-     */
-    public IdResolverTest(String testName) {
-        super(testName);
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( IdResolverTest.class );
-    }
-
     /**
      * Set up the testing environment
      */
-    @Override
-    protected void setUp() {
+    @Before
+    public void setUp() {
         System.setProperty("log", "testlog");
         System.setProperty("log_level", "DEBUG");
     }
@@ -41,6 +30,7 @@ public class IdResolverTest
     /**
      * Test the Identifier class
      */
+    @Test
     public void testIdentifier() {
         Identifier id0 = null;
         Identifier id1 = null;
@@ -91,6 +81,7 @@ public class IdResolverTest
     /**
      * Test the IdGlob class
      */
+    @Test
     public void testIdGlob() {
         IdGlob idg = null;
 
@@ -153,6 +144,7 @@ public class IdResolverTest
     /**
      * Test the RequestId class
      */
+    @Test
     public void testRequestId() {
         RequestId rid = null;
         String origType = "pmcid";
@@ -201,11 +193,11 @@ public class IdResolverTest
         assert(exceptionThrown);
     }
 
-
     /**
      * Test the RequestIdList.  Right now, there is only support for lists of IDs that
      * all have the same type.
      */
+    @Test
     public void testRequestIdList() {
         RequestIdList idList = new RequestIdList();
         try {
@@ -277,6 +269,7 @@ public class IdResolverTest
      * You can test against the internal service by setting the `id_converter_url` system
      * property.
      */
+    @Test
     public void testIdResolver() {
         RequestId rid0, rid1;
         IdGlob idg0, idg1;

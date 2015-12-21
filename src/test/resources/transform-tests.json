@@ -1,0 +1,72 @@
+/*
+  [The test code enables Jackson's ALLOW_COMMENTS feature, so comments are
+  allowed in this json file.]
+
+  This JSON file describes tests that are performed by the TestTransforms
+  class. This file is read in as a List of TransformTestCase objects.
+
+  The values that make up a transform test case:
+
+  - description: required
+  - id: required; string value of the ID
+  - idtype: optional; default is "aiid"; ID type
+  - in-format: required; report/format of the input for this test case
+  - transform: required; must match a value in transforms.json
+  - out-format: required; determines the type of validation done:
+      - xml - schematron file specified by the `validator` field
+      - json - same (json is converted into XML by the Jackson library)
+      - text - set of regular expressions specified in the
+        `validation-expressions` field
+  - validator: required if out-format is "xml" or "json"; base name of a
+    schematron file
+  - validation-expressions: required if out-format is "text"; array of string
+    regular expressions, that are matched anywhere in the multi-line text
+*/
+
+[
+  {
+    "description": "NXML identity",
+    "id": "31",
+    "in-format": "nxml",
+    "transform": "identity",
+    "out-format": "xml",
+    "validator": "nxml"
+  },
+  {
+    "description": "NXML to PubOne",
+    "id": "31",
+    "in-format": "nxml",
+    "transform": "pub-one",
+    "out-format": "xml",
+    "validator": "31-pub1"
+  },
+  {
+    "description": "PubOne to citeproc-json",
+    "id": "30",
+    "in-format": "pub1",
+    "transform": "pub-one2json",
+    "out-format": "json",
+    "validator": "30-json"
+  },
+  {
+    "description": "PubOne to RIS",
+    "id": "30",
+    "in-format": "pub1",
+    "transform": "pub-one2ris",
+    "out-format": "text",
+    "validation-expressions": [
+      "TY  - JOUR"
+    ]
+  },
+  {
+    "description": "PubOne to nbib (medline)",
+    "id": "30",
+    "in-format": "pub1",
+    "transform": "pub-one2medline",
+    "out-format": "text",
+    "validation-expressions": [
+      "ID - e1001218"
+    ]
+  }
+]
+

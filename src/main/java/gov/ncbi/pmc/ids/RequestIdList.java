@@ -10,9 +10,6 @@ import java.util.Map;
  * comes from a client, possibly in a messy state.  It preserves the order of
  * the IDs, and for each one, instantiates an IdGlob object, that holds all
  * the data associated with it.
- *
- * @author maloneyc
- * @version $Id: $Id
  */
 public class RequestIdList {
     private ArrayList<RequestId> requestIds;
@@ -30,11 +27,6 @@ public class RequestIdList {
         idMap = new HashMap<String, Integer>();
     }
 
-    /**
-     * <p>add.</p>
-     *
-     * @param requestId a {@link gov.ncbi.pmc.ids.RequestId} object.
-     */
     public void add(RequestId requestId) {
         idMap.put(requestId.getCanonical().getCurie(), size());
         requestIds.add(requestId);
@@ -42,8 +34,6 @@ public class RequestIdList {
 
     /**
      * Get the size of the list.
-     *
-     * @return a int.
      */
     public int size() {
         return requestIds.size();
@@ -51,9 +41,6 @@ public class RequestIdList {
 
     /**
      * Retrieve an individual item from the list
-     *
-     * @param i a int.
-     * @return a {@link gov.ncbi.pmc.ids.RequestId} object.
      */
     public RequestId get(int i) {
         return requestIds.get(i);
@@ -61,9 +48,6 @@ public class RequestIdList {
 
     /**
      * Find an entry by matching the argument. Returns -1 if not found.
-     *
-     * @param id a {@link gov.ncbi.pmc.ids.Identifier} object.
-     * @return a int.
      */
     public int lookup(Identifier id) {
         Integer i = idMap.get(id.getCurie());
@@ -73,9 +57,6 @@ public class RequestIdList {
 
     /**
      * Count the number of IdGlobs that have Identifiers of a particular type
-     *
-     * @param t a {@link java.lang.String} object.
-     * @return a int.
      */
     public int numHasType(String t) {
         int size = size();
@@ -90,9 +71,6 @@ public class RequestIdList {
 
     /**
      * Returns an array of CURIEs of those IdGlobs that have a particular type
-     *
-     * @param t a {@link java.lang.String} object.
-     * @return an array of {@link java.lang.String} objects.
      */
     public String[] getCuriesByType(String t) {
         List<String> curies = new ArrayList<String>();
@@ -110,8 +88,6 @@ public class RequestIdList {
 
     /**
      * Converts this list to a string.
-     *
-     * @return a {@link java.lang.String} object.
      */
     public String toString() {
         String r = "";

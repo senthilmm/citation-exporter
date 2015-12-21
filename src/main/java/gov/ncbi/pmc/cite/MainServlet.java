@@ -26,12 +26,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
 
-/**
- * <p>MainServlet class.</p>
- *
- * @author maloneyc
- * @version $Id: $Id
- */
 public class MainServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
@@ -40,7 +34,6 @@ public class MainServlet extends HttpServlet
 
     Log4jLoggerAdapter ljla;
 
-    /** {@inheritDoc} */
     @Override
     public void init() throws ServletException
     {
@@ -59,8 +52,6 @@ public class MainServlet extends HttpServlet
     }
 
     /**
-     * {@inheritDoc}
-     *
      * FIXME:  This should be refactored to create a 'Request' object right
      * away (which maybe could be renamed 'Controller').  Path parsing, etc.,
      * should all be moved there.
@@ -107,10 +98,6 @@ public class MainServlet extends HttpServlet
     /**
      * Echo test - for performance testing, this does nothing but echo back
      * 1000 bytes.
-     *
-     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
-     * @param response a {@link javax.servlet.http.HttpServletResponse} object.
-     * @throws java.io.IOException if any.
      */
     public void doEchoTest(HttpServletRequest request,
                            HttpServletResponse response)
@@ -131,10 +118,6 @@ public class MainServlet extends HttpServlet
      * Echo back some info about the request.  Mostly for debugging.  Most
      * things here have been commented out for security reasons, so as not to
      * expose internal configuration info.
-     *
-     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
-     * @param response a {@link javax.servlet.http.HttpServletResponse} object.
-     * @throws java.io.IOException if any.
      */
     public void doInfo(HttpServletRequest request, HttpServletResponse response)
         throws IOException
@@ -221,14 +204,10 @@ public class MainServlet extends HttpServlet
 
     /**
      * Display the samples page.
-     *
-     * @param r a {@link gov.ncbi.pmc.cite.Request} object.
-     * @throws java.io.IOException if any.
      */
     public void doSamples(Request r)
         throws IOException
     {
-        HttpServletRequest request = r.getRequest();
         HttpServletResponse response = r.getResponse();
 
         response.setContentType("text/html;charset=UTF-8");
@@ -300,84 +279,38 @@ public class MainServlet extends HttpServlet
         return;
     }
 
-    /**
-     * <p>td.</p>
-     *
-     * @param v a {@link java.lang.String} object.
-     * @return a {@link java.lang.String} object.
-     */
     public String td(String v) {
         return "<td>" + v + "</td>";
     }
 
-    /**
-     * <p>th.</p>
-     *
-     * @param v a {@link java.lang.String} object.
-     * @return a {@link java.lang.String} object.
-     */
     public String th(String v) {
         return "<th>" + v + "</th>";
     }
 
-    /**
-     * <p>tr.</p>
-     *
-     * @param v a {@link java.lang.String} object.
-     * @return a {@link java.lang.String} object.
-     */
     public String tr(String v) {
         return "<tr>" + v + "</tr>";
     }
 
-    /**
-     * <p>qs.</p>
-     *
-     * @param params a {@link java.lang.String} object.
-     * @return a {@link java.lang.String} object.
-     */
     public String qs(String... params) {
         return StringUtils.join(params, "&amp;");
     }
 
-    /**
-     * <p>qs.</p>
-     *
-     * @param params a {@link java.util.List} object.
-     * @return a {@link java.lang.String} object.
-     */
     public String qs(List<String> params) {
         return StringUtils.join(params.toArray(), "&amp;");
     }
 
-    /**
-     * <p>qs.</p>
-     *
-     * @param initParams a {@link java.util.List} object.
-     * @param moreParams a {@link java.lang.String} object.
-     * @return a {@link java.lang.String} object.
-     */
     public String qs(List<String> initParams, String moreParams) {
         List<String> params = new ArrayList<String>(initParams);
         params.add(moreParams);
         return StringUtils.join(params.toArray(), "&amp;");
     }
 
-    /**
-     * <p>link.</p>
-     *
-     * @param href a {@link java.lang.String} object.
-     * @param content a {@link java.lang.String} object.
-     * @return a {@link java.lang.String} object.
-     */
     public String link(String href, String content) {
         return "<a href='" + href + "'>" + content + "</a>";
     }
 
 
     /**
-     * {@inheritDoc}
-     *
      * Respond to HTTP OPTIONS requests, with CORS headers. See
      * https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS#Preflighted_requests
      */

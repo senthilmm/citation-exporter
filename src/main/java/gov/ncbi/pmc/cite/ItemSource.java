@@ -26,6 +26,7 @@ import gov.ncbi.pmc.ids.RequestId;
  */
 public abstract class ItemSource {
     protected Logger log;
+    
     // Implement a small-lightweight cache for the retrieved JSON items, to
     // support requests for multiple styles of the same id (for example)
     private KittyCache<String, JsonNode> jsonCache;

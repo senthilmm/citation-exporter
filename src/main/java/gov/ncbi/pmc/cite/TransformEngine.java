@@ -10,13 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
@@ -25,59 +22,64 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.sf.saxon.Configuration;
-import net.sf.saxon.Controller;
-import net.sf.saxon.PreparedStylesheet;
-import net.sf.saxon.TransformerFactoryImpl;
+import net.sf.saxon.s9api.DOMDestination;
+import net.sf.saxon.s9api.Processor;
+import net.sf.saxon.s9api.QName;
+import net.sf.saxon.s9api.SaxonApiException;
+import net.sf.saxon.s9api.Serializer;
+import net.sf.saxon.s9api.XdmAtomicValue;
+import net.sf.saxon.s9api.XdmNode;
+import net.sf.saxon.s9api.XsltCompiler;
+import net.sf.saxon.s9api.XsltTransformer;
+
 
 /**
  * An object of this class handles XSLT transformations.  There is one of
  * these for the servlet, shared among all the Requests.
  */
 public class TransformEngine {
-    URL xsltBaseUrl;
-    ObjectMapper mapper;
-    public TransformerFactory transformerFactory;
-    protected Map<String, PreparedStylesheet> stylesheets;
-    Map<String, TransformDescriptor> transforms;
-
-    public TransformEngine(URL xsltBaseUrl, ObjectMapper mapper)
-        throws IOException
-    {
-        this.xsltBaseUrl = xsltBaseUrl;
-        this.mapper = mapper;
-        Configuration config = new Configuration();
-        transformerFactory = new TransformerFactoryImpl(config);
-
-        // We need our own URI resolver to find imported stylesheets
-        transformerFactory.setURIResolver(new CiteUriResolver(xsltBaseUrl));
-        stylesheets = new HashMap<String, PreparedStylesheet>();
-        loadTransforms();
-    }
+    Map<String, Transform> transforms;
+    Processor proc;
 
     /**
-     * Load the transforms.json file, which tells us what conversions are
-     * possible, and the output formats of each.
+     * Load the transforms.json file, and instantiate Saxon an XsltExecutable
+     * for each one specified.
+     * @throws SaxonApiException
      */
-    private void loadTransforms()
-        throws IOException
+    public TransformEngine(URL xsltBaseUrl, ObjectMapper mapper)
+        throws IOException, SaxonApiException
     {
+        // Read in the transforms.json file into a List of TransformDescriptors
         URL transformsUrl = new URL(xsltBaseUrl, "transforms.json");
         ObjectMapper m = new ObjectMapper();
-
-        List<TransformDescriptor> transformsList;
+        List<Transform> transformsList;
         try {
             transformsList =
                 m.readValue(transformsUrl.openStream(),
-                        new TypeReference<List<TransformDescriptor>>() {});
+                        new TypeReference<List<Transform>>() {});
         }
         catch (JsonProcessingException e) {
             throw new IOException("Problem reading transforms.json: " + e);
         }
-        // Convert the List to a HashMap
-        transforms = new HashMap<String, TransformDescriptor>();
-        for (TransformDescriptor td: transformsList) {
-            transforms.put(td.name, td);
+
+        // Initialize some Saxon stuff
+        proc = App.getSaxonProcessor();
+        XsltCompiler comp = proc.newXsltCompiler();
+        comp.setURIResolver(new CiteUriResolver(xsltBaseUrl));
+
+        // For each transform in the list, instantiate the Saxon
+        // XsltExecutable object.
+        transforms = new HashMap<String, Transform>();
+        for (Transform td: transformsList) {
+            String name = td.name;
+            transforms.put(name, td);
+
+            // Read and compile an XSLT stylesheet
+            URL xsltUrl = new URL(xsltBaseUrl, name + ".xsl");
+            URLConnection xsltUrlConn = xsltUrl.openConnection();
+            InputStream xsltInputStream = xsltUrlConn.getInputStream();
+            Source xsltSource = new StreamSource(xsltInputStream);
+            td.setXsltExecutable(comp.compile(xsltSource));
         }
     }
 
@@ -106,67 +108,50 @@ public class TransformEngine {
         throws IOException
     {
         try {
-            TransformDescriptor td = transforms.get(transform);
+            Transform td = transforms.get(transform);
             if (td == null) {
                 throw new IOException("No transform defined for '" +
                     transform + "'");
             }
-            PreparedStylesheet xslt = getStylesheet(td);
-            Controller controller = (Controller) xslt.newTransformer();
+            XsltTransformer t = td.getXsltTransformer();
+
+            // The document that is to be input to the transform
+            DOMSource domSource= new DOMSource(src);
+            XdmNode xdmSource = proc.newDocumentBuilder().build(domSource);
+            t.setInitialContextNode(xdmSource);
+
             if (params != null) {
                 for (String key : params.keySet()) {
-                    controller.setParameter(key, params.get(key));
+                    String val = params.get(key);
+                    QName paramName = new QName(key);
+                    t.setParameter(paramName, new XdmAtomicValue(val));
                 }
             }
-            Source s = new DOMSource(src);
 
             if (td.report.equals("application/xml")) {
-                DOMResult result = new DOMResult();
-                controller.transform(s, result);
-                return result.getNode();
+                // Use JAXP DocumentBuilder (not saxon's) to create a new
+                // Document to hold the result
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                DocumentBuilder db = dbf.newDocumentBuilder();
+                Document outDoc = db.newDocument();
+                DOMDestination outDom = new DOMDestination(outDoc);
+                t.setDestination(outDom);
+                t.transform();
+                return outDoc;
             }
-
             else {
-                Writer resultWriter = new StringWriter();
-                StreamResult result = new StreamResult(resultWriter);
-                controller.transform(s, result);
-                return resultWriter.toString();
+                Serializer serializer = proc.newSerializer();
+                serializer.setOutputProperty(Serializer.Property.METHOD, "text");
+                Writer writer = new StringWriter();
+                serializer.setOutputWriter(writer);
+                t.setDestination(serializer);
+                t.transform();
+                return writer.toString();
             }
         }
-        catch (TransformerException e) {
+        catch (Exception e) {
             throw new IOException(e);
         }
     }
 
-    private PreparedStylesheet getStylesheet(TransformDescriptor td)
-        throws IOException
-    {
-        String tname = td.name;
-        PreparedStylesheet ps = stylesheets.get(tname);
-        if (ps == null) {
-            // Read and prepare an XSLT stylesheet
-            URL xsltUrl = new URL(xsltBaseUrl, tname + ".xsl");
-
-            Source xsltSource = null;
-            try {
-                URLConnection xsltUrlConn = xsltUrl.openConnection();
-                InputStream xsltInputStream = xsltUrlConn.getInputStream();
-                // This throws FileNotFoundException if the file (at a 'file:'
-                // URL) doesn't exist
-                xsltSource = new StreamSource(xsltInputStream);
-            }
-            catch (Exception e) {
-                throw new IOException(
-                        "Exception opening xslt StreamSource: " + e);
-            }
-            try {
-                ps = (PreparedStylesheet)
-                        transformerFactory.newTemplates(xsltSource);
-            }
-            catch (TransformerConfigurationException e) {
-                throw new IOException("Unable to compile xslt: " + e);
-            }
-        }
-        return ps;
-    }
 }
