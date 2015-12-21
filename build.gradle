@@ -12,16 +12,16 @@ targetCompatibility = 1.8
 
 
 repositories {
-        
-     maven { url "https://oss.sonatype.org/content/groups/public" }
-     maven { url "https://jitpack.io" }
-     maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://oss.sonatype.org/content/groups/public" }
+    maven { url "https://jitpack.io" }
+    maven { url "http://repo.maven.apache.org/maven2" }
 }
+
 dependencies {
     compile group: 'xml-resolver', name: 'xml-resolver', version:'1.2'
     compile group: 'com.github.Klortho', name: 'citeproc-java', version:'3f30f220c279557892d69c9ec95b92d84cf2114d'
-    compile group: 'org.citationstyles', name: 'styles', version:'1.0.1-SNAPSHOT'
-    compile group: 'org.citationstyles', name: 'locales', version:'1.0.1-SNAPSHOT'
+//    compile group: 'org.citationstyles', name: 'styles', version:'1.0.1-SNAPSHOT'
+//    compile group: 'org.citationstyles', name: 'locales', version:'1.0.1-SNAPSHOT'
     compile group: 'org.eclipse.jetty', name: 'jetty-server', version:'9.2.1.v20140609'
     compile group: 'org.eclipse.jetty', name: 'jetty-servlets', version:'9.2.1.v20140609'
     compile group: 'org.eclipse.jetty', name: 'jetty-webapp', version:'9.2.1.v20140609'
@@ -34,9 +34,10 @@ dependencies {
     compile group: 'com.github.Klortho', name: 'kitty-cache', version:'065b8d34e2b16c991c4d9db7cdbd16ec1038f325'
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version:'1.7.7'
     compile group: 'org.apache.commons', name: 'commons-lang3', version:'3.3.2'
-    compile group: 'com.helger', name: 'ph-schematron', version:'3.0.1'
-    compile group: 'org.mockito', name: 'mockito-core', version:'1.10.19'
+
     testCompile(group: 'org.hamcrest', name: 'hamcrest-junit', version:'2.0.0.0') {
 exclude(module: 'hamcrest-core')
     }
+    testCompile group: 'com.helger', name: 'ph-schematron', version:'3.0.1'
+    testCompile group: 'org.mockito', name: 'mockito-core', version:'1.10.19'
 }
