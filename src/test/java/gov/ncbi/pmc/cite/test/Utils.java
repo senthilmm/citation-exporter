@@ -49,6 +49,7 @@ public class Utils {
         setProperties();
         Logger log = LoggerFactory.getLogger(name.getClass());
         log.info("Starting test " + name.getMethodName());
+        System.setProperty("item_source", "test");
         App.init();
         return log;
     }
