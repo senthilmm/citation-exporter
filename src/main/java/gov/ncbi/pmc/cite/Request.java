@@ -285,7 +285,7 @@ public class Request {
                     format = "nbib";
                 else if (report.equals("citeproc"))
                     format = "json";
-                else if (report.equals("pub-one"))
+                else if (report.equals("pub-one") || report.equals("pub1"))
                     format = "xml";
                 else if (report.equals("nxml"))
                     format = "xml";
@@ -299,7 +299,8 @@ public class Request {
                 citeprocJson();
             }
 
-            else if (report.equals("pub-one") && format.equals("xml")) {
+            else if ((report.equals("pub-one") || report.equals("pub1")) &&
+                    format.equals("xml")) {
                 pubOneXml();
             }
 

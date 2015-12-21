@@ -249,13 +249,13 @@ The following two URLs are special:
 Value combinations of report and format are listed in the following table.
 
 ```
-report    format  Comments
-------    ------  --------
-html      html    Styled citations in raw HTML format. Same as citeproc-node.
-ris       ris     Machine-readable citation, in RIS format. Media type is application/x-research-info-systems.
-nbib      nbib    Machine-readable citation, in NBIB (MEDLINE) format. Media type is application/nbib.
-citeproc  json    Machine-readable citation, in citeproc-json format.
-pub-one   xml     New unified literature format.
+report           format  Comments
+------           ------  --------
+html             html    Styled citations in raw HTML format. Same as citeproc-node.
+ris              ris     Machine-readable citation, in RIS format. Media type is application/x-research-info-systems.
+nbib             nbib    Machine-readable citation, in NBIB (MEDLINE) format. Media type is application/nbib.
+citeproc         json    Machine-readable citation, in citeproc-json format.
+pub-one or pub1  xml     New unified literature format.
 ```
 
 ### Error responses
@@ -310,7 +310,7 @@ A response for a request for multiple IDs, one of which cannot be resolved (requ
 ### PubOne format responses
 
 The response for a single record in PubOne format will look something like the following
-(request "?ids=PMC3000436&report=pub-one"):
+(request "?ids=PMC3000436&report=pub1"):
 
 ```xml
 <pub-one-record xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -332,7 +332,7 @@ The response for a single record in PubOne format will look something like the f
 If more than one record is returned, they will be wrapped in an outer `<pub-one-records>` element,
 and each identified with attributes in the namespace "http://www.ncbi.nlm.nih.gov/ns/search".
 For example, a response with for two good IDs and one bad one
-(request "?ids=PMC3000436,PMC99999999,PMC3155436&report=pub-one"):
+(request "?ids=PMC3000436,PMC99999999,PMC3155436&report=pub1"):
 
 ```xml
 <pub-one-records xmlns:s="http://www.ncbi.nlm.nih.gov/ns/search"

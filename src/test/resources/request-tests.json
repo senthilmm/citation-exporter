@@ -162,7 +162,23 @@
       "report": "pub-one"
     },
     "expect": {
-      "content-type": "application/xml;charset=UTF-8"
+      "content-type": "application/xml;charset=UTF-8",
+      "patterns": [
+        "pub-one-record"
+      ]
+    }
+  },
+  {
+    "description": "pub1 as a synonym for pub-one",
+    "request-params": {
+      "ids": "PMC3352855",
+      "report": "pub1"
+    },
+    "expect": {
+      "content-type": "application/xml;charset=UTF-8",
+      "patterns": [
+        "pub-one-record"
+      ]
     }
   },
   {
