@@ -209,6 +209,33 @@
     }
   },
 
+  {
+    "description": "PMC-22661 - Online-first (OLF) articles, AMA style",
+    "request-params": {
+      "id": "4365985",
+      "idtype": "aiid",
+      "style": "american-medical-association"
+    },
+    "expect": {
+      "patterns": [
+        "Illumination \\[published online ahead of print March 19, 2015\\]"
+      ]
+    }
+  },
+  {
+    "description": "PMC-22661 - Online-first (OLF) articles, APA style",
+    "request-params": {
+      "id": "4365985",
+      "idtype": "aiid",
+      "style": "apa"
+    },
+    "expect": {
+      "patterns": [
+        "2602–001\\. Advance online publication. http://doi.org/10.7171/jbt\\.15-2602-001"
+      ]
+    }
+  },
+
   // Test some error conditions
   {
     "description": "no params",

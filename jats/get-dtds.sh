@@ -20,3 +20,11 @@ unzip JATS-Archiving-1.1d2-MathML2-DTD.zip
 rm JATS-Archiving-1.1d2-MathML2-DTD.zip
 rm Archiving-Readme.txt
 mv JATS-Green-MathML2-1.1d2 jats-archiving-dtd-1.1d2
+
+# JATS Archiving and Interchange 1.1d3
+wget ftp://ftp.ncbi.nlm.nih.gov/pub/jats/archiving/1.1d3/JATS-Archiving-1-1d3-MathML2-DTD.zip
+unzip JATS-Archiving-1-1d3-MathML2-DTD.zip
+rm JATS-Archiving-1-1d3-MathML2-DTD.zip
+rm Archiving-Readme.txt
+mv JATS-Archiving-1-1d3-MathML2-DTD jats-archiving-dtd-1.1d3
+
