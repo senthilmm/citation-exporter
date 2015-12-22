@@ -13,40 +13,11 @@ Clone this repository:
 git clone https://github.com/ncbi/citation-exporter.git
 ```
 
-Then you'll need to download and install some dependencies. First, a
-forked version of citeproc-java:
-
-```
-git clone https://github.com/Klortho/citeproc-java.git
-cd citeproc-java
-git checkout pmc-22661-ahead-of-print
-./gradlew install
-cd ..
-```
-
-Next, clone a special branch of the citation-style-language/styles repo. This
-must be put under the citation-exporter working directory:
-
-```
-cd citation-exporter
-git clone https://github.com/Klortho/styles.git
-cd styles
-git checkout pmc-22661-olf
-cd ../..
-```
-
 The service also depends on XSLT files that are, unfortunately, at the time
 of this writing, internal to NCBI.  Please write to maloneyc@ncbi.nlm.nih.gov
 to get a copy of these "pub-one" XSLT files.  These should then be copied
 into the citation-exporter/src/main/resources/xslt directory.
 
-Finally, you need to download the JATS DTDs:
-
-```
-cd citation-exporter/jats
-./get-dtds.sh
-cd ..
-```
 
 Then build and run this web service:
 
