@@ -2,7 +2,6 @@ catalog-local.xml
 CitationExporterProject.xpr
 ctxp.sublime-*
 dependency-reduced-pom.xml
-.gradle/
 jats/jats-*/
 jats/nlm-*/
 jetty-temp-dir/
