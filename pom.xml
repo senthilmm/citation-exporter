@@ -50,6 +50,12 @@
       <version>1.2</version>
     </dependency>
 
+    <dependency>
+      <groupId>gov.ncbi.pmc</groupId>
+      <artifactId>pub-one</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+
   <!--
     FIXME: this is experimental; let's see how it goes.
     Load the specific fork of citeproc-java using jitpack.io,

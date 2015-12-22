@@ -62,8 +62,7 @@ public class App {
                 .getConstructor().newInstance();
         }
 
-        transformEngine = new TransformEngine(
-            App.class.getClassLoader().getResource("xslt/"), mapper);
+        transformEngine = new TransformEngine(mapper);
         dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
 

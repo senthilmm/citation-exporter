@@ -7,7 +7,6 @@ jats/jats-*/
 jats/nlm-*/
 jetty-temp-dir/
 log/
-src/main/resources/xslt/*.xsl
 styles/
 target/
 testlog/

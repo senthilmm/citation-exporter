@@ -40,32 +40,33 @@ import net.sf.saxon.s9api.XsltTransformer;
 public class TransformEngine {
     Map<String, Transform> transforms;
     Processor proc;
+    public final String xsltDir = "gov/ncbi/pmc/pub-one/xslt";
+    CiteUriResolver xsltResolver = new CiteUriResolver(xsltDir);
 
     /**
-     * Load the transforms.json file, and instantiate Saxon an XsltExecutable
+     * Load the transforms.json file, and instantiate a Saxon XsltExecutable
      * for each one specified.
      * @throws SaxonApiException
      */
-    public TransformEngine(URL xsltBaseUrl, ObjectMapper mapper)
+    public TransformEngine(ObjectMapper mapper)
         throws IOException, SaxonApiException
     {
         // Read in the transforms.json file into a List of TransformDescriptors
-        URL transformsUrl = new URL(xsltBaseUrl, "transforms.json");
         ObjectMapper m = new ObjectMapper();
         List<Transform> transformsList;
         try {
             transformsList =
-                m.readValue(transformsUrl.openStream(),
-                        new TypeReference<List<Transform>>() {});
+                m.readValue(xsltResolver.getStream("transforms.json"),
+                    new TypeReference<List<Transform>>() {});
         }
-        catch (JsonProcessingException e) {
-            throw new IOException("Problem reading transforms.json: " + e);
+        catch (Exception e) {
+            throw new IOException("Problem reading transforms.json", e);
         }
 
         // Initialize some Saxon stuff
         proc = App.getSaxonProcessor();
         XsltCompiler comp = proc.newXsltCompiler();
-        comp.setURIResolver(new CiteUriResolver(xsltBaseUrl));
+        comp.setURIResolver(xsltResolver);
 
         // For each transform in the list, instantiate the Saxon
         // XsltExecutable object.
@@ -75,8 +76,8 @@ public class TransformEngine {
             transforms.put(name, td);
 
             // Read and compile an XSLT stylesheet
-            URL xsltUrl = new URL(xsltBaseUrl, name + ".xsl");
-            URLConnection xsltUrlConn = xsltUrl.openConnection();
+            URLConnection xsltUrlConn =
+                xsltResolver.getUrl(name + ".xsl").openConnection();
             InputStream xsltInputStream = xsltUrlConn.getInputStream();
             Source xsltSource = new StreamSource(xsltInputStream);
             td.setXsltExecutable(comp.compile(xsltSource));
