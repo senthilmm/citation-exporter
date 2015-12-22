@@ -62,7 +62,7 @@ public class App {
                 .getConstructor().newInstance();
         }
 
-        transformEngine = new TransformEngine(mapper);
+        transformEngine = new TransformEngine();
         dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
 

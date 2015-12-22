@@ -15,7 +15,6 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jetty.version>9.2.1.v20140609</jetty.version>
-    <slf4j.version>1.7.7</slf4j.version>
     <jackson.version>2.6.3</jackson.version>
   </properties>
 
@@ -49,11 +48,10 @@
       <artifactId>xml-resolver</artifactId>
       <version>1.2</version>
     </dependency>
-
     <dependency>
       <groupId>gov.ncbi.pmc</groupId>
       <artifactId>pub-one</artifactId>
-      <version>1.0.0</version>
+      <version>1.0.2</version>
     </dependency>
 
   <!--
@@ -153,7 +151,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <version>${slf4j.version}</version>
+      <version>1.7.7</version>
     </dependency>
 
     <!--  citeproc-java uses this -->

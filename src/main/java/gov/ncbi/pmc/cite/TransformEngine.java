@@ -1,10 +1,8 @@
 package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
@@ -12,16 +10,15 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import gov.ncbi.pmc.pub_one.Resolver;
 import net.sf.saxon.s9api.DOMDestination;
 import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.QName;
@@ -40,15 +37,14 @@ import net.sf.saxon.s9api.XsltTransformer;
 public class TransformEngine {
     Map<String, Transform> transforms;
     Processor proc;
-    public final String xsltDir = "gov/ncbi/pmc/pub-one/xslt";
-    CiteUriResolver xsltResolver = new CiteUriResolver(xsltDir);
+    Resolver xsltResolver = new Resolver();
 
     /**
      * Load the transforms.json file, and instantiate a Saxon XsltExecutable
      * for each one specified.
      * @throws SaxonApiException
      */
-    public TransformEngine(ObjectMapper mapper)
+    public TransformEngine()
         throws IOException, SaxonApiException
     {
         // Read in the transforms.json file into a List of TransformDescriptors
@@ -76,11 +72,10 @@ public class TransformEngine {
             transforms.put(name, td);
 
             // Read and compile an XSLT stylesheet
-            URLConnection xsltUrlConn =
+            URLConnection urlConn =
                 xsltResolver.getUrl(name + ".xsl").openConnection();
-            InputStream xsltInputStream = xsltUrlConn.getInputStream();
-            Source xsltSource = new StreamSource(xsltInputStream);
-            td.setXsltExecutable(comp.compile(xsltSource));
+            td.setXsltExecutable(comp.compile(
+                new StreamSource(urlConn.getInputStream())));
         }
     }
 
