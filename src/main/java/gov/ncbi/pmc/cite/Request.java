@@ -545,6 +545,14 @@ public class Request {
         }
         else {
             contentDispHeader = "attachment; filename=results." + report;
+
+            // FIXME: just for testing
+            String foo = "";
+            for (int i = 0; i < numIds; ++i) {
+                foo += Integer.toString(i);
+            }
+            foo = "";
+
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < numIds; ++i) {
                 RequestId requestId = idList.get(i);
