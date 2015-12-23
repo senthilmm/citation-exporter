@@ -368,11 +368,39 @@
           </execution>
         </executions>
       </plugin>
+
+      <!--
+        This runs findbugs reports as part of the verify phase, so
+        `package` will fail if there are findbugs problems. This generates
+        XML reports in target/findbugs, but to get pretty a HTML report,
+        you have to run `mvn site` separately.
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>3.0.3</version>
+        <configuration>
+          <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
+          <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal> 
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
+ 
   </build>
 
   <reporting>
     <plugins>
+      <!--
+        Generates the HTML version of the findbugs report. This should
+        use the same exclude filter file as above.
+      -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
