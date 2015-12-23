@@ -90,13 +90,13 @@ public class RequestIdList {
      * Converts this list to a string.
      */
     public String toString() {
-        String r = "";
+        StringBuffer r = new StringBuffer();
         int numIds = size();
         for (int i = 0; i < numIds; ++i) {
             RequestId rid = get(i);
-            if (i != 0) r += "|";
-            r += rid.toString();
+            if (i != 0) r.append("|");
+            r.append(rid.toString());
         }
-        return r;
+        return r.toString();
     }
 }

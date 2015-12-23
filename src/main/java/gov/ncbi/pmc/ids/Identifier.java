@@ -1,5 +1,7 @@
 package gov.ncbi.pmc.ids;
 
+import org.antlr.v4.runtime.misc.NotNull;
+
 import gov.ncbi.pmc.cite.BadParamException;
 
 /**
@@ -13,7 +15,7 @@ public class Identifier {
     // to their type The order is important:  if determining the type of an
     // unknown id (getIdType()), then these regexps are attempted in order,
     // and first match wins.
-    protected static String[][] idTypePatterns = {
+    private final static String[][] idTypePatterns = {
         { "pmid", "^\\d+$" },
         { "pmcid", "^([Pp][Mm][Cc])?\\d+(\\.\\d+)?$" },
         { "mid", "^[A-Za-z]+\\d+$" },
@@ -67,7 +69,7 @@ public class Identifier {
      * Create a new Identifier object.  This validates and canonicalizes
      * the value given.
      */
-    public Identifier(String type, String value)
+    public Identifier(@NotNull String type, @NotNull String value)
         throws BadParamException
     {
         if (!idTypeValid(type)) {
@@ -109,12 +111,26 @@ public class Identifier {
         return type + ":" + value;
     }
 
-    public boolean equals(Identifier id) {
-        return type.equals(id.getType()) && value.equals(id.getValue());
-    }
-
     @Override
     public String toString() {
         return getCurie();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        Identifier id = (Identifier) obj;
+        return type.equals(id.getType()) && value.equals(id.getValue());
     }
 }

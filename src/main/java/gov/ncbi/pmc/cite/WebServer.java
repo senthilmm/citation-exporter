@@ -1,6 +1,7 @@
 package gov.ncbi.pmc.cite;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -171,9 +172,13 @@ public class WebServer
     }
 
 
-    private RequestLog createRequestLog() {
+    private RequestLog createRequestLog()
+        throws IOException
+    {
         NCSARequestLog requestLog = new NCSARequestLog();
-        requestLogPath.getParentFile().mkdirs();
+        File p = requestLogPath.getParentFile();
+        if (p == null ||
+            !p.mkdirs()) throw new IOException("Unable to create request log");
         requestLog.setFilename(requestLogPath.getPath());
         requestLog.setRetainDays(90);
         requestLog.setExtended(true);

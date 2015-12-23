@@ -91,11 +91,12 @@ public class CiteprocPool {
         String r = "CiteprocPool has CitationProcessors for " +
             styleLocals.size() + " styles:\n";
         Iterator<String> keyIter = styleLocals.keySet().iterator();
+        StringBuffer sb = new StringBuffer();
         while (keyIter.hasNext()) {
             String style = keyIter.next();
-            r += "  " + style + "\n";
+            sb.append("  " + style + "\n");
         }
-        return r;
+        return r + sb.toString();
     }
 
 }

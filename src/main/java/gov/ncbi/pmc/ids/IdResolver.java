@@ -175,11 +175,12 @@ public class IdResolver {
         if (idsToResolve.size() > 0) {
             // Create the URL.  If this is malformed, it must be because of
             // bad parameter values, therefore a bad request (right?)
-            String idString = "";
+            StringBuffer sb = new StringBuffer();
             for (int i = 0; i < idsToResolve.size(); ++i) {
-                if (i != 0) idString += ",";
-                idString += idsToResolve.get(i).getCanonical().getValue();
+                if (i != 0) sb.append(",");
+                sb.append(idsToResolve.get(i).getCanonical().getValue());
             }
+            String idString = sb.toString();
             URL url = null;
             try {
                 url = new URL(idConverterBase + "idtype=" + idType + "&ids=" +

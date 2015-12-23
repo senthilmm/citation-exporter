@@ -29,7 +29,6 @@ import net.sf.saxon.s9api.XdmNode;
 import net.sf.saxon.s9api.XsltCompiler;
 import net.sf.saxon.s9api.XsltTransformer;
 
-
 /**
  * An object of this class handles XSLT transformations.  There is one of
  * these for the servlet, shared among all the Requests.
@@ -117,10 +116,9 @@ public class TransformEngine {
             t.setInitialContextNode(xdmSource);
 
             if (params != null) {
-                for (String key : params.keySet()) {
-                    String val = params.get(key);
-                    QName paramName = new QName(key);
-                    t.setParameter(paramName, new XdmAtomicValue(val));
+                for (Map.Entry<String, String> entry: params.entrySet()) {
+                    t.setParameter(new QName(entry.getKey()),
+                        new XdmAtomicValue(entry.getValue()));
                 }
             }
 

@@ -1,5 +1,4 @@
-<schema xmlns='http://purl.oclc.org/dsdl/schematron'
-            xmlns:sqf='http://www.schematron-quickfix.com/validator/process'>
+<schema xmlns='http://purl.oclc.org/dsdl/schematron'>
   <pattern>
     <rule context='pub-one-record'>
       <assert test='source-meta'/>

@@ -81,11 +81,11 @@ public class IdGlob {
     }
 
     public String toString() {
-        String s = "";
-        for (String key : idByType.keySet()) {
-            if (!s.equals("")) s += ",";
-            s += idByType.get(key).getCurie();
+        StringBuffer sb = new StringBuffer();
+        for (Map.Entry<String, Identifier> e: idByType.entrySet()) {
+            if (sb.length() != 0) sb.append(",");
+            sb.append(e.getValue().getCurie());
         }
-        return s;
+        return sb.toString();
     }
 }

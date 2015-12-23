@@ -108,9 +108,9 @@ public class MainServlet extends HttpServlet
         response.setStatus(200);
         PrintWriter rw = response.getWriter();
         String tenChars = "0123456789";
-        String out = "";
-        for (int i = 0; i < 1; ++i) out += tenChars;
-        rw.println(out);
+        StringBuffer out = new StringBuffer();
+        for (int i = 0; i < 1; ++i) out.append(tenChars);
+        rw.println(out.toString());
         return;
     }
 
@@ -133,7 +133,7 @@ public class MainServlet extends HttpServlet
         //rw.println("Context path = '" + request.getContextPath() + "'");
         rw.println("Path info = '" + request.getPathInfo() + "'");
         //rw.println("Path translated = " + request.getPathTranslated());
-        rw.println("Query string = " + request.getQueryString());
+        //rw.println("Query string = " + request.getQueryString());
 
       /*
         rw.println("HTTP Headers:");
@@ -169,21 +169,18 @@ public class MainServlet extends HttpServlet
      * For debugging - log (trace level) all of the request headers
      */
     private void logRequestHeaders(HttpServletRequest req) {
-        String msg = req.getMethod() + " request received\n";
-        msg += "HTTP Headers:\n";
+        StringBuffer msg = new StringBuffer();
+        msg.append(req.getMethod() + " request received\n");
+        msg.append("HTTP Headers:\n");
         Enumeration<String> headerNames = req.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String hn = headerNames.nextElement();
-            msg += "  '" + hn + "': '" + req.getHeader(hn) + "'\n";
+            msg.append("  '" + hn + "': '" + req.getHeader(hn) + "'\n");
         }
 
-        // FIXME:  should be 'trace'.
-        log.debug(msg);
-
-        // FIXME:  we can take this out (or make it 'trace'):
+        log.trace(msg.toString());
         CiteprocPool citeprocPool = App.getCiteprocPool();
-        log.debug(citeprocPool.status());
-
+        log.trace(citeprocPool.status());
     }
 
     /**
@@ -191,15 +188,7 @@ public class MainServlet extends HttpServlet
      */
     private void setCorsHeaders(HttpServletRequest request,
                                 HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        String origin = request.getHeader("Origin");
-        if (origin == null) origin = "*";
-        response.setHeader("Access-Control-Allow-Origin", origin);
-        response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-        String acrh = request.getHeader("Access-Control-Request-Headers");
-        if (acrh == null) acrh = "*";
-        if (acrh != null)
-            response.setHeader("Access-Control-Allow-Headers", acrh);
+        response.setHeader("Access-Control-Allow-Origin", "*");
     }
 
     /**

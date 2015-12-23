@@ -1,0 +1,35 @@
+<FindBugsFilter>
+  <Match>
+    <Class name="gov.ncbi.pmc.cite.MainServlet" />
+    <Method name="init" />
+    <Bug pattern="DM_EXIT" />
+  </Match>
+  <Match>
+    <Class name="gov.ncbi.pmc.cite.MainServlet" />
+    <Bug pattern="SE_BAD_FIELD" />
+  </Match>
+  <Match>
+    <Class name="gov.ncbi.pmc.cite.Transform" />
+    <Bug pattern="UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" />
+  </Match>
+  <Match>
+    <Class name="gov.ncbi.pmc.cite.TransformEngine" />
+    <Method name="doTransform" />
+    <Bug pattern="NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" />
+  </Match>
+  <Match>
+    <Class name="gov.ncbi.pmc.cite.WebServer" />
+    <Method name="start" />
+    <Bug pattern="DLS_DEAD_LOCAL_STORE" />
+  </Match>
+  <Match>
+    <Class name="gov.ncbi.pmc.cite.WebServer" />
+    <Method name="start" />
+    <Bug pattern="DM_EXIT" />
+  </Match>
+  <Match>
+    <Class name="gov.ncbi.pmc.cite.WebServer" />
+    <Method name="createRequestLog" />
+    <Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
+  </Match>
+</FindBugsFilter>

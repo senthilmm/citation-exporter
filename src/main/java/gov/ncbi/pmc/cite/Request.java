@@ -371,35 +371,33 @@ public class Request {
                 boolean success = false;
                 RequestId requestId = idList.get(i);
                 Identifier rid = requestId.getCanonical();
-                if (requestId != null) {
-                    Identifier aiid = requestId.getIdByType("aiid");
-                    if (aiid != null) {
-                        try {
-                            // Retrieve the PubOne record XML
-                            Document record =
-                                itemSource.retrieveItemPubOne(requestId);
+                Identifier aiid = requestId.getIdByType("aiid");
+                if (aiid != null) {
+                    try {
+                        // Retrieve the PubOne record XML
+                        Document record =
+                            itemSource.retrieveItemPubOne(requestId);
 
-                            // Add an `s:request-id` attribute with the original
-                            // (requested) id
-                            Element recordElem = record.getDocumentElement();
-                            setSearchAttribute(recordElem, "request-id",
-                                rid.getCurie());
+                        // Add an `s:request-id` attribute with the original
+                        // (requested) id
+                        Element recordElem = record.getDocumentElement();
+                        setSearchAttribute(recordElem, "request-id",
+                            rid.getCurie());
 
-                            // If that's different from the aiid, then add
-                            // another attribute, `s:resolved-id`
-                            if (!rid.equals(aiid)) {
-                                setSearchAttribute(recordElem, "resolved-id",
-                                    aiid.getCurie());
-                            }
-
-                            // Append the root element of this record's XML
-                            // document as the last child of the root element
-                            // of our aggregate document.
-                            root.appendChild(d.importNode(recordElem, true));
-                            success = true;
+                        // If that's different from the aiid, then add
+                        // another attribute, `s:resolved-id`
+                        if (!rid.equals(aiid)) {
+                            setSearchAttribute(recordElem, "resolved-id",
+                                aiid.getCurie());
                         }
-                        catch (CiteException e) {}
+
+                        // Append the root element of this record's XML
+                        // document as the last child of the root element
+                        // of our aggregate document.
+                        root.appendChild(d.importNode(recordElem, true));
+                        success = true;
                     }
+                    catch (CiteException e) {}
                 }
                 if (!success) notFoundList.add(rid);
             }
@@ -547,15 +545,17 @@ public class Request {
         }
         else {
             contentDispHeader = "attachment; filename=results." + report;
+            StringBuffer sb = new StringBuffer();
             for (int i = 0; i < numIds; ++i) {
                 RequestId requestId = idList.get(i);
                 if (requestId != null) {
-                    if (i != 0) { result += "\n"; }
+                    if (i != 0) { sb.append("\n"); }
                     Document d = itemSource.retrieveItemPubOne(requestId);
-                    result += (String)
-                        transformEngine.doTransform(d, transformName) + "\n";
+                    sb.append((String)
+                        transformEngine.doTransform(d, transformName) + "\n");
                 }
             }
+            result = sb.toString();
         }
 
         String contentType = report.equals("nbib") ? "application/nbib" :
@@ -596,19 +596,16 @@ public class Request {
 
                     RequestId requestId = idList.get(i);
                     Identifier rid = requestId.getCanonical();
-                    //IdGlob idg = requestId.getIdGlob();
-                    if (requestId != null) {
-                        Identifier aiid = requestId.getIdByType("aiid");
-                        if (aiid != null) {
-                            try {
-                                // Retrieve the JSON item and add it to our list
-                                jsonRecords.add(
-                                     itemSource.retrieveItemJson(requestId)
-                                       .toString());
-                                success = true;
-                            }
-                            catch (CiteException e) {}
+                    Identifier aiid = requestId.getIdByType("aiid");
+                    if (aiid != null) {
+                        try {
+                            // Retrieve the JSON item and add it to our list
+                            jsonRecords.add(
+                                 itemSource.retrieveItemJson(requestId)
+                                   .toString());
+                            success = true;
                         }
+                        catch (CiteException e) {}
                     }
                     if (!success) notFoundList.add(rid);
                 }
@@ -693,8 +690,7 @@ public class Request {
                 }
                 catch (RuntimeException e) {
                     log.error(
-                        "Got a RuntimeException from citation processor: " +
-                        e.getStackTrace());
+                        "Got a RuntimeException from citation processor: ", e);
                     // For runtime exceptions, if this is our first attempt,
                     // then we'll assume there's something wrong with the
                     // processor, so don't return it to the pool.
