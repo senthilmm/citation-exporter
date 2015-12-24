@@ -20,6 +20,7 @@
   </properties>
 
   <repositories>
+  <!--
     <repository>
       <snapshots>
         <enabled>false</enabled>
@@ -28,6 +29,7 @@
       <name>ncbi-production</name>
       <url>https://artifactory.ncbi.nlm.nih.gov/artifactory/ncbi-production</url>
     </repository>
+  -->
     <repository>
       <id>oss-snapshots-repo</id>
       <name>Sonatype OSS Maven Repository</name>
@@ -51,6 +53,8 @@
     </dependency>
     <dependency>
     <!--
+      I put pub-one on GitHub, and tagged it. It is being served back to
+      us through jitpack.io.
       <groupId>gov.ncbi.pmc</groupId>
       <artifactId>pub-one</artifactId>
       <version>1.0.2</version>
@@ -185,10 +189,8 @@
       <artifactId>hamcrest-junit</artifactId>
       <version>2.0.0.0</version>
       <scope>test</scope>
-      <!--
-        Need to exclude this, because an old version is specified as a
-        dependency of junit
-       -->
+      <!-- Exclude an old version of hamcrest-core that's  specified as a
+        dependency of junit -->
       <exclusions>
         <exclusion>
           <groupId>org.hamcrest</groupId>
@@ -206,6 +208,12 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <version>1.10.19</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+      </exclusions>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -262,6 +270,9 @@
         </configuration>
       </plugin>
 
+      <!--
+        This downloads some of the JATS DTDs.
+      -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -346,13 +357,23 @@
       </plugin>
 
       <!--
-        Generate Javadocs. Note that the javadoc plugin is already
-        enabled, by default, in the super pom. This section is only
-        here to bind javadoc generation to the `prepare-package`
-        phase; so that it will be generated when you enter, for example,
-        `mvn package`.
-        FIXME: it still doesn't include the javadocs in the uber jar,
-        however.
+        Generate the -sources.jar file during the package phase.
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+        Generate the -javadocs.jar file during the packaging phase.
       -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -360,11 +381,9 @@
         <version>2.10.3</version>
         <executions>
           <execution>
-            <id>ctxp-javadocs</id>
             <goals>
-              <goal>javadoc</goal>
+              <goal>jar</goal>
             </goals>
-            <phase>prepare-package</phase>
           </execution>
         </executions>
       </plugin>
@@ -386,17 +405,26 @@
         <executions>
           <execution>
             <goals>
-              <goal>check</goal> 
+              <goal>check</goal>
             </goals>
           </execution>
         </executions>
       </plugin>
     </plugins>
- 
+
   </build>
 
   <reporting>
     <plugins>
+      <!--
+        Generate Javadocs
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+      </plugin>
+
       <!--
         Generates the HTML version of the findbugs report. This should
         use the same exclude filter file as above.
@@ -434,7 +462,6 @@
         </plugins>
       </build>
     </profile>
-
     <profile>
       <id>prod</id>
       <dependencies>

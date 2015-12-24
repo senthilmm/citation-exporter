@@ -32,16 +32,16 @@ public class Utils {
      * first, and then initialize the App. Use it to set the test's log
      * variable at the same time. For example:
      *
-     *   public class MyTest {
-     *       private Logger log;
-     *       @Rule
-     *       public TestName name = new TestName();
-     *       @Test
-     *       public void testMethod() throws Exception {
-     *           log = TestSetup.setup(name);
-     *           ...
-     *       }
-     *   }
+     * <pre><code>public class MyTest {
+     *     private Logger log;
+     *     {@literal @}Rule
+     *     public TestName name = new TestName();
+     *     {@literal @}Test
+     *     public void testMethod() throws Exception {
+     *         log = TestSetup.setup(name);
+     *       ...
+     *     }
+     * }</code></pre>
      */
     public static Logger setup(TestName name)
         throws Exception

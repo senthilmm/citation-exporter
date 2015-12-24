@@ -177,8 +177,8 @@ public class WebServer
     {
         NCSARequestLog requestLog = new NCSARequestLog();
         File p = requestLogPath.getParentFile();
-        if (p == null ||
-            !p.mkdirs()) throw new IOException("Unable to create request log");
+        if (p == null) throw new IOException("Unable to create request log");
+        p.mkdirs();
         requestLog.setFilename(requestLogPath.getPath());
         requestLog.setRetainDays(90);
         requestLog.setExtended(true);
