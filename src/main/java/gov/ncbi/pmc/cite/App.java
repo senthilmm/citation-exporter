@@ -2,6 +2,7 @@ package gov.ncbi.pmc.cite;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,6 +25,10 @@ import net.sf.saxon.s9api.Processor;
 public class App {
     public static final String apiVersion = "v1";
 
+    private static String ctxp_version;
+    private static String ctxp_sha;
+    private static String ctxp_config_sha;
+
     private static Logger log = LoggerFactory.getLogger(App.class);
     private static IdResolver idResolver;
     // Jackson ObjectMapper should be thread-safe, see
@@ -35,7 +40,6 @@ public class App {
     // to be replaced with
     private static Processor saxonProcessor;
 
-
     private static ItemSource itemSource;
     private static TransformEngine transformEngine;
     private static CatalogResolver catalogResolver;
@@ -43,6 +47,13 @@ public class App {
 
 
     public static void init() throws Exception {
+        Properties props = new Properties();
+        props.load(
+            App.class.getClassLoader().getResourceAsStream("ctxp.properties"));
+        ctxp_version = props.getProperty("ctxp.version", "unknown");
+        ctxp_sha = props.getProperty("ctxp.sha", "unknown");
+        ctxp_config_sha = props.getProperty("ctxp.config.sha", "unknown");
+
         idResolver = new IdResolver();
         mapper = new ObjectMapper();
         saxonProcessor = new Processor(false);
@@ -74,6 +85,29 @@ public class App {
             "xml.catalog.files = " + System.getProperty("xml.catalog.files"));
         catalogResolver = new CatalogResolver();
         citeprocPool = new CiteprocPool(itemSource);
+    }
+
+    /**
+     * @return the version number, from the pom.xml file.
+     */
+    public static String getCtxp_version() {
+        return ctxp_version;
+    }
+
+    /**
+     * @return the Git SHA of this version of the citation-exporter repo, if
+     *   available; otherwise, "unknown".
+     */
+    public static String getCtxp_sha() {
+        return ctxp_sha;
+    }
+
+    /**
+     * @return the ctxp_config_sha the Git SHA of this version of the
+     *   citation-exporter-config repo, if available; otherwise, "unknown".
+     */
+    public static String getCtxp_config_sha() {
+        return ctxp_config_sha;
     }
 
     /**

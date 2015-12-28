@@ -17,6 +17,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jetty.version>9.2.1.v20140609</jetty.version>
     <jackson.version>2.6.3</jackson.version>
+    <ctxp.sha>unknown</ctxp.sha>
+    <ctxp.config.sha>unknown</ctxp.config.sha>
   </properties>
 
   <repositories>
@@ -219,6 +221,23 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>ctxp.properties</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>ctxp.properties</exclude>
+        </excludes>
+      </resource>
+    </resources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -400,7 +419,8 @@
         <version>3.0.3</version>
         <configuration>
           <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
-          <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
+          <findbugsXmlOutputDirectory
+            >${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
         </configuration>
         <executions>
           <execution>
