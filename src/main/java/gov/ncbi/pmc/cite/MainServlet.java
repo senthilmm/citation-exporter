@@ -127,9 +127,9 @@ public class MainServlet extends HttpServlet
         response.setStatus(200);
         PrintWriter rw = response.getWriter();
 
-        rw.println("Citation exporter version " + App.getCtxp_version());
-        rw.println("citation-exporter sha " + App.getCtxp_sha());
-        rw.println("citation-exporter-config sha " + App.getCtxp_config_sha());
+        rw.println("Citation exporter version = " + App.getCtxp_version());
+        rw.println("citation-exporter sha = " + App.getCtxp_sha());
+        rw.println("citation-exporter-config sha = " + App.getCtxp_config_sha());
         rw.println("Method = " + request.getMethod());
         rw.println("Request URI = '" + request.getRequestURI() + "'");
         //rw.println("Request URL = '" + request.getRequestURL() + "'");
