@@ -65,8 +65,8 @@ TestTransforms.java and TestRequests.java.
 
 This provides data-driven schematron and regular-expression matching tests 
 of the XSLT transforms. The individual test cases are defined in the 
-src/test/resources/transform-tests.json file, which is read into a List of 
-TransformTestCase objects.
+[transform-tests.json](src/test/resources/transform-tests.json) file, which 
+is read into a List of TransformTestCase objects.
 
 You can use the `test_cases` system property to select which specific test 
 case to run:
@@ -90,23 +90,25 @@ the src/test/resources directory.
 
 This provides unit tests for the Request class, which handles HTTP requests. 
 It uses Mockito to mock HttpServletRequest and HttpServletResponse objects. 
-It reads test cases from src/test/resources/request-tests.json into a List 
+It reads test cases from the 
+[request-tests.json](src/test/resources/request-tests.json) file into a List 
 of RequestTestCase objects.
 
-As with TestTransforms, you can use the `test_cases` system property to 
+As with TestTransforms, you can use the `test_cases` property to 
 select which tests to run.
 
 For example, to test all the cases that have "style" in the description, 
 run:
 
 ```
-mvn -Dtest=TestTransforms -Dtest_cases=style test
+mvn -Dtest=TestRequests -Dtest_cases=style test
 ```
 
 
 ### Performance tests
 
-Use the test script src/test/resources/performance-test.pl to test 
+Use the script 
+[performance-test.pl](src/test/resources/performance-test.pl) to test 
 performance and reliability under load. Use `-?` to get usage help.
 
 On a development deployment (one that uses item_source="test") then you need
@@ -128,8 +130,8 @@ cd src/test/resources
 ```
 
 Because there exists the PubOne-format file 
-src/main/resources/samples/aiid/3352855.pub1, the service will be able to 
-generate all of the responses in the requested formats.
+[3352855.pub1](src/main/resources/samples/aiid/3352855.pub1), the service 
+will be able to generate all of the responses in the requested formats.
 
 
 ## Running as executable jar with embedded Jetty
@@ -154,7 +156,7 @@ mvn jetty:run -Djetty.port=9876 -Dcache_ids=true -Did_cache_ttl=8
 Here are some of the parameters that can be used:
 
 * `cache_ids` - either "true" or "false".  Default is "false".
-* `com.sun.management.jmxremote.authenticate' - Set this to "false" to turn on
+* `com.sun.management.jmxremote.authenticate` - Set this to "false" to turn on
   turn on the [JMX monitor 
   console](http://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html),
   without user authentication. Note that this is only suitable for a 
@@ -199,8 +201,8 @@ Here are some of the parameters that can be used:
 
 ### DTDs and XML catalog files
 
-The repository comes with an OASIS catalog file, *catalog.xml* that is used,
-by default, to find DTDs. This contains:
+The repository comes with an OASIS catalog file, [catalog.xml](catalog.xml),
+that is used, by default, to find DTDs. This contains:
 
 ```xml
 <nextCatalog catalog="catalog-local.xml"/>
@@ -212,8 +214,9 @@ This causes the resolver to try to resolve IDs from:
 * catalog-local.xml, if it exists. If you create this file, then you can 
   override any definitions from other catalogs.
 * jats/catalog.xml, if it exists. This file is included in the repository, 
-  and you can use the jats/get-dtds.sh script to download the corresponding 
-  DTDs from the JATS site.
+  and you can use the [jats/get-dtds.sh](jats/get-dtds.sh) script to download 
+  the corresponding DTDs from the JATS site. (This is executed by default
+  in a Maven build).
 
 If the JATS (and other) DTDs are located somewhere else on your system, then
 there are two ways to override the default behavior.
