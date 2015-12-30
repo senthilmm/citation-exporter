@@ -138,10 +138,12 @@ will be able to generate all of the responses in the requested formats.
 
 ```
 mvn package
-mkdir jetty-temp-dir
-java -Djava.io.tmpdir=./jetty-temp-dir \
-  -jar target/pmc-citation-exporter-0.1-SNAPSHOT.jar
+java -jar target/pmc-citation-exporter-*.jar
 ```
+
+As before, go to 
+[http://localhost:11999/samples](http://localhost:11999/samples) in
+your browser to see the results.
 
 
 ## Configuration
@@ -444,26 +446,27 @@ WARN, ERROR or FATAL.
 
 ## JMX Monitor Console
 
-To enable [JMX
+You can use [JMX
 monitoring](http://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html),
-start the service with, for example:
+to check the service, either locally or remote.
 
-```
-mvn -Dcom.sun.management.jmxremote.port=11997 \
-    -Dcom.sun.management.jmxremote.authenticate=false \
-    jetty:run
-```
+When running with "jetty:run", *local* JMX monitoring is enabled by default.
+After starting the server, from another terminal, enter the command `jconsole`,
+and then open the connection to the "org.codehaus.plexus..." process that is
+listed.
 
-Or (as an "uber jar"):
+When running as an "uber jar", start it with the following options (for
+example):
 
 ```
 mvn package
 java -Dcom.sun.management.jmxremote.port=11997 \
      -Dcom.sun.management.jmxremote.authenticate=false \
-     -jar target/pmc-citation-exporter-1.0.1.jar
+     -Dcom.sun.management.jmxremote.ssl=false \
+     -jar target/pmc-citation-exporter-*.jar
 ```
 
-Then, you can connect to a monitor console by using the command, for example:
+Then, you can connect to a monitor console by using the command:
 
 ```
 jconsole localhost:11997
@@ -481,8 +484,9 @@ In the production environment, however, we require access to a Java library
 which has not been released openly (groupId=gov.ncbi.pmc, 
 artifactId=pmc-lib). References to that library exist in two class files,
 StcachePubOneItemSource and StcacheNxmlItemSource; so, *by default*, those 
-are excluded from compilation.  This is because the default build profile is 
-"test", which explicitly excludes those two class files, and doesn't include 
+are excluded from compilation.  This is accomplished by making the default 
+build profile is 
+"dev", which explicitly excludes those two class files, and doesn't include 
 the dependency on the pmc-lib library.
 
 Building for production is done with the use of the "prod" Maven profile 
@@ -501,8 +505,8 @@ To work in Eclipse, import this project into your workspace.
 
 ***Turn off validation of some subdirectories.***
 
-Turn off validation of the *jats*, *styles*, and *locales* folders
-(if present) by right-clicking on them, selecting
+Turn off validation of the DTD subdirectories of *jats* 
+by right-clicking on them, selecting
 "Properties", and then check "derived". This will cause all of the files
 under these directories to be excluded from validation. You might have
 to select "Project" -> "Clean" to get rid of existing errors.
@@ -511,28 +515,11 @@ It might help even more, to speed up builds, to turn off all validation in the
 project. Right click on the project, then select Properties, then Validation,
 and check "Suspend all validators".
 
-***[Tomcat setup -- not working currently.]***
-
-Install Tomcat on your machine, by downloading it from
-[here](http://tomcat.apache.org/download-80.cgi) (version 8.0.30 is known to
-work) and unzip it to any
-directory of your choosing. Then, in Eclipse, select Window → Show view →
-Other → Servers. Click on the link, "No servers are available....".
-Select Tomcat, with the version to match what you installed; navigate to the
-directory you just installed to, and click "Finish".
-
-To run the application from Eclipse, right-click on the project, and select
-*Run As* -> *Run on server*.  Depending on your workspace server configuration
-*server.xml*, you should then be able to point your browser to
-http://locahost:12006/pmc-citation-service/.
-
 ***Set up some file types***
 
 In Preferences → General → Content Types, select "Text", then "XML". Then
 add two new types: "*.nxml" (JATS PMC NXML format) and "*.sch" (Schematron
 files).
-
-
 
 
 ### Jetty configuration
@@ -546,8 +533,23 @@ There are two ways to run the server under Jetty:
   plugin](http://maven.apache.org/plugins/maven-shade-plugin/), with
   `mvn package; java -jar target/pmc-citation-exporter...jar`.
 
-Some options are set in the pom.xml to cause this to scan for changes to 
-source files, and to automatically redeploy whenever any are detected. Also, 
+
+### Run with Jetty Maven plugin
+
+To use the Jetty Maven plugin, run with, for example:
+
+```
+mvn clean jetty:run
+```
+
+This *does not use* the src/main/webapp/jetty.xml configuration file.
+
+In this case, the main entry point to the app is in MainServlet.java; 
+the code in WebServer.java does not get executed.
+
+Some options are set in the pom.xml so that, when running with `jetty:run`,
+it scans for changes to 
+source files, and to automatically redeploys whenever any are detected. Also, 
 in the pom file, some default values are given for System properties that are 
 used to configure the app.
 
@@ -595,25 +597,11 @@ as they should be. Those sample files *are* copied, however, when the
 application restarts as a result of a Java source file changing.
 
 
-### Run with Jetty Maven plugin
-
-To use the Jetty Maven plugin, run with, for example:
-
-```
-mvn clean jetty:run
-```
-
-This *does not use* the src/main/webapp/jetty.xml configuration file.
-
-Also, in this case, the main entry point to the app is in MainServlet.java; 
-the code in WebServer.java does not get executed.
-
-
 ### Jetty shaded uber-jar
 
 This is used when you run the `mvn package` command, and causes the creation 
 of an executable jar file in the target subdirectory (currently 
-target/pmc-citation-exporter-0.1-SNAPSHOT.jar), that includes
+target/pmc-citation-exporter-\<version>.jar), that includes
 all of the dependencies, including Jetty itself.
 
 This is controlled by the [Apache Maven Shade 
@@ -627,7 +615,7 @@ To run the server from this executable jar, execute something like this
 
 ```
 java -Djava.io.tmpdir=./jetty-temp-dir \
-  -jar target/pmc-citation-exporter-0.1-SNAPSHOT.jar
+  -jar target/pmc-citation-exporter-*.jar
 ```
 
 Note that system properties must be set on the command line *before* the 
@@ -635,197 +623,19 @@ Note that system properties must be set on the command line *before* the
 
 When running this way, Jetty is configured by the src/main/webapp/jetty.xml 
 file. (Note that this is *not used* when running with `mvn jetty:run`).
+The main entry point to the application is in WebServer.java.
 
-
-### citeproc-java
-
-* [Javadocs](http://michel-kraemer.github.io/citeproc-java/api/latest/)
-* [GitHub/michel-kraemer/citeproc-java]()
-
-To use the latest development version of this library, rather than the 
-release package, first clone the GitHub repository to any local directory.  
-Then, see the [build
-instructions](http://michel-kraemer.github.io/citeproc-java/using/building/).
-Do the following to create the jar file, and then install that in your local 
-Maven repository:
-
-```
-./gradlew install
-```
-
-Note that this installs the library as version "0.7-SNAPSHOT", meaning that 
-it is later than 0.6, but not a stable version.
-
-Next, change the pom.xml file in *this* repository to require that latest 
-version:
-
-```xml
-<dependency>
-  <groupId>de.undercouch</groupId>
-  <artifactId>citeproc-java</artifactId>
-  <version>0.7-SNAPSHOT</version>
-</dependency>
-```
-
-
-
-### Citation style language (CSL) library
-
-By default, this runs with the styles and locales packages that are uploaded 
-to the Sonatype repository daily.  When packaged as an uber-jar, that version 
-of those repos will be packaged as well.  So at the point it is packaged and 
-deployed, the available CSL files is frozen.
-
-You can develop and test with a development version of these, simply by 
-cloning the GitHub repositories 
-[citation-style-language/styles](https://github.com/citation-style-language/styles) 
-and/or
-[citation-style-language/locales](https://github.com/citation-style-language/locales) 
-underneath this repo's root directory.  The pom file adds the `styles` and 
-`locales` directories as resources to the classpath, so if they are present, 
-those development versions will be used instead of the packaged ones.
-
-
-### Dependencies
-
-Dependencies are declared in the *pom.xml* file, and most are resolved 
-automatically by Maven.
-
-Below is a list of some of the notable dependencies, along with links to 
-documentation, useful when doing development.
-
-
-**Java**
-
-Requires Java version 8.
-
-* Platform / library [Javadocs](http://docs.oracle.com/javase/8/docs/api/)
-
-
-**Saxon**
-
-It uses Saxon for XSLT tranformations.
-
-* [Javadocs](http://www.saxonica.com/documentation/Javadoc/index.html)
-
-
-**citeproc-java**
-
-* [Javadocs](http://michel-kraemer.github.io/citeproc-java/api/latest/)
-
-See [above](#citeproc-java) for some information about how to build and
-link the development version of this library, rather
-than using the released package.
-
-
-**citeproc-js**
-
-* [Manual](http://gsl-nagoya-u.net/http/pub/citeproc-doc.html)
-
-This is included by reference, from citeproc-java. The repository URL
-and the exact commit are specified in the citeproc-java/build.gradle
-file.
-
-As of 12/10/2015, we are using a fork of this, on BitBucket at
-[klortho/citeproc-js](https://bitbucket.org/klortho/citeproc-js), branch
-[pmc-22661-epub-date](https://bitbucket.org/klortho/citeproc-js/branch/pmc-22661-epub-date).
-
-
-**citation-style-language/styles**
-
-The GitHub repo
-[citation-style-languages/styles](https://github.com/citation-style-language/styles)
-that contains all of the CSL style definition files. Currently (12/10/2015)
-we're using a fork of this, at 
-[klortho/styles](https://github.com/Klortho/styles),
-in the [pmc-22661-olf 
-branch](https://github.com/Klortho/styles/tree/pmc-22661-olf),
-in support of an epublication date and an indication of ahead-of-print.
-
-In order to use a development version of these, instead of the default 
-version, merely clone this repo under the citation-exporter repository clone, 
-and build as usual.
-
-
-**citation-style-languages/locales**
-
-From GitHub [here](https://github.com/citation-style-language/locales).
-
-
-**PMC ID Converter API**
-
-* [Documentation](https://www.ncbi.nlm.nih.gov/pmc/tools/id-converter-api/)
-
-
-**Jackson**
-
-We're using the Jackson library to read JSON objects:
-
-* [Home page](http://wiki.fasterxml.com/JacksonHome)
-* [Data binding](https://github.com/FasterXML/jackson-databind) - includes 
-  tutorial on how to use it.
-* [Javadocs](http://fasterxml.github.io/jackson-databind/javadoc/2.3.0/)
-* [Jackson annotations](https://github.com/FasterXML/jackson-annotations) - 
-  how to annotate the classes that map to JSON objects
-
-**kitty-cache**
-
-The library is on Google code 
-[here](https://code.google.com/p/kitty-cache/), and is also mirrored to 
-GitHub, at [treeder/kitty-cache](https://github.com/treeder/kitty-cache).
-
-It is declared in the *pom.xml* using the free service
-[JitPack.io](https://jitpack.io) to build and deploy it from a fork of the
-repository on GitHub, at 
-[Klortho/kitty-cache](https://github.com/Klortho/kitty-cache).
-(The reason for using a fork is to protect against the possibility of the 
-original repo being removed.)
-
-
-**DtdAnalyzer**
-
-Some of the XSLT conversions of XML to JSON import a library XSLT from the
-[DtdAnalyzer](https://github.com/ncbi/DtdAnalyzer).  The library XSLT is
-[xml2json-2.0.xsl](https://github.com/ncbi/DtdAnalyzer/blob/master/xslt/xml2json-2.0.xsl).
-
-**Jetty**
-
-* [Documentation](http://www.eclipse.org/jetty/documentation/9.2.1.v20140609/)
-* [Javadocs](http://download.eclipse.org/jetty/stable-9/apidocs/)
-
-
-### XSLT conversions
-
-You can try out any given XSLT from the command line, using Saxon Home 
-Edition.
-
-For example, nxml2json.xsl converts PMC NXML into citeproc-json format.  To 
-try it out, first set an alias to point to your Saxon jar file, and the 
-catalog file to use to resolve the DTDs.  For example:
-
-```
-alias saxon95='java -cp /path/to/saxon9.5.1.4/saxon9he.jar:/pmc/JAVA/saxon9.5.1.4/xml-commons-resolver-1.2/resolver.jar \
-  net.sf.saxon.Transform -catalog:/path/to/catalog.xml '
-```
-
-Then, run the transformations:
-
-```
-cd test
-saxon95 -s:aiid/3362639.nxml -xsl:../xslt/nxml2json.xsl pmcid=PMC3362639
-saxon95 -s:aiid/3352855.nxml -xsl:../xslt/nxml2json.xsl pmid=22615544 pmcid=PMC3352855
-```
 
 ### Exception handling
 
 Exception classes used when handling a request:
 
 - CiteException
-    - BadParamException - e.g. an id value that doesn't match one of the known patterns
-    - NotFoundException - when an id is of the correct form, but not resolved, or the pub-one
-      not found in the stcache
+    - BadParamException - e.g. an id value that doesn't match one of the 
+      known patterns
+    - NotFoundException - when an id is of the correct form, but not 
+      resolved, or the pub-one not found in the stcache
     - ServiceException - some problem with upstream service; results in 500
-    - StyleNotFoundException - results in 404
 - java.io.IOException - from, for example, java xml processing, error 
   creating CSL object, etc. Results in 500
 
@@ -845,6 +655,234 @@ if (page == null) return;
 
 So, this means that the whole page is prepared as a String first, and then 
 written out after the page is initialized.
+
+
+## Dependencies
+
+Dependencies are declared in the *pom.xml* file, and are resolved 
+automatically by Maven.
+
+Below is a list of some of the stable dependencies, along with links to 
+documentation, useful when doing development, and more details, where
+warranted.
+
+Several of the dependencies use a free third-party service 
+[Jitpack.io](https://jitpack.io/) in order to freeze specific revisions
+from GitHub repositories. These are libraries that are not on Maven
+Central, and Jitpack.io provides a way to ensure that we are using a 
+stable version. This requires adding the following to the \<repositories>
+section of the pom:
+
+```xml
+<repository>
+  <id>jitpack.io</id>
+  <url>https://jitpack.io</url>
+</repository>
+```
+
+
+### Java
+
+Requires Java version 8.
+
+* Platform / library [Javadocs](http://docs.oracle.com/javase/8/docs/api/)
+
+
+### Saxon Home Edition
+
+It uses Saxon-HE for XSLT tranformations.
+
+* [Javadocs](http://www.saxonica.com/documentation/Javadoc/index.html)
+
+
+### Jetty
+
+* [Documentation](http://www.eclipse.org/jetty/documentation/9.2.1.v20140609/)
+* [Javadocs](http://download.eclipse.org/jetty/stable-9/apidocs/)
+
+
+### citeproc-java
+
+The official source for this code is on GitHub at
+
+* [michel-kraemer/citeproc-java](https://github.com/michel-kraemer/citeproc-java)
+* [javadocs](http://michel-kraemer.github.io/citeproc-java/api/latest/)
+
+The current version of citation exporter uses a fork of this at
+
+* [klortho/citeproc-java, branch 
+  pmc-22661-ahead-of-print](https://github.com/klortho/citeproc-java/tree/pmc-22661-ahead-of-print)
+* [javadocs](http://klortho.github.io/citeproc-java/api/3f30f220/)
+
+It uses [Jitpack.io](https://jitpack.io/) to freeze the version at a
+specific commit.
+
+To use the latest development version of this library, rather than the 
+release package, clone the GitHub repository to your local machine.
+Then (see the [build
+instructions](http://michel-kraemer.github.io/citeproc-java/using/building/)
+do the following to create the jar file, and install that in your local 
+Maven cache:
+
+```
+./gradlew install
+```
+
+In the citation-exporter pom, make sure you change the dependency to
+use the "real" coordinates, instead of the ones from Jitpack.io:
+
+```xml
+<dependency>
+  <!-- Use these coordinates for the jitpack.io version: -->
+  <groupId>com.github.Klortho</groupId>
+  <artifactId>citeproc-java</artifactId>
+  <version>3f30f220c279557892d69c9ec95b92d84cf2114d</version>
+  <!-- Use these when running from a local, development version:
+    <groupId>de.undercouch</groupId>
+    <artifactId>citeproc-java</artifactId>
+    <version>0.7-SNAPSHOT</version> -->
+</dependency>
+```
+
+
+### citeproc-js
+
+* [Manual](http://gsl-nagoya-u.net/http/pub/citeproc-doc.html)
+
+This is included by reference, from citeproc-java. The repository URL
+and the exact commit are specified in the 
+[citeproc-java/build.gradle](https://github.com/Klortho/citeproc-java/blob/pmc-22661-ahead-of-print/citeproc-java/build.gradle)
+file.
+
+As of 12/10/2015, we are using a fork of this, on BitBucket at
+[klortho/citeproc-js](https://bitbucket.org/klortho/citeproc-js), branch
+[pmc-22661-epub-date](https://bitbucket.org/klortho/citeproc-js/branch/pmc-22661-epub-date).
+
+
+### Citation style language (CSL) libraries
+
+These are two libraries that are used to format citations. The
+originals are here:
+
+* [citation-style-languages/styles](https://github.com/citation-style-language/styles)
+* [citation-style-languages/locales](https://github.com/citation-style-language/locales)
+
+***styles***
+
+Currently (12/10/2015) we're using forks of these, at:
+
+* [klortho/styles, branch pmc-22661-olf](https://github.com/Klortho/styles/tree/pmc-22661-olf), and
+* [locales/styles, branch mavenize](https://github.com/Klortho/locales/tree/mavenize)
+
+Changes to the styles repo include support of an epublication date 
+and an indication of ahead-of-print.
+
+These branches also includes the addition of pom.xml files, so that they
+can be brought in as Maven dependencies.
+
+These use Jitpack.io to freeze the version at a specific commit.
+
+In order to use a development versions of these, instead of the default 
+version, merely clone one or the other (or both). Then, in these working 
+copies of the repos, install the packages
+to your local Maven cache with:
+
+```
+mvn install
+```
+
+Then, in the
+citation-exporter pom, change the dependency (dependencies) to
+use the "real" coordinates, instead of the ones from Jitpack.io. 
+For example,
+
+```xml
+<dependency>
+  <!-- Use these coordinates for the jitpack.io version: -->
+  <groupId>com.github.Klortho</groupId>
+  <artifactId>styles</artifactId>
+  <version>2b644a6c51743991d6d26b44961f9063dbd92c49</version>
+  <!-- Use these when running from a local, development version:
+    <groupId>org.citationstyles</groupId>
+    <artifactId>styles</artifactId>
+    <version>1.0.1-pmc-22661-olf</version> -->
+</dependency>
+```
+
+Note that the official GitHub repos for these are not "mavenized":
+they do not have pom files. Michel Kraemer provides a service that
+mavenizes them automatically, and upload SNAPSHOT versions of them to 
+Sonatype's OSS repo daily, see 
+[here](https://oss.sonatype.org/#nexus-search;quick~org.citationstyles).
+
+
+### PMC ID Converter API
+
+* [Documentation](https://www.ncbi.nlm.nih.gov/pmc/tools/id-converter-api/)
+
+
+### Jackson
+
+We're using the Jackson library to read JSON objects. Here are some
+handy links:
+
+* [Home page](http://wiki.fasterxml.com/JacksonHome)
+* [Data binding](https://github.com/FasterXML/jackson-databind) - includes 
+  tutorial on how to use it.
+* [Javadocs](http://fasterxml.github.io/jackson-databind/javadoc/2.3.0/)
+* [Jackson annotations](https://github.com/FasterXML/jackson-annotations) - 
+  how to annotate the classes that map to JSON objects
+
+
+### kitty-cache
+
+The library is on Google code 
+[here](https://code.google.com/p/kitty-cache/), and is also mirrored to 
+GitHub, at [treeder/kitty-cache](https://github.com/treeder/kitty-cache),
+but it is not in Maven Central.
+
+It is declared in the citation-exporter pom.xml, using 
+[JitPack.io](https://jitpack.io) to build and deploy it from a fork of the
+repository on GitHub, at 
+[Klortho/kitty-cache](https://github.com/Klortho/kitty-cache).
+(The reason for using a fork is to protect against the possibility of the 
+original repo being removed.)
+
+
+### PubOne
+
+This is a library of XSLTs that convert to and from NCBI's PubOne
+format, and is on GitHub at
+[klortho/pub-one](https://github.com/Klortho/pub-one).
+
+We use  Jitpack.io to freeze the version and to make it available
+from a Maven repository.
+
+In order to use a development version of this, instead of the default 
+version, clone it to your local machine, and build and install the package
+to your local Maven cache with:
+
+```
+mvn install
+```
+
+Then, in the
+citation-exporter pom, change the dependency to
+use the "real" coordinates, instead of the ones from Jitpack.io. 
+For example,
+
+```xml
+<dependency>
+  <!-- Use these coordinates for the jitpack.io version: -->
+  <groupId>com.github.Klortho</groupId>
+  <artifactId>pub-one</artifactId>
+  <version>v1.0.2</version>
+  <!-- Use these when running from a local, development version:
+    <groupId>gov.ncbi.pmc</groupId>
+    <artifactId>pub-one</artifactId>
+    <version>1.0.2</version> -->
+</dependency>
+```
 
 
 # Public Domain notice
