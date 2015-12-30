@@ -546,15 +546,24 @@ public class Request {
         else {
             contentDispHeader = "attachment; filename=results." + report;
             StringBuffer sb = new StringBuffer();
+            CiteException lastException = null;
             for (int i = 0; i < numIds; ++i) {
                 RequestId requestId = idList.get(i);
                 if (requestId != null) {
-                    if (i != 0) { sb.append("\n"); }
-                    Document d = itemSource.retrieveItemPubOne(requestId);
-                    sb.append((String)
-                        transformEngine.doTransform(d, transformName) + "\n");
+                    try {
+                        Document d = itemSource.retrieveItemPubOne(requestId);
+                        String ris = (String) transformEngine
+                            .doTransform(d, transformName);
+                        if (sb.length() > 0) sb.append("\n\n");
+                        sb.append(ris);
+                    }
+                    catch (CiteException e) {
+                        lastException = e;
+                    }
                 }
             }
+            if (sb.length() == 0) throw new NotFoundException(
+                "No good IDs found", lastException);
             result = sb.toString();
         }
 
@@ -717,8 +726,8 @@ public class Request {
             int numGoodIds = goodIds.size();
             for (int idnum = 0; idnum < numGoodIds; ++idnum) {
                 RequestId requestId = goodIds.get(idnum);
-                //IdGlob idg = requestId.getIdGlob();
                 Identifier aiid = requestId.getIdByType("aiid");
+                if (aiid == null) continue;
                 String curie = aiid.getCurie();
                 int entryNum = ArrayUtils.indexOf(entryIds, curie);
                 String entry = entries[entryNum];

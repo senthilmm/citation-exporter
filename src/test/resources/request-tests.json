@@ -273,6 +273,46 @@
       "status": 404,
       "content-type": "text/plain;charset=UTF-8"
     }
+  },
+  {
+    "description": "some good ids, some bad, report=html",
+    "request-params": {
+      "ids": "PMC3352855,PMC3999468,PMC0",
+      "report": "html",
+      "style": "apa"
+    },
+    "expect": {
+      "patterns": [
+        "data-id=\"pmcid:PMC3352855\"",
+        "data-id=\"pmcid:PMC3999468\""
+      ]
+    }
+  },
+  {
+    "description": "some good ids, some bad, report=ris",
+    "request-params": {
+      "ids": "PMC3352855,PMC0",
+      "report": "ris"
+    },
+    "expect": {
+      "content-type": "application/x-research-info-systems;charset=UTF-8",
+      "patterns": [
+        "DO  - 10\\.1371/journal\\.pmed\\.1001218"
+      ]
+    }
+  },
+  {
+    "description": "some good ids, some bad, report=ris",
+    "request-params": {
+      "ids": "PMC3352855,PMC0",
+      "report": "nbib"
+    },
+    "expect": {
+      "content-type": "application/nbib;charset=UTF-8",
+      "patterns": [
+        "FAU - Bermudez, Jorge"
+      ]
+    }
   }
 
 ]
