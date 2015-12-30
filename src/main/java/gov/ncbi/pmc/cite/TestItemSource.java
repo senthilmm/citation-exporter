@@ -65,6 +65,7 @@ public class TestItemSource extends ItemSource {
         // FIXME:  We could change this so that it checks every type that's
         // stored in the requestId, but right now it only looks for aiids.
         Identifier id = requestId.getIdByType("aiid");
+        if (id == null) throw new NotFoundException("Bad id: " + requestId);
 
         URL nxmlUrl = null;
         try {
