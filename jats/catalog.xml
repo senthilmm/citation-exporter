@@ -12,6 +12,7 @@
 
   <nextCatalog catalog="nlm-archiving-dtd-3.0/catalog.xml"/>
   <nextCatalog catalog="jats-archiving-dtd-1.0/catalog-test-jats-v1.xml"/>
+  <nextCatalog catalog="jats-archiving-dtd-1.1d1/catalog-jats-v1-1d1-no-base.xml"/>
   <nextCatalog catalog="jats-archiving-dtd-1.1d2/catalog-jats-v1-1d2-no-base.xml"/>
   <nextCatalog catalog="jats-archiving-dtd-1.1d3/catalog-jats-v1-1d3-no-base.xml"/>
 

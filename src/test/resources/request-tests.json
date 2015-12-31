@@ -251,6 +251,54 @@
       ]
     }
   },
+  {
+    "description": "PMC-22562 - Institutional authors issue - AMA style",
+    "request-params": {
+      "id": "PMC4275071",
+      "style": "american-medical-association"
+    },
+    "expect": {
+      "patterns": [
+        ">Kottyan LC, Zoller EE, Bene J, et al\\."
+      ]
+    }
+  },
+  {
+    "description": "PMC-22562 - Institutional authors issue - MLA style",
+    "request-params": {
+      "id": "PMC4275071",
+      "style": "modern-language-association"
+    },
+    "expect": {
+      "patterns": [
+        ">Kottyan, Leah C\\. et al\\."
+      ]
+    }
+  },
+  {
+    "description": "PMC-22562 - Institutional authors issue - APA style",
+    "request-params": {
+      "id": "PMC4275071",
+      "style": "apa"
+    },
+    "expect": {
+      "patterns": [
+        ">Kottyan, L\\. C\\., Zoller, E\\. E\\., Bene, J\\., Lu, X\\., Kelly, J\\. A\\., Rupert, A\\. M\\., … Kaufman, K\\. M\\."
+      ]
+    }
+  },
+  {
+    "description": "PMC-22562 - Institutional authors issue - Chicago style",
+    "request-params": {
+      "id": "PMC4275071",
+      "style": "chicago-author-date"
+    },
+    "expect": {
+      "patterns": [
+        ">Kottyan, Leah C\\., Erin E\\. Zoller, Jessica Bene, Xiaoming Lu, Jennifer A\\. Kelly, Andrew M\\. Rupert, Christopher J\\. Lessard, et al\\."
+      ]
+    }
+  },
 
   // Test some error conditions
   {

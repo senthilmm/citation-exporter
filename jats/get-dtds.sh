@@ -19,6 +19,16 @@ if [ ! -d "jats-archiving-dtd-1.0" ]; then
     rm jats-archiving-dtd-1.0.zip
 fi
 
+# JATS Archiving and Interchange 1.1d1
+if [ ! -d "jats-archiving-dtd-1.1d1" ]; then
+    wget ftp://ftp.ncbi.nlm.nih.gov/pub/jats/archiving/1.1d1/JATS-Archiving-1.1d1-MathML2-DTD.zip
+    unzip JATS-Archiving-1.1d1-MathML2-DTD.zip
+    rm JATS-Archiving-1.1d1-MathML2-DTD.zip
+    rm Archiving-Readme.txt
+    mv JATS-Archiving-1.1d1-MathML2-DTD jats-archiving-dtd-1.1d1
+fi
+
+
 # JATS Archiving and Interchange 1.1d2
 if [ ! -d "jats-archiving-dtd-1.1d2" ]; then
     wget ftp://ftp.ncbi.nlm.nih.gov/pub/jats/archiving/1.1d2/JATS-Archiving-1.1d2-MathML2-DTD.zip
