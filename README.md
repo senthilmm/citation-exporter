@@ -757,6 +757,16 @@ file.
 As of 12/10/2015, we are using a fork of this, on BitBucket at
 [klortho/citeproc-js](https://bitbucket.org/klortho/citeproc-js), branch
 [pmc-22661-epub-date](https://bitbucket.org/klortho/citeproc-js/branch/pmc-22661-epub-date).
+Note that we've tried to update to a later version, that includes a fix
+for [this 
+issue](https://bitbucket.org/fbennett/citeproc-js/issues/173/fix-institutional-authors-jiggery-pokery).
+In [this 
+comment](https://bitbucket.org/fbennett/citeproc-js/issues/173/fix-institutional-authors-jiggery-pokery#comment-15831726), 
+the author indicates the fix is in version 1.0.559, but the API must have
+changed, because updating citeproc-java to use [this
+commit](https://bitbucket.org/klortho/citeproc-js/commits/b0dc750455dff9242a85131525496e92ce21de03?at=pmc-22661-epub-date) 
+causes its unit tests to break.
+
 
 
 ### Citation style language (CSL) libraries
