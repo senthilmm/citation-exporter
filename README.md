@@ -1,4 +1,4 @@
-This is a citation exporting web service, based on the following excellent 
+This is a citation exporting web service, based on the following excellent
 open-source tools:
 
 * [citeproc-java](https://github.com/michel-kraemer/citeproc-java).
@@ -20,7 +20,7 @@ mvn test
 mvn jetty:run
 ```
 
-Point your browser to 
+Point your browser to
 [http://localhost:11999/samples](http://localhost:11999/samples).
 
 
@@ -63,18 +63,18 @@ TestTransforms.java and TestRequests.java.
 
 ***TestTransforms.java***
 
-This provides data-driven schematron and regular-expression matching tests 
-of the XSLT transforms. The individual test cases are defined in the 
-[transform-tests.json](src/test/resources/transform-tests.json) file, which 
+This provides data-driven schematron and regular-expression matching tests
+of the XSLT transforms. The individual test cases are defined in the
+[transform-tests.json](src/test/resources/transform-tests.json) file, which
 is read into a List of TransformTestCase objects.
 
-You can use the `test_cases` system property to select which specific test 
+You can use the `test_cases` system property to select which specific test
 case to run:
 
 - If omitted, or empty, all tests are run
 - Otherwise, it's matched against the description, as a regular expression
 
-So, for example, to test all the cases that have "PubOne" in the description, 
+So, for example, to test all the cases that have "PubOne" in the description,
 run:
 
 ```
@@ -83,21 +83,21 @@ mvn -Dtest=TestTransforms -Dtest_cases=PubOne test
 
 The format of the transform-tests.json file is defined in comments there.
 
-When checking XML output, Schematron files are used, that are also in 
+When checking XML output, Schematron files are used, that are also in
 the src/test/resources directory.
 
 ***TestRequests.java***
 
-This provides unit tests for the Request class, which handles HTTP requests. 
-It uses Mockito to mock HttpServletRequest and HttpServletResponse objects. 
-It reads test cases from the 
-[request-tests.json](src/test/resources/request-tests.json) file into a List 
+This provides unit tests for the Request class, which handles HTTP requests.
+It uses Mockito to mock HttpServletRequest and HttpServletResponse objects.
+It reads test cases from the
+[request-tests.json](src/test/resources/request-tests.json) file into a List
 of RequestTestCase objects.
 
-As with TestTransforms, you can use the `test_cases` property to 
+As with TestTransforms, you can use the `test_cases` property to
 select which tests to run.
 
-For example, to test all the cases that have "style" in the description, 
+For example, to test all the cases that have "style" in the description,
 run:
 
 ```
@@ -107,15 +107,15 @@ mvn -Dtest=TestRequests -Dtest_cases=style test
 
 ### Performance tests
 
-Use the script 
-[performance-test.pl](src/test/resources/performance-test.pl) to test 
+Use the script
+[performance-test.pl](src/test/resources/performance-test.pl) to test
 performance and reliability under load. Use `-?` to get usage help.
 
 On a development deployment (one that uses item_source="test") then you need
 to make sure that you only use a fixed set of IDs, that correspond to the
 available test files in src/main/resources/samples.
 
-For example, to run it against a local installation, that was started with 
+For example, to run it against a local installation, that was started with
 the command line
 
 ```
@@ -129,8 +129,8 @@ cd src/test/resources
 ./performance-test.pl --id 3352855
 ```
 
-Because there exists the PubOne-format file 
-[3352855.pub1](src/main/resources/samples/aiid/3352855.pub1), the service 
+Because there exists the PubOne-format file
+[3352855.pub1](src/main/resources/samples/aiid/3352855.pub1), the service
 will be able to generate all of the responses in the requested formats.
 
 
@@ -141,7 +141,7 @@ mvn package
 java -jar target/pmc-citation-exporter-*.jar
 ```
 
-As before, go to 
+As before, go to
 [http://localhost:11999/samples](http://localhost:11999/samples) in
 your browser to see the results.
 
@@ -159,45 +159,45 @@ Here are some of the parameters that can be used:
 
 * `cache_ids` - either "true" or "false".  Default is "false".
 * `com.sun.management.jmxremote.authenticate` - Set this to "false" to turn on
-  turn on the [JMX monitor 
+  turn on the [JMX monitor
   console](http://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html),
-  without user authentication. Note that this is only suitable for a 
+  without user authentication. Note that this is only suitable for a
   development environment.
-* `com.sun.management.jmxremote.port` - Set this to a port number, if you 
-  want to use the [JMX monitor 
+* `com.sun.management.jmxremote.port` - Set this to a port number, if you
+  want to use the [JMX monitor
   console](http://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html).
-* `id_cache_ttl` - time-to-live for each of the IDs in the ID cache, in 
+* `id_cache_ttl` - time-to-live for each of the IDs in the ID cache, in
   seconds. Default is 86400.
 * `id_converter_params` - Query string parameters to send to the the PMC ID
-  converter API.  Default is 
+  converter API.  Default is
   "showaiid=yes&format=json&tool=ctxp&email=pubmedcentral@ncbi.nlm.nih.gov".
 * `id_converter_url` - URL of the PMC ID converter API.  Default is
   "http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/".
-* `item_source` - string specifying which ItemSource to use.  The default is 
-  "test", which indicates to use the TestItemSource, which loads data items 
-  from files in the class path. If not "test", then the value should be the 
+* `item_source` - string specifying which ItemSource to use.  The default is
+  "test", which indicates to use the TestItemSource, which loads data items
+  from files in the class path. If not "test", then the value should be the
   fully qualified name of the class. Possible values are:
-    * gov.ncbi.pmc.cite.StcachePubOneItemSource - requires item_source_loc to 
+    * gov.ncbi.pmc.cite.StcachePubOneItemSource - requires item_source_loc to
       also be set
-    * gov.ncbi.pmc.cite.StcacheNxmlItemSource - requires item_source_loc to 
+    * gov.ncbi.pmc.cite.StcacheNxmlItemSource - requires item_source_loc to
       also be set
-    * gov.ncbi.pmc.cite.ConvAppNxmlItemSource - Get NXML from an HTTP web 
+    * gov.ncbi.pmc.cite.ConvAppNxmlItemSource - Get NXML from an HTTP web
       service. Requires item_source_loc to also be set
-* `item_source_loc` - When item_source is one of the Stcache options, this 
-  needs to be the full pathname of the stcache image file.  When item_source 
-  is ConvAppNxmlItemSource, then this should be the URL of the converter app 
+* `item_source_loc` - When item_source is one of the Stcache options, this
+  needs to be the full pathname of the stcache image file.  When item_source
+  is ConvAppNxmlItemSource, then this should be the URL of the converter app
   service.
-* `java.io.tmpdir` - used when running as an "uber jar"; this is where the 
+* `java.io.tmpdir` - used when running as an "uber jar"; this is where the
   application is unpacked.
 * `jetty.port` - the IP port number that the service will listen on
-* `log` - location of the log files.  Defaults to the *log* subdirectory of 
+* `log` - location of the log files.  Defaults to the *log* subdirectory of
   the directory from which the app is run.
 * `log_level` - sets the logging level for the root logger, as one of the
   [log4j levels](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html);
-  e.g. "DEBUG", "INFO". By default, this is `DEBUG` when running from the 
+  e.g. "DEBUG", "INFO". By default, this is `DEBUG` when running from the
   jetty maven plugin, and `INFO` when running as an "uber jar".
-* `xml.catalog.files` - used by the Apache commons CatalogResolver; this is 
-  the pathname of the OASIS catalog file to use when parsing XML files. See 
+* `xml.catalog.files` - used by the Apache commons CatalogResolver; this is
+  the pathname of the OASIS catalog file to use when parsing XML files. See
   below for more info. Default value is "catalog.xml"
 
 
@@ -213,17 +213,17 @@ that is used, by default, to find DTDs. This contains:
 
 This causes the resolver to try to resolve IDs from:
 
-* catalog-local.xml, if it exists. If you create this file, then you can 
+* catalog-local.xml, if it exists. If you create this file, then you can
   override any definitions from other catalogs.
-* jats/catalog.xml, if it exists. This file is included in the repository, 
-  and you can use the [jats/get-dtds.sh](jats/get-dtds.sh) script to download 
+* jats/catalog.xml, if it exists. This file is included in the repository,
+  and you can use the [jats/get-dtds.sh](jats/get-dtds.sh) script to download
   the corresponding DTDs from the JATS site. (This is executed by default
   in a Maven build).
 
 If the JATS (and other) DTDs are located somewhere else on your system, then
 there are two ways to override the default behavior.
 
-1.  Set the `xml.catalog.files` system property, to point to some other 
+1.  Set the `xml.catalog.files` system property, to point to some other
     master catalog file. For example:
 
         mvn test -Dxml.catalog.files=/pmc/load/catalog/linux-oxygen-pmc3-catalog.xml
@@ -240,9 +240,9 @@ The following two URLs are special:
 
 * /samples - provides a list of links to sample outputs of various document,
    in various formats
-* /errortest - strictly for testing, this causes the application to generate 
+* /errortest - strictly for testing, this causes the application to generate
   an error page
-* /echotest - for testing, causes the application to echo a very simple text 
+* /echotest - for testing, causes the application to echo a very simple text
   page
 * /info - some status information
 
@@ -250,9 +250,9 @@ The following two URLs are special:
 
 * **id** or **ids** - List of IDs, comma-delimited. The types and expected
   patterns of the values given here are the same as for
-  the [PMC ID converter 
+  the [PMC ID converter
   API](https://www.ncbi.nlm.nih.gov/pmc/tools/id-converter-api/).
-  The type can either be specified explicitly with the idtype parameter, or 
+  The type can either be specified explicitly with the idtype parameter, or
   can be inferred. IDs are always resolved to one of `aiid` or `pmid`.
 * **idtype** - Specifies the type of the IDs given in the ids parameter.
   Any of these types is allowed:
@@ -285,54 +285,54 @@ pub-one or pub1  xml     New unified literature format.
 
 ### Error responses
 
-If everything goes well, the service will return a status of 200, of course. 
+If everything goes well, the service will return a status of 200, of course.
 If there is a problem, one of the following codes will be returned:
 
-* 400 Bad request - if the request parameters can't be deciphered, or similar 
+* 400 Bad request - if the request parameters can't be deciphered, or similar
   problems
-* 404 Not found - for IDs that are of the correct form, but can't be found in 
+* 404 Not found - for IDs that are of the correct form, but can't be found in
   the data
-* 500 Internal server error - if there is problem with an upstream service, 
+* 500 Internal server error - if there is problem with an upstream service,
   like the ID converter, or a runtime exception in this service's software.
 
 ### Styled citation responses
 
-Each styled citation will be in it's own `<div>` element, which will have 
+Each styled citation will be in it's own `<div>` element, which will have
 some special attributes to identify it:
 
-* **data-id** - the ID used in the request for the resource.  This will have 
+* **data-id** - the ID used in the request for the resource.  This will have
   a type prefix, followed by a colon, and then the ID value.  E.g. pmdi
 * **data-style** - the name of the citation style
-* **data-resolved-id** - optional, if the requested ID doesn't match the 
+* **data-resolved-id** - optional, if the requested ID doesn't match the
   resolved ID.
 
 The individual record `<div>`s will be wrapped in an outer `<div>` element.
-If there were requested IDs that couldn't be resolved, then they will be 
+If there were requested IDs that couldn't be resolved, then they will be
 listed in the **data-not-found** attribute on this outer `<div>`.
 
-For example, a single record styled in a single citation style (request 
+For example, a single record styled in a single citation style (request
 "?ids=PMC3000436"):
 
 ```html
 <div>
-  <div class="csl-entry" data-id="aiid:3000436" 
+  <div class="csl-entry" data-id="aiid:3000436"
     data-style="modern-language-association">Barash,
     Uri et al. “Proteoglycans in Health and Disease: New Concepts for Heparanase Function in Tumor
     Progression and Metastasis.” <i>FEBS J</i> 277.19 (2010): n. pag.</div>
 </div>
 ```
 
-A response for a request for multiple IDs, one of which cannot be resolved 
+A response for a request for multiple IDs, one of which cannot be resolved
 (request "?ids=PMC3000436,PMC99999999,PMC3155436"):
 
 ```html
 <div data-not-found="pmcid:PMC99999999">
-  <div class="csl-entry" data-id="pmcid:PMC3000436" 
+  <div class="csl-entry" data-id="pmcid:PMC3000436"
     data-resolved-id="aiid:3000436"
     data-style="modern-language-association">Barash, Uri et al. “Proteoglycans in Health
     and Disease: New Concepts for Heparanase Function in Tumor Progression and Metastasis.”
     <i>FEBS J</i> 277.19 (2010): n. pag.</div>
-  <div class="csl-entry" data-id="pmcid:PMC3155436" 
+  <div class="csl-entry" data-id="pmcid:PMC3155436"
     data-resolved-id="aiid:3155436"
     data-style="modern-language-association">“Correction.” <i>Can Fam Physician</i> 57.8
     (2011): 879–879. Print.</div>
@@ -342,11 +342,11 @@ A response for a request for multiple IDs, one of which cannot be resolved
 
 ### PubOne format responses
 
-The response for a single record in PubOne format will look something like 
+The response for a single record in PubOne format will look something like
 the following (request "?ids=PMC3000436&report=pub1"):
 
 ```xml
-<pub-one-record xmlns:mml="http://www.w3.org/1998/Math/MathML" 
+<pub-one-record xmlns:mml="http://www.w3.org/1998/Math/MathML"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   record-type="article" xml:lang="en">
   <source-meta>
@@ -363,10 +363,10 @@ the following (request "?ids=PMC3000436&report=pub1"):
 </pub-one-record>
 ```
 
-If more than one record is returned, they will be wrapped in an outer 
-`<pub-one-records>` element, and each identified with attributes in the 
-namespace "http://www.ncbi.nlm.nih.gov/ns/search". For example, a response 
-with for two good IDs and one bad one (request 
+If more than one record is returned, they will be wrapped in an outer
+`<pub-one-records>` element, and each identified with attributes in the
+namespace "http://www.ncbi.nlm.nih.gov/ns/search". For example, a response
+with for two good IDs and one bad one (request
 "?ids=PMC3000436,PMC99999999,PMC3155436&report=pub1"):
 
 ```xml
@@ -381,13 +381,13 @@ with for two good IDs and one bad one (request
 
 ### citeproc-json format responses
 
-The response for a single record in this format will be a JSON object.  For 
+The response for a single record in this format will be a JSON object.  For
 example (request "?ids=PMC3000436&report=citeproc"):
 
 ```json
 {
   "id": "aiid:3000436",
-  "title": "Proteoglycans in health and disease: New concepts for 
+  "title": "Proteoglycans in health and disease: New concepts for
     heparanase function in tumor progression and metastasis",
   "author": [ ... ],
   ...
@@ -398,12 +398,12 @@ example (request "?ids=PMC3000436&report=citeproc"):
 }
 ```
 
-Note that the value used for the `id` field is the resolved, canonical 
-identifier, and that the other forms of identifier appear in citeproc-json 
+Note that the value used for the `id` field is the resolved, canonical
+identifier, and that the other forms of identifier appear in citeproc-json
 specific fields `PMID`, `PMCID`, etc.
 
-If there are multiple records, they will be wrapped in a JSON array.  For 
-example, the response with two good records and one bad one will look like 
+If there are multiple records, they will be wrapped in a JSON array.  For
+example, the response with two good records and one bad one will look like
 this (request ""):
 
 ```json
@@ -435,12 +435,12 @@ this (request ""):
 
 ## Logging
 
-The location of log files is controlled by the system parameter `log`, which 
+The location of log files is controlled by the system parameter `log`, which
 is usually set to the value "log" using `-Dlog=log` command-line switch.
 
-Logging is controlled by properties set in the 
-*src/main/resources/log4j.properties* file. The log level is controlled by 
-the `log4j.rootLogger` property, and can be set to one of TRACE, DEBUG, INFO, 
+Logging is controlled by properties set in the
+*src/main/resources/log4j.properties* file. The log level is controlled by
+the `log4j.rootLogger` property, and can be set to one of TRACE, DEBUG, INFO,
 WARN, ERROR or FATAL.
 
 
@@ -477,26 +477,26 @@ jconsole localhost:11997
 
 ### Build environments
 
-This repository has been configured such that, *by default*, it can run 
+This repository has been configured such that, *by default*, it can run
 stand-alone, without any dependencies on NCBI-internal libraries or services.
 
-In the production environment, however, we require access to a Java library 
-which has not been released openly (groupId=gov.ncbi.pmc, 
+In the production environment, however, we require access to a Java library
+which has not been released openly (groupId=gov.ncbi.pmc,
 artifactId=pmc-lib). References to that library exist in two class files,
-StcachePubOneItemSource and StcacheNxmlItemSource; so, *by default*, those 
-are excluded from compilation.  This is accomplished by making the default 
-build profile is 
-"dev", which explicitly excludes those two class files, and doesn't include 
+StcachePubOneItemSource and StcacheNxmlItemSource; so, *by default*, those
+are excluded from compilation.  This is accomplished by making the default
+build profile is
+"dev", which explicitly excludes those two class files, and doesn't include
 the dependency on the pmc-lib library.
 
-Building for production is done with the use of the "prod" Maven profile 
-(`mvn -Pprod`). That profile doesn't exclude those class files for 
+Building for production is done with the use of the "prod" Maven profile
+(`mvn -Pprod`). That profile doesn't exclude those class files for
 compilation, and does declares the dependency on the pmc-lib library.
 
 
 ### Test item provider
 
-When the value of *item_source" is "test", the citation data is mock data 
+When the value of *item_source" is "test", the citation data is mock data
 from the *src/main/webapp/test* directory.
 
 ### Eclipse setup
@@ -505,7 +505,7 @@ To work in Eclipse, import this project into your workspace.
 
 ***Turn off validation of some subdirectories.***
 
-Turn off validation of the DTD subdirectories of *jats* 
+Turn off validation of the DTD subdirectories of *jats*
 by right-clicking on them, selecting
 "Properties", and then check "derived". This will cause all of the files
 under these directories to be excluded from validation. You might have
@@ -544,13 +544,13 @@ mvn clean jetty:run
 
 This *does not use* the src/main/webapp/jetty.xml configuration file.
 
-In this case, the main entry point to the app is in MainServlet.java; 
+In this case, the main entry point to the app is in MainServlet.java;
 the code in WebServer.java does not get executed.
 
 Some options are set in the pom.xml so that, when running with `jetty:run`,
-it scans for changes to 
-source files, and to automatically redeploys whenever any are detected. Also, 
-in the pom file, some default values are given for System properties that are 
+it scans for changes to
+source files, and to automatically redeploys whenever any are detected. Also,
+in the pom file, some default values are given for System properties that are
 used to configure the app.
 
 For example:
@@ -593,22 +593,22 @@ But note that there seems to be a bug in the "hot redeploy" feature
 of the Jetty Maven plugin. When changes are made to sample files under
 src/main/resources/samples, the application is restarted, but for some reason,
 those changed files are not copied into the target/classes/samples directory
-as they should be. Those sample files *are* copied, however, when the 
+as they should be. Those sample files *are* copied, however, when the
 application restarts as a result of a Java source file changing.
 
 
 ### Jetty shaded uber-jar
 
-This is used when you run the `mvn package` command, and causes the creation 
-of an executable jar file in the target subdirectory (currently 
+This is used when you run the `mvn package` command, and causes the creation
+of an executable jar file in the target subdirectory (currently
 target/pmc-citation-exporter-\<version>.jar), that includes
 all of the dependencies, including Jetty itself.
 
-This is controlled by the [Apache Maven Shade 
+This is controlled by the [Apache Maven Shade
 plugin](http://maven.apache.org/plugins/maven-shade-plugin/),
 which is configured by a \<plugin> section of the pom.xml.
 
-In addition, another plugin section, build-helper-maven-plugin, is required 
+In addition, another plugin section, build-helper-maven-plugin, is required
 to specify additional directories to copy into the target jar file.
 
 To run the server from this executable jar, execute something like this
@@ -618,10 +618,10 @@ java -Djava.io.tmpdir=./jetty-temp-dir \
   -jar target/pmc-citation-exporter-*.jar
 ```
 
-Note that system properties must be set on the command line *before* the 
+Note that system properties must be set on the command line *before* the
 `-jar` option.
 
-When running this way, Jetty is configured by the src/main/webapp/jetty.xml 
+When running this way, Jetty is configured by the src/main/webapp/jetty.xml
 file. (Note that this is *not used* when running with `mvn jetty:run`).
 The main entry point to the application is in WebServer.java.
 
@@ -631,16 +631,16 @@ The main entry point to the application is in WebServer.java.
 Exception classes used when handling a request:
 
 - CiteException
-    - BadParamException - e.g. an id value that doesn't match one of the 
+    - BadParamException - e.g. an id value that doesn't match one of the
       known patterns
-    - NotFoundException - when an id is of the correct form, but not 
+    - NotFoundException - when an id is of the correct form, but not
       resolved, or the pub-one not found in the stcache
     - ServiceException - some problem with upstream service; results in 500
-- java.io.IOException - from, for example, java xml processing, error 
+- java.io.IOException - from, for example, java xml processing, error
   creating CSL object, etc. Results in 500
 
 When handling a request, the PrintWriter for the page is instantiated last.
-If there is an exception when that is done, then the code just writes to the 
+If there is an exception when that is done, then the code just writes to the
 error log and returns.
 
 This is implemented with the pattern:
@@ -653,23 +653,23 @@ initPage();
 if (page == null) return;
 ```
 
-So, this means that the whole page is prepared as a String first, and then 
+So, this means that the whole page is prepared as a String first, and then
 written out after the page is initialized.
 
 
 ## Dependencies
 
-Dependencies are declared in the *pom.xml* file, and are resolved 
+Dependencies are declared in the *pom.xml* file, and are resolved
 automatically by Maven.
 
-Below is a list of some of the stable dependencies, along with links to 
+Below is a list of some of the stable dependencies, along with links to
 documentation, useful when doing development, and more details, where
 warranted.
 
-Several of the dependencies use a free third-party service 
+Several of the dependencies use a free third-party service
 [Jitpack.io](https://jitpack.io/) in order to freeze specific revisions
 from GitHub repositories. These are libraries that are not on Maven
-Central, and Jitpack.io provides a way to ensure that we are using a 
+Central, and Jitpack.io provides a way to ensure that we are using a
 stable version. This requires adding the following to the \<repositories>
 section of the pom:
 
@@ -710,18 +710,18 @@ The official source for this code is on GitHub at
 
 The current version of citation exporter uses a fork of this at
 
-* [klortho/citeproc-java, branch 
+* [klortho/citeproc-java, branch
   pmc-22661-ahead-of-print](https://github.com/klortho/citeproc-java/tree/pmc-22661-ahead-of-print)
 * [javadocs](http://klortho.github.io/citeproc-java/api/3f30f220/)
 
 It uses [Jitpack.io](https://jitpack.io/) to freeze the version at a
 specific commit.
 
-To use the latest development version of this library, rather than the 
+To use the latest development version of this library, rather than the
 release package, clone the GitHub repository to your local machine.
 Then (see the [build
 instructions](http://michel-kraemer.github.io/citeproc-java/using/building/)
-do the following to create the jar file, and install that in your local 
+do the following to create the jar file, and install that in your local
 Maven cache:
 
 ```
@@ -750,7 +750,7 @@ use the "real" coordinates, instead of the ones from Jitpack.io:
 * [Manual](http://gsl-nagoya-u.net/http/pub/citeproc-doc.html)
 
 This is included by reference, from citeproc-java. The repository URL
-and the exact commit are specified in the 
+and the exact commit are specified in the
 [citeproc-java/build.gradle](https://github.com/Klortho/citeproc-java/blob/pmc-22661-ahead-of-print/citeproc-java/build.gradle)
 file.
 
@@ -758,13 +758,13 @@ As of 12/10/2015, we are using a fork of this, on BitBucket at
 [klortho/citeproc-js](https://bitbucket.org/klortho/citeproc-js), branch
 [pmc-22661-epub-date](https://bitbucket.org/klortho/citeproc-js/branch/pmc-22661-epub-date).
 Note that we've tried to update to a later version, that includes a fix
-for [this 
+for [this
 issue](https://bitbucket.org/fbennett/citeproc-js/issues/173/fix-institutional-authors-jiggery-pokery).
-In [this 
-comment](https://bitbucket.org/fbennett/citeproc-js/issues/173/fix-institutional-authors-jiggery-pokery#comment-15831726), 
+In [this
+comment](https://bitbucket.org/fbennett/citeproc-js/issues/173/fix-institutional-authors-jiggery-pokery#comment-15831726),
 the author indicates the fix is in version 1.0.559, but the API must have
 changed, because updating citeproc-java to use [this
-commit](https://bitbucket.org/klortho/citeproc-js/commits/b0dc750455dff9242a85131525496e92ce21de03?at=pmc-22661-epub-date) 
+commit](https://bitbucket.org/klortho/citeproc-js/commits/b0dc750455dff9242a85131525496e92ce21de03?at=pmc-22661-epub-date)
 causes its unit tests to break.
 
 
@@ -784,7 +784,7 @@ Currently (12/10/2015) we're using forks of these, at:
 * [klortho/styles, branch pmc-22661-olf](https://github.com/Klortho/styles/tree/pmc-22661-olf), and
 * [locales/styles, branch mavenize](https://github.com/Klortho/locales/tree/mavenize)
 
-Changes to the styles repo include support of an epublication date 
+Changes to the styles repo include support of an epublication date
 and an indication of ahead-of-print.
 
 These branches also includes the addition of pom.xml files, so that they
@@ -792,8 +792,8 @@ can be brought in as Maven dependencies.
 
 These use Jitpack.io to freeze the version at a specific commit.
 
-In order to use a development versions of these, instead of the default 
-version, merely clone one or the other (or both). Then, in these working 
+In order to use a development versions of these, instead of the default
+version, merely clone one or the other (or both). Then, in these working
 copies of the repos, install the packages
 to your local Maven cache with:
 
@@ -803,7 +803,7 @@ mvn install
 
 Then, in the
 citation-exporter pom, change the dependency (dependencies) to
-use the "real" coordinates, instead of the ones from Jitpack.io. 
+use the "real" coordinates, instead of the ones from Jitpack.io.
 For example,
 
 ```xml
@@ -821,8 +821,8 @@ For example,
 
 Note that the official GitHub repos for these are not "mavenized":
 they do not have pom files. Michel Kraemer provides a service that
-mavenizes them automatically, and upload SNAPSHOT versions of them to 
-Sonatype's OSS repo daily, see 
+mavenizes them automatically, and upload SNAPSHOT versions of them to
+Sonatype's OSS repo daily, see
 [here](https://oss.sonatype.org/#nexus-search;quick~org.citationstyles).
 
 
@@ -837,25 +837,25 @@ We're using the Jackson library to read JSON objects. Here are some
 handy links:
 
 * [Home page](http://wiki.fasterxml.com/JacksonHome)
-* [Data binding](https://github.com/FasterXML/jackson-databind) - includes 
+* [Data binding](https://github.com/FasterXML/jackson-databind) - includes
   tutorial on how to use it.
 * [Javadocs](http://fasterxml.github.io/jackson-databind/javadoc/2.3.0/)
-* [Jackson annotations](https://github.com/FasterXML/jackson-annotations) - 
+* [Jackson annotations](https://github.com/FasterXML/jackson-annotations) -
   how to annotate the classes that map to JSON objects
 
 
 ### kitty-cache
 
-The library is on Google code 
-[here](https://code.google.com/p/kitty-cache/), and is also mirrored to 
+The library is on Google code
+[here](https://code.google.com/p/kitty-cache/), and is also mirrored to
 GitHub, at [treeder/kitty-cache](https://github.com/treeder/kitty-cache),
 but it is not in Maven Central.
 
-It is declared in the citation-exporter pom.xml, using 
+It is declared in the citation-exporter pom.xml, using
 [JitPack.io](https://jitpack.io) to build and deploy it from a fork of the
-repository on GitHub, at 
+repository on GitHub, at
 [Klortho/kitty-cache](https://github.com/Klortho/kitty-cache).
-(The reason for using a fork is to protect against the possibility of the 
+(The reason for using a fork is to protect against the possibility of the
 original repo being removed.)
 
 
@@ -868,7 +868,7 @@ format, and is on GitHub at
 We use  Jitpack.io to freeze the version and to make it available
 from a Maven repository.
 
-In order to use a development version of this, instead of the default 
+In order to use a development version of this, instead of the default
 version, clone it to your local machine, and build and install the package
 to your local Maven cache with:
 
@@ -878,7 +878,7 @@ mvn install
 
 Then, in the
 citation-exporter pom, change the dependency to
-use the "real" coordinates, instead of the ones from Jitpack.io. 
+use the "real" coordinates, instead of the ones from Jitpack.io.
 For example,
 
 ```xml
