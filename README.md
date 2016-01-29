@@ -105,35 +105,6 @@ mvn -Dtest=TestRequests -Dtest_cases=style test
 ```
 
 
-### Performance tests
-
-Use the script
-[performance-test.pl](src/test/resources/performance-test.pl) to test
-performance and reliability under load. Use `-?` to get usage help.
-
-On a development deployment (one that uses item_source="test") then you need
-to make sure that you only use a fixed set of IDs, that correspond to the
-available test files in src/main/resources/samples.
-
-For example, to run it against a local installation, that was started with
-the command line
-
-```
-mvn jetty:run
-```
-
-You could use the following:
-
-```
-cd src/test/resources
-./performance-test.pl --id 3352855
-```
-
-Because there exists the PubOne-format file
-[3352855.pub1](src/main/resources/samples/aiid/3352855.pub1), the service
-will be able to generate all of the responses in the requested formats.
-
-
 ## Running as executable jar with embedded Jetty
 
 ```
