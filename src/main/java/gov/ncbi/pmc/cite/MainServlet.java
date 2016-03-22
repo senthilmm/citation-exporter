@@ -192,6 +192,9 @@ public class MainServlet extends HttpServlet
     private void setCorsHeaders(HttpServletRequest request,
                                 HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Headers", 
+            "X-Accept-Charset,X-Accept,X-Requested-With,NCBI-SID,NCBI-PHID");
+        response.setHeader("Access-Control-Max-Age", "86400");
     }
 
     /**
