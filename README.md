@@ -52,7 +52,7 @@ for more options.
 ### Test samples
 
 A good set of samples is listed in the application's [samples
-page](http://www.ncbi.nlm.nih.gov/pmc/utils/ctxp/samples).
+page](https://www.ncbi.nlm.nih.gov/pmc/utils/ctxp/samples).
 
 
 ### Data-driven validation unit tests
@@ -143,7 +143,7 @@ Here are some of the parameters that can be used:
   converter API.  Default is
   "showaiid=yes&format=json&tool=ctxp&email=pubmedcentral@ncbi.nlm.nih.gov".
 * `id_converter_url` - URL of the PMC ID converter API.  Default is
-  "http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/".
+  "https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/".
 * `item_source` - string specifying which ItemSource to use.  The default is
   "test", which indicates to use the TestItemSource, which loads data items
   from files in the class path. If not "test", then the value should be the
